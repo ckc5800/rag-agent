@@ -4,6 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DOCS_DIR = BASE_DIR / "data" / "docs"
 DB_DIR = str(BASE_DIR / "data" / "faiss_index")
+CHUNKS_PATH = BASE_DIR / "data" / "chunks.jsonl"  # BM25 재구축용 청크 저장
 
 # Ollama 모델 (GPU 환경이면 qwen2.5:7b 권장, CPU 환경은 3b)
 LLM_MODEL = "qwen2.5:3b"

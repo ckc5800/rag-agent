@@ -41,6 +41,15 @@ def main():
     db.save_local(config.DB_DIR)
     print(f"FAISS 인덱스 저장 완료: {config.DB_DIR}")
 
+    # BM25(키워드 검색) 재구축용 청크 원문 저장
+    import json
+    with open(config.CHUNKS_PATH, "w", encoding="utf-8") as f:
+        for c in chunks:
+            f.write(json.dumps(
+                {"page_content": c.page_content, "metadata": c.metadata},
+                ensure_ascii=False) + "\n")
+    print(f"청크 저장 완료: {config.CHUNKS_PATH}")
+
 
 if __name__ == "__main__":
     main()

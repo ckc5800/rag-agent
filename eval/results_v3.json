@@ -1,0 +1,158 @@
+{
+  "accuracy": 50.0,
+  "rewrite_rate": 30.0,
+  "avg_latency_sec": 119.2,
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "answer": "TTFB (Time-To-First-Byte)은 2292ms에서 334ms로 개선되었습니다. 이는 약 85% 단축된 결과입니다.",
+      "expected_keywords": [
+        "2292",
+        "334",
+        "85"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 136.0,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "answer": "스트리밍 오디오의 팝 노이즈 문제는 프론트엔드에서 잔여 버퍼(Residual Buffer)를 사용하여 해결했습니다. 백엔드에서 전달된 홀수 바이트 단위의 16-bit PCM(WAV) 오디오 청크가 짝수 바이트로 조합되도록, 프론트엔드는 잉여 버퍼를 통해 이 문제를 완벽하게 해결했습니다. 이를 위해 `Uint8Array` 기반의 잉여 버퍼가 구현되었고, 백엔드에서 도착한 바이너리 청크와 기존에 남겨둔 홀수 바이트를 합쳐 짝수 길이로 정렬하였습니다. 이렇게 하면 2바이트(16-bit) 단위로 조합되어야 하는 샘플 데이터가 어긋나지 않게 되어 팝 노이즈 문제를 완벽하게 근절할 수 있었습니다.",
+      "expected_keywords": [
+        "Residual Buffer"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 142.1,
+      "sources": [
+        "portfolio.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "answer": "이윤선의 제1저자 논문은 4편입니다.",
+      "expected_keywords": [
+        "7"
+      ],
+      "pass": false,
+      "rewrites": 0,
+      "latency_sec": 97.3,
+      "sources": [
+        "portfolio.md",
+        "publications.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "answer": "등록된 특허 번호는 다음과 같습니다:\n\n1. **10-2538225-0000**\n2. **10-2538231-0000**",
+      "expected_keywords": [
+        "2538225",
+        "2538231"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 97.2,
+      "sources": [
+        "patents.md",
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Jenkins",
+        "ArgoCD"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 126.2,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "answer": "우수 논문상을 받은 논문의 제목은 \"GAN을 활용한 데이터 생성 연구 동향\"입니다.",
+      "expected_keywords": [
+        "Latent Diffusion"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 131.1,
+      "sources": [
+        "portfolio.md",
+        "publications.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "answer": "TTS 시스템의 동시 처리 채널이 12개에서 24개로 확장되었습니다.",
+      "expected_keywords": [
+        "24"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 114.2,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Pyannote"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 145.4,
+      "sources": [
+        "patents.md",
+        "portfolio.md",
+        "publications.md"
+      ]
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "answer": "웹소켓 세션 탈취 문제를 방어하기 위해, WebSocket 연결 핸드셰이크 단계에서 강력한 DB 세션 싱크를 구축했습니다. `pwd_changed_at > payload.get(\"iat\", 0)` 조건문을 소켓 개방 직전에 검사하여 실시간 통신망에서의 세션 무효화 우회 공격을 차단하도록 엔터프라이즈급 제로-트러스트 모델을 구현했습니다.",
+      "expected_keywords": [
+        "password_changed_at"
+      ],
+      "pass": false,
+      "rewrites": 0,
+      "latency_sec": 123.4,
+      "sources": [
+        "portfolio.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "answer": "이윤선은 다음 회사를 근무했습니다:\n\n1. 미코그룹 AICESS (2025.04~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+      "expected_keywords": [
+        "AICESS",
+        "인피닉"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 79.2,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    }
+  ]
+}

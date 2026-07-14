@@ -29,17 +29,53 @@ class AgentState(TypedDict):
 
 
 _vectorstore = None
+_bm25 = None
 
 
-def get_vectorstore() -> FAISS:
-    global _vectorstore
+def _load_indexes():
+    global _vectorstore, _bm25
     if _vectorstore is None:
+        import json
+
+        from langchain_community.retrievers import BM25Retriever
+
         _vectorstore = FAISS.load_local(
             config.DB_DIR,
             OllamaEmbeddings(model=config.EMBED_MODEL),
             allow_dangerous_deserialization=True,  # 로컬에서 직접 생성한 인덱스만 로드
         )
-    return _vectorstore
+        chunks = []
+        with open(config.CHUNKS_PATH, encoding="utf-8") as f:
+            for line in f:
+                d = json.loads(line)
+                chunks.append(Document(page_content=d["page_content"],
+                                       metadata=d["metadata"]))
+        _bm25 = BM25Retriever.from_documents(chunks)
+        _bm25.k = config.TOP_K
+    return _vectorstore, _bm25
+
+
+def hybrid_search(query: str) -> list[Document]:
+    """FAISS(의미) + BM25(키워드) 결과를 RRF(Reciprocal Rank Fusion)로 융합.
+
+    'Jenkins', 'Pyannote' 같은 고유명사/키워드 질문은 벡터 검색이 놓치기 쉬워
+    BM25를 결합해 검색 재현율을 보완한다. RRF score = Σ 1 / (k + rank).
+    """
+    vectorstore, bm25 = _load_indexes()
+    vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
+    kw_docs = bm25.invoke(query)
+
+    K = 60  # RRF 완충 상수 (표준값)
+    scores: dict[str, float] = {}
+    by_key: dict[str, Document] = {}
+    for docs in (vec_docs, kw_docs):
+        for rank, doc in enumerate(docs):
+            key = doc.page_content[:100]
+            by_key[key] = doc
+            scores[key] = scores.get(key, 0.0) + 1.0 / (K + rank + 1)
+
+    ranked = sorted(scores, key=scores.get, reverse=True)
+    return [by_key[k] for k in ranked[: config.TOP_K]]
 
 
 def get_llm(temperature: float = 0.1) -> ChatOllama:
@@ -49,8 +85,7 @@ def get_llm(temperature: float = 0.1) -> ChatOllama:
 # ── Nodes ──────────────────────────────────────────────
 
 def retrieve(state: AgentState) -> dict:
-    docs = get_vectorstore().similarity_search(state["query"], k=config.TOP_K)
-    return {"documents": docs}
+    return {"documents": hybrid_search(state["query"])}
 
 
 GRADE_PROMPT = ChatPromptTemplate.from_template(
