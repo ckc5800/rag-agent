@@ -61,6 +61,8 @@ def hybrid_search(query: str) -> list[Document]:
     'Jenkins', 'Pyannote' 같은 고유명사/키워드 질문은 벡터 검색이 놓치기 쉬워
     BM25를 결합해 검색 재현율을 보완한다. RRF score = Σ 1 / (k + rank).
     """
+    import hashlib
+
     vectorstore, bm25 = _load_indexes()
     vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
@@ -70,7 +72,8 @@ def hybrid_search(query: str) -> list[Document]:
     by_key: dict[str, Document] = {}
     for docs in (vec_docs, kw_docs):
         for rank, doc in enumerate(docs):
-            key = doc.page_content[:100]
+            # 전체 내용 해시로 중복 판별 (접두어가 같은 서로 다른 청크의 충돌 방지)
+            key = hashlib.md5(doc.page_content.encode("utf-8")).hexdigest()
             by_key[key] = doc
             scores[key] = scores.get(key, 0.0) + 1.0 / (K + rank + 1)
 
@@ -78,8 +81,15 @@ def hybrid_search(query: str) -> list[Document]:
     return [by_key[k] for k in ranked[: config.TOP_K]]
 
 
+_llm_cache: dict[float, ChatOllama] = {}
+
+
 def get_llm(temperature: float = 0.1) -> ChatOllama:
-    return ChatOllama(model=config.LLM_MODEL, temperature=temperature)
+    if temperature not in _llm_cache:
+        _llm_cache[temperature] = ChatOllama(
+            model=config.LLM_MODEL, temperature=temperature
+        )
+    return _llm_cache[temperature]
 
 
 # ── Nodes ──────────────────────────────────────────────
