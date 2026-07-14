@@ -68,7 +68,10 @@ def grade(state: AgentState) -> dict:
     verdict = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip().lower()
-    return {"grade": "sufficient" if "yes" in verdict else "insufficient"}
+    # 한국어 응답(예/아니오) 포함 견고한 파싱 — 명시적 부정일 때만 재검색 (fail-open)
+    negative = ("no" in verdict.split() or verdict.startswith("no")
+                or "아니" in verdict) and "yes" not in verdict
+    return {"grade": "insufficient" if negative else "sufficient"}
 
 
 REWRITE_PROMPT = ChatPromptTemplate.from_template(
