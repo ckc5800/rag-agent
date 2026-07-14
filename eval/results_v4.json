@@ -1,0 +1,161 @@
+{
+  "accuracy": 60.0,
+  "rewrite_rate": 30.0,
+  "avg_latency_sec": 109.8,
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "answer": "TTFB (Time-To-First-Byte)가 2292ms에서 334ms로 줄어들었습니다. 이는 약 85%의 단축을 의미하며, 이를 6.85배 개선한 결과입니다.",
+      "expected_keywords": [
+        "2292",
+        "334",
+        "85"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 126.5,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "answer": "스트리밍 오디오의 팝 노이즈 문제는 `Residual Buffer`라는 잔여 버퍼를 사용해 해결했습니다. 프론트엔드에서 받은 홀수 바이트 단위로 끊긴 16-bit PCM(WAV) 오디오 청크가 짝수 바이트로 조합되어야 하는데, 이를 위해 `Uint8Array` 기반의 잔여 버퍼를 구현했습니다. 백엔드에서 오디오 청크가 도달하면, 기존에 남겨둔 홀수 바이트와 합쳐 짝수 바이트로 정렬한 뒤, 이를 `Float32Array` 형태의 완성된 오디오 데이터로 변환하여 스피커로 출력합니다. 이렇게 하면 남은 1바이트는 다음 오디오 청크를 위해 보관되며, 팝 노이즈 문제를 완벽하게 해결했습니다.",
+      "expected_keywords": [
+        "Residual Buffer"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 141.9,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "answer": "이윤선의 제1저자 논문은 7편입니다.",
+      "expected_keywords": [
+        "7"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 119.5,
+      "sources": [
+        "portfolio.md",
+        "publications.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "answer": "10-2538225-0000  \n10-2538231-0000",
+      "expected_keywords": [
+        "2538225",
+        "2538231"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 105.4,
+      "sources": [
+        "patents.md",
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Jenkins",
+        "ArgoCD"
+      ],
+      "pass": false,
+      "rewrites": 0,
+      "latency_sec": 82.0,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "answer": "우수 논문상을 받은 논문 제목은 \"국방 데이터 확보를 위한 생성모델 Latent Diffusion 실험\"입니다.",
+      "expected_keywords": [
+        "Latent Diffusion"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 91.1,
+      "sources": [
+        "portfolio.md",
+        "publications.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "answer": "TTS 시스템의 동시 처리 채널이 2배 확대되어 12개에서 24개로 늘어났습니다.",
+      "expected_keywords": [
+        "24"
+      ],
+      "pass": true,
+      "rewrites": 0,
+      "latency_sec": 102.5,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Pyannote"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 110.3,
+      "sources": [
+        "portfolio.md",
+        "publications.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "answer": "웹소켓 세션 탈취 문제를 방어하기 위해, `routers/ws_synthesize.py` 소켓 핸드쉐이크 단계에 강력한 DB 세션 싱크를 구축했습니다. 실시간 통신망에서의 세션 무효화 우회 공격을 차단하도록 엔터프라이즈급 제로-트러스트 모델을 구현했습니다.",
+      "expected_keywords": [
+        "password_changed_at"
+      ],
+      "pass": false,
+      "rewrites": 0,
+      "latency_sec": 102.9,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "AICESS",
+        "인피닉"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 115.6,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    }
+  ]
+}
