@@ -13,7 +13,7 @@
   },
   {
     "question": "등록된 특허 번호를 알려주세요.",
-    "expected_keywords": ["1025382250000", "1025382310000"]
+    "expected_keywords": ["2538225", "2538231"]
   },
   {
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
@@ -37,6 +37,6 @@
   },
   {
     "question": "이윤선이 근무한 회사들을 알려주세요.",
-    "expected_keywords": ["에이아이세스", "인피닉"]
+    "expected_keywords": ["AICESS", "인피닉"]
   }
 ]

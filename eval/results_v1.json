@@ -1,0 +1,155 @@
+{
+  "accuracy": 50.0,
+  "rewrite_rate": 100.0,
+  "avg_latency_sec": 96.0,
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "answer": "TTS 프로젝트에서 TTFB(First Byte Time)는 2292ms에서 334ms로 개선되었습니다. 이는 약 85% 단축, 6.85배 개선된 결과입니다.",
+      "expected_keywords": [
+        "2292",
+        "334",
+        "85"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 137.3,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "answer": "스트리밍 오디오의 팝 노이즈 문제는 프론트엔드에서 잔여 버퍼(Residual Buffer)를 사용해 해결했습니다. 백엔드에서 바이너리 청크가 도달하면, 기존에 남겨둔 홀수 바이트와 합쳐 짝수 길이로 정렬한 뒤, 이를 `Float32Array` 형태의 완성된 오디오 데이터로 변환하여 스피커로 출력했습니다. 이렇게 하면 남아있는 1바이트는 다음 스트림 청크를 위해 보관되며, 팝 노이즈 문제를 완벽하게 해결할 수 있었습니다.",
+      "expected_keywords": [
+        "Residual Buffer"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 102.3,
+      "sources": [
+        "portfolio.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "7"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 69.7,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "answer": "10-2538225-0000, 10-2538231-0000입니다.",
+      "expected_keywords": [
+        "1025382250000",
+        "1025382310000"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 95.2,
+      "sources": [
+        "patents.md",
+        "portfolio.md"
+      ]
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Jenkins",
+        "ArgoCD"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 83.9,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "answer": "우수 논문상을 받은 논문의 제목은 \"국방 데이터 확보를 위한 생성모델 Latent Diffusion 실험\"입니다.",
+      "expected_keywords": [
+        "Latent Diffusion"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 85.9,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "answer": "TTS 시스템의 동시 처리 채널이 12개에서 24개로 확장되었습니다.",
+      "expected_keywords": [
+        "24"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 110.5,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "answer": "문서에서 찾을 수 없습니다.",
+      "expected_keywords": [
+        "Pyannote"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 74.7,
+      "sources": [
+        "portfolio.md",
+        "resume.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "answer": "웹소켓 세션 탈취 문제를 방어하기 위해, WebSocket 연결 핸들링 단계에서 강력한 DB 세션 싱크(logic)를 구축했습니다. 이를 통해 사용자가 비밀번호를 변경하면 데이터베이스의 `password_changed_at` 타임스탬프가 갱신되면서, REST API에서는 JWT 토큰 내의 `iat`(발급 일자) 시간과 대조하여 즉시 구형 세션을 401(Unauthorized)로 강제 튕겨냈습니다. 그러나 가장 빠른 **WebSocket 스트리밍 연결**은 속도와 지연을 고려해 이 타임스탬프 대조 로직이 누락되어 있었습니다.\n\n따라서, WebSocket 소켓 핸드쉐이크 단계에 강력한 DB 세션 싱크를 구축하여 실시간 통신망에서의 세션 무효화 우회 공격을 100% 차단하도록 엔터프라이즈급 제로-트러스트 모델을 구현했습니다.",
+      "expected_keywords": [
+        "password_changed_at"
+      ],
+      "pass": true,
+      "rewrites": 1,
+      "latency_sec": 126.7,
+      "sources": [
+        "portfolio.md",
+        "tts-deepdive.md"
+      ]
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "answer": "이윤선은 다음 회사를 근무했습니다:\n\n1. 미코그룹 AICESS 인공지능 연구소 (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+      "expected_keywords": [
+        "에이아이세스",
+        "인피닉"
+      ],
+      "pass": false,
+      "rewrites": 1,
+      "latency_sec": 73.9,
+      "sources": [
+        "portfolio.md",
+        "resume.md"
+      ]
+    }
+  ]
+}

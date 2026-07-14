@@ -56,7 +56,8 @@ GRADE_PROMPT = ChatPromptTemplate.from_template(
     "당신은 검색 품질 평가자입니다.\n"
     "질문: {question}\n\n"
     "검색된 문서:\n{context}\n\n"
-    "위 문서들로 질문에 답할 수 있으면 'yes', 관련 정보가 부족하면 'no'만 출력하세요."
+    "문서에 질문과 관련된 정보가 일부라도 포함되어 있으면 'yes', "
+    "전혀 관련 없는 내용뿐이면 'no'만 출력하세요."
 )
 
 
