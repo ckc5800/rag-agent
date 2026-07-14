@@ -23,6 +23,7 @@ class AgentState(TypedDict):
     query: str             # 실제 검색에 사용하는 질의 (재작성될 수 있음)
     documents: list[Document]
     rewrites: int          # 질문 재작성 횟수
+    grade: str             # 검색 품질 판정 (sufficient / insufficient)
     answer: str
     sources: list[str]
 
@@ -67,7 +68,7 @@ def grade(state: AgentState) -> dict:
     verdict = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip().lower()
-    return {"_grade": "sufficient" if "yes" in verdict else "insufficient"}
+    return {"grade": "sufficient" if "yes" in verdict else "insufficient"}
 
 
 REWRITE_PROMPT = ChatPromptTemplate.from_template(
@@ -105,7 +106,7 @@ def generate(state: AgentState) -> dict:
 
 def decide_next(state: AgentState) -> str:
     """검색 품질과 재작성 횟수에 따라 다음 노드 결정."""
-    if state.get("_grade") == "sufficient" or state["rewrites"] >= config.MAX_REWRITES:
+    if state.get("grade") == "sufficient" or state["rewrites"] >= config.MAX_REWRITES:
         return "generate"
     return "rewrite"
 
