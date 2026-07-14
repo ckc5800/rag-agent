@@ -1,0 +1,79 @@
+"""RAG Agent 평가 루프.
+
+eval_set.json의 질문을 Agent에 실행하고 두 가지 지표를 측정한다:
+  1. Answer Accuracy — 기대 키워드가 답변에 포함되는 비율
+  2. Rewrite Rate  — 질문 재작성이 발생한 비율 (검색 품질 지표)
+
+결과는 콘솔 리포트 + eval/results.json 으로 저장되어
+프롬프트/청킹/모델 변경 전후 성능을 비교하는 피드백 루프로 사용한다.
+"""
+import json
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+
+from graph import build_graph  # noqa: E402
+
+EVAL_SET = Path(__file__).parent / "eval_set.json"
+RESULTS = Path(__file__).parent / "results.json"
+
+
+def main():
+    cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
+    graph = build_graph()
+
+    results = []
+    passed = 0
+    for i, case in enumerate(cases, 1):
+        t0 = time.time()
+        out = graph.invoke(
+            {"question": case["question"], "query": case["question"], "rewrites": 0}
+        )
+        elapsed = time.time() - t0
+
+        answer = out["answer"]
+        hit = all(kw.lower() in answer.lower() for kw in case["expected_keywords"])
+        passed += hit
+
+        status = "PASS" if hit else "FAIL"
+        print(f"[{i}/{len(cases)}] {status} ({elapsed:.1f}s, "
+              f"재작성 {out['rewrites']}회) {case['question']}")
+        if not hit:
+            print(f"    기대 키워드: {case['expected_keywords']}")
+            print(f"    실제 답변: {answer[:150]}")
+
+        results.append({
+            "question": case["question"],
+            "answer": answer,
+            "expected_keywords": case["expected_keywords"],
+            "pass": hit,
+            "rewrites": out["rewrites"],
+            "latency_sec": round(elapsed, 1),
+            "sources": out["sources"],
+        })
+
+    accuracy = passed / len(cases) * 100
+    rewrite_rate = sum(r["rewrites"] > 0 for r in results) / len(cases) * 100
+    avg_latency = sum(r["latency_sec"] for r in results) / len(cases)
+
+    print("\n===== 평가 결과 =====")
+    print(f"Answer Accuracy : {accuracy:.0f}% ({passed}/{len(cases)})")
+    print(f"Rewrite Rate    : {rewrite_rate:.0f}%")
+    print(f"Avg Latency     : {avg_latency:.1f}s")
+
+    RESULTS.write_text(
+        json.dumps({
+            "accuracy": accuracy,
+            "rewrite_rate": rewrite_rate,
+            "avg_latency_sec": round(avg_latency, 1),
+            "cases": results,
+        }, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"\n상세 결과 저장: {RESULTS}")
+
+
+if __name__ == "__main__":
+    main()
