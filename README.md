@@ -23,6 +23,31 @@ graph LR
 - **Grounded Generation**: 문서에 없는 내용은 답변하지 않도록 프롬프트 설계 (hallucination 억제)
 - **Evaluation Loop**: 키워드 기반 정답률 + 재작성률 + 지연시간을 측정하는 평가 셋 내장
 
+### Tool-Calling Agent (multi-step orchestration)
+
+RAG 위에 **도구 선택 레이어**(`src/agent.py`)를 두어, LLM이 질문 성격에 따라
+도구를 multi-step으로 조합해 호출합니다:
+
+```mermaid
+graph LR
+    U[질문] --> AG[agent<br/>LLM + bind_tools]
+    AG -->|tool_calls| T[tools<br/>search_portfolio / calculate / get_current_date]
+    T --> AG
+    AG -->|최종 답변| E[END]
+```
+
+- `search_portfolio` — 하이브리드 검색을 도구로 래핑 (RAG를 도구로 재사용)
+- `calculate` — AST 화이트리스트 기반 안전한 수식 계산 (`eval` 미사용)
+- `get_current_date` — 시점 계산용 날짜 조회
+- **결정적 폴백**: 소형 모델이 도구도 답변도 내지 않는 무응답 케이스를 감지하면
+  원 질문으로 `search_portfolio`를 강제 호출 — 소형 모델의 tool calling
+  불안정성을 시스템 설계로 보완
+
+```bash
+python src/agent.py "TTFB가 2292ms에서 334ms로 줄었는데 몇 퍼센트 개선인지 계산해줘"
+# 사용한 도구: ['calculate'] → "약 85.43% 개선"
+```
+
 ## Tech Stack
 
 | 구성 | 기술 |
@@ -83,6 +108,8 @@ python eval/evaluate.py
 3. **키워드 질문 검색 실패** — 'Jenkins', 'Pyannote' 같은 고유명사 질문에서 벡터 검색이
    관련 청크를 놓침 → BM25 + FAISS 하이브리드 검색(RRF 직접 구현)으로 해소
 4. **RRF 중복 제거 키 충돌** — 코드 리뷰에서 발견, 접두어 기반 키를 전체 내용 해시로 교체
+5. **소형 모델 tool calling 무력화** — 시스템 프롬프트가 길면 3B 모델의 도구 호출이
+   실패함을 실험으로 확인 → 프롬프트 최소화 + 무응답 시 검색 강제 호출 폴백 추가
 
 남은 실패는 소형 모델(3B)의 답변 편차가 주 원인으로, 동일 질문도 런마다 pass/fail이
 변동합니다 (±10%p). 모델 업그레이드로 개선 가능한 영역입니다.
