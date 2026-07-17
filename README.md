@@ -1,9 +1,26 @@
 # Portfolio RAG Agent
 
-LangGraph 기반 **Corrective-RAG Q&A Agent** — 개인 포트폴리오/기술문서를 지식 베이스로,
-검색 품질을 스스로 평가하고 질문을 재작성하는 self-corrective 루프를 갖춘 로컬 RAG 시스템입니다.
+LangGraph 기반 **Corrective-RAG + Tool-Calling Agent** — 개인 포트폴리오/기술문서를 지식 베이스로,
+검색 품질을 스스로 평가해 질문을 재작성하는 self-corrective RAG 위에,
+LLM이 도구(검색/계산/날짜)를 multi-step으로 조합 호출하는 orchestration 레이어를 얹은 시스템입니다.
 
-전부 로컬에서 동작합니다 (Ollama + ChromaDB, 외부 API 불필요).
+전부 로컬에서 동작합니다 (Ollama + FAISS, 외부 API 불필요).
+
+## Project Structure
+
+```
+src/
+├── config.py     # 모델/청킹/검색 파라미터
+├── ingest.py     # 문서 → 청킹 → 임베딩 → FAISS + 청크 저장(BM25용)
+├── graph.py      # Corrective-RAG 그래프 (하이브리드 검색 + self-correction)
+├── tools.py      # Agent 도구 정의 (검색/계산/날짜)
+├── agent.py      # Tool-Calling Agent (ReAct 루프 + 결정적 폴백)
+├── api.py        # FastAPI 서빙 (/ask)
+└── cli.py        # 대화형 CLI
+eval/
+├── eval_set.json # 평가 질문 10문항
+└── evaluate.py   # 정답률/재작성률/지연시간 측정 (중간 저장 지원)
+```
 
 ## Architecture
 
@@ -53,29 +70,32 @@ python src/agent.py "TTFB가 2292ms에서 334ms로 줄었는데 몇 퍼센트 �
 | 구성 | 기술 |
 |---|---|
 | Agent Framework | LangGraph |
-| LLM | Qwen2.5-7B (Ollama, 로컬) |
+| LLM | Qwen2.5-3B (Ollama, 로컬 CPU 기준 — GPU 환경은 7B 권장) |
 | Embedding | BGE-M3 (Ollama, 다국어) |
-| Vector DB | ChromaDB |
+| Retrieval | FAISS (벡터) + BM25 (키워드), RRF 융합 |
 | Serving | FastAPI |
 
 ## Quickstart
 
 ```bash
-# 0. Ollama 설치 후 모델 준비
-ollama pull qwen2.5:7b
+# 0. Ollama 설치 후 모델 준비 (GPU 환경이면 qwen2.5:7b 권장, config.py에서 변경)
+ollama pull qwen2.5:3b
 ollama pull bge-m3
 
 # 1. 의존성 설치
 python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 2. 문서 인제스트 (data/docs/*.md → ChromaDB)
+# 2. 문서 인제스트 (data/docs/*.md → FAISS 인덱스 + BM25용 청크)
 python src/ingest.py
 
-# 3-a. CLI로 질문
+# 3-a. RAG CLI로 질문
 python src/cli.py
 
-# 3-b. API 서버
+# 3-b. Tool-Calling Agent로 질문 (검색/계산/날짜 도구 자동 조합)
+python src/agent.py "TTFB가 2292ms에서 334ms로 줄었는데 몇 퍼센트 개선이야?"
+
+# 3-c. API 서버
 uvicorn api:app --app-dir src --port 8000
 curl -X POST localhost:8000/ask -H "Content-Type: application/json" -d "{\"question\": \"TTS 프로젝트의 TTFB 개선 수치는?\"}"
 
