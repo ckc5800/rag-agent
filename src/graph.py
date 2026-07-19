@@ -7,6 +7,7 @@
 State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으면
 질문을 재작성해 재검색하는 self-corrective 루프를 구성한다.
 """
+import re
 from typing import TypedDict
 
 from langchain_community.vectorstores import FAISS
@@ -84,7 +85,9 @@ def hybrid_search(query: str) -> list[Document]:
 _llm_cache: dict[float, ChatOllama] = {}
 
 
-def get_llm(temperature: float = 0.1) -> ChatOllama:
+# 판정(grade)·생성(generate)은 재현성이 중요하므로 temperature 0으로 고정.
+# 질문 재작성(rewrite)만 다양성이 필요해 0.3을 사용한다.
+def get_llm(temperature: float = 0.0) -> ChatOllama:
     if temperature not in _llm_cache:
         _llm_cache[temperature] = ChatOllama(
             model=config.LLM_MODEL, temperature=temperature
@@ -134,14 +137,21 @@ def rewrite(state: AgentState) -> dict:
 
 GENERATE_PROMPT = ChatPromptTemplate.from_template(
     "당신은 AI 엔지니어 이윤선의 포트폴리오를 안내하는 어시스턴트입니다.\n"
-    "아래 문서 내용에 근거해서만 한국어로 답변하세요.\n"
-    "문서에 없는 내용은 추측하지 말고 '문서에서 찾을 수 없습니다'라고 답하세요.\n\n"
+    "아래 문서를 주의 깊게 읽고, 관련 내용이 있으면 그것을 근거로 한국어로 답하세요.\n"
+    "참고: 항목 옆 (YYYY.MM ~ YYYY.MM) 또는 (YYYY.MM~) 표기는 그 항목의 "
+    "수행 기간이며 왼쪽 날짜가 시작 시점입니다.\n"
+    "관련 정보가 정말로 전혀 없을 때만 '문서에서 찾을 수 없습니다'라고 답하고, "
+    "문서에 없는 내용을 지어내지 마세요.\n\n"
     "문서:\n{context}\n\n질문: {question}\n\n답변:"
 )
 
 
 def generate(state: AgentState) -> dict:
-    context = "\n---\n".join(d.page_content for d in state["documents"])
+    # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 생성에는 상위 3개
+    # 청크만 사용하고, 끝부분 주의집중이 강한 특성에 맞춰 랭크 역순으로 배치해
+    # 최상위 청크가 질문 바로 앞에 오게 한다
+    docs = list(reversed(state["documents"][:3]))
+    context = "\n---\n".join(d.page_content for d in docs)
     chain = GENERATE_PROMPT | get_llm()
     answer = chain.invoke(
         {"question": state["question"], "context": context}

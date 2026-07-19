@@ -1,0 +1,14 @@
+[
+  {
+    "question": "TTS 프로젝트와 Kubernetes 프로젝트 중 어느 것을 먼저 시작했어?",
+    "expected_keywords": ["Kubernetes", "2024"]
+  },
+  {
+    "question": "논문 수와 특허 수를 합치면 몇 개야?",
+    "expected_keywords": ["9"]
+  },
+  {
+    "question": "석사 학위는 어느 학교에서 받았고, 우수논문상은 어느 학회에서 받았어?",
+    "expected_keywords": ["인하", "국방"]
+  }
+]
