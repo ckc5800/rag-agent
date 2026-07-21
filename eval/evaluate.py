@@ -1,26 +1,43 @@
 """RAG Agent 평가 루프.
 
 eval_set.json의 질문을 Agent에 실행하고 두 가지 지표를 측정한다:
-  1. Answer Accuracy — 기대 키워드가 답변에 포함되는 비율
+  1. Answer Accuracy — 답변이 정답 패턴(answer_patterns)과 일치하는 비율
   2. Rewrite Rate  — 질문 재작성이 발생한 비율 (검색 품질 지표)
+
+채점 v2: 초기 키워드 포함 채점은 "논문 7편"의 '7'이 다른 숫자에 우연히
+들어가는 식의 허위 통과가 있었다. 지금은 단위까지 요구하는 정규식 패턴에
+전부 일치해야 하고, 거부 답변("찾을 수 없습니다")은 무조건 실패로 센다.
 
 결과는 콘솔 리포트 + eval/results.json 으로 저장되어
 프롬프트/청킹/모델 변경 전후 성능을 비교하는 피드백 루프로 사용한다.
 """
 import json
+import re
 import sys
 import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from graph import build_graph  # noqa: E402
-
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 RESULTS = Path(__file__).parent / "results.json"
 
+REFUSAL = re.compile(r"찾을 수 없|알 수 없|정보가 없")
+
+
+def is_pass(answer: str, case: dict) -> bool:
+    """정답 패턴 전부 일치 + 거부 답변 아님."""
+    if REFUSAL.search(answer):
+        return False
+    patterns = case.get("answer_patterns")
+    if patterns:
+        return all(re.search(p, answer) for p in patterns)
+    return all(kw.lower() in answer.lower() for kw in case["expected_keywords"])
+
 
 def main():
+    from graph import build_graph  # noqa: E402  (지연 임포트 — rescore.py가 LLM 없이 is_pass만 쓰게)
+
     cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
     graph = build_graph()
 
@@ -34,14 +51,14 @@ def main():
         elapsed = time.time() - t0
 
         answer = out["answer"]
-        hit = all(kw.lower() in answer.lower() for kw in case["expected_keywords"])
+        hit = is_pass(answer, case)
         passed += hit
 
         status = "PASS" if hit else "FAIL"
         print(f"[{i}/{len(cases)}] {status} ({elapsed:.1f}s, "
               f"재작성 {out['rewrites']}회) {case['question']}")
         if not hit:
-            print(f"    기대 키워드: {case['expected_keywords']}")
+            print(f"    정답 패턴: {case.get('answer_patterns', case['expected_keywords'])}")
             print(f"    실제 답변: {answer[:150]}")
 
         results.append({

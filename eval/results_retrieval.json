@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "recall@1": 70,
+    "recall@3": 90,
+    "recall@6": 90,
+    "mrr": 0.767
+  },
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "gold_rank": 3,
+      "hits": {
+        "@1": false,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "gold_rank": 3,
+      "hits": {
+        "@1": false,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "gold_rank": 1,
+      "hits": {
+        "@1": true,
+        "@3": true,
+        "@6": true
+      }
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "gold_rank": null,
+      "hits": {
+        "@1": false,
+        "@3": false,
+        "@6": false
+      }
+    }
+  ]
+}

@@ -1,42 +1,52 @@
 [
   {
     "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
-    "expected_keywords": ["2292", "334", "85"]
+    "expected_keywords": ["2292", "334", "85"],
+    "answer_patterns": ["2292", "334"]
   },
   {
     "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
-    "expected_keywords": ["Residual Buffer"]
+    "expected_keywords": ["Residual Buffer"],
+    "answer_patterns": ["[Rr]esidual\\s*[Bb]uffer"]
   },
   {
     "question": "이윤선의 제1저자 논문은 몇 편인가요?",
-    "expected_keywords": ["7"]
+    "expected_keywords": ["7"],
+    "answer_patterns": ["7\\s*편"]
   },
   {
     "question": "등록된 특허 번호를 알려주세요.",
-    "expected_keywords": ["2538225", "2538231"]
+    "expected_keywords": ["2538225", "2538231"],
+    "answer_patterns": ["2538225", "2538231"]
   },
   {
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
-    "expected_keywords": ["Jenkins", "ArgoCD"]
+    "expected_keywords": ["Jenkins", "ArgoCD"],
+    "answer_patterns": ["Jenkins", "ArgoCD"]
   },
   {
     "question": "우수 논문상을 받은 논문 제목은?",
-    "expected_keywords": ["Latent Diffusion"]
+    "expected_keywords": ["Latent Diffusion"],
+    "answer_patterns": ["[Ll]atent\\s*[Dd]iffusion"]
   },
   {
     "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
-    "expected_keywords": ["24"]
+    "expected_keywords": ["24"],
+    "answer_patterns": ["24\\s*개|24\\s*채널|24로|24\\s*[Cc]hannel"]
   },
   {
     "question": "화자 분할에는 어떤 모델을 사용했나요?",
-    "expected_keywords": ["Pyannote"]
+    "expected_keywords": ["Pyannote"],
+    "answer_patterns": ["[Pp]yannote"]
   },
   {
     "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
-    "expected_keywords": ["password_changed_at"]
+    "expected_keywords": ["password_changed_at"],
+    "answer_patterns": ["password_changed_at"]
   },
   {
     "question": "이윤선이 근무한 회사들을 알려주세요.",
-    "expected_keywords": ["AICESS", "인피닉"]
+    "expected_keywords": ["AICESS", "인피닉"],
+    "answer_patterns": ["AICESS|에이아이세스", "인피닉"]
   }
 ]
