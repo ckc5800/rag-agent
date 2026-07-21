@@ -1,4 +1,5 @@
-"""문서 인제스트 파이프라인: Markdown 로드 → 청킹 → 임베딩 → FAISS 인덱스 저장."""
+"""문서 인제스트 파이프라인: Markdown 로드 → 정제 → 청킹 → 임베딩 → FAISS 인덱스 저장."""
+import re
 import shutil
 from pathlib import Path
 
@@ -9,11 +10,24 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import config
 
+# 노션 내보내기 특유의 노이즈. 특히 $\color{...}{About}$ 같은 LaTeX 장식이
+# 핵심 청크(About Me = 경력 요약)의 임베딩을 오염시켜 검색 순위를 떨어뜨렸다.
+_COLOR_MACRO = re.compile(r"\$\\color\{[^}]*\}\{([^}]*)\}\$")
+_IMAGE_EMBED = re.compile(r"!\[[^\]]*\]\([^)]*\)")
+_EXTRA_BLANK = re.compile(r"\n{3,}")
+
+
+def clean_markdown(text: str) -> str:
+    """노션 내보내기 노이즈 제거 — 색상 매크로는 안의 텍스트만 남긴다."""
+    text = _COLOR_MACRO.sub(r"\1", text)
+    text = _IMAGE_EMBED.sub("", text)
+    return _EXTRA_BLANK.sub("\n\n", text)
+
 
 def load_documents() -> list[Document]:
     docs = []
     for path in sorted(Path(config.DOCS_DIR).glob("*.md")):
-        text = path.read_text(encoding="utf-8")
+        text = clean_markdown(path.read_text(encoding="utf-8"))
         docs.append(Document(page_content=text, metadata={"source": path.name}))
     return docs
 

@@ -1,9 +1,9 @@
 {
   "summary": {
-    "recall@1": 70,
+    "recall@1": 80,
     "recall@3": 90,
-    "recall@6": 90,
-    "mrr": 0.767
+    "recall@6": 100,
+    "mrr": 0.875
   },
   "cases": [
     {
@@ -26,9 +26,9 @@
     },
     {
       "question": "이윤선의 제1저자 논문은 몇 편인가요?",
-      "gold_rank": 3,
+      "gold_rank": 1,
       "hits": {
-        "@1": false,
+        "@1": true,
         "@3": true,
         "@6": true
       }
@@ -53,7 +53,7 @@
     },
     {
       "question": "우수 논문상을 받은 논문 제목은?",
-      "gold_rank": 3,
+      "gold_rank": 2,
       "hits": {
         "@1": false,
         "@3": true,
@@ -89,11 +89,11 @@
     },
     {
       "question": "이윤선이 근무한 회사들을 알려주세요.",
-      "gold_rank": null,
+      "gold_rank": 4,
       "hits": {
         "@1": false,
         "@3": false,
-        "@6": false
+        "@6": true
       }
     }
   ]

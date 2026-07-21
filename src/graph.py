@@ -33,6 +33,21 @@ _vectorstore = None
 _bm25 = None
 
 
+def bm25_tokenize(text: str) -> list[str]:
+    """공백 분리 + 한글 어절엔 문자 bigram 추가.
+
+    BM25의 공백 토큰화는 '회사들'과 '회사'를 다른 토큰으로 취급해
+    조사가 붙은 한국어 질의에 약하다. 어절을 유지한 채 문자 bigram을
+    함께 넣으면 '회사들' ↔ '회사'가 bigram(회사)으로 겹친다.
+    """
+    grams = []
+    for t in text.lower().split():
+        grams.append(t)
+        if len(t) >= 2 and any("가" <= ch <= "힣" for ch in t):
+            grams += [t[i:i + 2] for i in range(len(t) - 1)]
+    return grams
+
+
 def _load_indexes():
     global _vectorstore, _bm25
     if _vectorstore is None:
@@ -51,7 +66,8 @@ def _load_indexes():
                 d = json.loads(line)
                 chunks.append(Document(page_content=d["page_content"],
                                        metadata=d["metadata"]))
-        _bm25 = BM25Retriever.from_documents(chunks)
+        _bm25 = BM25Retriever.from_documents(
+            chunks, preprocess_func=bm25_tokenize)
         _bm25.k = config.TOP_K
     return _vectorstore, _bm25
 

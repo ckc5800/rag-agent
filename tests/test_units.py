@@ -62,3 +62,33 @@ def test_parse_garbage_falls_back():
 
 def test_parse_broken_json_falls_back():
     assert _parse_sub_questions('["미완성 배열', "원 질문") == ["원 질문"]
+
+
+# ── 인제스트 전처리 ──
+
+def test_clean_markdown_color_macro():
+    from ingest import clean_markdown
+    src = "### $\\color{3399ff}{About}$ $\\color{3399ff}{Me}$\n\n경력 요약"
+    assert clean_markdown(src) == "### About Me\n\n경력 요약"
+
+
+def test_clean_markdown_strips_images():
+    from ingest import clean_markdown
+    assert clean_markdown("앞 ![img](a%20b.png) 뒤") == "앞  뒤"
+
+
+# ── BM25 한국어 bigram 토크나이저 ──
+
+def test_bm25_bigram_overlap_with_josa():
+    from graph import bm25_tokenize
+    # '회사들'(질의)과 '회사'(문서)가 bigram '회사'로 겹친다
+    assert "회사" in bm25_tokenize("회사들")
+    assert "회사" in bm25_tokenize("회사")
+
+
+def test_bm25_keeps_full_tokens_and_ascii():
+    from graph import bm25_tokenize
+    tokens = bm25_tokenize("Jenkins 파이프라인")
+    assert "jenkins" in tokens          # 영문은 소문자 어절 그대로
+    assert "파이프라인" in tokens        # 원 어절 유지
+    assert "파이" in tokens             # bigram 추가
