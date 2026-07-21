@@ -1,9 +1,12 @@
 # rag-agent
 
+![CI](https://github.com/ckc5800/rag-agent/actions/workflows/ci.yml/badge.svg)
+
 내 포트폴리오/기술문서를 지식 베이스로 쓰는 로컬 RAG Agent.
 LangGraph로 만들었고, 검색 품질을 스스로 평가해서 부족하면 질문을 재작성하는
-corrective 루프에, 도구(검색/계산/날짜)를 골라 쓰는 tool-calling 레이어와
-멀티홉 질문을 분해 처리하는 multi-agent 오케스트레이션 레이어를 얹었다.
+corrective 루프에, 도구(검색/계산/날짜)를 골라 쓰는 tool-calling 레이어,
+멀티홉 질문을 분해 처리하는 multi-agent 오케스트레이션 레이어, 그리고
+도구를 MCP 서버에서 가져오는 MCP 클라이언트 레이어를 얹었다.
 
 Ollama + FAISS 조합이라 전부 로컬에서 돌고 외부 API가 필요 없다.
 
@@ -17,11 +20,15 @@ src/
 ├── tools.py      Agent 도구 (검색 / 계산 / 날짜)
 ├── agent.py      Tool-Calling Agent (ReAct 루프 + 폴백)
 ├── team.py       Multi-Agent: Planner → RAG Workers → Synthesizer
+├── mcp_agent.py  MCP 클라이언트 Agent (portfolio-mcp 서버의 도구 사용)
 ├── api.py        FastAPI /ask
 └── cli.py        대화형 CLI
 eval/
-├── eval_set.json 평가 질문 10문항
-└── evaluate.py   정답률, 재작성률, 지연시간 측정
+├── eval_set.json      평가 질문 10문항 (정답 패턴 포함)
+├── evaluate.py        정답률, 재작성률, 지연시간 측정
+├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
+├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
+└── rescore.py         저장된 결과를 새 채점 기준으로 재채점
 ```
 
 ### RAG 흐름
@@ -86,6 +93,40 @@ python src/team.py "TTS 프로젝트와 Kubernetes 프로젝트 중 어느 것�
 # → "먼저 시작한 것은 Kubernetes 프로젝트입니다. TTS는 2025년 9월, Kubernetes는 2024년 3월부터..."
 ```
 
+### MCP 클라이언트 레이어
+
+tool-calling 레이어의 도구는 이 저장소 안에 하드코딩되어 있다.
+`mcp_agent.py`는 같은 에이전트 구조에서 도구만 MCP로 바꾼 버전이다 —
+별도 저장소인 [portfolio-mcp](https://github.com/ckc5800/portfolio-mcp) 서버를
+stdio로 띄우고, 서버가 광고하는 도구 4개(프로필/프로젝트/논문/BM25 검색)를
+`langchain-mcp-adapters`로 변환해 에이전트에 물린다.
+
+```mermaid
+graph LR
+    U[질문] --> AG[agent<br/>LLM + MCP tools]
+    AG -->|tool_calls| C[MCP Client] -->|stdio| S[portfolio-mcp 서버]
+    S --> C --> AG
+    AG -->|답변| E[END]
+```
+
+도구 정의가 에이전트 밖(서버)에 있으니, 서버에 도구가 추가되면 에이전트는
+코드 수정 없이 그대로 쓴다. MCP 서버(제공자)와 클라이언트(소비자)를
+양쪽 다 만들어 본 것이 포인트. 무응답 폴백 등 소형 모델 대응은
+agent.py와 동일한 패턴을 쓴다.
+
+```bash
+# 형제 디렉토리에 portfolio-mcp 클론 필요 (경로는 PORTFOLIO_MCP_SERVER로 변경)
+python src/mcp_agent.py "우수 논문상을 받은 논문 제목이 뭐야?"
+# MCP 서버가 광고한 도구: ['portfolio_search', 'portfolio_list_projects',
+#                          'portfolio_get_publications', 'portfolio_get_profile']
+# 사용한 도구: ['portfolio_get_publications']
+# 답변: 이윤선의 우수 논문상을 수상한 논문 제목은 "국방 데이터 확보를 위한
+#       생성모델 Latent Diffusion 실험"입니다. ...
+```
+
+3B 모델이 폴백 없이 스스로 `portfolio_get_publications`를 골랐다 —
+질문 성격에 맞는 도구 선택까지 MCP 도구 스키마만으로 동작한다.
+
 ## 실행
 
 ```bash
@@ -100,7 +141,9 @@ python src/ingest.py    # 인덱스 구축
 python src/cli.py       # RAG로 질문
 python src/agent.py "질문"      # tool-calling agent로 질문
 python src/team.py "질문"       # multi-agent로 멀티홉 질문
-python eval/evaluate.py         # 단일 RAG 평가
+python src/mcp_agent.py "질문"  # MCP 도구를 쓰는 agent (portfolio-mcp 필요)
+python eval/evaluate.py         # 단일 RAG 평가 (LLM 필요)
+python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 수 초)
 python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
 ```
 
@@ -109,11 +152,14 @@ python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
 10문항 평가셋으로 정답률 / 재작성률 / 지연시간을 측정한다.
 뭔가 바꿀 때마다 돌려서 회귀 여부를 확인하는 용도다.
 
-| | v1 | v2 | v4 |
-|---|---|---|---|
-| 정답률 | 50% | 60% | 60% |
-| 재작성률 | 100% | 30% | 30% |
-| 검색 때문에 틀린 것 | 3건 | 3건 | 1건 |
+| | v1 | v2 | v4 | v5* |
+|---|---|---|---|---|
+| 정답률 | 50% | 60% | 60% | 70% |
+| 재작성률 | 100% | 30% | 30% | 30% |
+| 검색 때문에 틀린 것 | 3건 | 3건 | 1건 | 1건 |
+
+*v5는 더 엄격한 패턴 채점(아래) 기준이라 앞 열과 직접 비교는 안 된다.
+3B 모델의 런 간 편차(±10%p)를 감안하면 60→70은 개선이라기보다 같은 수준.
 
 수치보다 과정이 재미있었다. 커밋 로그에 다 남아 있다.
 
@@ -143,6 +189,37 @@ python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
 
 남은 오답은 대부분 3B 모델의 답변 편차다. 같은 질문도 돌릴 때마다 결과가
 ±10%p쯤 흔들린다. 모델을 키우면 나아질 영역.
+
+### 검색과 생성을 분리해서 재기
+
+정답률 하나로는 실패가 검색 탓인지 생성 탓인지 알 수 없었다.
+그래서 평가를 둘로 쪼갰다.
+
+**1. 검색 단독 평가** (`eval/eval_retrieval.py`) — 질문별로 정답이 담긴
+청크를 라벨링해 두고(`retrieval_set.json`, 청크 내용 md5로 고정),
+프로덕션과 같은 hybrid_search가 그걸 top-k에 올리는지만 잰다.
+LLM이 없어서 결정적이고, 수 초 만에 끝난다.
+
+| recall@1 | recall@3 | recall@6 | MRR |
+|---:|---:|---:|---:|
+| 70% | 90% | 90% | 0.767 |
+
+10문항 중 9개는 gold가 3위 안에 온다. 유일한 MISS가 "근무한 회사들"
+질문 — 회사 목록이 모여 있는 청크가 top-6에 아예 못 든다. 이 질문의
+실패는 생성이 아니라 검색 문제라는 게 처음으로 분리돼 보였다.
+
+**2. 채점을 엄격하게** (`eval/rescore.py`) — 키워드 포함 채점은
+"논문 7편"의 '7'이 다른 숫자에 우연히 들어가도 통과시킨다. 단위까지
+요구하는 정규식 패턴(`7\s*편`)에 전부 일치해야 하고, 거부 답변은
+무조건 실패로 바꿨다. 저장된 이전 결과를 재채점해 보니 뒤집힌 케이스는
+없었다(6/10 유지) — 이번 런의 통과는 진짜였고, 채점만 단단해진 것.
+
+**3. 전체 재평가 (v5)** — 엄격한 채점으로 70%(7/10). 틀린 3건을 분해하면
+1건은 검색 실패(회사 목록, 위에서 확인), 2건은 gold가 1위로 검색됐는데도
+생성이 놓친 것 — 3B 모델의 답변 편차 영역이다. 실패 원인이
+"검색 1 + 생성 2"로 딱 떨어지는 것 자체가 분리 측정의 소득이다.
+다음 개선이 각각 어디를 겨냥해야 하는지(회사 목록 질문은 청킹,
+나머지는 모델 크기)가 지표에서 바로 읽힌다.
 
 ### 멀티홉 비교 평가에서 배운 것
 
