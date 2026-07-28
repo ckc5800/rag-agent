@@ -1,0 +1,297 @@
+{
+  "qwen2.5:3b": {
+    "repeat": 3,
+    "levels": [
+      {
+        "level": 1,
+        "label": "계산만",
+        "expected": [
+          "calculate"
+        ],
+        "passed": 3,
+        "of": 3,
+        "median_sec": 13,
+        "runs": [
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 29,
+            "answer": "TTFB이 2292ms에서 334ms로 줄었을 때, 개선된 비율은 약 85.43%입니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 13,
+            "answer": "TTFB이 2292ms에서 334ms로 줄었을 때, 개선된 비율은 약 85.43%입니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 12,
+            "answer": "TTFB이 2292ms에서 334ms로 줄었을 때, 개선된 비율은 약 85.43%입니다.",
+            "error": null
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "label": "검색→계산",
+        "expected": [
+          "search_portfolio",
+          "calculate"
+        ],
+        "passed": 0,
+        "of": 3,
+        "median_sec": 72,
+        "runs": [
+          {
+            "called": [
+              "search_portfolio"
+            ],
+            "missing": [
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 68,
+            "answer": "To calculate the percentage improvement in TTFB, we need to find the initial and final values from the provided documents. Let's start with the document `portfolio.md`.\n\nBased on the information in `portfolio.md`, the initial TTFB was 2292ms.\n\nNow let's search for the final TTFB value.\n",
+            "error": null
+          },
+          {
+            "called": [
+              "search_portfolio"
+            ],
+            "missing": [
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 72,
+            "answer": "To calculate the percentage improvement in TTFB, we need to find the TTFB values before and after the project modification. From your portfolio documents, it seems that:\n\n- Before the modification (deprecated version), TTFB was 2292 ms.\n- After the modification, TTFB improved to 334 ms.\n\nLet's calculate the percentage improvement using these values.\n",
+            "error": null
+          },
+          {
+            "called": [
+              "search_portfolio"
+            ],
+            "missing": [
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 78,
+            "answer": "To calculate the percentage improvement in TTFB, we need to find the TTFB values before and after the changes. From your portfolio documents, it seems that:\n\n- Before: The initial TTFB was 2292 ms.\n- After: The improved TTFB is 334 ms.\n\nLet's calculate the percentage improvement using these values.\n",
+            "error": null
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "label": "검색→날짜→계산",
+        "expected": [
+          "search_portfolio",
+          "get_current_date",
+          "calculate"
+        ],
+        "passed": 0,
+        "of": 3,
+        "median_sec": 16,
+        "runs": [
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 16,
+            "answer": "오늘의 날짜는 2026년 07월 28일입니다. 이제 이윤선이 현재 회사에서 일하고 있는 기간을 계산하겠습니다.\n\n현재 년도: 2026\n올해로 예상되는 이윤선이 근무하는 기간: 1년\n\n따라서, 이윤선은 지금 회사에서 1년째 일하고 있습니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 16,
+            "answer": "오늘의 날짜는 2026년 07월 28일입니다. 이제 이윤선이 현재 회사에서 일하고 있는 기간을 계산하겠습니다.\n\n현재 년도: 2026\n올해까지 지난 년 수: 2025 - 1 = 2024\n\n따라서, 이윤선은 지금 회사에서 2024년째 일하고 있습니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 16,
+            "answer": "오늘의 날짜는 2026년 07월 28일입니다. 이제 이윤선이 현재 회사에서 일하고 있는 기간을 계산하겠습니다.\n\n현재 년도: 2026\n올해로 예상되는 이윤선의 근속 연수: 2026 - 2021 = 5년\n\n이윤선은 지금 회사에서 5년째 일하고 있습니다.",
+            "error": null
+          }
+        ]
+      }
+    ]
+  },
+  "qwen2.5:7b": {
+    "repeat": 3,
+    "levels": [
+      {
+        "level": 1,
+        "label": "계산만",
+        "expected": [
+          "calculate"
+        ],
+        "passed": 3,
+        "of": 3,
+        "median_sec": 22,
+        "runs": [
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 57,
+            "answer": "TTFB가 2292ms에서 334ms로 줄어들면서 약 85.43%의 개선이 발생했습니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 22,
+            "answer": "TTFB가 2292ms에서 334ms로 줄어들면서 약 85.43%의 개선이 발생했습니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 22,
+            "answer": "TTFB가 2292ms에서 334ms로 줄어들면서 약 85.43%의 개선이 발생했습니다.",
+            "error": null
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "label": "검색→계산",
+        "expected": [
+          "search_portfolio",
+          "calculate"
+        ],
+        "passed": 3,
+        "of": 3,
+        "median_sec": 197,
+        "runs": [
+          {
+            "called": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 197,
+            "answer": "TTFB가 개선된 후에 대비해 85.43% 단축되었습니다. 이는 약 6.85배의 향상을 의미합니다.\n\n따라서, TTS 프로젝트에서 TTFB는 개선 전이 2292ms였고, 개선 후가 334ms로, 85.43% 개선되었습니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 184,
+            "answer": "TTFB가 개선 전후로 2292ms에서 334ms로 변경되었으며, 이는 약 85.43% 단축되었습니다.\n\n따라서 TTFB의 개선 비율은 **85.43%**입니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "missing": [],
+            "pass": true,
+            "sec": 203,
+            "answer": "TTFB가 개선 전후로의 차이는 다음과 같습니다:\n\n- 개선 전 (기존 버전): 2292ms\n- 개선 후 (신버전): 334ms\n\n이 개선으로 인해 TTFB는 약 **85.4%** 단축되었습니다.\n\n따라서, TTFB가 개선 전후로의 차이는 1958ms(2292ms - 334ms)이고, 이는 전체적으로 **85.4%** 개선되었다고 할 수 있습니다.",
+            "error": null
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "label": "검색→날짜→계산",
+        "expected": [
+          "search_portfolio",
+          "get_current_date",
+          "calculate"
+        ],
+        "passed": 0,
+        "of": 3,
+        "median_sec": 19,
+        "runs": [
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 29,
+            "answer": "이윤선은 현재 회사에서 2026년 7월 28일을 기준으로 계산해보면, 그는 약 4년 10개월째 일하고 있습니다. 정확한 근무 기간은 이날의 연도와 이전 연도의 정보를 더 고려해야 합니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 19,
+            "answer": "이윤선 씨는 현재 회사에서 2023년 1월부터 일하고 있습니다. 따라서 올해 기준으로는 약 4년째 근무 중입니다.",
+            "error": null
+          },
+          {
+            "called": [
+              "get_current_date"
+            ],
+            "missing": [
+              "search_portfolio",
+              "calculate"
+            ],
+            "pass": false,
+            "sec": 19,
+            "answer": "이윤선 씨는 현재 회사에서 2023년 1월부터 일하고 있습니다. 따라서 올해 기준으로는 약 4년째 근무 중입니다.",
+            "error": null
+          }
+        ]
+      }
+    ]
+  }
+}

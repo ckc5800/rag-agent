@@ -3,7 +3,12 @@
     "recall@1": 90,
     "recall@3": 100,
     "recall@6": 100,
-    "mrr": 0.95
+    "mrr": 0.95,
+    "random_baseline": {
+      "recall@1": 3,
+      "recall@3": 10,
+      "recall@6": 19
+    }
   },
   "cases": [
     {

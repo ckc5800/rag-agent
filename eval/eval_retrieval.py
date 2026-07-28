@@ -16,11 +16,32 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
+import config  # noqa: E402
 from graph import hybrid_search  # noqa: E402
 
 RETRIEVAL_SET = Path(__file__).parent / "retrieval_set.json"
 RESULTS = Path(__file__).parent / "results_retrieval.json"
 KS = [1, 3, 6]  # 6 = config.TOP_K (generate에 전달되는 전부)
+
+
+def random_baseline(cases: list[dict]) -> dict:
+    """무작위로 top-k를 뽑았을 때의 기대 recall.
+
+    gold를 질문당 여러 개 두면 우연히 맞을 확률이 올라간다. 기준선을
+    같이 보지 않으면 recall 수치가 혼자서는 아무것도 증명하지 못한다.
+    """
+    n_chunks = sum(1 for _ in open(config.CHUNKS_PATH, encoding="utf-8"))
+    out = {}
+    for k in KS:
+        total = 0.0
+        for case in cases:
+            g = len(case["gold"])
+            p_miss = 1.0
+            for j in range(k):                      # gold를 하나도 못 뽑을 확률
+                p_miss *= max(0.0, (n_chunks - g - j)) / (n_chunks - j)
+            total += 1 - p_miss
+        out[f"recall@{k}"] = round(total / len(cases) * 100)
+    return out
 
 
 def main():
@@ -46,10 +67,13 @@ def main():
             sum(r["hits"][f"@{k}"] for r in rows) / len(rows) * 100) for k in KS}
     summary["mrr"] = round(
         sum(1 / r["gold_rank"] for r in rows if r["gold_rank"]) / len(rows), 3)
+    summary["random_baseline"] = random_baseline(cases)
 
     print("\n===== 검색 단독 평가 =====")
     for k in KS:
-        print(f"recall@{k} : {summary[f'recall@{k}']}%")
+        base = summary["random_baseline"].get(f"recall@{k}")
+        print(f"recall@{k} : {summary[f'recall@{k}']}%"
+              f"   (무작위 기준선 {base}%)")
     print(f"MRR      : {summary['mrr']}")
 
     RESULTS.write_text(json.dumps({"summary": summary, "cases": rows},
