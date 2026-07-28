@@ -1,14 +1,12 @@
 """문서 인제스트 파이프라인: Markdown 로드 → 정제 → 청킹 → 임베딩 → FAISS 인덱스 저장."""
 import re
-import shutil
 from pathlib import Path
 
-from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import config
+import vectorstore
 
 # 노션 내보내기 특유의 노이즈. 특히 $\color{...}{About}$ 같은 LaTeX 장식이
 # 핵심 청크(About Me = 경력 요약)의 임베딩을 오염시켜 검색 순위를 떨어뜨렸다.
@@ -93,14 +91,8 @@ def main():
           f"길이 최소 {lengths[0]} / 중앙값 {lengths[len(lengths) // 2]} / "
           f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
 
-    # 기존 DB 삭제 후 재구축 (멱등성 보장)
-    if Path(config.DB_DIR).exists():
-        shutil.rmtree(config.DB_DIR)
-
-    embeddings = OllamaEmbeddings(model=config.EMBED_MODEL)
-    db = FAISS.from_documents(chunks, embeddings)
-    db.save_local(config.DB_DIR)
-    print(f"FAISS 인덱스 저장 완료: {config.DB_DIR}")
+    path = vectorstore.build(chunks)
+    print(f"{config.VECTOR_STORE} 인덱스 저장 완료: {path}")
 
     # BM25(키워드 검색) 재구축용 청크 원문 저장
     import json

@@ -16,7 +16,8 @@ Ollama + FAISS 조합이라 전부 로컬에서 돌고 외부 API가 필요 없�
 src/
 ├── config.py     모델, 청킹, 검색 파라미터
 ├── inspect_data.py  인덱싱 전 데이터 검수 (길이 분포 + 잔여 노이즈 스캔)
-├── ingest.py     문서 → 정제 → 청킹 → 임베딩 → FAISS + 청크 저장(BM25용)
+├── vectorstore.py   벡터 저장소 교체 레이어 (FAISS / Qdrant)
+├── ingest.py     문서 → 정제 → 청킹 → 임베딩 → 벡터 저장소 + 청크 저장(BM25용)
 ├── graph.py      Corrective-RAG 그래프 (하이브리드 검색 + self-correction)
 ├── tools.py      Agent 도구 (검색 / 계산 / 날짜)
 ├── agent.py      Tool-Calling Agent (ReAct 루프 + 폴백)
@@ -30,6 +31,7 @@ eval/
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
+├── compare_stores.py  FAISS vs Qdrant — 결과 일치 확인 + 필터 비교
 ├── relabel_retrieval.py 청킹이 바뀌었을 때 gold 라벨 재부착 (매칭 점수 출력)
 └── rescore.py         저장된 결과를 새 채점 기준으로 재채점
 ```
@@ -141,7 +143,7 @@ python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 
 python src/inspect_data.py   # 0단계: 인덱싱할 텍스트를 눈으로 확인 (LLM 불필요)
-python src/ingest.py    # 인덱스 구축
+python src/ingest.py    # 인덱스 구축 (VECTOR_STORE=qdrant 로 저장소 교체 가능)
 python src/cli.py       # RAG로 질문
 python src/agent.py "질문"      # tool-calling agent로 질문
 python src/team.py "질문"       # multi-agent로 멀티홉 질문
@@ -393,6 +395,40 @@ tool call을 안 내서 `tools_condition`이 END로 보낸다 — 버그가 아�
 3단 실패를 **모델 탓으로 단정하지는 않는다.** 도구 설명에 "입사일·재직 기간"이
 없고, 질문의 "올해 기준으로"가 날짜 도구를 먼저 부르게 유도하며, 도구 결과 후
 "더 필요한가"를 묻는 장치가 없다. 셋 다 내 코드다.
+
+### FAISS와 Qdrant를 둘 다 붙여봤다
+
+"왜 FAISS인가"에 답하려면 다른 걸 써봐야 했다. `VECTOR_STORE` 환경변수로
+교체되게 하고(`src/vectorstore.py`), 같은 평가를 양쪽에 돌렸다.
+Qdrant는 서버 없이 로컬 경로로 띄우는 임베디드 모드를 썼다.
+
+```bash
+VECTOR_STORE=qdrant python src/ingest.py
+VECTOR_STORE=qdrant python eval/eval_retrieval.py
+python eval/compare_stores.py     # 둘을 나란히 비교
+```
+
+**검색 결과는 완전히 같았다.** recall@1 90% / @3 100% / MRR 0.95, 10문항의
+순위까지 한 문항도 다르지 않다. 같은 임베딩에 같은 exact 검색이니 당연하고,
+**달랐다면 어딘가 틀린 것**이다.
+
+차이는 **메타데이터 필터**에서 나온다. FAISS는 필터를 못 받아 넉넉히 뽑아
+파이썬에서 걸러야 하는데, "몇 배로 뽑을지"를 정할 근거가 없다.
+`"이윤선이 근무한 회사들"` 질의에 source 필터를 걸어 재봤다:
+
+| 조건 (전체 67청크 중) | 1배(6개) | 2배(12) | 5배(30) | 10배(60) | Qdrant |
+|---|---|---|---|---|---|
+| `resume.md` (8개) | 1/6 | 4/6 | 6/6 | 6/6 | **6/6** |
+| `publications.md` (3개) | 0/3 | 0/3 | 1/3 | 3/3 | **3/3** |
+| `patents.md` (1개) | 0/1 | 0/1 | 0/1 | 1/1 | **1/1** |
+
+조건이 좁을수록 FAISS는 거의 전수를 뽑아야 한다. 67청크라 60개를 뽑는 게
+가능한 것이고, **코퍼스가 커지면 그 방식이 성립하지 않는다.** Qdrant는 필터를
+검색 단계에 넣으므로 배수라는 개념 자체가 없다.
+
+정리하면 — **이 규모에서는 FAISS로 충분하고**(파일 2개, 의존성 하나, 서버 없음),
+가격·재고처럼 **선택적인 필터가 필요해지는 순간 Qdrant가 맞다.** 로드는 FAISS가
+조금 빨랐고(1.0s vs 2.1s) 검색 속도는 사실상 같았다(0.34s vs 0.36s).
 
 ### 멀티홉 비교 평가에서 배운 것
 

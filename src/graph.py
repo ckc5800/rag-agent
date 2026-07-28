@@ -10,10 +10,9 @@ State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으
 import re
 from typing import TypedDict
 
-from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama, OllamaEmbeddings
+from langchain_ollama import ChatOllama
 from langgraph.graph import END, START, StateGraph
 
 import config
@@ -55,11 +54,9 @@ def _load_indexes():
 
         from langchain_community.retrievers import BM25Retriever
 
-        _vectorstore = FAISS.load_local(
-            config.DB_DIR,
-            OllamaEmbeddings(model=config.EMBED_MODEL),
-            allow_dangerous_deserialization=True,  # 로컬에서 직접 생성한 인덱스만 로드
-        )
+        import vectorstore as vs
+
+        _vectorstore = vs.load()          # config.VECTOR_STORE로 FAISS/Qdrant 선택
         chunks = []
         with open(config.CHUNKS_PATH, encoding="utf-8") as f:
             for line in f:

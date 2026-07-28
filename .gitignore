@@ -1,5 +1,6 @@
 .venv/
 __pycache__/
 data/faiss_index/
+data/qdrant_index/
 eval/results.json
 *.pyc
