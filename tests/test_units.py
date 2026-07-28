@@ -77,6 +77,46 @@ def test_clean_markdown_strips_images():
     assert clean_markdown("앞 ![img](a%20b.png) 뒤") == "앞  뒤"
 
 
+# ── 검수(inspect_data.py)로 뒤늦게 찾은 노이즈들 ──
+
+def test_notion_internal_link_keeps_text_drops_encoded_path():
+    """노션 내부 링크는 텍스트만 남는다 — 코퍼스의 9.4%를 먹던 노이즈."""
+    from ingest import clean_markdown
+    src = "①   [Experience](%EC%9D%B4%EC%9C%A4%EC%84%A0%20%ED%8F%AC.md)"
+    assert clean_markdown(src) == "①   Experience"
+
+
+def test_external_url_is_preserved():
+    """실제 URL은 남긴다 — '깃허브 주소' 같은 질문에 답해야 한다."""
+    from ingest import clean_markdown
+    src = "[git](https://github.com/ckc5800)"
+    assert clean_markdown(src) == src
+
+
+def test_external_url_with_encoding_is_preserved():
+    """논문 링크처럼 http URL 안의 퍼센트 인코딩은 정상이므로 건드리지 않는다."""
+    from ingest import clean_markdown
+    src = "[논문](https://kiss.kstudy.com/?articleTitle=GAN%EC%9D%84+%ED%99%9C)"
+    assert clean_markdown(src) == src
+
+
+def test_nested_link_leftover_is_removed():
+    """[[A](url)(kisti) ](내부경로) 같은 중첩 링크의 잔여 경로까지 지운다."""
+    from ingest import clean_markdown
+    src = "[[한국](https://namu.wiki/w/%ED%95%9C)(kisti) ](%ED%95%9C%EA%B5%AD%2020a.md)"
+    out = clean_markdown(src)
+    assert "%ED%95%9C%EA%B5%AD%2020a.md" not in out   # 내부 경로는 사라지고
+    assert "https://namu.wiki/w/%ED%95%9C" in out     # 외부 URL은 남는다
+
+
+def test_html_tags_are_stripped():
+    from ingest import clean_markdown
+    src = '<aside>\n<img src="notion.png" alt="notion.png" width="40px" /> notion'
+    out = clean_markdown(src)
+    assert "<aside>" not in out and "<img" not in out
+    assert "notion" in out
+
+
 # ── BM25 한국어 bigram 토크나이저 ──
 
 def test_bm25_bigram_overlap_with_josa():

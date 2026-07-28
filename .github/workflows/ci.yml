@@ -12,3 +12,9 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt pytest
       - run: pytest -q tests
+      # 인덱싱 대상 텍스트에 정제가 놓친 노이즈가 남으면 실패시킨다.
+      # 임베딩·LLM이 필요 없어 CI에서 몇 초면 끝난다.
+      - name: 데이터 검수 (인덱싱 전 0단계)
+        run: python src/inspect_data.py --strict
+        env:
+          PYTHONUTF8: "1"

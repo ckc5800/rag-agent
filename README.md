@@ -15,7 +15,8 @@ Ollama + FAISS 조합이라 전부 로컬에서 돌고 외부 API가 필요 없�
 ```
 src/
 ├── config.py     모델, 청킹, 검색 파라미터
-├── ingest.py     문서 → 청킹 → 임베딩 → FAISS + 청크 저장(BM25용)
+├── inspect_data.py  인덱싱 전 데이터 검수 (길이 분포 + 잔여 노이즈 스캔)
+├── ingest.py     문서 → 정제 → 청킹 → 임베딩 → FAISS + 청크 저장(BM25용)
 ├── graph.py      Corrective-RAG 그래프 (하이브리드 검색 + self-correction)
 ├── tools.py      Agent 도구 (검색 / 계산 / 날짜)
 ├── agent.py      Tool-Calling Agent (ReAct 루프 + 폴백)
@@ -28,6 +29,7 @@ eval/
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
+├── relabel_retrieval.py 청킹이 바뀌었을 때 gold 라벨 재부착 (매칭 점수 출력)
 └── rescore.py         저장된 결과를 새 채점 기준으로 재채점
 ```
 
@@ -137,6 +139,7 @@ ollama pull bge-m3
 python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 
+python src/inspect_data.py   # 0단계: 인덱싱할 텍스트를 눈으로 확인 (LLM 불필요)
 python src/ingest.py    # 인덱스 구축
 python src/cli.py       # RAG로 질문
 python src/agent.py "질문"      # tool-calling agent로 질문
@@ -145,6 +148,11 @@ python src/mcp_agent.py "질문"  # MCP 도구를 쓰는 agent (portfolio-mcp �
 python eval/evaluate.py         # 단일 RAG 평가 (LLM 필요)
 python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 수 초)
 python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
+
+# 정제/청킹을 바꾸면 gold 라벨(md5)이 무효화된다 → 재부착
+git show HEAD:data/chunks.jsonl > /tmp/old.jsonl
+python eval/relabel_retrieval.py --old /tmp/old.jsonl          # 매칭 점수 확인
+python eval/relabel_retrieval.py --old /tmp/old.jsonl --write  # 반영
 ```
 
 ## 평가와 삽질 기록
@@ -246,6 +254,69 @@ LLM이 없어서 결정적이고, 수 초 만에 끝난다.
 이번에 확인한 것. 다음 후보: 경력 요약 전용 청크를 만들어 rank를
 끌어올리거나, generate 컨텍스트를 top-4로 늘려 lost-in-the-middle과의
 트레이드오프를 재실험.
+
+### 순서를 잘못 밟았다 — 데이터 검수를 뒤늦게 만든 이야기
+
+위의 "임베딩 오염"을 고치고 나서야 이상한 걸 깨달았다. **정제가 파이프라인의
+마지막에 들어와 있었다.** 초기 커밋에는 정제 코드가 아예 없었고,
+`clean_markdown`은 일주일 뒤 마지막 커밋에 추가됐다. 그것도 검색/생성 분리
+평가가 MISS를 짚어준 뒤에야.
+
+변명하자면 "어떤 노이즈가 해로울지 미리 알 수 없다"고 할 수 있다. 그건
+절반만 맞다. 내가 놓친 건 노이즈를 **예측**하는 일이 아니라 인덱싱할 텍스트를
+**한 번 눈으로 보는** 일이었다. 청크를 몇 개만 출력해 봤으면 5분이면 보였다.
+
+그래서 그 5분을 강제하는 스크립트를 만들었다 (`src/inspect_data.py`).
+길이 분포, 가장 짧은 청크, 잔여 노이즈 패턴을 찍는다. 돌려 보니 **이미
+고쳤다고 생각한 데이터에 노이즈가 더 남아 있었다**:
+
+| 발견 | 청크 | 글자 | 코퍼스 대비 |
+|---|---:|---:|---:|
+| 노션 내부 링크(퍼센트 인코딩 경로) | 13 | 4,073자 | **9.4%** |
+| HTML 태그 (`<aside>`, `<img>`) | 5 | 674자 | 1.6% |
+
+노션은 내부 페이지 링크를 `[Experience](%EC%9D%B4%EC%9C%A4%EC%84%A0%20...)`
+처럼 인코딩된 한글 파일명으로 내보낸다. 링크 **텍스트**는 의미가 있지만
+경로는 순수 노이즈인데, 그것만으로 인덱싱 대상의 9.4%를 먹고 있었다.
+
+고치면서 걸린 함정 둘:
+
+1. **외부 URL도 인코딩을 쓴다.** 논문 링크(`...articleTitle=GAN%EC%9D%84+...`)를
+   같이 지우면 "깃허브 주소" 같은 질문에 답할 수 없게 된다. 그래서 단순 치환이
+   아니라 `http(s)://`로 시작하는 타깃은 보존하도록 함수로 판별한다.
+2. **중첩 링크.** `[[A](url)(kisti) ](내부경로)`는 바깥 텍스트에 `]`가 있어
+   링크 정규식이 못 잡는다. 짝을 잃고 남은 `](경로)` 조각을 지우는 규칙을 더했다.
+
+또 `'---'`(3자), `'# 이윤선 이력서'`(9자) 같은 조각이 인덱스 자리만 차지하고
+있어 `MIN_CHUNK_CHARS = 30` 필터를 넣었다. 전체 글자의 0.2%라 성능에는 영향이
+없지만, 평균 청크 길이를 546자로 끌어내려 **분포를 오해하게 만들고 있었다**
+(중앙값은 694자였다).
+
+결과 — 청크 79개 → 67개, 중앙값 694 → 711자:
+
+| | 검수 전 | 검수 후 |
+|---|---:|---:|
+| recall@1 | 80% | **90%** |
+| recall@3 | 90% | **100%** |
+| recall@6 | 100% | 100% |
+| MRR | 0.875 | **0.95** |
+
+recall@1의 10%p는 10문항 중 1문항이라 그 자체로는 통계적 의미가 없다.
+의미 있는 건 **"근무한 회사들" 질문이 rank 4 → rank 2로 올라온 것**이다.
+`generate`는 lost-in-the-middle 대응으로 top-3만 쓰기 때문에 rank 4는 애초에
+생성기에 전달조차 안 됐다. 문턱을 넘은 것이라 성격이 다르다.
+
+마지막으로 두 가지를 구조로 남겼다. `inspect_data.py --strict`를 **CI에 걸어**
+정제가 놓친 노이즈가 있으면 빌드가 실패하게 했고(임베딩·LLM이 필요 없어 몇 초면
+끝난다), 청킹이 바뀌면 md5 라벨이 무효화되므로 이전 청크와 대조해 gold를 다시
+붙이는 `eval/relabel_retrieval.py`를 만들었다. 자동 매칭이 조용히 틀리면 평가가
+통째로 거짓이 되므로 **매칭 점수를 전부 출력하고 임계 미만이면 반영을 거부**한다.
+
+한 가지는 일부러 안 고쳤다. mermaid 다이어그램 3청크는 문법(`graph`,
+`subgraph`, 화살표)이 노이즈지만 노드 라벨은 실제 기술 키워드다. 지우면
+키워드까지 잃는다. 검수기는 이걸 "결함"이 아니라 **"판단 필요"**로 분류해
+보고만 하고 통과시킨다 — 검수기의 역할은 후보를 찾아 주는 것이지 대신
+판단하는 것이 아니다.
 
 ### 멀티홉 비교 평가에서 배운 것
 

@@ -1,9 +1,9 @@
 {
   "summary": {
-    "recall@1": 80,
-    "recall@3": 90,
+    "recall@1": 90,
+    "recall@3": 100,
     "recall@6": 100,
-    "mrr": 0.875
+    "mrr": 0.95
   },
   "cases": [
     {
@@ -53,9 +53,9 @@
     },
     {
       "question": "우수 논문상을 받은 논문 제목은?",
-      "gold_rank": 2,
+      "gold_rank": 1,
       "hits": {
-        "@1": false,
+        "@1": true,
         "@3": true,
         "@6": true
       }
@@ -89,10 +89,10 @@
     },
     {
       "question": "이윤선이 근무한 회사들을 알려주세요.",
-      "gold_rank": 4,
+      "gold_rank": 2,
       "hits": {
         "@1": false,
-        "@3": false,
+        "@3": true,
         "@6": true
       }
     }
