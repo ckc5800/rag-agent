@@ -29,6 +29,7 @@ eval/
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
+├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
 ├── relabel_retrieval.py 청킹이 바뀌었을 때 gold 라벨 재부착 (매칭 점수 출력)
 └── rescore.py         저장된 결과를 새 채점 기준으로 재채점
 ```
