@@ -117,6 +117,34 @@ def test_html_tags_are_stripped():
     assert "notion" in out
 
 
+# ── grade/generate 청크 수 불일치 회귀 테스트 ──
+#
+# grade가 6개를 보고 generate가 3개만 보면, 정답이 4~6등일 때 grade는
+# "충분하다"고 통과시키지만 generate는 그 근거를 못 받아 거부한다
+# ("근무한 회사들" 질문이 실제로 이 상태였다 — README v6). context_docs()로
+# 둘이 같은 개수를 보도록 묶었으니, 그 계약이 깨지지 않는지 고정한다.
+
+def test_context_docs_caps_at_generate_top_n():
+    from graph import GENERATE_TOP_N, context_docs
+
+    docs = [f"doc{i}" for i in range(6)]
+    assert len(context_docs(docs)) == GENERATE_TOP_N
+
+
+def test_context_docs_keeps_top_ranked_first():
+    from graph import context_docs
+
+    docs = ["rank1", "rank2", "rank3", "rank4", "rank5", "rank6"]
+    # grade는 이 순서 그대로 판정(순위 유지). generate만 별도로 뒤집는다.
+    assert context_docs(docs) == ["rank1", "rank2", "rank3"]
+
+
+def test_context_docs_shorter_than_top_n_passes_through():
+    from graph import context_docs
+
+    assert context_docs(["only"]) == ["only"]
+
+
 # ── BM25 한국어 bigram 토크나이저 ──
 
 def test_bm25_bigram_overlap_with_josa():

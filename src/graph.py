@@ -114,6 +114,17 @@ def retrieve(state: AgentState) -> dict:
     return {"documents": hybrid_search(state["query"])}
 
 
+# generate가 실제로 받는 청크 수. grade와 generate가 이 상수를 공유해야
+# "grade는 통과시켰는데 generate는 그 근거를 못 받는" 불일치가 생기지 않는다
+# ("근무한 회사들" 질문이 실제로 그 상태였다 — README v6 기록).
+GENERATE_TOP_N = 3
+
+
+def context_docs(documents: list[Document]) -> list[Document]:
+    """grade·generate가 공통으로 봐야 할 상위 N개."""
+    return documents[:GENERATE_TOP_N]
+
+
 GRADE_PROMPT = ChatPromptTemplate.from_template(
     "당신은 검색 품질 평가자입니다.\n"
     "질문: {question}\n\n"
@@ -124,7 +135,8 @@ GRADE_PROMPT = ChatPromptTemplate.from_template(
 
 
 def grade(state: AgentState) -> dict:
-    context = "\n---\n".join(d.page_content[:500] for d in state["documents"])
+    context = "\n---\n".join(
+        d.page_content[:500] for d in context_docs(state["documents"]))
     chain = GRADE_PROMPT | get_llm()
     verdict = chain.invoke(
         {"question": state["question"], "context": context}
@@ -160,10 +172,10 @@ GENERATE_PROMPT = ChatPromptTemplate.from_template(
 
 
 def generate(state: AgentState) -> dict:
-    # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 생성에는 상위 3개
-    # 청크만 사용하고, 끝부분 주의집중이 강한 특성에 맞춰 랭크 역순으로 배치해
-    # 최상위 청크가 질문 바로 앞에 오게 한다
-    docs = list(reversed(state["documents"][:3]))
+    # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 상위 N개만 쓰고
+    # (N은 grade와 공유 — context_docs), 끝부분 주의집중이 강한 특성에 맞춰
+    # 랭크 역순으로 배치해 최상위 청크가 질문 바로 앞에 오게 한다
+    docs = list(reversed(context_docs(state["documents"])))
     context = "\n---\n".join(d.page_content for d in docs)
     chain = GENERATE_PROMPT | get_llm()
     answer = chain.invoke(
