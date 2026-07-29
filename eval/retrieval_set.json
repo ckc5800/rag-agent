@@ -3,25 +3,25 @@
     "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
     "gold": [
       {
-        "chunk_index": 25,
+        "chunk_index": 6,
         "source": "portfolio.md",
-        "md5": "a526762774bf3d8933482c14e766c846",
-        "preview": "- 스트리밍 api 리팩토링                  Demo 페이지                   보고- 메일(개인 "
+        "md5": "b8b7f985781472aaa0993dd2e09623fd",
+        "preview": "- 운영 페이지 제작                                                           "
       },
       {
-        "chunk_index": 26,
+        "chunk_index": 7,
         "source": "portfolio.md",
         "md5": "5ee474d725e2b20b86a4d76fc4750592",
         "preview": "[오후 1:14:26] 첫 청크 수신 → TTFB: 2292ms         [오후 1:14:27] 완료: 총 342개 청크"
       },
       {
-        "chunk_index": 39,
+        "chunk_index": 20,
         "source": "resume.md",
         "md5": "9f6ce5137a1d2f974ef3a94e44b69987",
         "preview": "이윤선 6년차 AI 엔지니어 yoon7829@gmail.com | ckc5800.github.io | github.com/ck"
       },
       {
-        "chunk_index": 40,
+        "chunk_index": 21,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
@@ -32,19 +32,19 @@
     "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
     "gold": [
       {
-        "chunk_index": 40,
+        "chunk_index": 21,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
       },
       {
-        "chunk_index": 49,
+        "chunk_index": 30,
         "source": "tts-deepdive.md",
         "md5": "9aff5582ff135ea5551e34661a7ccdcf",
         "preview": "### 1.1 시스템 전체 아키텍처 (Global Architecture)  ```mermaid graph TB     sub"
       },
       {
-        "chunk_index": 58,
+        "chunk_index": 39,
         "source": "tts-deepdive.md",
         "md5": "3d634ec001c06920a8b9cf5dc9ea89f4",
         "preview": "### 🚩 Issue 1: 스트리밍 오디오 파편화에 따른 노이즈 및 왜곡 (Residual Buffer)  **[문제 상황]*"
@@ -55,7 +55,7 @@
     "question": "이윤선의 제1저자 논문은 몇 편인가요?",
     "gold": [
       {
-        "chunk_index": 39,
+        "chunk_index": 20,
         "source": "resume.md",
         "md5": "9f6ce5137a1d2f974ef3a94e44b69987",
         "preview": "이윤선 6년차 AI 엔지니어 yoon7829@gmail.com | ckc5800.github.io | github.com/ck"
@@ -72,19 +72,19 @@
         "preview": "# 특허  | 등록번 | 논문명 | | --- | --- | | **1025382250000 (2023.05.25)** | ["
       },
       {
-        "chunk_index": 32,
+        "chunk_index": 13,
         "source": "portfolio.md",
         "md5": "fbaf4685d1b2c7ba0eae3113fe28027d",
         "preview": "- 탱크 탐지 모델 (23년 1월 ~8월)           - 2D, 3D 센서 퓨전 세그멘테이션 모델(22년 8월 ~ 22"
       },
       {
-        "chunk_index": 45,
+        "chunk_index": 26,
         "source": "resume.md",
         "md5": "48617b0678385008a629290e8a8bdd34",
         "preview": "B.S. Computer Science  |  Hannam University (2018.02) Certifications: "
       },
       {
-        "chunk_index": 46,
+        "chunk_index": 27,
         "source": "resume.md",
         "md5": "5aa4b656e7bc3d47f9c37cf1c2fb2610",
         "preview": "• Sensor Fusion-based Semantic Segmentation Method  |  Reg. No. 102538"
@@ -95,13 +95,13 @@
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
     "gold": [
       {
-        "chunk_index": 42,
+        "chunk_index": 23,
         "source": "resume.md",
         "md5": "228e66797b3582bdc11fc1dc7e1832ea",
         "preview": "AI Engineer/MLOps Engineer  Aug 2022 – Apr 2025 Kubernetes 기반 AI 인프라 ("
       },
       {
-        "chunk_index": 44,
+        "chunk_index": 25,
         "source": "resume.md",
         "md5": "49f9b48de93c3e285e3ab4f4522a5894",
         "preview": "금융 데이터 수집 및 전처리 파이프라인 • 배경: 금융 데이터 분석 위한 고품질 데이터 확보 필요 — 다중 소스 수집·정제 자"
@@ -112,13 +112,13 @@
     "question": "우수 논문상을 받은 논문 제목은?",
     "gold": [
       {
-        "chunk_index": 43,
+        "chunk_index": 24,
         "source": "resume.md",
         "md5": "0a8dc920a391c02271b160bf40044d7e",
         "preview": "• Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증 • 기술: Latent Diffusio"
       },
       {
-        "chunk_index": 45,
+        "chunk_index": 26,
         "source": "resume.md",
         "md5": "48617b0678385008a629290e8a8bdd34",
         "preview": "B.S. Computer Science  |  Hannam University (2018.02) Certifications: "
@@ -129,7 +129,7 @@
     "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
     "gold": [
       {
-        "chunk_index": 40,
+        "chunk_index": 21,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
@@ -140,13 +140,13 @@
     "question": "화자 분할에는 어떤 모델을 사용했나요?",
     "gold": [
       {
-        "chunk_index": 27,
+        "chunk_index": 8,
         "source": "portfolio.md",
         "md5": "613f674783563be9af9d8389061bbc5c",
         "preview": "- 화자 분할(2025.04~07)     - PPT - [pyannote.pdf](https://app.notion.com/"
       },
       {
-        "chunk_index": 41,
+        "chunk_index": 22,
         "source": "resume.md",
         "md5": "be05eb2845e9b37561d2c56d26d3337b",
         "preview": "⑤ CPU 병목 제거 – ThreadPoolExecutor 오버헤드 제거, O(N²) → O(1) 성능 개선 ▸ 기술 스택 P"
@@ -157,19 +157,19 @@
     "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
     "gold": [
       {
-        "chunk_index": 40,
+        "chunk_index": 21,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
       },
       {
-        "chunk_index": 52,
+        "chunk_index": 33,
         "source": "tts-deepdive.md",
         "md5": "f00b26cd55461be3966c3fd92f3e53a0",
         "preview": "### 🔄 로직 흐름도: 초저지연 오디오 합성 파이프라인 (Logic Flow)  거대한 텍스트가 어떻게 500ms(0.5초)"
       },
       {
-        "chunk_index": 60,
+        "chunk_index": 41,
         "source": "tts-deepdive.md",
         "md5": "3b86f6c84ddd118979df1caaf8336135",
         "preview": "### 🚩 Issue 3: WebSocket 연결 시의 무중단 세션 탈취 (Session Invalidation Bypass)"

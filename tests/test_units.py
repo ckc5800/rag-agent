@@ -145,6 +145,47 @@ def test_context_docs_shorter_than_top_n_passes_through():
     assert context_docs(["only"]) == ["only"]
 
 
+# ── 다이어그램 분리 회귀 테스트 ──
+#
+# 청크 평균이 594자로 산문(545자)보다 커 보이는 원인을 추적하니 ASCII
+# 아키텍처 다이어그램(```markdown 펜스 안의 박스 그림)이었다 — 800자 상한이
+# 도중에 그어져 박스가 반토막 나는 청크가 나왔다. 다이어그램은 문장 단위가
+# 없어 문자 기준 분할이 애초에 안 맞으므로 통짜로 뗀다.
+
+def test_diagram_fence_is_extracted():
+    from ingest import extract_diagrams
+
+    fence = "```markdown\n" + "┌─┐\n" * 20 + "```"     # 박스문자 밀도 高
+    text = f"앞 문단\n\n{fence}\n\n뒷 문단"
+    body, diagrams = extract_diagrams(text)
+
+    assert len(diagrams) == 1
+    assert diagrams[0].page_content == fence
+    assert fence not in body
+    assert "[다이어그램: 1]" in body
+
+
+def test_non_diagram_fence_is_kept_inline():
+    """API 예시처럼 박스문자가 없는 짧은 펜스는 본문에 남는다."""
+    from ingest import extract_diagrams
+
+    text = "앞 문단\n\n```\nPOST /api/v2/tts-engine/synthesize/sse\n```\n\n뒷 문단"
+    body, diagrams = extract_diagrams(text)
+
+    assert diagrams == []
+    assert "POST /api/v2/tts-engine/synthesize/sse" in body
+
+
+def test_diagram_extraction_does_not_leave_extra_blank_lines():
+    from ingest import extract_diagrams
+
+    fence = "```markdown\n" + "┌─┐\n" * 20 + "```"
+    text = f"앞 문단\n\n{fence}\n\n뒷 문단"
+    body, _ = extract_diagrams(text)
+
+    assert "\n\n\n" not in body
+
+
 # ── BM25 한국어 bigram 토크나이저 ──
 
 def test_bm25_bigram_overlap_with_josa():

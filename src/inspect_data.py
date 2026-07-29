@@ -64,22 +64,25 @@ def main() -> int:
                     help="짧은 청크를 몇 개까지 보여줄지")
     args = ap.parse_args()
 
-    docs = load_documents()  # clean_markdown이 적용된 상태
+    docs, diagrams = load_documents()  # clean_markdown + 다이어그램 분리가 적용된 상태
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=config.CHUNK_SIZE,
         chunk_overlap=config.CHUNK_OVERLAP,
         separators=["\n## ", "\n### ", "\n\n", "\n", " "],
     )
-    chunks = splitter.split_documents(docs)
+    chunks = splitter.split_documents(docs) + diagrams
 
     print(f"문서 {len(docs)}개 → 청크 {len(chunks)}개 "
-          f"(상한 {config.CHUNK_SIZE}자 / overlap {config.CHUNK_OVERLAP}자)\n")
+          f"(상한 {config.CHUNK_SIZE}자 / overlap {config.CHUNK_OVERLAP}자, "
+          f"다이어그램 {len(diagrams)}개는 상한 미적용 통짜 청크)\n")
 
-    # ── 1. 길이 분포 ──────────────────────────────────
-    lengths = sorted(len(c.page_content) for c in chunks)
+    # ── 1. 길이 분포 ── 다이어그램은 상한 미적용 통짜라 별도 콘텐츠 종류로
+    # 취급한다. 같이 섞으면 "상한 초과"가 결함처럼 보고돼 오해를 산다.
+    prose = [c for c in chunks if c.metadata.get("kind") != "diagram"]
+    lengths = sorted(len(c.page_content) for c in prose)
     total = sum(lengths)
     n = len(lengths)
-    print("── 길이 분포 ──")
+    print("── 길이 분포 (산문 청크만; 다이어그램 {}개는 제외) ──".format(len(diagrams)))
     edges = [0, 100, 200, 300, 400, 500, 600, 700, config.CHUNK_SIZE + 1]
     for lo, hi in zip(edges, edges[1:]):
         c = sum(1 for x in lengths if lo <= x < hi)
@@ -90,7 +93,13 @@ def main() -> int:
     print(f"  상한 초과: {len(over)}개")
     tiny = [x for x in lengths if x < config.MIN_CHUNK_CHARS]
     print(f"  최소 길이({config.MIN_CHUNK_CHARS}자) 미만: {len(tiny)}개 "
-          f"— 전체 글자의 {sum(tiny) / total * 100:.1f}%\n")
+          f"— 전체 글자의 {sum(tiny) / total * 100:.1f}%")
+    if diagrams:
+        dlen = sorted(len(d.page_content) for d in diagrams)
+        print(f"  다이어그램 {len(diagrams)}개 — 최소 {dlen[0]} / 최대 {dlen[-1]}자 "
+              f"(상한 미적용, 통짜 보존이 의도)\n")
+    else:
+        print()
 
     # ── 2. 가장 짧은 청크 (여기에 쓰레기가 모인다) ──────
     print(f"── 가장 짧은 청크 {args.show}개 ──")

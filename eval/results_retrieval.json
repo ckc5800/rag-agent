@@ -5,17 +5,17 @@
     "recall@6": 100,
     "mrr": 0.95,
     "random_baseline": {
-      "recall@1": 3,
-      "recall@3": 10,
-      "recall@6": 19
+      "recall@1": 5,
+      "recall@3": 13,
+      "recall@6": 25
     }
   },
   "cases": [
     {
       "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
-      "gold_rank": 1,
+      "gold_rank": 2,
       "hits": {
-        "@1": true,
+        "@1": false,
         "@3": true,
         "@6": true
       }
@@ -94,9 +94,9 @@
     },
     {
       "question": "이윤선이 근무한 회사들을 알려주세요.",
-      "gold_rank": 2,
+      "gold_rank": 1,
       "hits": {
-        "@1": false,
+        "@1": true,
         "@3": true,
         "@6": true
       }

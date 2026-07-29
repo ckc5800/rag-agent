@@ -46,13 +46,18 @@ def build_and_eval(size: int, overlap: int) -> dict:
     import ingest  # noqa: PLC0415
     import graph   # noqa: PLC0415
 
-    docs = ingest.load_documents()
+    # 다이어그램은 크기를 바꿔도 항상 같은 통짜 청크라, 넣으면 median/mean이
+    # "산문이 이 크기에서 어떤가"가 아니라 다이어그램 유무로 흔들린다.
+    # recall 비교에는 넣되(검색 대상이어야 하므로) 길이 통계에서는 뺀다.
+    docs, diagrams = ingest.load_documents()
     from langchain_text_splitters import RecursiveCharacterTextSplitter
-    chunks = RecursiveCharacterTextSplitter(
+    prose_chunks = RecursiveCharacterTextSplitter(
         chunk_size=size, chunk_overlap=overlap,
         separators=["\n## ", "\n### ", "\n\n", "\n", " "],
     ).split_documents(docs)
-    chunks = [c for c in chunks if len(c.page_content) >= config.MIN_CHUNK_CHARS]
+    prose_chunks = [c for c in prose_chunks
+                    if len(c.page_content) >= config.MIN_CHUNK_CHARS]
+    chunks = prose_chunks + diagrams
 
     import vectorstore as vs  # noqa: PLC0415
     vs.build(chunks)
@@ -67,7 +72,7 @@ def build_and_eval(size: int, overlap: int) -> dict:
     graph._vectorstore = None      # 캐시 무효화
     graph._bm25 = None
 
-    lengths = sorted(len(c.page_content) for c in chunks)
+    lengths = sorted(len(c.page_content) for c in prose_chunks)  # 산문만
     hits, ranks = {k: 0 for k in KS}, []
     for q, anchors in ANCHORS.items():
         docs_out = graph.hybrid_search(q)
