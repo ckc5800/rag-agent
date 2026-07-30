@@ -503,6 +503,86 @@ def test_refusal_cases_have_no_answer_in_the_corpus():
                 f"거부 문항인데 코퍼스에 답이 있다 — {case['question']}"
 
 
+# ── 위치 메타데이터 & 이웃 확장 ──
+#
+# 근거를 더 주려고 하위 랭크 청크를 **추가**하면 generate가 랭크 역순 배치라
+# 프롬프트 맨 앞(모델의 주의가 가장 약한 자리)에 놓여 소용이 없다는 것을
+# 두 번 확인했다(top-6, TOP_K=15). 이웃 확장은 순위 자리를 유지한 채 각
+# 청크의 문맥만 넓히는 방식이라 성격이 다르다.
+
+def test_chunks_have_position_metadata():
+    chunks, _, _ = _corpus_and_cases()
+    for c in chunks:
+        for key in ("source", "chunk_index", "doc_index", "doc_total"):
+            assert key in c["metadata"], f"{key} 누락: {c['metadata']}"
+    idx = [c["metadata"]["chunk_index"] for c in chunks]
+    assert idx == list(range(len(chunks))), "chunk_index가 연속이 아니다"
+
+
+def test_neighbor_expansion_off_by_default(monkeypatch):
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 0)
+    docs = [Document(page_content="a", metadata={"chunk_index": 1,
+                                                 "source": "x.md"})]
+    assert graph.expand_with_neighbors(docs) is docs      # 손대지 않는다
+
+
+def test_neighbor_expansion_keeps_count_and_order(monkeypatch):
+    """개수와 순위는 그대로, 각 청크의 내용만 넓어진다."""
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    table = {i: Document(page_content=f"c{i}",
+                         metadata={"chunk_index": i, "source": "x.md"})
+             for i in range(5)}
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 1)
+    monkeypatch.setattr(graph, "_load_indexes", lambda: (None, None))
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: table)
+
+    out = graph.expand_with_neighbors([table[2], table[0]])
+    assert len(out) == 2                        # 개수 유지
+    assert out[0].page_content == "c1\nc2\nc3"   # 앞뒤가 붙는다
+    assert out[1].page_content == "c0\nc1"       # 경계에서 잘림
+
+
+def test_neighbor_expansion_stops_at_document_boundary(monkeypatch):
+    """다른 문서의 텍스트를 붙이면 노이즈다."""
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    table = {
+        0: Document(page_content="a0", metadata={"chunk_index": 0, "source": "a.md"}),
+        1: Document(page_content="b0", metadata={"chunk_index": 1, "source": "b.md"}),
+        2: Document(page_content="b1", metadata={"chunk_index": 2, "source": "b.md"}),
+    }
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 1)
+    monkeypatch.setattr(graph, "_load_indexes", lambda: (None, None))
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: table)
+
+    out = graph.expand_with_neighbors([table[1]])
+    assert out[0].page_content == "b0\nb1"       # a.md 는 안 붙는다
+
+
+def test_diagram_chunks_are_not_expanded(monkeypatch):
+    """다이어그램은 이미 통짜(산문의 6.4배)라 더 넓힐 이유가 없다."""
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    d = Document(page_content="box", metadata={"chunk_index": 1,
+                                               "source": "x.md",
+                                               "kind": "diagram"})
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 1)
+    monkeypatch.setattr(graph, "_load_indexes", lambda: (None, None))
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: {1: d})
+    assert graph.expand_with_neighbors([d])[0].page_content == "box"
+
+
 # ── 인덱스-청크 결속 ──
 #
 # 벡터 검색은 인덱스를, BM25는 chunks.jsonl을 각각 읽는다. 둘이 어긋나면

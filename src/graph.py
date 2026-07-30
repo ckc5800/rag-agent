@@ -158,6 +158,8 @@ def _load_indexes():
             # 마지막에 세팅되는 _bm25가 '준비 완료' 신호다 — 순서를 바꾸지 말 것
             _vectorstore = store
             _bm25 = bm25
+            global _by_index_cache
+            _by_index_cache = None      # 인덱스가 바뀌면 조회표도 무효
     return _vectorstore, _bm25
 
 
@@ -226,8 +228,69 @@ def context_docs(documents: list[Document]) -> list[Document]:
     """grade·generate가 공통으로 봐야 할 상위 N개.
 
     호출 시점에 config를 읽는다 — A/B 스크립트가 런타임에 바꿀 수 있어야 한다.
+    이웃 확장(NEIGHBOR_WINDOW)도 여기서 적용해 grade와 generate가 끝까지
+    **같은 텍스트**를 보게 한다.
     """
-    return documents[:config.GENERATE_TOP_N]
+    return expand_with_neighbors(documents[:config.GENERATE_TOP_N])
+
+
+def expand_with_neighbors(docs: list[Document]) -> list[Document]:
+    """각 청크를 인덱스상 이웃과 합쳐 문맥을 넓힌다 (순위·개수는 유지).
+
+    `NEIGHBOR_WINDOW=0`이면 아무것도 하지 않는다(기본값).
+
+    핵심은 **개수를 안 늘린다**는 것이다. 하위 랭크 청크를 더 넣는 방식은
+    두 번 실패했다 — generate가 랭크 역순 배치라 새로 들어온 근거가 프롬프트
+    맨 앞에 놓여 모델이 못 본다. 여기서는 1위는 계속 1위 자리(질문 바로 앞)에
+    있고, 그 청크가 담는 내용만 앞뒤로 넓어진다.
+
+    청크가 800자 상한에서 잘리며 문장·표가 끊긴 경우를 이어 붙이는 효과도
+    있다. 다이어그램 청크는 이미 통짜라 확장하지 않는다.
+    """
+    w = config.NEIGHBOR_WINDOW
+    if w <= 0:
+        return docs
+
+    _, _ = _load_indexes()
+    by_index = _chunks_by_index()
+    out = []
+    for d in docs:
+        i = d.metadata.get("chunk_index")
+        if i is None or d.metadata.get("kind") == "diagram":
+            out.append(d)
+            continue
+        src = d.metadata.get("source")
+        parts = []
+        for j in range(i - w, i + w + 1):
+            n = by_index.get(j)
+            # 문서 경계를 넘지 않는다 — 다른 문서의 텍스트를 붙이면 노이즈다
+            if n is not None and n.metadata.get("source") == src:
+                parts.append(n.page_content)
+        out.append(Document(page_content="\n".join(parts), metadata=d.metadata))
+    return out
+
+
+_by_index_cache: dict[int, Document] | None = None
+
+
+def _chunks_by_index() -> dict[int, Document]:
+    """chunk_index → Document. 이웃 확장용 조회표(인덱스와 같은 소스에서 만든다)."""
+    global _by_index_cache
+    if _by_index_cache is None:
+        import json
+
+        table = {}
+        with open(config.CHUNKS_PATH, encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                d = json.loads(line)
+                idx = d["metadata"].get("chunk_index")
+                if idx is not None:
+                    table[idx] = Document(page_content=d["page_content"],
+                                          metadata=d["metadata"])
+        _by_index_cache = table
+    return _by_index_cache
 
 
 def context_text(docs: list[Document]) -> str:

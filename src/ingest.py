@@ -127,6 +127,34 @@ def load_documents() -> tuple[list[Document], list[Document]]:
     return docs, diagrams
 
 
+def annotate_positions(chunks: list[Document]) -> None:
+    """청크에 위치 메타데이터를 붙인다 (page_content는 건드리지 않는다).
+
+    지금까지 메타데이터가 {source, kind}뿐이라 할 수 없던 것들이 있다:
+
+      · **이웃 확장** — 검색된 청크의 앞뒤를 함께 넘기는 방식. 근거를 더
+        넣으려고 하위 랭크 청크를 추가하면 프롬프트 맨 앞(모델이 가장 못 보는
+        자리)에 놓여 소용이 없다는 것을 두 번 확인했다(top-6, TOP_K=15).
+        이웃 확장은 **상위 랭크 청크의 자리를 유지한 채** 그 주변만 넓힌다.
+      · 정밀 인용 — 지금은 출처가 'resume.md'까지고 문서 어디인지 알 수 없다.
+
+    부모를 '섹션'으로 잡는 방식은 이 코퍼스에서 안 된다. resume.md·
+    publications.md·patents.md에 마크다운 헤딩이 각 1개(제목)뿐이다.
+    그래서 문서 내 순번을 쓴다 — 헤딩 유무와 무관하게 항상 성립한다.
+
+    page_content를 바꾸지 않으므로 gold 라벨(내용 md5)은 무효화되지 않는다.
+    """
+    per_source: dict[str, int] = {}
+    for i, c in enumerate(chunks):
+        src = c.metadata.get("source", "?")
+        idx = per_source.get(src, 0)
+        c.metadata["chunk_index"] = i          # 전역 순번 (이웃 확장용)
+        c.metadata["doc_index"] = idx          # 문서 내 순번 (인용용)
+        per_source[src] = idx + 1
+    for c in chunks:
+        c.metadata["doc_total"] = per_source[c.metadata.get("source", "?")]
+
+
 def main():
     docs, diagrams = load_documents()
     if not docs:
@@ -172,6 +200,7 @@ def main():
         print(f"+ 다이어그램 {len(diagrams)}개 (상한 미적용, 통짜 보존) — "
               f"길이 {dlen[0]}~{dlen[-1]}자")
     chunks += diagrams
+    annotate_positions(chunks)
     print(f"총 {len(chunks)}개 청크")
 
     path = vectorstore.build(chunks)
