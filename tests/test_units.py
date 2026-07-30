@@ -408,3 +408,178 @@ def test_calculate_still_does_normal_math():
 def test_case_without_any_criterion_raises():
     with pytest.raises(ValueError):
         is_pass("아무 답변", {"question": "기준 없는 케이스"})
+
+
+# ── grade 판정 파싱 (3값) ──
+#
+# 예전 파서는 yes/no 두 값이라 **파싱 실패가 sufficient에 흡수**됐다.
+# fail-open 정책은 유지하되, 실패를 별도 값으로 세는 것이 핵심이다.
+
+def test_verdict_plain_answers():
+    from graph import GRADE_NO, GRADE_YES, parse_verdict
+    assert parse_verdict("yes") == GRADE_YES
+    assert parse_verdict("no") == GRADE_NO
+    assert parse_verdict("YES\n") == GRADE_YES
+
+
+def test_verdict_with_punctuation():
+    """'no.' 'no,' — 옛 파서는 startswith 특례로 겨우 잡았다."""
+    from graph import GRADE_NO, parse_verdict
+    assert parse_verdict("no.") == GRADE_NO
+    assert parse_verdict("no, 관련 내용이 없습니다") == GRADE_NO
+    assert parse_verdict("The documents contain no relevant info") == GRADE_NO
+
+
+def test_verdict_korean_answers():
+    from graph import GRADE_NO, GRADE_YES, parse_verdict
+    for neg in ("아니오", "아니요", "아니다", "아니에요", "아님"):
+        assert parse_verdict(neg) == GRADE_NO
+    for pos in ("예", "네"):
+        assert parse_verdict(pos) == GRADE_YES
+    assert parse_verdict("관련 정보가 있습니다") == GRADE_YES
+    assert parse_verdict("관련 정보가 없습니다") == GRADE_NO
+
+
+def test_verdict_catches_anipnida():
+    """'아닙니다'는 아+닙+니+다라서 '아니' 부분매칭으로 안 잡힌다.
+
+    옛 파서는 `"아니" in verdict`였으므로 이 흔한 부정형을 **놓쳤다** —
+    부정인데 sufficient로 통과시키던 케이스다.
+    """
+    from graph import GRADE_NO, parse_verdict
+    assert "아니" not in "아닙니다"          # 옛 파서가 못 잡은 이유
+    assert parse_verdict("아닙니다") == GRADE_NO
+
+
+def test_verdict_animyeon_is_not_a_negative():
+    """'아니면'은 부정이 아니다 — 옛 파서('아니' 부분매칭)의 오탐 케이스."""
+    from graph import GRADE_NO, parse_verdict
+    out = parse_verdict("문서가 관련 있는지 아니면 판단이 필요한지 보겠습니다")
+    assert out != GRADE_NO          # 불필요한 재검색으로 가지 않는다
+
+
+def test_verdict_lead_token_wins_over_trailing_prose():
+    """판정어가 맨 앞에 있으면 뒤에 붙는 사족은 무시한다."""
+    from graph import GRADE_YES, parse_verdict
+    assert parse_verdict("yes. " + "다만 관련 없는 부분도 " * 20) == GRADE_YES
+    # 지시를 어기고 둘 다 말해도, 앞에 나온 판정을 취한다
+    # (fail-open이라 yes/unparsed는 어차피 같은 경로지만 계측이 정확해진다)
+    assert parse_verdict("yes and no") == GRADE_YES
+
+
+def test_verdict_garbage_is_unparsed():
+    from graph import GRADE_UNPARSED, parse_verdict
+    assert parse_verdict("") == GRADE_UNPARSED
+    assert parse_verdict("음... 잘 모르겠습니다") == GRADE_UNPARSED
+    # 서술문에서 긍정·부정이 동시에 잡히면 판정 실패로 센다
+    assert parse_verdict(
+        "관련 정보가 있습니다. 그런데 관련 정보가 없습니다") == GRADE_UNPARSED
+
+
+def test_grade_node_fails_open_on_unparsed(monkeypatch):
+    """파싱 실패는 sufficient로 통과시킨다 (정책 유지) — 단 조용히는 아니다."""
+    import graph
+
+    monkeypatch.setattr(graph, "judge_relevance",
+                        lambda q, d: (graph.GRADE_UNPARSED, "음..."))
+    out = graph.grade({"question": "q", "documents": []})
+    assert out["grade"] == "sufficient"
+
+
+def test_grade_node_routes_explicit_negative(monkeypatch):
+    import graph
+
+    monkeypatch.setattr(graph, "judge_relevance",
+                        lambda q, d: (graph.GRADE_NO, "no"))
+    out = graph.grade({"question": "q", "documents": []})
+    assert out["grade"] == "insufficient"
+
+
+# ── rewrite 출력 가드 ──
+#
+# 예전에는 LLM 출력 전체가 그대로 검색 질의가 됐다 — 접두어·설명까지
+# BM25 토큰으로 들어갔고, 빈 출력에 대한 가드도 없었다.
+
+def test_clean_rewrite_strips_prefix_and_quotes():
+    from graph import clean_rewrite
+    assert clean_rewrite('재작성된 질문: "TTS TTFB 개선 수치"', "원 질문") \
+        == "TTS TTFB 개선 수치"
+    assert clean_rewrite("질문: ArgoCD CI/CD 도구", "원 질문") == "ArgoCD CI/CD 도구"
+
+
+def test_clean_rewrite_takes_first_line_only():
+    from graph import clean_rewrite
+    raw = "TTFB 개선 수치\n\n설명: 이 질문은 검색이 잘 되도록..."
+    assert clean_rewrite(raw, "원 질문") == "TTFB 개선 수치"
+
+
+def test_clean_rewrite_rejects_empty_and_identical():
+    from graph import clean_rewrite
+    assert clean_rewrite("", "원 질문") is None
+    assert clean_rewrite("   \n  ", "원 질문") is None
+    assert clean_rewrite("원 질문", "원 질문") is None      # 같은 질의 = 같은 결과
+
+
+def test_clean_rewrite_caps_length():
+    from graph import clean_rewrite
+    out = clean_rewrite("가" * 500, "원 질문")
+    assert len(out) == 200
+
+
+def test_rewrite_marks_failure_and_skips_retrieval(monkeypatch):
+    from types import SimpleNamespace
+
+    from langchain_core.runnables import RunnableLambda
+
+    import graph
+
+    monkeypatch.setattr(graph, "get_llm", lambda *a, **k: RunnableLambda(
+        lambda _: SimpleNamespace(content="   ")))     # 빈 재작성
+    out = graph.rewrite({"question": "원 질문", "rewrites": 0})
+
+    assert out["rewrite_failed"] is True
+    assert "query" not in out                  # 질의를 갈아끼우지 않는다
+    assert out["rewrites"] == 1
+    assert graph.after_rewrite(out) == "generate"      # 재검색 생략
+
+
+def test_after_rewrite_retries_on_success():
+    from graph import after_rewrite
+    assert after_rewrite({"rewrite_failed": False}) == "retrieve"
+    assert after_rewrite({}) == "retrieve"             # 키가 없으면 정상 경로
+
+
+# ── 무의미한 grade 호출 제거 ──
+
+def test_needs_grading_skips_when_no_rewrite_budget(monkeypatch):
+    import config
+    from graph import needs_grading
+
+    monkeypatch.setattr(config, "MAX_REWRITES", 1)
+    assert needs_grading({"rewrites": 0}) == "grade"
+    # 재작성 여력이 없으면 판정이 라우팅을 바꿀 수 없다 → 묻지 않는다
+    assert needs_grading({"rewrites": 1}) == "generate"
+
+    # team.py의 worker는 rewrites=MAX_REWRITES로 시작한다 (재작성 끔)
+    monkeypatch.setattr(config, "MAX_REWRITES", 0)
+    assert needs_grading({"rewrites": 0}) == "generate"
+
+
+def test_graph_compiles_with_the_new_edges():
+    from graph import build_graph
+    build_graph()          # 조건부 엣지 3개가 유효한지 (컴파일 시 검증된다)
+
+
+# ── LangGraph가 조용히 버리는 키 방지 ──
+#
+# 이 프로젝트 첫 버그: grade가 반환하는 키가 AgentState에 선언돼 있지 않아
+# LangGraph가 값을 조용히 버렸고, 재작성률이 100%로 나왔다. 원인 추적에
+# 며칠이 걸렸다 — 노드가 반환하는 키는 전부 선언돼 있어야 한다.
+
+def test_every_node_output_key_is_declared_in_state():
+    from graph import AgentState
+
+    declared = set(AgentState.__annotations__)
+    for key in ("question", "query", "documents", "rewrites", "grade",
+                "rewrite_failed", "answer", "sources"):
+        assert key in declared, f"AgentState에 {key} 선언 누락"

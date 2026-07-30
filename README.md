@@ -30,6 +30,8 @@ eval/
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
+├── eval_grade.py      grade 판정기 단독 평가 (gold에서 라벨 유도 + 상수 기준선)
+├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
 ├── compare_stores.py  FAISS vs Qdrant — 결과 일치 확인 + 필터 비교
 ├── sweep_chunk_size.py 청크 크기 300~1600 스윕 (앵커 기반 gold, 기준선 포함)
@@ -152,6 +154,8 @@ python src/team.py "질문"       # multi-agent로 멀티홉 질문
 python src/mcp_agent.py "질문"  # MCP 도구를 쓰는 agent (portfolio-mcp 필요)
 python eval/evaluate.py         # 단일 RAG 평가 (LLM 필요)
 python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 수 초)
+python eval/eval_grade.py       # grade 판정기 단독 평가 (정확도·오탐·파싱실패)
+python eval/ab_rewrite.py       # corrective 루프가 값을 하는지 A/B (수십 분)
 python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
 
 # 정제/청킹을 바꾸면 gold 라벨(md5)이 무효화된다 → 재부착

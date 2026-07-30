@@ -19,8 +19,8 @@ QDRANT_PATH = str(BASE_DIR / "data" / "qdrant_index")
 QDRANT_COLLECTION = "portfolio"
 
 # Ollama 모델 (GPU 환경이면 qwen2.5:7b 권장, CPU 환경은 3b)
-LLM_MODEL = "qwen2.5:3b"
-EMBED_MODEL = "bge-m3"
+LLM_MODEL = os.environ.get("LLM_MODEL", "qwen2.5:3b")
+EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-m3")
 
 # 청킹 / 검색 파라미터
 CHUNK_SIZE = 800
@@ -31,5 +31,7 @@ TOP_K = 6
 # 남은 조각이 인덱스 자리를 차지하는 것을 막는다 (검수로 발견 — inspect_data.py).
 MIN_CHUNK_CHARS = 30
 
-# 검색 결과가 부족할 때 질문을 재작성해 재검색하는 최대 횟수
-MAX_REWRITES = 1
+# 검색 결과가 부족할 때 질문을 재작성해 재검색하는 최대 횟수.
+# 0으로 두면 grade·rewrite 노드가 통째로 빠져 순수 RAG가 된다 —
+# corrective 루프가 실제로 값을 하는지 재는 A/B에 쓴다(eval/ab_rewrite.py).
+MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))

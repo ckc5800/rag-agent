@@ -8,6 +8,7 @@ State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으
 질문을 재작성해 재검색하는 self-corrective 루프를 구성한다.
 """
 import hashlib
+import re
 import threading
 from typing import TypedDict
 
@@ -25,6 +26,7 @@ class AgentState(TypedDict):
     documents: list[Document]
     rewrites: int          # 질문 재작성 횟수
     grade: str             # 검색 품질 판정 (sufficient / insufficient)
+    rewrite_failed: bool   # 재작성이 쓸 만한 질의를 못 만들었는가
     answer: str
     sources: list[str]
 
@@ -175,16 +177,66 @@ GRADE_PROMPT = ChatPromptTemplate.from_template(
 )
 
 
+# 판정 3값. 예전엔 yes/no 두 값이라 **파싱 실패가 sufficient에 흡수됐다** —
+# fail-open 정책은 맞지만, 그래서 실패가 몇 %인지 아무도 모르는 상태였다.
+# 세 번째 값을 만들어 세는 것이 이 파서의 핵심 변경이다.
+GRADE_YES, GRADE_NO, GRADE_UNPARSED = "yes", "no", "unparsed"
+
+# 2단 판정. ① 지시대로 답했다면 판정어가 **맨 앞**에 온다 → 앞부분에 명시적
+# 판정어가 있으면 그게 이긴다(뒤에 붙는 건 사족이다). ② 없으면 서술문에서
+# 찾아본다. 한 번에 뭉쳐서 보면 "yes. 다만 관련 없는 부분도…"가 yes/no 양쪽에
+# 걸려 판정 실패로 떨어진다.
+_VERDICT_LEAD = 16      # 판정어를 찾는 선두 구간
+_VERDICT_HEAD = 80      # 서술문을 훑는 구간
+
+# ^ 앵커 + \b 단어경계라 'no.' 'no,'가 특례 없이 잡힌다.
+_LEAD_NO = re.compile(
+    # '아닙니다'는 아+닙+니+다라서 '아니' 부분매칭으로 **안 잡힌다**
+    # (옛 파서가 못 잡던 케이스다. 음절 단위로 열거해야 한다.)
+    r"^\W*(no|n)\b|^\W*(아니(오|요|다|에요|었)|아닙니다|아녜요|아님)")
+_LEAD_YES = re.compile(r"^\W*(yes|y|예|네)\b")
+
+# 서술문 패턴. '있는지/없는지'는 의문·확인 어미이므로 판정이 아니다 —
+# "관련 있는지 아니면…"을 긍정으로 읽던 것이 실제 오탐이었다.
+_PROSE_NO = re.compile(r"관련\s*(정보|내용|성)?\s*(이|가)?\s*없(?!는지|은지)"
+                       r"|찾을\s*수\s*없|no relevant|not relevant")
+_PROSE_YES = re.compile(r"관련\s*(정보|내용|성)?\s*(이|가)?\s*있(?!는지|은지)"
+                        r"|포함되어\s*있(?!는지|은지)")
+
+
+def parse_verdict(raw: str) -> str:
+    """grade 응답 → GRADE_YES / GRADE_NO / GRADE_UNPARSED."""
+    text = raw.strip().lower()
+
+    lead = text[:_VERDICT_LEAD]                 # ① 명시적 판정어 우선
+    if _LEAD_NO.search(lead):
+        return GRADE_NO
+    if _LEAD_YES.search(lead):
+        return GRADE_YES
+
+    head = text[:_VERDICT_HEAD]                 # ② 서술문 폴백
+    yes, no = bool(_PROSE_YES.search(head)), bool(_PROSE_NO.search(head))
+    if yes == no:                               # 둘 다거나 둘 다 아니면 실패
+        return GRADE_UNPARSED
+    return GRADE_YES if yes else GRADE_NO
+
+
+def judge_relevance(question: str, docs: list[Document]) -> tuple[str, str]:
+    """(3값 판정, 모델 원문). 평가 스크립트가 파싱 실패까지 세도록 분리해 둔다."""
+    raw = (GRADE_PROMPT | get_llm()).invoke(
+        {"question": question, "context": context_text(docs)}).content
+    return parse_verdict(raw), raw
+
+
 def grade(state: AgentState) -> dict:
-    context = context_text(context_docs(state["documents"]))
-    chain = GRADE_PROMPT | get_llm()
-    verdict = chain.invoke(
-        {"question": state["question"], "context": context}
-    ).content.strip().lower()
-    # 한국어 응답(예/아니오) 포함 견고한 파싱 — 명시적 부정일 때만 재검색 (fail-open)
-    negative = ("no" in verdict.split() or verdict.startswith("no")
-                or "아니" in verdict) and "yes" not in verdict
-    return {"grade": "insufficient" if negative else "sufficient"}
+    verdict, raw = judge_relevance(
+        state["question"], context_docs(state["documents"]))
+    if verdict == GRADE_UNPARSED:
+        # 정책은 fail-open 유지(애매하면 통과) — 단 조용히 흡수하지 않는다.
+        # 빈도를 모르면 고칠 수 없다. eval/eval_grade.py가 이 비율을 잰다.
+        print(f"[grade] 판정 파싱 실패 → sufficient(fail-open): "
+              f"{raw.strip()[:60]!r}")
+    return {"grade": "insufficient" if verdict == GRADE_NO else "sufficient"}
 
 
 REWRITE_PROMPT = ChatPromptTemplate.from_template(
@@ -194,10 +246,42 @@ REWRITE_PROMPT = ChatPromptTemplate.from_template(
 )
 
 
+# "재작성된 질문:" 처럼 모델이 붙이는 접두어. 그대로 두면 이 라벨까지
+# BM25 토큰으로 들어가서 검색을 흐린다.
+_REWRITE_PREFIX = re.compile(
+    r"^\s*(재작성(된)?\s*질문|질문|검색\s*질의|답변)\s*[:：]\s*")
+_MAX_QUERY_CHARS = 200
+
+
+def clean_rewrite(raw: str, original: str) -> str | None:
+    """재작성 출력 정리. 쓸 수 없으면 None.
+
+    grade 파싱에는 공을 들였는데 여기는 출력 전체를 그대로 검색어로 쓰고
+    있었다. 첫 줄만 취하고(모델이 설명을 덧붙인다), 접두어·인용부호를
+    떼고, 빈 출력이나 원 질문과 똑같은 결과는 실패로 본다 — 같은 질의로
+    재검색하면 같은 결과가 나올 뿐이다.
+    """
+    lines = [ln for ln in raw.strip().splitlines() if ln.strip()]
+    if not lines:
+        return None
+    line = _REWRITE_PREFIX.sub("", lines[0]).strip().strip("\"'`“”‘’")
+    if len(line) < 2 or line == original.strip():
+        return None
+    return line[:_MAX_QUERY_CHARS]
+
+
 def rewrite(state: AgentState) -> dict:
     chain = REWRITE_PROMPT | get_llm(temperature=0.3)
-    new_query = chain.invoke({"question": state["question"]}).content.strip()
-    return {"query": new_query, "rewrites": state["rewrites"] + 1}
+    raw = chain.invoke({"question": state["question"]}).content
+    new_query = clean_rewrite(raw, state["question"])
+    if new_query is None:
+        # 재작성 실패 — 재검색해도 같은 결과다. 있는 근거로 답하게 보낸다.
+        # (rewrite_failed는 AgentState에 **선언돼 있어야** 한다. 선언 안 된
+        #  키를 반환하면 LangGraph가 조용히 버린다 — 이 프로젝트 첫 버그.)
+        print(f"[rewrite] 재작성 실패 → 재검색 생략: {raw.strip()[:60]!r}")
+        return {"rewrites": state["rewrites"] + 1, "rewrite_failed": True}
+    return {"query": new_query, "rewrites": state["rewrites"] + 1,
+            "rewrite_failed": False}
 
 
 GENERATE_PROMPT = ChatPromptTemplate.from_template(
@@ -230,11 +314,32 @@ def generate(state: AgentState) -> dict:
 
 # ── Graph ──────────────────────────────────────────────
 
+def needs_grading(state: AgentState) -> str:
+    """재작성 여력이 없으면 판정을 아예 묻지 않는다.
+
+    decide_next가 `rewrites >= MAX_REWRITES`면 무조건 generate로 보내므로,
+    그 상태에서 실행되는 grade의 판정 결과는 **라우팅을 바꿀 수 없다** —
+    3B 호출 한 번이 통째로 버려진다. 두 군데서 발생했다:
+      · 메인 경로의 2회차(재작성 후 재검색) grade
+      · team.py의 worker 전부 (rewrites=MAX_REWRITES로 시작해 재작성을 끈다)
+    멀티홉 sub-질문 3개면 무의미한 호출 3회다. 여기서 잘라낸다.
+
+    MAX_REWRITES=0이면 grade·rewrite가 통째로 빠져 순수 RAG가 된다 —
+    corrective 루프의 A/B(eval/ab_rewrite.py)가 이걸 이용한다.
+    """
+    return "generate" if state["rewrites"] >= config.MAX_REWRITES else "grade"
+
+
 def decide_next(state: AgentState) -> str:
     """검색 품질과 재작성 횟수에 따라 다음 노드 결정."""
     if state.get("grade") == "sufficient" or state["rewrites"] >= config.MAX_REWRITES:
         return "generate"
     return "rewrite"
+
+
+def after_rewrite(state: AgentState) -> str:
+    """재작성이 실패했으면 재검색을 건너뛴다 (같은 질의 = 같은 결과)."""
+    return "generate" if state.get("rewrite_failed") else "retrieve"
 
 
 def build_graph():
@@ -245,9 +350,9 @@ def build_graph():
     g.add_node("generate", generate)
 
     g.add_edge(START, "retrieve")
-    g.add_edge("retrieve", "grade")
+    g.add_conditional_edges("retrieve", needs_grading, ["grade", "generate"])
     g.add_conditional_edges("grade", decide_next, ["rewrite", "generate"])
-    g.add_edge("rewrite", "retrieve")
+    g.add_conditional_edges("rewrite", after_rewrite, ["retrieve", "generate"])
     g.add_edge("generate", END)
     return g.compile()
 
