@@ -22,7 +22,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 RESULTS = Path(__file__).parent / "results.json"
 
-REFUSAL = re.compile(r"찾을 수 없|알 수 없|정보가 없")
+# 거부 표현. 좁게 잡으면 **양방향으로 틀린다** — 실측에서 모델이 "정보는 전혀
+# 포함되어 있지 않습니다"로 완벽하게 거부했는데 이걸 못 잡아, 거부가 정답인
+# 문항을 실패로 셌다. 넓힐 때는 저장된 결과를 재채점해 통과하던 케이스가
+# 뒤집히지 않는지 확인할 것 (rescore.py). 이 확장은 51건 중 1건만
+# FAIL→PASS로 바꾸고 나머지는 그대로였다.
+REFUSAL = re.compile(
+    r"찾을 수 없|알 수 없|정보가 없|정보는 없|포함되어 있지 않|포함되지 않"
+    r"|언급이 없|언급되어 있지 않|언급되지 않|나와 있지 않|나타나 있지 않"
+    r"|제공되지 않|확인할 수 없|명시되어 있지 않|기재되어 있지 않")
 
 
 def is_pass(answer: str, case: dict) -> bool:
@@ -73,13 +81,17 @@ def main():
         print(f"[{i}/{len(cases)}] {status} ({elapsed:.1f}s, "
               f"재작성 {out['rewrites']}회) {case['question']}")
         if not hit:
-            print(f"    정답 패턴: {case.get('answer_patterns', case['expected_keywords'])}")
+            criterion = ("거부(문서에 답이 없음)" if case.get("expect_refusal")
+                         else case.get("answer_patterns")
+                         or case.get("expected_keywords"))
+            print(f"    정답 기준: {criterion}")
             print(f"    실제 답변: {answer[:150]}")
 
         results.append({
             "question": case["question"],
+            "type": case.get("type", "fact"),
             "answer": answer,
-            "expected_keywords": case["expected_keywords"],
+            "expected_keywords": case.get("expected_keywords"),
             "pass": hit,
             "rewrites": out["rewrites"],
             "latency_sec": round(elapsed, 1),
@@ -99,6 +111,18 @@ def main():
     print(f"Answer Accuracy : {accuracy:.0f}% ({passed}/{len(cases)})")
     print(f"Rewrite Rate    : {rewrite_rate:.0f}%")
     print(f"Avg Latency     : {avg_latency:.1f}s")
+
+    # 유형별로 쪼개서 본다. 전체 정답률 하나로는 "어디가 약한지"를 알 수 없고,
+    # 실제로 남은 오답이 집계·열거에 몰려 있다는 것이 이 표에서 보인다.
+    # refusal은 환각 지표다 — 답이 없는 질문에 답을 지어내면 실패한다.
+    by_type: dict[str, list[bool]] = {}
+    for r in results:
+        by_type.setdefault(r["type"], []).append(r["pass"])
+    print("\n----- 유형별 -----")
+    for kind, hits in sorted(by_type.items(),
+                             key=lambda kv: -len(kv[1])):
+        print(f"  {kind:<12} {sum(hits):>2}/{len(hits):<3} "
+              f"{sum(hits) / len(hits) * 100:>3.0f}%")
 
     RESULTS.write_text(
         json.dumps({

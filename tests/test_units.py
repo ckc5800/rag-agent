@@ -443,23 +443,70 @@ def test_normal_case_still_fails_on_refusal():
 # 근거에 충실한 정답이 오답으로 집계되고 있었다. 어떤 청크와도 매치되지 않는
 # 패턴은 그 케이스가 **영원히 실패**한다는 뜻이라 명백한 버그다.
 
-def test_every_answer_pattern_matches_the_corpus():
+def _corpus_and_cases():
     import json
-    import re
 
     chunks = [json.loads(line) for line
               in (ROOT / "data" / "chunks.jsonl").read_text(
                   encoding="utf-8").splitlines() if line.strip()]
-    corpus = "\n".join(c["page_content"] for c in chunks)
-
     cases = json.loads((ROOT / "eval" / "eval_set.json").read_text(
         encoding="utf-8"))
+    return chunks, "\n".join(c["page_content"] for c in chunks), cases
+
+
+def test_extractive_answer_patterns_match_the_corpus():
+    """원문에서 그대로 뽑아 답하는 유형은 패턴이 코퍼스에 있어야 한다.
+
+    집계·비교는 제외한다 — "2023년 논문 몇 편?"의 답 '3편'은 표의 행을
+    세야 나오는 값이라 원문에 없는 게 정상이다. 이 유형은 앵커로 검증한다.
+    """
+    import re
+
+    from graph import GENERATE_TOP_N  # noqa: F401  (src 경로 확인용)
+
+    _, corpus, cases = _corpus_and_cases()
+    derived = {"aggregation", "comparison"}
     for case in cases:
-        if case.get("expect_refusal"):
-            continue          # 거부 케이스는 코퍼스에 답이 없어야 정상
+        if case.get("expect_refusal") or case.get("type") in derived:
+            continue
         for p in case.get("answer_patterns", []):
             assert re.search(p, corpus), \
                 f"패턴 {p!r}이 코퍼스에 없다 — {case['question']}는 영원히 실패한다"
+
+
+def test_gold_anchors_exist_in_the_corpus():
+    """앵커는 정답 근거 청크를 가리킨다 — 사라졌으면 문항이 죽은 것이다."""
+    chunks, _, cases = _corpus_and_cases()
+    for case in cases:
+        for a in case.get("gold_anchors", []):
+            assert any(a in c["page_content"] for c in chunks), \
+                f"앵커 {a!r}를 담은 청크가 없다 — {case['question']}"
+
+
+def test_refusal_cases_have_no_answer_in_the_corpus():
+    """거부가 정답인 문항에 답이 생기면 그 문항은 더 이상 거부 케이스가 아니다."""
+    _, corpus, cases = _corpus_and_cases()
+    import re
+    for case in cases:
+        if not case.get("expect_refusal"):
+            continue
+        for p in case.get("answer_patterns", []):
+            assert not re.search(p, corpus), \
+                f"거부 문항인데 코퍼스에 답이 있다 — {case['question']}"
+
+
+def test_eval_set_composition():
+    """유형 구성이 무너지지 않았는지 — 특히 거부 문항이 사라지면
+    환각을 재는 지표가 통째로 없어진다."""
+    from collections import Counter
+
+    _, _, cases = _corpus_and_cases()
+    kinds = Counter(c.get("type", "fact") for c in cases)
+    assert len(cases) >= 50
+    assert kinds["refusal"] >= 10          # 환각 측정
+    assert kinds["aggregation"] >= 5       # 집계 — 현재 알려진 약점
+    assert kinds["enumeration"] >= 5       # 열거 — 현재 알려진 약점
+    assert all(c.get("type") for c in cases), "type 없는 문항이 있다"
 
 
 # ── grade 판정 파싱 (3값) ──

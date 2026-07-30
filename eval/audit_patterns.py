@@ -27,6 +27,12 @@ import config  # noqa: E402
 
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 
+# 추론형은 **답이 원문에 없는 게 정상**이다. "2023년 논문 몇 편?"의 답 '3편'은
+# 표의 행을 세야 나오는 값이라 코퍼스 어디에도 그 문자열이 없다. 이 유형에
+# 패턴-코퍼스 매치를 요구하면 정상 문항을 버그로 신고하게 된다.
+# 대신 gold_anchors(정답 근거가 있는 청크를 가리키는 문자열)로 검증한다.
+DERIVED_TYPES = {"aggregation", "comparison"}
+
 # 같은 개념이 코퍼스에서 두 표기로 쓰이는지 보려고, 패턴에서 뽑은 핵심
 # 토큰 주변을 사람이 눈으로 볼 수 있게 찍는다.
 _TOKEN = re.compile(r"[0-9A-Za-z_가-힣]{3,}")
@@ -60,10 +66,24 @@ def main() -> int:
             print(f"[{state:<16}] {q[:44]}")
             continue
 
+        derived = case.get("type") in DERIVED_TYPES
+
+        # 추론형은 앵커로 검증한다 — 근거 청크가 코퍼스에 실재해야 한다
+        for a in case.get("gold_anchors", []):
+            if not any(a in c["page_content"] for c in chunks):
+                dead.append((q, f"anchor:{a}"))
+                print(f"[!! 앵커 매치 0       ] {q[:40]}")
+                print(f"      앵커 {a!r} 를 담은 청크가 없다 — 근거가 사라졌다")
+
         patterns = case.get("answer_patterns") or case.get("expected_keywords", [])
         for p in patterns:
             hits = [c for c in chunks if re.search(p, c["page_content"])]
             if not hits:
+                if derived:
+                    # 세거나 비교해야 나오는 답이라 원문에 없는 게 맞다
+                    print(f"[추론형(매치 0 정상) ] {q[:40]}")
+                    print(f"      {p!r} — 답이 원문에 없다. 앵커로 검증됨")
+                    continue
                 dead.append((q, p))
                 print(f"[!! 매치 0            ] {q[:40]}")
                 print(f"      패턴 {p!r} 이 어떤 청크에도 없다 — 이 케이스는"
