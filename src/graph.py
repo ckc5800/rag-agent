@@ -250,6 +250,10 @@ REWRITE_PROMPT = ChatPromptTemplate.from_template(
 # BM25 토큰으로 들어가서 검색을 흐린다.
 _REWRITE_PREFIX = re.compile(
     r"^\s*(재작성(된)?\s*질문|질문|검색\s*질의|답변)\s*[:：]\s*")
+# 콜론으로 끝나는 줄은 안내문이다. 실측에서 3B가 이런 걸 뱉었다:
+#   "…설명하는 문장을 만드는데 도움이 되겠습니다. 재작성된 질문은 다음과 같습니다:"
+# 실제 질문이 그 다음 줄에 오는 경우가 있어, 첫 줄만 보면 질문을 통째로 잃는다.
+_PREAMBLE_LINE = re.compile(r"[:：]\s*$")
 _MAX_QUERY_CHARS = 200
 
 
@@ -261,10 +265,11 @@ def clean_rewrite(raw: str, original: str) -> str | None:
     떼고, 빈 출력이나 원 질문과 똑같은 결과는 실패로 본다 — 같은 질의로
     재검색하면 같은 결과가 나올 뿐이다.
     """
-    lines = [ln for ln in raw.strip().splitlines() if ln.strip()]
-    if not lines:
-        return None
-    line = _REWRITE_PREFIX.sub("", lines[0]).strip().strip("\"'`“”‘’")
+    lines = [ln.strip() for ln in raw.strip().splitlines() if ln.strip()]
+    candidates = [ln for ln in lines if not _PREAMBLE_LINE.search(ln)]
+    if not candidates:
+        return None          # 안내문뿐 — 검색어로 쓸 게 없다
+    line = _REWRITE_PREFIX.sub("", candidates[0]).strip().strip("\"'`“”‘’")
     if len(line) < 2 or line == original.strip():
         return None
     return line[:_MAX_QUERY_CHARS]

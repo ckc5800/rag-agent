@@ -513,6 +513,23 @@ def test_clean_rewrite_takes_first_line_only():
     assert clean_rewrite(raw, "원 질문") == "TTFB 개선 수치"
 
 
+def test_clean_rewrite_skips_preamble_line():
+    """3B가 실제로 뱉은 형태 — 안내문 뒤에 진짜 질문이 온다.
+
+    첫 줄만 취하면 질문을 통째로 잃는다(가드가 오히려 손해가 되는 경우).
+    """
+    from graph import clean_rewrite
+    raw = ("화자 분할 모델을 설명하는 문장을 만드는 데 도움이 되겠습니다. "
+           "재작성된 질문은 다음과 같습니다:\n"
+           "화자 분할에 사용한 모델은 무엇인가?")
+    assert clean_rewrite(raw, "원 질문") == "화자 분할에 사용한 모델은 무엇인가?"
+
+
+def test_clean_rewrite_rejects_preamble_only():
+    from graph import clean_rewrite
+    assert clean_rewrite("재작성된 질문은 다음과 같습니다:", "원 질문") is None
+
+
 def test_clean_rewrite_rejects_empty_and_identical():
     from graph import clean_rewrite
     assert clean_rewrite("", "원 질문") is None
