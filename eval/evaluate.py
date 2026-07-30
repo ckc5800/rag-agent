@@ -125,8 +125,13 @@ def main():
         print(f"  {kind:<12} {sum(hits):>2}/{len(hits):<3} "
               f"{sum(hits) / len(hits) * 100:>3.0f}%")
 
+    from runmeta import run_metadata
+
     RESULTS.write_text(
         json.dumps({
+            # 환경 지문이 없으면 다른 실행과 비교 가능한지 판단할 수 없다.
+            # 이 프로젝트에서 실제로 겪은 문제다 (README 90% vs 재측정 74%).
+            "env": run_metadata(),
             "accuracy": accuracy,
             "rewrite_rate": rewrite_rate,
             "avg_latency_sec": round(avg_latency, 1),

@@ -1,4 +1,5 @@
 """문서 인제스트 파이프라인: Markdown 로드 → 정제 → 청킹 → 임베딩 → FAISS 인덱스 저장."""
+import hashlib
 import re
 from pathlib import Path
 
@@ -38,6 +39,11 @@ _LEFTOVER_TARGET = re.compile(
 # 기준 분할이 애초에 안 맞는다 — 다이어그램은 통째로 하나의 청크로 둔다.
 _CODE_FENCE = re.compile(r"```[\s\S]*?```")
 _BOX_CHARS = re.compile(r"[┌┐└┘│─┼┬┴├┤═║╔╗╚╝▼►]")
+
+
+def chunk_fingerprint(path) -> str:
+    """chunks.jsonl 내용 해시. 인덱스와의 결속 확인에 쓴다."""
+    return hashlib.md5(Path(path).read_bytes()).hexdigest()
 
 
 def _is_diagram(fence: str) -> bool:
@@ -179,6 +185,24 @@ def main():
                 {"page_content": c.page_content, "metadata": c.metadata},
                 ensure_ascii=False) + "\n")
     print(f"청크 저장 완료: {config.CHUNKS_PATH}")
+
+    # 인덱스와 chunks.jsonl은 **같은 인제스트에서 나온 한 쌍**이어야 한다.
+    # 벡터 검색은 인덱스를, BM25는 chunks.jsonl을 각각 읽으므로, 둘이 어긋나면
+    # 서로 다른 청킹 두 개를 RRF로 섞게 되고 아무도 눈치채지 못한다.
+    # (sweep_chunk_size.py가 두 파일을 매 스텝 덮어쓰므로 중간에 죽으면
+    #  실제로 이 상태가 된다.) 청크 지문을 남겨 로드 시 대조한다.
+    manifest = {
+        "chunks_md5": chunk_fingerprint(config.CHUNKS_PATH),
+        "n_chunks": len(chunks),
+        "vector_store": config.VECTOR_STORE,
+        "embed_model": config.EMBED_MODEL,
+        "chunk_size": config.CHUNK_SIZE,
+        "chunk_overlap": config.CHUNK_OVERLAP,
+        "min_chunk_chars": config.MIN_CHUNK_CHARS,
+    }
+    Path(config.INDEX_MANIFEST).write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"인덱스 매니페스트 저장: {config.INDEX_MANIFEST}")
 
 
 if __name__ == "__main__":

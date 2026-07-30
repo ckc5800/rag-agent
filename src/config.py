@@ -5,6 +5,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DOCS_DIR = BASE_DIR / "data" / "docs"
 CHUNKS_PATH = BASE_DIR / "data" / "chunks.jsonl"  # BM25 재구축용 청크 저장
+# 인덱스와 chunks.jsonl이 같은 인제스트 산출물인지 대조하는 지문.
+# 어긋난 채로 검색하면 서로 다른 청킹을 RRF로 섞게 되는데 증상이 없다.
+INDEX_MANIFEST = BASE_DIR / "data" / "index_manifest.json"
 
 # 벡터 저장소 — faiss | qdrant (환경변수 VECTOR_STORE로 교체)
 #
@@ -25,7 +28,16 @@ EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-m3")
 # 청킹 / 검색 파라미터
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
-TOP_K = 6
+# 각 검색기가 내놓는 후보 수이자 RRF 융합 결과의 길이.
+#
+# 15로 올리면 하이브리드 recall@5가 90% → 95%로 오른다(결정적 측정).
+# 그런데 **정답률은 76% → 74%로 오르지 않았다**(51문항×2회, 편차 ±6%p).
+# 이유: generate가 랭크 역순으로 배치하므로 새로 들어온 gold(대개 rank 4~5)가
+# 프롬프트 맨 앞, 소형 모델의 주의가 가장 약한 위치에 놓인다. top-6에서
+# rank 6이 살아나지 않았던 것과 같은 현상이다.
+# recall이 올라도 그 자리를 모델이 못 쓰면 소용없다 → 6 유지.
+# (측정: eval/sweep_top_k.py)
+TOP_K = int(os.environ.get("TOP_K", "6"))
 
 # generate·grade가 실제로 보는 상위 N개.
 #

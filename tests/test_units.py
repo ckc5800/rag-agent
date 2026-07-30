@@ -503,6 +503,54 @@ def test_refusal_cases_have_no_answer_in_the_corpus():
                 f"거부 문항인데 코퍼스에 답이 있다 — {case['question']}"
 
 
+# ── 인덱스-청크 결속 ──
+#
+# 벡터 검색은 인덱스를, BM25는 chunks.jsonl을 각각 읽는다. 둘이 어긋나면
+# 서로 다른 청킹을 RRF로 섞게 되는데 **증상이 없다**. 매니페스트로 대조한다.
+
+def test_index_manifest_matches_chunks():
+    import json
+
+    import config
+    import ingest
+
+    manifest_path = ROOT / "data" / "index_manifest.json"
+    if not manifest_path.exists():
+        pytest.skip("인덱스 매니페스트 없음 (ingest 미실행 환경)")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["chunks_md5"] == ingest.chunk_fingerprint(config.CHUNKS_PATH)
+
+
+def test_consistency_check_raises_on_mismatch(tmp_path, monkeypatch):
+    import json
+
+    import config
+    import graph
+
+    chunks = tmp_path / "chunks.jsonl"
+    chunks.write_text('{"page_content":"a","metadata":{}}\n', encoding="utf-8")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"chunks_md5": "다른값", "n_chunks": 1}),
+                        encoding="utf-8")
+    monkeypatch.setattr(config, "CHUNKS_PATH", str(chunks))
+    monkeypatch.setattr(config, "INDEX_MANIFEST", str(manifest))
+
+    with pytest.raises(graph.IndexError_):
+        graph.check_index_consistency()
+
+
+def test_run_metadata_records_what_makes_results_comparable():
+    """결과 비교 가능성을 판단하는 데 필요한 항목이 빠지지 않았는지."""
+    from runmeta import run_metadata
+
+    meta = run_metadata()
+    for key in ("llm_model", "embed_model", "ollama_version",
+                "index_chunks_md5", "params", "host"):
+        assert key in meta
+    for key in ("TOP_K", "GENERATE_TOP_N", "MAX_REWRITES", "CHUNK_SIZE"):
+        assert key in meta["params"]
+
+
 def test_eval_set_composition():
     """유형 구성이 무너지지 않았는지 — 특히 거부 문항이 사라지면
     환각을 재는 지표가 통째로 없어진다."""

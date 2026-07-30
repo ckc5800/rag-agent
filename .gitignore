@@ -4,3 +4,5 @@ data/faiss_index/
 data/qdrant_index/
 eval/results.json
 *.pyc
+
+data/index_manifest.json

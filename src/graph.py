@@ -76,6 +76,52 @@ def bm25_tokenize(text: str) -> list[str]:
     return grams
 
 
+class IndexError_(RuntimeError):
+    """인덱스가 없거나 chunks.jsonl과 어긋날 때."""
+
+
+def check_index_consistency() -> None:
+    """벡터 인덱스와 chunks.jsonl이 같은 인제스트 산출물인지 확인한다.
+
+    벡터 검색은 인덱스를, BM25는 chunks.jsonl을 각각 읽는다. 둘이 어긋나면
+    **서로 다른 청킹 두 개를 RRF로 섞게 되는데 아무 증상이 없다** — 검색이
+    조금 이상해질 뿐이라 원인을 찾을 단서가 없다. sweep_chunk_size.py가 두
+    파일을 매 스텝 덮어쓰므로 중간에 중단되면 실제로 이 상태가 된다.
+
+    인제스트가 남긴 매니페스트의 청크 지문과 대조해 조기에 실패시킨다.
+    """
+    import json
+    from pathlib import Path
+
+    if not Path(config.CHUNKS_PATH).exists():
+        raise IndexError_(
+            f"청크 파일이 없습니다: {config.CHUNKS_PATH}\n"
+            "먼저 `python src/ingest.py`로 인덱스를 구축하세요.")
+
+    manifest_path = Path(config.INDEX_MANIFEST)
+    if not manifest_path.exists():
+        # 매니페스트 도입 이전에 만든 인덱스 — 막지는 않고 알린다.
+        print("[warn] 인덱스 매니페스트가 없습니다. chunks.jsonl과 벡터 인덱스가"
+              " 같은 인제스트 산출물인지 확인할 수 없습니다."
+              " `python src/ingest.py`로 재구축을 권장합니다.")
+        return
+
+    import ingest
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    actual = ingest.chunk_fingerprint(config.CHUNKS_PATH)
+    if manifest.get("chunks_md5") != actual:
+        raise IndexError_(
+            "벡터 인덱스와 chunks.jsonl이 어긋났습니다.\n"
+            f"  매니페스트 기록: {manifest.get('chunks_md5')} "
+            f"({manifest.get('n_chunks')}청크, "
+            f"chunk_size={manifest.get('chunk_size')})\n"
+            f"  현재 chunks.jsonl: {actual}\n"
+            "서로 다른 청킹을 벡터·BM25가 각각 쓰게 되므로 검색 결과를 믿을 수 "
+            "없습니다. `python src/ingest.py`로 재구축하세요.\n"
+            "(sweep_chunk_size.py를 중단했다면 이 상태가 됩니다.)")
+
+
 def _load_indexes():
     """FAISS·BM25 인덱스를 한 번만 만들어 재사용한다 (스레드 안전).
 
@@ -97,6 +143,7 @@ def _load_indexes():
 
             import vectorstore as vs
 
+            check_index_consistency()
             store = vs.load()             # config.VECTOR_STORE로 FAISS/Qdrant 선택
             chunks = []
             with open(config.CHUNKS_PATH, encoding="utf-8") as f:

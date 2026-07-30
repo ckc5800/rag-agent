@@ -1,0 +1,50 @@
+[
+  {
+    "top_k": 6,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 90,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  },
+  {
+    "top_k": 10,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 93,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  },
+  {
+    "top_k": 15,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 95,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  },
+  {
+    "top_k": 20,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 93,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  },
+  {
+    "top_k": 30,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 95,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  },
+  {
+    "top_k": 40,
+    "recall@1": 59,
+    "recall@3": 83,
+    "recall@5": 95,
+    "vector_at_gen_n": 93,
+    "bm25_at_gen_n": 85
+  }
+]

@@ -26,3 +26,9 @@ jobs:
         run: python src/inspect_data.py --strict
         env:
           PYTHONUTF8: "1"
+      # 채점 패턴이 코퍼스와 매치되지 않으면 그 문항은 영원히 실패한다.
+      # 정답을 오답으로 세는 버그를 빌드에서 잡는다 (LLM 불필요).
+      - name: 채점 패턴 감사
+        run: python eval/audit_patterns.py --strict
+        env:
+          PYTHONUTF8: "1"
