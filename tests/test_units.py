@@ -1,6 +1,10 @@
 """결정적 로직 단위 테스트 — LLM/인덱스 없이 CI에서 돈다."""
 import sys
+import threading
+import time
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -201,3 +205,206 @@ def test_bm25_keeps_full_tokens_and_ascii():
     assert "jenkins" in tokens          # 영문은 소문자 어절 그대로
     assert "파이프라인" in tokens        # 원 어절 유지
     assert "파이" in tokens             # bigram 추가
+
+
+# ── grade/generate 컨텍스트 '길이' 불일치 회귀 테스트 ──
+#
+# 개수(GENERATE_TOP_N)는 context_docs로 맞췄지만 길이는 안 맞아 있었다:
+# grade만 page_content[:500]으로 잘라 봤다. 청크 중앙값이 711자, 다이어그램
+# 청크는 4천 자가 넘어서 grade가 근거의 상당 부분을 못 보는 상태였다.
+
+def test_grade_and_generate_see_the_same_text():
+    from langchain_core.documents import Document
+
+    from graph import context_docs, context_text
+
+    docs = [Document(page_content="가" * 900, metadata={"source": "a.md"}),
+            Document(page_content="나" * 900, metadata={"source": "b.md"})]
+    text = context_text(context_docs(docs))
+    for d in docs:
+        assert d.page_content in text     # 잘리지 않는다
+
+
+def test_context_text_joins_with_separator():
+    from langchain_core.documents import Document
+
+    from graph import context_text
+
+    docs = [Document(page_content="A", metadata={}),
+            Document(page_content="B", metadata={})]
+    assert context_text(docs) == "A\n---\nB"
+
+
+# ── 출처 과대보고 회귀 테스트 ──
+#
+# generate는 top-3만 프롬프트에 넣는데 sources는 검색된 TOP_K(6개) 전부에서
+# 뽑고 있었다 — 답변 근거가 아닌 문서가 출처로 나갔다.
+
+def test_sources_come_only_from_the_docs_in_the_prompt(monkeypatch):
+    from types import SimpleNamespace
+
+    from langchain_core.documents import Document
+    from langchain_core.runnables import RunnableLambda
+
+    import graph
+
+    seen = {}
+
+    def fake_llm(prompt_value):
+        seen["context"] = prompt_value.to_string()
+        return SimpleNamespace(content="답변")
+
+    monkeypatch.setattr(graph, "get_llm",
+                        lambda *a, **k: RunnableLambda(fake_llm))
+
+    docs = [Document(page_content=f"본문{i}", metadata={"source": f"{i}.md"})
+            for i in range(6)]
+    out = graph.generate({"question": "질문", "documents": docs})
+
+    assert out["sources"] == ["0.md", "1.md", "2.md"]      # 4~6위는 빠진다
+    assert "본문3" not in seen["context"]                   # 프롬프트에도 없다
+
+
+# ── 인덱스 지연 초기화 레이스 회귀 테스트 ──
+#
+# _vectorstore를 먼저 대입하고 그 뒤에 BM25를 만들면, 그 사이에 들어온
+# 스레드가 "준비됐다"고 보고 아직 None인 _bm25를 받아 간다. FastAPI의 동기
+# 핸들러는 스레드풀에서 돌기 때문에 동시 요청 2건이면 재현된다.
+
+def test_load_indexes_is_thread_safe(monkeypatch):
+    from langchain_community import retrievers
+
+    import graph
+    import vectorstore
+
+    class SlowBM25:
+        k = 0
+
+        @classmethod
+        def from_documents(cls, chunks, preprocess_func=None):
+            time.sleep(0.2)          # 인덱스 구축이 오래 걸리는 상황
+            return cls()
+
+    def slow_load(*a, **k):
+        time.sleep(0.05)
+        return "STORE"
+
+    monkeypatch.setattr(vectorstore, "load", slow_load)
+    monkeypatch.setattr(retrievers, "BM25Retriever", SlowBM25)
+
+    graph._vectorstore = graph._bm25 = None
+    try:
+        errors, results = [], []
+
+        def worker():
+            try:
+                results.append(graph._load_indexes())
+            except Exception as e:                        # noqa: BLE001
+                errors.append(e)
+
+        # 첫 요청을 먼저 띄우고, **BM25를 만드는 중간에** 나머지를 들여보낸다.
+        # 동시에 출발시키면 전부 초기화 전에 통과해 버려서 레이스가 안 난다 —
+        # 위험 구간은 '_vectorstore는 세팅됐고 _bm25는 아직'인 그 사이다.
+        first = threading.Thread(target=worker)
+        first.start()
+        time.sleep(0.1)                  # load(0.05s) 끝, BM25(0.2s) 진행 중
+
+        rest = [threading.Thread(target=worker) for _ in range(7)]
+        for t in rest:
+            t.start()
+        for t in [first, *rest]:
+            t.join(timeout=10)
+
+        assert not errors
+        assert len(results) == 8
+        for store, bm25 in results:
+            assert store == "STORE"
+            assert bm25 is not None      # 옛 코드는 여기서 None을 받았다
+    finally:
+        graph._vectorstore = graph._bm25 = None
+
+
+# ── RRF 중복 제거: 출처가 검색 순서에 따라 흔들리지 않는다 ──
+
+def test_rrf_dedup_keeps_first_seen_source(monkeypatch):
+    from langchain_core.documents import Document
+
+    import graph
+
+    same = "같은 사실이 두 문서에 중복돼 있다"
+    vec = [Document(page_content=same, metadata={"source": "resume.md"})]
+    kw = [Document(page_content=same, metadata={"source": "portfolio.md"})]
+
+    monkeypatch.setattr(graph, "_load_indexes", lambda: (
+        SimpleStore(vec), SimpleRetriever(kw)))
+
+    docs = graph.hybrid_search("질의")
+    assert len(docs) == 1
+    assert docs[0].metadata["source"] == "resume.md"   # 벡터 검색 결과가 먼저
+
+
+class SimpleStore:
+    def __init__(self, docs):
+        self.docs = docs
+
+    def similarity_search(self, query, k):
+        return self.docs[:k]
+
+
+class SimpleRetriever:
+    def __init__(self, docs):
+        self.docs = docs
+
+    def invoke(self, query):
+        return self.docs
+
+
+# ── vectorstore.search: kind 인자가 전역 config를 이긴다 ──
+
+def test_search_kind_argument_wins_over_global_config(monkeypatch):
+    import config
+    import vectorstore
+
+    monkeypatch.setattr(config, "VECTOR_STORE", "qdrant")   # 전역은 qdrant
+
+    calls = {}
+
+    class Store:
+        def similarity_search(self, query, k, **kw):
+            calls["k"], calls["kw"] = k, kw
+            return [FakeDoc("a.md"), FakeDoc("b.md"), FakeDoc("a.md")]
+
+    out = vectorstore.search(Store(), "질의", k=2, source="a.md", kind="faiss")
+
+    # faiss 경로 = 넉넉히 뽑아 사후 필터링. 필터를 검색에 주입하지 않는다.
+    assert calls["k"] == 20 and "filter" not in calls["kw"]
+    assert [d.metadata["source"] for d in out] == ["a.md", "a.md"]
+
+
+class FakeDoc:
+    def __init__(self, source):
+        self.metadata = {"source": source}
+        self.page_content = source
+
+
+# ── calculate: AST 화이트리스트가 막지 못하는 자원 고갈 ──
+
+def test_calculate_rejects_huge_exponent():
+    from tools import calculate
+
+    out = calculate.invoke({"expression": "9**9**9**9"})
+    assert "오류" in out          # 계산을 시도하지 않고 거부
+
+
+def test_calculate_still_does_normal_math():
+    from tools import calculate
+
+    assert calculate.invoke({"expression": "(2292-334)/2292*100"}) == "85.4276"
+    assert calculate.invoke({"expression": "2**10"}) == "1024"
+
+
+# ── 채점 기준이 없는 케이스를 조용히 통과시키지 않는다 ──
+
+def test_case_without_any_criterion_raises():
+    with pytest.raises(ValueError):
+        is_pass("아무 답변", {"question": "기준 없는 케이스"})

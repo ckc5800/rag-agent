@@ -78,6 +78,12 @@ def build_agent(tools):
 
 
 async def run(question: str) -> dict:
+    if not Path(MCP_SERVER).exists():
+        raise SystemExit(
+            f"MCP 서버를 찾을 수 없습니다: {MCP_SERVER}\n"
+            "형제 디렉토리에 portfolio-mcp를 클론하거나 "
+            "PORTFOLIO_MCP_SERVER 환경변수로 경로를 지정하세요.")
+
     client = MultiServerMCPClient({
         "portfolio": {
             "command": sys.executable,
@@ -85,6 +91,9 @@ async def run(question: str) -> dict:
             "transport": "stdio",
         }
     })
+    # get_tools()는 세션을 들고 있지 않는다 — 도구 호출마다 stdio 세션을
+    # 새로 열고 닫는다(langchain-mcp-adapters 규약). 즉 자식 프로세스는
+    # 남지 않으므로 여기서 세션을 따로 관리하지 않는다.
     tools = await client.get_tools()
     agent = build_agent(tools)
     result = await agent.ainvoke(

@@ -18,11 +18,20 @@ _OPS = {
 }
 
 
+# 거듭제곱 상한. AST 화이트리스트는 eval을 막아 주지만 자원 고갈은 못 막는다 —
+# '9**9**9**9' 한 줄이면 파이썬이 수십억 자리 정수를 만들려다 프로세스가 멈춘다.
+# 입력이 3B 모델의 출력이라 악의보다는 오조립으로 나올 수 있는 형태다.
+MAX_EXPONENT = 64
+
+
 def _safe_eval(node):
     if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
         return node.value
     if isinstance(node, ast.BinOp) and type(node.op) in _OPS:
-        return _OPS[type(node.op)](_safe_eval(node.left), _safe_eval(node.right))
+        left, right = _safe_eval(node.left), _safe_eval(node.right)
+        if isinstance(node.op, ast.Pow) and abs(right) > MAX_EXPONENT:
+            raise ValueError(f"지수가 너무 큽니다 (최대 {MAX_EXPONENT})")
+        return _OPS[type(node.op)](left, right)
     if isinstance(node, ast.UnaryOp) and type(node.op) in _OPS:
         return _OPS[type(node.op)](_safe_eval(node.operand))
     raise ValueError("허용되지 않는 표현식입니다 (사칙연산만 가능)")

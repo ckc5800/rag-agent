@@ -107,8 +107,13 @@ def load_documents() -> tuple[list[Document], list[Document]]:
     """(본문 문서, 다이어그램 청크) — 다이어그램은 이미 청크 단위로 완성돼 있다."""
     docs, diagrams = [], []
     for path in sorted(Path(config.DOCS_DIR).glob("*.md")):
-        text = clean_markdown(path.read_text(encoding="utf-8"))
-        body, diag_docs = extract_diagrams(text)
+        # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제
+        # 규칙(이미지·마크다운 링크·HTML 태그)이 펜스 안의 그림까지 건드린다 —
+        # 통짜로 보존하는 게 다이어그램 청크의 존재 이유인데 그게 깨진다.
+        # (현재 코퍼스의 다이어그램 3개는 정제 규칙에 걸리는 게 없어 이 순서
+        #  변경으로 청크 내용은 바뀌지 않는다. 앞으로를 위한 방어다.)
+        body, diag_docs = extract_diagrams(path.read_text(encoding="utf-8"))
+        body = clean_markdown(body)
         docs.append(Document(page_content=body, metadata={"source": path.name}))
         for d in diag_docs:
             d.metadata["source"] = path.name
@@ -136,13 +141,22 @@ def main():
     dropped = len(chunks) - len(kept)
     chunks = kept
 
+    if not chunks and not diagrams:
+        raise SystemExit(
+            f"인덱싱할 청크가 없습니다 — {dropped}개가 전부 "
+            f"MIN_CHUNK_CHARS({config.MIN_CHUNK_CHARS}자) 미만입니다.")
+
     # 산문 통계를 다이어그램과 분리해서 찍는다 — 다이어그램은 800자 상한이
     # 적용 안 된 통짜(수 KB)라 섞으면 "평균/최대"가 산문 실태를 안 보여준다.
-    lengths = sorted(len(c.page_content) for c in chunks)
-    print(f"{len(chunks)}개 산문 청크 "
-          f"(최소 길이 {config.MIN_CHUNK_CHARS}자 미만 {dropped}개 제외) — "
-          f"길이 최소 {lengths[0]} / 중앙값 {lengths[len(lengths) // 2]} / "
-          f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
+    if chunks:
+        lengths = sorted(len(c.page_content) for c in chunks)
+        print(f"{len(chunks)}개 산문 청크 "
+              f"(최소 길이 {config.MIN_CHUNK_CHARS}자 미만 {dropped}개 제외) — "
+              f"길이 최소 {lengths[0]} / 중앙값 {lengths[len(lengths) // 2]} / "
+              f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
+    else:
+        print(f"산문 청크 0개 (전부 {config.MIN_CHUNK_CHARS}자 미만으로 제외) "
+              "— 다이어그램만 인덱싱한다")
 
     # 다이어그램은 스플리터가 안 건드린 통짜 청크로 그대로 합류시킨다.
     # 800자 상한에 걸려 도중에 잘리던 것(예: 파이프라인이 중간 줄에서 끊김)을

@@ -116,6 +116,12 @@ def main():
                     default=[300, 500, 800, 1200, 1600])
     args = ap.parse_args()
 
+    # 이 스크립트는 인덱스와 data/chunks.jsonl(추적 중인 파일)을 매 스텝
+    # 덮어쓴다. 끝까지 못 돌면 저장소가 마지막 스윕 크기 상태로 남으므로
+    # 시작 시점에 알린다 — 복구 안내가 마지막 print에만 있으면 늦다.
+    print(f"주의: data/chunks.jsonl과 {config.VECTOR_STORE} 인덱스를 덮어쓴다. "
+          "중간에 멈추면 `python src/ingest.py`로 복구할 것.\n")
+
     rows = []
     for size in args.sizes:
         overlap = max(20, size // 8)          # 원래 비율(800:100)을 유지

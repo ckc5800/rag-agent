@@ -7,7 +7,8 @@
 State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으면
 질문을 재작성해 재검색하는 self-corrective 루프를 구성한다.
 """
-import re
+import hashlib
+import threading
 from typing import TypedDict
 
 from langchain_core.documents import Document
@@ -30,6 +31,7 @@ class AgentState(TypedDict):
 
 _vectorstore = None
 _bm25 = None
+_index_lock = threading.Lock()
 
 
 def bm25_tokenize(text: str) -> list[str]:
@@ -48,25 +50,46 @@ def bm25_tokenize(text: str) -> list[str]:
 
 
 def _load_indexes():
+    """FAISS·BM25 인덱스를 한 번만 만들어 재사용한다 (스레드 안전).
+
+    api.py의 `/ask`는 동기 핸들러라 FastAPI가 스레드풀에서 돌린다. 락 없이
+    지연 초기화하면, 첫 요청이 BM25를 만드는 동안(수백 ms) 들어온 두 번째
+    요청이 '_vectorstore가 이미 있으니 준비됐다'고 보고 아직 None인 _bm25를
+    받아 간다 → bm25.invoke()에서 AttributeError. 그래서 (1) 락으로 감싸고
+    (2) 두 인덱스가 **모두** 준비된 뒤에 전역에 공개한다.
+    """
     global _vectorstore, _bm25
-    if _vectorstore is None:
-        import json
+    if _bm25 is not None:                 # 준비 완료 후엔 락 없이 통과
+        return _vectorstore, _bm25
 
-        from langchain_community.retrievers import BM25Retriever
+    with _index_lock:
+        if _bm25 is None:                 # 락을 기다리는 동안 남이 채웠을 수 있다
+            import json
 
-        import vectorstore as vs
+            from langchain_community.retrievers import BM25Retriever
 
-        _vectorstore = vs.load()          # config.VECTOR_STORE로 FAISS/Qdrant 선택
-        chunks = []
-        with open(config.CHUNKS_PATH, encoding="utf-8") as f:
-            for line in f:
-                d = json.loads(line)
-                chunks.append(Document(page_content=d["page_content"],
-                                       metadata=d["metadata"]))
-        _bm25 = BM25Retriever.from_documents(
-            chunks, preprocess_func=bm25_tokenize)
-        _bm25.k = config.TOP_K
+            import vectorstore as vs
+
+            store = vs.load()             # config.VECTOR_STORE로 FAISS/Qdrant 선택
+            chunks = []
+            with open(config.CHUNKS_PATH, encoding="utf-8") as f:
+                for line in f:
+                    d = json.loads(line)
+                    chunks.append(Document(page_content=d["page_content"],
+                                           metadata=d["metadata"]))
+            bm25 = BM25Retriever.from_documents(
+                chunks, preprocess_func=bm25_tokenize)
+            bm25.k = config.TOP_K
+
+            # 마지막에 세팅되는 _bm25가 '준비 완료' 신호다 — 순서를 바꾸지 말 것
+            _vectorstore = store
+            _bm25 = bm25
     return _vectorstore, _bm25
+
+
+def warmup() -> None:
+    """인덱스를 미리 적재한다 (서버 기동 시 1회 — 첫 요청 지연·경합 제거)."""
+    _load_indexes()
 
 
 def hybrid_search(query: str) -> list[Document]:
@@ -75,8 +98,6 @@ def hybrid_search(query: str) -> list[Document]:
     'Jenkins', 'Pyannote' 같은 고유명사/키워드 질문은 벡터 검색이 놓치기 쉬워
     BM25를 결합해 검색 재현율을 보완한다. RRF score = Σ 1 / (k + rank).
     """
-    import hashlib
-
     vectorstore, bm25 = _load_indexes()
     vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
@@ -88,24 +109,31 @@ def hybrid_search(query: str) -> list[Document]:
         for rank, doc in enumerate(docs):
             # 전체 내용 해시로 중복 판별 (접두어가 같은 서로 다른 청크의 충돌 방지)
             key = hashlib.md5(doc.page_content.encode("utf-8")).hexdigest()
-            by_key[key] = doc
+            # 같은 사실이 resume.md·portfolio.md 양쪽에 중복돼 내용까지 같으면
+            # 두 Document가 같은 키로 합쳐진다. 나중 것으로 덮어쓰면 출처가
+            # 검색 순서에 따라 임의로 바뀌므로, 먼저 본 것(상위 랭크)을 유지한다.
+            by_key.setdefault(key, doc)
             scores[key] = scores.get(key, 0.0) + 1.0 / (K + rank + 1)
 
     ranked = sorted(scores, key=scores.get, reverse=True)
     return [by_key[k] for k in ranked[: config.TOP_K]]
 
 
-_llm_cache: dict[float, ChatOllama] = {}
+_llm_cache: dict[tuple[str, float], ChatOllama] = {}
 
 
 # 판정(grade)·생성(generate)은 재현성이 중요하므로 temperature 0으로 고정.
 # 질문 재작성(rewrite)만 다양성이 필요해 0.3을 사용한다.
 def get_llm(temperature: float = 0.0) -> ChatOllama:
-    if temperature not in _llm_cache:
-        _llm_cache[temperature] = ChatOllama(
+    # 캐시 키에 모델명을 포함한다. eval_tool_chain.py처럼 런타임에
+    # config.LLM_MODEL을 바꿔 모델 간 비교를 하는 스크립트가 있어서,
+    # temperature만 키로 쓰면 3b용 인스턴스가 7b 실행에 재사용된다.
+    key = (config.LLM_MODEL, temperature)
+    if key not in _llm_cache:
+        _llm_cache[key] = ChatOllama(
             model=config.LLM_MODEL, temperature=temperature
         )
-    return _llm_cache[temperature]
+    return _llm_cache[key]
 
 
 # ── Nodes ──────────────────────────────────────────────
@@ -125,6 +153,19 @@ def context_docs(documents: list[Document]) -> list[Document]:
     return documents[:GENERATE_TOP_N]
 
 
+def context_text(docs: list[Document]) -> str:
+    """청크 목록을 프롬프트에 넣을 하나의 문자열로.
+
+    grade와 generate가 **같은 텍스트**를 보게 하려고 있는 함수다. 예전에는
+    grade만 page_content[:500]으로 잘라 봤는데, 청크 중앙값이 711자이고
+    다이어그램 청크는 4천 자가 넘어서 grade가 근거의 상당 부분을 못 봤다.
+    개수(GENERATE_TOP_N)를 맞춰 놓고 길이는 안 맞춘 상태였던 셈이라,
+    "grade는 통과시켰는데 generate는 근거를 못 받는"(그리고 그 반대인)
+    불일치가 그대로 남아 있었다.
+    """
+    return "\n---\n".join(d.page_content for d in docs)
+
+
 GRADE_PROMPT = ChatPromptTemplate.from_template(
     "당신은 검색 품질 평가자입니다.\n"
     "질문: {question}\n\n"
@@ -135,8 +176,7 @@ GRADE_PROMPT = ChatPromptTemplate.from_template(
 
 
 def grade(state: AgentState) -> dict:
-    context = "\n---\n".join(
-        d.page_content[:500] for d in context_docs(state["documents"]))
+    context = context_text(context_docs(state["documents"]))
     chain = GRADE_PROMPT | get_llm()
     verdict = chain.invoke(
         {"question": state["question"], "context": context}
@@ -175,13 +215,16 @@ def generate(state: AgentState) -> dict:
     # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 상위 N개만 쓰고
     # (N은 grade와 공유 — context_docs), 끝부분 주의집중이 강한 특성에 맞춰
     # 랭크 역순으로 배치해 최상위 청크가 질문 바로 앞에 오게 한다
-    docs = list(reversed(context_docs(state["documents"])))
-    context = "\n---\n".join(d.page_content for d in docs)
+    used = context_docs(state["documents"])
+    context = context_text(list(reversed(used)))
     chain = GENERATE_PROMPT | get_llm()
     answer = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip()
-    sources = sorted({d.metadata.get("source", "?") for d in state["documents"]})
+    # 출처는 **실제로 프롬프트에 들어간 청크**에서만 뽑는다. 예전에는 검색된
+    # TOP_K(6개) 전부에서 뽑아, 답변 생성에 쓰이지도 않은 문서가 근거로
+    # 표시됐다 — 개수는 context_docs로 맞춰 놓고 인용은 안 맞춘 상태였다.
+    sources = sorted({d.metadata.get("source", "?") for d in used})
     return {"answer": answer, "sources": sources}
 
 

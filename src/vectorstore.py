@@ -83,17 +83,24 @@ def load(kind: str | None = None):
 
 # ── 검색 ────────────────────────────────────────────────
 
-def search(store, query: str, k: int, source: str | None = None) -> list[Document]:
+def search(store, query: str, k: int, source: str | None = None,
+           kind: str | None = None) -> list[Document]:
     """의미 검색. source를 주면 그 문서 안에서만 찾는다.
 
     필터가 두 저장소의 실질적 차이다. FAISS는 필터를 못 받으므로 넉넉히
     뽑아 파이썬에서 걸러야 하고(그래도 k를 못 채울 수 있다), Qdrant는
     필터를 검색에 넣어 **필터를 적용한 채로 k를 채운다.**
+
+    kind는 build()/load()와 같은 규약이다. 예전엔 이 함수만 kind를 안 받고
+    전역 config.VECTOR_STORE를 읽어서, load("qdrant")로 띄운 스토어를
+    넘겨도 전역이 faiss면 필터를 주입하지 않고 사후 필터링으로 빠졌다 —
+    두 저장소를 나란히 비교하는 코드에서 조용히 틀린 결과가 나온다.
     """
+    kind = kind or config.VECTOR_STORE
     if source is None:
         return store.similarity_search(query, k=k)
 
-    if config.VECTOR_STORE == "qdrant":
+    if kind == "qdrant":
         from qdrant_client.http import models as rest
 
         flt = rest.Filter(must=[rest.FieldCondition(

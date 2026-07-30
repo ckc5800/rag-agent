@@ -65,6 +65,9 @@ def main() -> int:
     args = ap.parse_args()
 
     docs, diagrams = load_documents()  # clean_markdown + 다이어그램 분리가 적용된 상태
+    if not docs:
+        print(f"[FAIL] 검수할 문서가 없습니다: {config.DOCS_DIR}")
+        return 1
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=config.CHUNK_SIZE,
         chunk_overlap=config.CHUNK_OVERLAP,
@@ -83,17 +86,20 @@ def main() -> int:
     total = sum(lengths)
     n = len(lengths)
     print("── 길이 분포 (산문 청크만; 다이어그램 {}개는 제외) ──".format(len(diagrams)))
-    edges = [0, 100, 200, 300, 400, 500, 600, 700, config.CHUNK_SIZE + 1]
-    for lo, hi in zip(edges, edges[1:]):
-        c = sum(1 for x in lengths if lo <= x < hi)
-        print(f"  {lo:>4}~{hi - 1:<4} {bar(c):<30} {c:>3}개")
-    print(f"\n  최소 {lengths[0]} / 중앙값 {lengths[n // 2]} / "
-          f"평균 {total // n} / 최대 {lengths[-1]}")
-    over = [x for x in lengths if x > config.CHUNK_SIZE]
-    print(f"  상한 초과: {len(over)}개")
-    tiny = [x for x in lengths if x < config.MIN_CHUNK_CHARS]
-    print(f"  최소 길이({config.MIN_CHUNK_CHARS}자) 미만: {len(tiny)}개 "
-          f"— 전체 글자의 {sum(tiny) / total * 100:.1f}%")
+    if n:
+        edges = [0, 100, 200, 300, 400, 500, 600, 700, config.CHUNK_SIZE + 1]
+        for lo, hi in zip(edges, edges[1:]):
+            c = sum(1 for x in lengths if lo <= x < hi)
+            print(f"  {lo:>4}~{hi - 1:<4} {bar(c):<30} {c:>3}개")
+        print(f"\n  최소 {lengths[0]} / 중앙값 {lengths[n // 2]} / "
+              f"평균 {total // n} / 최대 {lengths[-1]}")
+        over = [x for x in lengths if x > config.CHUNK_SIZE]
+        print(f"  상한 초과: {len(over)}개")
+        tiny = [x for x in lengths if x < config.MIN_CHUNK_CHARS]
+        print(f"  최소 길이({config.MIN_CHUNK_CHARS}자) 미만: {len(tiny)}개 "
+              f"— 전체 글자의 {sum(tiny) / total * 100:.1f}%")
+    else:
+        print("  산문 청크 없음 (다이어그램만 있음)")
     if diagrams:
         dlen = sorted(len(d.page_content) for d in diagrams)
         print(f"  다이어그램 {len(diagrams)}개 — 최소 {dlen[0]} / 최대 {dlen[-1]}자 "

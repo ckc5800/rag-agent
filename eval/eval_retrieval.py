@@ -30,7 +30,8 @@ def random_baseline(cases: list[dict]) -> dict:
     gold를 질문당 여러 개 두면 우연히 맞을 확률이 올라간다. 기준선을
     같이 보지 않으면 recall 수치가 혼자서는 아무것도 증명하지 못한다.
     """
-    n_chunks = sum(1 for _ in open(config.CHUNKS_PATH, encoding="utf-8"))
+    with open(config.CHUNKS_PATH, encoding="utf-8") as f:
+        n_chunks = sum(1 for _ in f)
     out = {}
     for k in KS:
         total = 0.0

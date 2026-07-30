@@ -38,11 +38,11 @@ def main():
 
         per_query, t0 = {}, time.perf_counter()
         for q in QUERIES:
-            per_query[q] = top_ids(vs.search(store, q, config.TOP_K))
+            per_query[q] = top_ids(vs.search(store, q, config.TOP_K, kind=kind))
         search_sec = (time.perf_counter() - t0) / len(QUERIES)
 
         q, src = FILTER_CASE
-        filtered = vs.search(store, q, config.TOP_K, source=src)
+        filtered = vs.search(store, q, config.TOP_K, source=src, kind=kind)
         results[kind] = {
             "load_sec": load_sec, "search_sec": search_sec,
             "per_query": per_query, "filtered": filtered,
@@ -84,13 +84,13 @@ def main():
 
     config.VECTOR_STORE = "faiss"
     store = vs.load("faiss")
-    n_chunks = sum(1 for _ in open(config.CHUNKS_PATH, encoding="utf-8"))
+    lines = Path(config.CHUNKS_PATH).read_text(encoding="utf-8").splitlines()
+    n_chunks = len(lines)
     k = config.TOP_K
 
     # 조건이 좁을수록(해당 문서의 청크가 적을수록) 어려워진다
     for src in ("resume.md", "publications.md", "patents.md"):
-        owned = sum(1 for line in open(config.CHUNKS_PATH, encoding="utf-8")
-                    if f'"source": "{src}"' in line)
+        owned = sum(1 for line in lines if f'"source": "{src}"' in line)
         print(f'  source == {src}  (전체 {n_chunks}청크 중 {owned}개)')
         for mult in (1, 2, 5, 10):
             docs = store.similarity_search(q, k=min(k * mult, n_chunks))

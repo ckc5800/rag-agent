@@ -32,7 +32,13 @@ def is_pass(answer: str, case: dict) -> bool:
     patterns = case.get("answer_patterns")
     if patterns:
         return all(re.search(p, answer) for p in patterns)
-    return all(kw.lower() in answer.lower() for kw in case["expected_keywords"])
+    keywords = case.get("expected_keywords")
+    if not keywords:
+        # 채점 기준이 아예 없는 케이스를 조용히 통과시키면 정답률이 부풀려진다.
+        raise ValueError(
+            f"채점 기준이 없습니다 (answer_patterns/expected_keywords 둘 다 없음): "
+            f"{case.get('question', case)!r}")
+    return all(kw.lower() in answer.lower() for kw in keywords)
 
 
 def main():

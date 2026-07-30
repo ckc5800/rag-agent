@@ -40,8 +40,8 @@ PATTERNS = {
 
 
 def main() -> int:
-    rows = [json.loads(l) for l in
-            open(config.CHUNKS_PATH, encoding="utf-8")]
+    with open(config.CHUNKS_PATH, encoding="utf-8") as f:
+        rows = [json.loads(line) for line in f if line.strip()]
     md5s = [hashlib.md5(r["page_content"].encode("utf-8")).hexdigest()
             for r in rows]
     cases = json.loads(RETRIEVAL_SET.read_text(encoding="utf-8"))
