@@ -410,6 +410,58 @@ def test_case_without_any_criterion_raises():
         is_pass("아무 답변", {"question": "기준 없는 케이스"})
 
 
+# ── 거부가 정답인 케이스 (환각 측정) ──
+#
+# 예전 채점기는 거부를 **무조건 오답**으로 셌다. 그래서 "코퍼스에 답이 없는
+# 질문"을 평가셋에 넣는 것 자체가 불가능했고, 환각을 재는 지표가 없었다.
+
+def test_expect_refusal_passes_when_model_refuses():
+    case = {"question": "이윤선의 혈액형은?", "expect_refusal": True}
+    assert is_pass("문서에서 찾을 수 없습니다.", case)
+    assert is_pass("해당 정보가 없습니다.", case)
+
+
+def test_expect_refusal_fails_when_model_makes_something_up():
+    case = {"question": "이윤선의 혈액형은?", "expect_refusal": True}
+    assert not is_pass("이윤선의 혈액형은 A형입니다.", case)
+
+
+def test_expect_refusal_needs_no_answer_patterns():
+    """거부 케이스는 정답 패턴이 없어도 기준 누락 오류를 내지 않는다."""
+    assert is_pass("문서에서 찾을 수 없습니다.",
+                   {"question": "q", "expect_refusal": True})
+
+
+def test_normal_case_still_fails_on_refusal():
+    case = {"expected_keywords": ["2292"], "answer_patterns": ["2292"]}
+    assert not is_pass("문서에서 찾을 수 없습니다. 2292…", case)
+
+
+# ── 채점 패턴이 코퍼스와 매치되는가 ──
+#
+# 팝 노이즈 패턴이 'Residual Buffer'만 허용했는데 문서엔 '잉여 버퍼'도 있어서,
+# 근거에 충실한 정답이 오답으로 집계되고 있었다. 어떤 청크와도 매치되지 않는
+# 패턴은 그 케이스가 **영원히 실패**한다는 뜻이라 명백한 버그다.
+
+def test_every_answer_pattern_matches_the_corpus():
+    import json
+    import re
+
+    chunks = [json.loads(line) for line
+              in (ROOT / "data" / "chunks.jsonl").read_text(
+                  encoding="utf-8").splitlines() if line.strip()]
+    corpus = "\n".join(c["page_content"] for c in chunks)
+
+    cases = json.loads((ROOT / "eval" / "eval_set.json").read_text(
+        encoding="utf-8"))
+    for case in cases:
+        if case.get("expect_refusal"):
+            continue          # 거부 케이스는 코퍼스에 답이 없어야 정상
+        for p in case.get("answer_patterns", []):
+            assert re.search(p, corpus), \
+                f"패턴 {p!r}이 코퍼스에 없다 — {case['question']}는 영원히 실패한다"
+
+
 # ── grade 판정 파싱 (3값) ──
 #
 # 예전 파서는 yes/no 두 값이라 **파싱 실패가 sufficient에 흡수**됐다.

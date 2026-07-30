@@ -26,8 +26,17 @@ REFUSAL = re.compile(r"찾을 수 없|알 수 없|정보가 없")
 
 
 def is_pass(answer: str, case: dict) -> bool:
-    """정답 패턴 전부 일치 + 거부 답변 아님."""
-    if REFUSAL.search(answer):
+    """정답 패턴 전부 일치 + 거부 답변 아님.
+
+    `expect_refusal: true`인 케이스는 채점이 뒤집힌다 — **거부가 정답**이다.
+    코퍼스에 답이 없는 질문("혈액형이 뭐야?")에 모델이 그럴듯한 답을 지어내면
+    실패로 세야 하는데, 지금까지는 거부를 무조건 오답 처리해서 그 유형을
+    평가셋에 넣는 것 자체가 불가능했다. 환각을 재는 지표가 없었던 셈이다.
+    """
+    refused = bool(REFUSAL.search(answer))
+    if case.get("expect_refusal"):
+        return refused          # 거부해야 하는데 답을 지어냈으면 실패
+    if refused:
         return False
     patterns = case.get("answer_patterns")
     if patterns:

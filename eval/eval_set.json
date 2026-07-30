@@ -7,7 +7,8 @@
   {
     "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
     "expected_keywords": ["Residual Buffer"],
-    "answer_patterns": ["[Rr]esidual\\s*[Bb]uffer"]
+    "_note": "문서가 'Residual Buffer'(4회)와 '잉여 버퍼'(1회)를 함께 쓴다. 모델이 후자로 답한 것을 오답 처리하고 있었다 — 근거에 충실한 답이므로 둘 다 인정한다.",
+    "answer_patterns": ["[Rr]esidual\\s*[Bb]uffer|잉여\\s*버퍼"]
   },
   {
     "question": "이윤선의 제1저자 논문은 몇 편인가요?",
@@ -42,7 +43,8 @@
   {
     "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
     "expected_keywords": ["password_changed_at"],
-    "answer_patterns": ["password_changed_at"]
+    "_note": "문서가 'password_changed_at'(3회)와 'pwd_changed_at'(1회)를 함께 쓴다. 모델이 후자로 답한 것을 오답 처리하고 있었다.",
+    "answer_patterns": ["password_changed_at|pwd_changed_at"]
   },
   {
     "question": "이윤선이 근무한 회사들을 알려주세요.",
