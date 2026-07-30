@@ -27,10 +27,19 @@ CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 TOP_K = 6
 
-# generate·grade가 실제로 보는 상위 N개. 진단(eval/diagnose.py)에서 검색
-# 실패 6건이 **전부 rank 4~6**이었다 — recall@6는 95%인데 generate는 3개만
-# 본다. 이 컷오프가 병목인지 재려고 환경변수로 뺐다(eval/ab_top_n.py).
-GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '3'))
+# generate·grade가 실제로 보는 상위 N개.
+#
+# 오래 3이었다(소형 모델의 lost-in-the-middle 대응). 진단에서 검색 기인
+# 실패 6건의 gold rank가 전부 4~6으로 나왔다 — recall@6는 95%인데 generate가
+# 3개만 봐서 근거를 못 받고 있었다. 3/4/5/6을 51문항×2회로 재본 결과:
+#
+#     top-3  68%   top-4  70%   top-5  75%   top-6  75%
+#
+# 5와 6이 같지만 6에서 부작용이 나타난다 — 거부 20/20 → 19/20(환각 발생),
+# temporal 7/8 → 6/8. generate가 랭크 역순으로 배치해 rank 6 근거가 긴
+# 컨텍스트의 맨 앞(모델이 가장 못 보는 자리)에 놓이기 때문이다. 그래서 5.
+# 편차가 ±6%p라 5 vs 6은 사실상 동률이고, 3보다 낫다는 것이 결론이다.
+GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '5'))
 
 # 이보다 짧은 청크는 인덱싱하지 않는다. 마크다운 구분선('---')이나 제목 줄만
 # 남은 조각이 인덱스 자리를 차지하는 것을 막는다 (검수로 발견 — inspect_data.py).

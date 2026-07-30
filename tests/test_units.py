@@ -136,11 +136,14 @@ def test_context_docs_caps_at_generate_top_n():
 
 
 def test_context_docs_keeps_top_ranked_first():
+    import config
     from graph import context_docs
 
-    docs = ["rank1", "rank2", "rank3", "rank4", "rank5", "rank6"]
+    docs = [f"rank{i}" for i in range(1, 7)]
+    n = config.GENERATE_TOP_N
+    # 상수값이 아니라 계약을 고정한다 — N은 실측으로 바뀔 수 있다(3 → 5).
     # grade는 이 순서 그대로 판정(순위 유지). generate만 별도로 뒤집는다.
-    assert context_docs(docs) == ["rank1", "rank2", "rank3"]
+    assert context_docs(docs) == [f"rank{i}" for i in range(1, n + 1)]
 
 
 def test_context_docs_shorter_than_top_n_passes_through():
@@ -257,12 +260,17 @@ def test_sources_come_only_from_the_docs_in_the_prompt(monkeypatch):
     monkeypatch.setattr(graph, "get_llm",
                         lambda *a, **k: RunnableLambda(fake_llm))
 
+    import config
+
+    n = config.GENERATE_TOP_N
     docs = [Document(page_content=f"본문{i}", metadata={"source": f"{i}.md"})
-            for i in range(6)]
+            for i in range(n + 2)]                 # 항상 N보다 2개 많게
     out = graph.generate({"question": "질문", "documents": docs})
 
-    assert out["sources"] == ["0.md", "1.md", "2.md"]      # 4~6위는 빠진다
-    assert "본문3" not in seen["context"]                   # 프롬프트에도 없다
+    # 계약: 출처도 프롬프트도 상위 N개까지만. N 값 자체는 실측으로 바뀐다.
+    assert out["sources"] == sorted(f"{i}.md" for i in range(n))
+    assert f"본문{n}" not in seen["context"]        # N+1번째는 들어가지 않는다
+    assert out["contexts"] == [f"본문{i}" for i in range(n)]
 
 
 # ── 인덱스 지연 초기화 레이스 회귀 테스트 ──
