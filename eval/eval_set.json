@@ -10,7 +10,10 @@
       "2292",
       "334"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "2292"
+    ]
   },
   {
     "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
@@ -21,7 +24,10 @@
     "answer_patterns": [
       "[Rr]esidual\\s*[Bb]uffer|잉여\\s*버퍼"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "Residual Buffer"
+    ]
   },
   {
     "question": "이윤선의 제1저자 논문은 몇 편인가요?",
@@ -31,7 +37,10 @@
     "answer_patterns": [
       "7\\s*편"
     ],
-    "type": "aggregation"
+    "type": "aggregation",
+    "gold_anchors": [
+      "논문 7편"
+    ]
   },
   {
     "question": "등록된 특허 번호를 알려주세요.",
@@ -43,7 +52,11 @@
       "2538225",
       "2538231"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "1025382250000",
+      "10-2538225-0000"
+    ]
   },
   {
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
@@ -55,7 +68,11 @@
       "Jenkins",
       "ArgoCD"
     ],
-    "type": "enumeration"
+    "type": "enumeration",
+    "gold_anchors": [
+      "Jenkins, ArgoCD",
+      "GitLab → Jenkins → ArgoCD"
+    ]
   },
   {
     "question": "우수 논문상을 받은 논문 제목은?",
@@ -65,7 +82,10 @@
     "answer_patterns": [
       "[Ll]atent\\s*[Dd]iffusion"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "국방 데이터 확보를 위한"
+    ]
   },
   {
     "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
@@ -75,7 +95,10 @@
     "answer_patterns": [
       "24\\s*개|24\\s*채널|24로|24\\s*[Cc]hannel"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "12 → 24"
+    ]
   },
   {
     "question": "화자 분할에는 어떤 모델을 사용했나요?",
@@ -85,7 +108,10 @@
     "answer_patterns": [
       "[Pp]yannote"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "Pyannote"
+    ]
   },
   {
     "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
@@ -96,7 +122,10 @@
     "answer_patterns": [
       "password_changed_at|pwd_changed_at"
     ],
-    "type": "fact"
+    "type": "fact",
+    "gold_anchors": [
+      "password_changed_at"
+    ]
   },
   {
     "question": "이윤선이 근무한 회사들을 알려주세요.",
@@ -108,7 +137,10 @@
       "AICESS|에이아이세스",
       "인피닉"
     ],
-    "type": "enumeration"
+    "type": "enumeration",
+    "gold_anchors": [
+      "Experience Overview"
+    ]
   },
   {
     "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",

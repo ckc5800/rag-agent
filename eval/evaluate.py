@@ -96,6 +96,7 @@ def main():
             "rewrites": out["rewrites"],
             "latency_sec": round(elapsed, 1),
             "sources": out["sources"],
+            "contexts": out.get("contexts", []),
         })
         # 중간 결과를 매 케이스마다 저장 (타임아웃 나도 부분 결과 보존)
         RESULTS.write_text(

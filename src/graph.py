@@ -29,6 +29,7 @@ class AgentState(TypedDict):
     rewrite_failed: bool   # 재작성이 쓸 만한 질의를 못 만들었는가
     answer: str
     sources: list[str]
+    contexts: list[str]     # 실제로 프롬프트에 들어간 청크 본문 (평가·심판용)
 
 
 _vectorstore = None
@@ -36,18 +37,42 @@ _bm25 = None
 _index_lock = threading.Lock()
 
 
-def bm25_tokenize(text: str) -> list[str]:
-    """공백 분리 + 한글 어절엔 문자 bigram 추가.
+# 어절을 문자 종류별 런(run)으로 쪼갠다. ASCII 런은 내부의 . - _ 를 품어
+# '0.68', 'password_changed_at', '10-2538225-0000', '24kHz'를 통째로 살린다.
+_ASCII_RUN = r"[0-9A-Za-z]+(?:[._-][0-9A-Za-z]+)*"
+_HANGUL_RUN = r"[가-힣]+"
+_RUNS = re.compile(f"{_ASCII_RUN}|{_HANGUL_RUN}")
+_SPLITTABLE = re.compile(r"[._-]")
 
-    BM25의 공백 토큰화는 '회사들'과 '회사'를 다른 토큰으로 취급해
-    조사가 붙은 한국어 질의에 약하다. 어절을 유지한 채 문자 bigram을
-    함께 넣으면 '회사들' ↔ '회사'가 bigram(회사)으로 겹친다.
+
+def bm25_tokenize(text: str) -> list[str]:
+    """문자 종류별로 쪼갠 뒤, 한글 런에만 문자 bigram을 추가한다.
+
+    BM25의 공백 토큰화는 '회사들'과 '회사'를 다른 토큰으로 취급해 조사가
+    붙은 한국어 질의에 약하다. 한글에 문자 bigram을 함께 넣으면
+    '회사들' ↔ '회사'가 bigram(회사)으로 겹친다.
+
+    문제는 **영문·숫자에 구두점이나 조사가 붙는 경우**였다. 공백으로만
+    자르면 이렇게 된다:
+
+        질의 'Throughput은'  → ['throughput은', 'th','hr','ro',…]
+        문서 'Throughput:'   → ['throughput:']
+
+    깨끗한 'throughput'이 양쪽 어디에도 안 생겨 **겹치는 토큰이 0개**다.
+    게다가 어절에 한글이 하나라도 있으면 ASCII 구간까지 bigram으로 쪼개져
+    순수 노이즈('th','hr',…)가 된다. 이 코퍼스의 질문은 대부분
+    "gRPC로", "Throughput은", "자격증을" 처럼 섞여 있어서 BM25가 사실상
+    죽어 있었다(진단: eval/diagnose.py). 런 단위로 쪼개 해결한다.
     """
-    grams = []
-    for t in text.lower().split():
-        grams.append(t)
-        if len(t) >= 2 and any("가" <= ch <= "힣" for ch in t):
-            grams += [t[i:i + 2] for i in range(len(t) - 1)]
+    grams: list[str] = []
+    for run in _RUNS.findall(text.lower()):
+        grams.append(run)
+        if "가" <= run[0] <= "힣":
+            if len(run) >= 2:                      # 한글만 bigram
+                grams += [run[i:i + 2] for i in range(len(run) - 1)]
+        elif _SPLITTABLE.search(run):
+            # 'password_changed_at' → 부분 토큰도 함께 (통째 토큰은 유지)
+            grams += [p for p in _SPLITTABLE.split(run) if p]
     return grams
 
 
@@ -147,12 +172,15 @@ def retrieve(state: AgentState) -> dict:
 # generate가 실제로 받는 청크 수. grade와 generate가 이 상수를 공유해야
 # "grade는 통과시켰는데 generate는 그 근거를 못 받는" 불일치가 생기지 않는다
 # ("근무한 회사들" 질문이 실제로 그 상태였다 — README v6 기록).
-GENERATE_TOP_N = 3
+GENERATE_TOP_N = config.GENERATE_TOP_N        # 하위호환 (테스트가 참조)
 
 
 def context_docs(documents: list[Document]) -> list[Document]:
-    """grade·generate가 공통으로 봐야 할 상위 N개."""
-    return documents[:GENERATE_TOP_N]
+    """grade·generate가 공통으로 봐야 할 상위 N개.
+
+    호출 시점에 config를 읽는다 — A/B 스크립트가 런타임에 바꿀 수 있어야 한다.
+    """
+    return documents[:config.GENERATE_TOP_N]
 
 
 def context_text(docs: list[Document]) -> str:
@@ -314,7 +342,10 @@ def generate(state: AgentState) -> dict:
     # TOP_K(6개) 전부에서 뽑아, 답변 생성에 쓰이지도 않은 문서가 근거로
     # 표시됐다 — 개수는 context_docs로 맞춰 놓고 인용은 안 맞춘 상태였다.
     sources = sorted({d.metadata.get("source", "?") for d in used})
-    return {"answer": answer, "sources": sources}
+    # 근거 텍스트를 그대로 남긴다 — 사후에 재현하려면 재작성된 질의까지
+    # 알아야 해서(temperature 0.3이라 재현 불가) 여기서 저장해야 한다.
+    return {"answer": answer, "sources": sources,
+            "contexts": [d.page_content for d in used]}
 
 
 # ── Graph ──────────────────────────────────────────────

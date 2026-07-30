@@ -27,6 +27,11 @@ CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100
 TOP_K = 6
 
+# generate·grade가 실제로 보는 상위 N개. 진단(eval/diagnose.py)에서 검색
+# 실패 6건이 **전부 rank 4~6**이었다 — recall@6는 95%인데 generate는 3개만
+# 본다. 이 컷오프가 병목인지 재려고 환경변수로 뺐다(eval/ab_top_n.py).
+GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '3'))
+
 # 이보다 짧은 청크는 인덱싱하지 않는다. 마크다운 구분선('---')이나 제목 줄만
 # 남은 조각이 인덱스 자리를 차지하는 것을 막는다 (검수로 발견 — inspect_data.py).
 MIN_CHUNK_CHARS = 30
