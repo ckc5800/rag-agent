@@ -32,3 +32,9 @@ jobs:
         run: python eval/audit_patterns.py --strict
         env:
           PYTHONUTF8: "1"
+      # README와 코드가 어긋나는 것을 여러 번 겪었다(top-3 vs top-5, 10문항 vs
+      # 51문항, 트리에 빠진 스크립트). 눈으로 잡히는 종류가 아니라 기계로 건다.
+      - name: 문서-코드 일치 확인
+        run: python eval/audit_docs.py
+        env:
+          PYTHONUTF8: "1"

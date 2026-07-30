@@ -231,7 +231,27 @@ def context_docs(documents: list[Document]) -> list[Document]:
     이웃 확장(NEIGHBOR_WINDOW)도 여기서 적용해 grade와 generate가 끝까지
     **같은 텍스트**를 보게 한다.
     """
-    return expand_with_neighbors(documents[:config.GENERATE_TOP_N])
+    docs = documents
+    if config.EXCLUDE_DIAGRAMS:
+        docs = [d for d in docs if d.metadata.get("kind") != "diagram"]
+    return expand_with_neighbors(docs[:config.GENERATE_TOP_N])
+
+
+def order_for_prompt(docs: list[Document]) -> list[Document]:
+    """generate 프롬프트에 넣을 순서. grade는 순위 그대로 본다.
+
+    기존은 무조건 역순이었다 — "소형 모델은 끝부분 주의가 강하니 1위를 질문
+    바로 앞에" 라는 직관인데 잰 적이 없었다. 오늘 세 실험(top-6, TOP_K=15,
+    이웃 확장)이 전부 위치 문제로 귀결됐으므로 이 규칙 자체를 잰다.
+    """
+    order = config.CONTEXT_ORDER
+    if order == "ranked":
+        return list(docs)
+    if order == "sandwich" and len(docs) >= 3:
+        # 1위를 양 끝에 둔다 — 가운데가 약하다는 가정을 시험
+        top, rest = docs[0], list(docs[1:])
+        return [top] + list(reversed(rest)) + [top]
+    return list(reversed(docs))
 
 
 def expand_with_neighbors(docs: list[Document]) -> list[Document]:
@@ -427,15 +447,49 @@ def rewrite(state: AgentState) -> dict:
             "rewrite_failed": False}
 
 
-GENERATE_PROMPT = ChatPromptTemplate.from_template(
+_BASE_RULES = (
     "당신은 AI 엔지니어 이윤선의 포트폴리오를 안내하는 어시스턴트입니다.\n"
     "아래 문서를 주의 깊게 읽고, 관련 내용이 있으면 그것을 근거로 한국어로 답하세요.\n"
     "참고: 항목 옆 (YYYY.MM ~ YYYY.MM) 또는 (YYYY.MM~) 표기는 그 항목의 "
     "수행 기간이며 왼쪽 날짜가 시작 시점입니다.\n"
     "관련 정보가 정말로 전혀 없을 때만 '문서에서 찾을 수 없습니다'라고 답하고, "
-    "문서에 없는 내용을 지어내지 마세요.\n\n"
-    "문서:\n{context}\n\n질문: {question}\n\n답변:"
+    "문서에 없는 내용을 지어내지 마세요.\n"
 )
+
+# 실측된 두 실패 유형을 겨냥한 추가 지시.
+#
+#  열거: 정답 청크가 "Kubernetes, Docker, Helm, GitLab CI/CD, Jenkins,
+#        ArgoCD, Prometheus/..." 처럼 7개 목록인데, 모델이 CI/CD처럼 보이는
+#        **첫 항목(GitLab CI/CD)만 집고 멈춘다.** 여러 실행에서 같은 방식으로
+#        틀렸다.
+#  집계: 코퍼스에 "논문 7편(제1저자)"이 1회, "논문 2편 게재(제1저자)"가 2회
+#        나온다(후자는 개별 연구의 편수다). 모델이 다수인 쪽을 집어 "2편"이라
+#        답한다. 질문이 묻는 범위를 먼저 확인하게 만드는 것이 목표다.
+#
+# 프롬프트를 늘리는 건 위험하다 — 이 프로젝트는 시스템 프롬프트를 늘렸다가
+# 3B의 tool calling이 죽는 것을 이미 겪었다. 그래서 켜고 끌 수 있게 두고 잰다.
+_TARGETED_RULES = (
+    "여러 항목을 묻는 질문(어떤 도구들, 무엇무엇)이면 문서에서 해당하는 항목을 "
+    "빠짐없이 나열하세요. 목록의 첫 항목만 답하지 마세요.\n"
+    "같은 대상에 대한 숫자가 문서에 여러 개 보이면, 질문이 묻는 범위(전체 합계인지 "
+    "개별 프로젝트인지)를 먼저 확인하고 그 범위에 맞는 숫자를 쓰세요.\n"
+)
+
+_TAIL = "\n문서:\n{context}\n\n질문: {question}\n\n답변:"
+
+_PROMPTS = {
+    "base": ChatPromptTemplate.from_template(_BASE_RULES + _TAIL),
+    "targeted": ChatPromptTemplate.from_template(
+        _BASE_RULES + _TARGETED_RULES + _TAIL),
+}
+
+
+def generate_prompt() -> ChatPromptTemplate:
+    """config.GENERATE_PROMPT_VARIANT 에 따라 프롬프트를 고른다."""
+    return _PROMPTS[config.GENERATE_PROMPT_VARIANT]
+
+
+GENERATE_PROMPT = _PROMPTS["base"]        # 하위호환 (기존 참조)
 
 
 def generate(state: AgentState) -> dict:
@@ -443,8 +497,8 @@ def generate(state: AgentState) -> dict:
     # (N은 grade와 공유 — context_docs), 끝부분 주의집중이 강한 특성에 맞춰
     # 랭크 역순으로 배치해 최상위 청크가 질문 바로 앞에 오게 한다
     used = context_docs(state["documents"])
-    context = context_text(list(reversed(used)))
-    chain = GENERATE_PROMPT | get_llm()
+    context = context_text(order_for_prompt(used))
+    chain = generate_prompt() | get_llm()
     answer = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip()

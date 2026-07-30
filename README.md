@@ -14,7 +14,9 @@ Ollama + FAISS 조합이라 전부 로컬에서 돌고 외부 API가 필요 없�
 
 ```
 src/
-├── config.py     모델, 청킹, 검색 파라미터
+├── config.py     모델, 청킹, 검색 파라미터 (측정 근거를 주석으로 남김)
+├── preflight.py  기동 전 점검 — 인덱스·Ollama·모델 보유 확인
+├── runmeta.py    실행 환경 지문 (결과 파일에 붙여 비교 가능성 확보)
 ├── inspect_data.py  인덱싱 전 데이터 검수 (길이 분포 + 잔여 노이즈 스캔)
 ├── vectorstore.py   벡터 저장소 교체 레이어 (FAISS / Qdrant)
 ├── ingest.py     문서 → 정제 → 청킹 → 임베딩 → 벡터 저장소 + 청크 저장(BM25용)
@@ -31,10 +33,13 @@ eval/
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
 ├── eval_grade.py      grade 판정기 단독 평가 (gold에서 라벨 유도 + 상수 기준선)
+├── evaluate_team.py   멀티홉: 단일 RAG vs 팀 비교
 ├── diagnose.py        실패 원인 분해 — 검색/청킹/생성 층 분리 (LLM 불필요)
+├── sweep_top_k.py     TOP_K 스윕 (검색 후보 수, LLM 불필요)
 ├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1)
 ├── ab_top_n.py        generate 컨텍스트 개수 스윕 (top-3/4/5/6)
 ├── audit_patterns.py  채점 패턴 감사 (정답을 오답으로 집계하는지 검사)
+├── audit_docs.py      README-코드 일치 확인 (CI에서 실행)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
 ├── compare_stores.py  FAISS vs Qdrant — 결과 일치 확인 + 필터 비교
 ├── sweep_chunk_size.py 청크 크기 300~1600 스윕 (앵커 기반 gold, 기준선 포함)
@@ -158,8 +163,11 @@ python src/mcp_agent.py "질문"  # MCP 도구를 쓰는 agent (portfolio-mcp �
 python eval/evaluate.py         # 단일 RAG 평가 (LLM 필요)
 python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 수 초)
 python eval/eval_grade.py       # grade 판정기 단독 평가 (정확도·오탐·파싱실패)
+python src/preflight.py         # 인덱스·Ollama·모델 사전 점검
 python eval/diagnose.py         # 실패 원인 분해: 검색/청킹/생성 (LLM 불필요)
+python eval/sweep_top_k.py      # TOP_K 스윕 (LLM 불필요)
 python eval/audit_patterns.py --strict   # 채점 패턴 감사 (CI에서도 실행)
+python eval/audit_docs.py       # README-코드 일치 확인 (CI에서도 실행)
 python eval/ab_rewrite.py       # corrective 루프가 값을 하는지 A/B (수십 분)
 python eval/ab_top_n.py --values 3 4 5 6 # generate 컨텍스트 개수 스윕
 python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
@@ -742,7 +750,62 @@ RAGAS 자체의 문제가 아니라 심판을 도입할 조건이 아니다. fai
 > comparison·aggregation 유형에 한해 도입한다. 외부 API 심판은 "전부 로컬"
 > 전제 및 이력서 데이터의 제3자 전송 문제로 배제한다.
 
-### 8. 채점 기준 변경 이력
+### 8. 구조 점검에서 고친 것
+
+전체 구조를 다시 보고 위험도 높은 셋을 고쳤다.
+
+- **인덱스와 `chunks.jsonl`에 결속이 없었다.** 벡터 검색은 인덱스를, BM25는
+  `chunks.jsonl`을 각각 읽는데 같은 인제스트 산출물이라는 보장이 없었다.
+  어긋나면 서로 다른 청킹 두 개를 RRF로 섞게 되고 **증상이 없다**.
+  `sweep_chunk_size.py`가 두 파일을 매 스텝 덮어쓰므로 중단하면 실제로 이
+  상태가 된다. 인제스트가 `data/index_manifest.json`에 청크 지문을 남기고
+  로드 시 대조해 즉시 실패시킨다.
+- **사전 점검이 없었다.** `src/` 전체에 `except`가 2개뿐이라 Ollama 미기동·
+  인덱스 없음·모델 미보유가 전부 스택트레이스로 나왔다. `preflight.py`가
+  표준 라이브러리만으로 셋을 확인하고, `/ask`는 추론 실패를 503으로
+  변환한다. 요청 길이 상한(2000자)도 추가했다.
+- **결과 파일에 환경 지문이 없었다.** 위의 "90% vs 74%"가 비교 불가였던
+  구조적 원인이다. `runmeta.py`가 모델·Ollama 버전·인덱스 해시·파라미터·
+  하드웨어를 `results.json`에 함께 저장한다.
+
+또한 청크에 위치 메타데이터(`chunk_index`, `doc_index`, `doc_total`)를
+붙였다. 섹션 헤딩 기반 부모(parent-child)는 이 코퍼스에서 불가능하다 —
+`resume.md`·`publications.md`·`patents.md`에 마크다운 헤딩이 각 1개(제목)
+뿐이고, 가장 자주 검색되는 문서가 평문이다. `page_content`를 바꾸지 않으므로
+gold 라벨 무효화는 0건이다.
+
+### 9. 시도했으나 채택하지 않은 것들
+
+`GENERATE_TOP_N` 외의 레버는 전부 정답률로 이어지지 않았다. 기록해 둔다.
+
+| 시도 | 검색 지표 | 정답률 | 판정 |
+|---|---|---|---|
+| `TOP_K` 6 → 15 | recall@5 90% → 95% | 76% → 74% | 미채택 |
+| BM25 토크나이저 수정 | recall@3 68% → 71% | 변화 없음 | 코드는 유지(실재한 버그) |
+| 이웃 확장 (`N=3 W=1`) | — | 80% / 75% (재현 실패) | 기본 꺼둠 |
+| 컨텍스트 배치 순서 | — | 역순 74% / 정순 74% / 샌드위치 78% | 기본 유지 |
+| 다이어그램 제외 | 컨텍스트 −41% | 74% → 74% | 기본 유지 |
+
+**세 번 반복된 패턴이 있다 — 검색 지표는 오르는데 정답률이 안 따라온다.**
+원인은 같다. `generate`가 랭크 역순으로 배치하므로 새로 들어온 하위 랭크
+근거는 프롬프트 맨 앞, 소형 모델의 주의가 가장 약한 자리에 놓인다.
+**근거를 컨텍스트에 넣는 것과 모델이 그것을 쓰는 것은 다른 문제다.**
+
+두 번 관측된 것이 하나 더 있다. 컨텍스트를 키우면 **환각 저항이 먼저
+무너진다** — top-6에서 거부 20/20 → 19/20, `N=5 W=1`(컨텍스트 2배)에서
+17/20, 샌드위치에서 19/20. 각각 단일 실행이라 확정은 아니나 방향이 같다.
+
+유형별로는 방향이 갈린다. 집계는 문맥이 이어져야 세므로 이웃 확장에서 두 번
+모두 개선(6/12 → 10/12, 9/12)됐고, 열거는 항목이 여러 청크에 흩어져 있어
+개수가 필요하다(샌드위치 7/16 → 12/16). **하나의 설정으로 둘을 동시에
+만족시키지 못한다** — 질문 유형별 라우팅이 다음 후보다.
+
+실험용 손잡이는 전부 환경변수로 남겨 뒀다(`TOP_K`, `GENERATE_TOP_N`,
+`NEIGHBOR_WINDOW`, `CONTEXT_ORDER`, `EXCLUDE_DIAGRAMS`,
+`GENERATE_PROMPT_VARIANT`, `MAX_REWRITES`, `LLM_MODEL`). 기본값의 근거는
+`config.py` 주석에 측정치와 함께 적어 두었다.
+
+### 10. 채점 기준 변경 이력
 
 v5(패턴 채점)에 이어 두 번째 변경이다(동의 표기 인정, `expect_refusal` 추가,
 거부 정규식 확장). **위 v1~v7 표와 직접 비교할 수 없다.**
@@ -758,6 +821,11 @@ v5(패턴 채점)에 이어 두 번째 변경이다(동의 표기 인정, `expec
   영역이므로 검색 개선으로는 해결되지 않는다.
 - BM25의 조사 문제는 런 단위 토큰화로 완화했으나 형태소 분석기 대비 정밀도는
   여전히 낮다.
+- 실패 16건 중 10건은 gold가 이미 top-3에 있었다(5건은 rank 1). 검색·청킹을
+  완벽하게 만들어도 그대로 틀린다. 남은 병목은 받은 근거를 쓰는 능력이다.
+- 청크 크기 스윕은 아직 10문항 기준이다. 41문항 앵커로 다시 재야 한다 —
+  10문항이 이미 두 번 잘못된 결론을 만들었다.
+- 임베딩은 bge-m3 하나만 써봤다. 비교 대상이 없다.
 - 개발 PC(i7-4790 + RTX 2070)에서 Ollama의 GPU 백엔드(ggml-cuda)가 초기화 중
   크래시(0xC0000005)가 나서 CPU로 추론 중이다. DLL 로드와 드라이버는 정상이고
   백엔드 초기화 단계에서 죽는 것까지 재현해서 확인했다.
