@@ -349,7 +349,7 @@
     "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
     "type": "aggregation",
     "answer_patterns": [
-      "9\\s*(개|건|편)|아홉"
+      "9\\s*개|아홉"
     ],
     "gold_anchors": [
       "논문 7편(제1저자), 특허 2건"

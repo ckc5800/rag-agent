@@ -114,3 +114,66 @@ MIN_CHUNK_CHARS = 30
 # 0으로 두면 grade·rewrite 노드가 통째로 빠져 순수 RAG가 된다 —
 # corrective 루프가 실제로 값을 하는지 재는 A/B에 쓴다(eval/ab_rewrite.py).
 MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))
+
+# 질문 유형별로 NEIGHBOR_WINDOW·CONTEXT_ORDER를 다르게 적용할지(src/route.py).
+# NEIGHBOR_WINDOW·CONTEXT_ORDER 실험 둘 다 "어떤 유형엔 좋고 어떤 유형엔
+# 나쁘다"로 끝나 전역 기본값을 못 바꿨다 — 유형별로 다르게 주면 상충을 풀 수
+# 있는지가 가설이다. 아직 A/B 전이라 기본은 꺼둔다(eval/ab_type_routing.py).
+TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "0") == "1"
+
+# RRF 순위를 LLM으로 재정렬할지(graph.rerank). diagnose.py가 지목한 병목
+# (검색은 top-3에 근거를 올렸는데 생성이 놓치는 10건)을 겨냥한 시도다.
+# LLM 호출이 질의당 1회 늘어(retrieve 직후) 지연이 커진다 — 아직 A/B 전이라
+# 기본은 꺼둔다.
+RERANK = os.environ.get("RERANK", "0") == "1"
+
+# generate 직후 답변이 근거 문서에 실제로 기반하는지 사후 확인할지
+# (graph.verify). GENERATE_PROMPT가 "지어내지 마세요"라고 지시하지만 그
+# 지시를 따랐는지 확인하는 단계가 없었다. 지금은 State에 기록만 하고
+# 라우팅은 안 바꾼다(fail-open) — LLM 호출이 하나 더 늘어 지연이 커지고,
+# 아직 A/B 전이라 기본은 꺼둔다.
+VERIFY_GROUNDING = os.environ.get("VERIFY_GROUNDING", "0") == "1"
+
+# ── Parent-Child 청킹 (실험) ──────────────────────────────
+#
+# 기본 청킹(위 CHUNK_SIZE)은 검색과 생성이 같은 크기의 청크를 공유한다.
+# 정확한 검색에 맞는 크기(작음)와 완결된 답변에 맞는 크기(큼)는 원래 다른데,
+# 하나의 크기로 타협한 것이다. Parent-Child는 이 타협을 없앤다 — child(작음)
+# 로 검색하고 그 child가 속한 parent(큼)를 생성에 준다. 검색은 정밀하게,
+# 답변은 맥락을 잃지 않게.
+# PARENT_SIZE는 원래 2000이었다가 800으로 줄였다. 2000자에서 "이윤선의
+# 제1저자 논문은 몇 편?" 질문이 7B로도, 프롬프트를 고쳐도 안 풀렸다 —
+# 정답 문장("학술 성과 총계: 논문 7편")이 parent 안에서는 여전히 앞쪽에 있고,
+# 뒤로 TTFB·채널 수치 등 무관한 숫자가 1300자 넘게 딸려오며 희석됐다.
+# base(단일 청크, 800자 상한)의 같은 문장은 그 상한 덕에 무관한 숫자
+# 섹션에 닿기 전에 청크가 끊겨 우연히 희석을 피했다. 그래서 parent도
+# 800으로 맞춰 같은 보호를 받게 했다 — child(300)보다는 크게 유지해
+# parent-child의 취지(검색은 정밀하게, 생성은 맥락 있게)는 살린다.
+PARENT_SIZE = 800
+PARENT_OVERLAP = 100
+CHILD_SIZE = 300
+CHILD_OVERLAP = 30
+PARENT_STORE_PATH = str(BASE_DIR / "data" / "parents.jsonl")
+PARENT_DB_DIR = str(BASE_DIR / "data" / "parent_faiss_index")
+PARENT_CHUNKS_PATH = BASE_DIR / "data" / "parent_child_chunks.jsonl"
+
+# ── 시맨틱 청킹 (실험) ─────────────────────────────────────
+#
+# 고정 글자 수 대신 문장 임베딩의 유사도가 급격히 떨어지는 지점(주제 전환)
+# 에서 자른다. 800자 상한은 여전히 안전판으로 강제한다(무한정 안 잘리는
+# 구간 방지) — src/semantic_chunk.py 참고.
+SEMANTIC_PERCENTILE = 95.0       # 이 percentile을 넘는 인접-문장 거리만 breakpoint
+SEMANTIC_MAX_CHARS = 800         # 안전판 상한 (기본 CHUNK_SIZE와 동일하게 맞춤)
+SEMANTIC_MIN_CHARS = 30
+SEMANTIC_DB_DIR = str(BASE_DIR / "data" / "semantic_faiss_index")
+SEMANTIC_CHUNKS_PATH = BASE_DIR / "data" / "semantic_chunks.jsonl"
+
+# ── 임베딩 모델 비교 (실험, 미실행) ──────────────────────────
+#
+# README 한계에 "임베딩은 bge-m3 하나만 써봤다. 비교 대상이 없다"고
+# 정직하게 적어 뒀던 것을 겨냥한다. nomic-embed-text는 다국어 지원을
+# 내세우는 가벼운 모델(~137M)이라 비교 대상으로 골랐다 — bge-m3(다국어,
+# 한국어 강세)와 정반대 크기대의 선택.
+ALT_EMBED_MODEL = "nomic-embed-text"
+ALT_EMBED_DB_DIR = str(BASE_DIR / "data" / "alt_embed_faiss_index")
+ALT_EMBED_CHUNKS_PATH = BASE_DIR / "data" / "alt_embed_chunks.jsonl"

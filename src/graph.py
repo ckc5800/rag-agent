@@ -10,12 +10,14 @@ State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으
 import hashlib
 import re
 import threading
+from contextlib import contextmanager
 from typing import TypedDict
 
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 from langgraph.graph import END, START, StateGraph
+from pydantic import BaseModel, Field
 
 import config
 
@@ -30,6 +32,8 @@ class AgentState(TypedDict):
     answer: str
     sources: list[str]
     contexts: list[str]     # 실제로 프롬프트에 들어간 청크 본문 (평가·심판용)
+    grounded: bool | None          # verify 노드 결과 (VERIFY_GROUNDING 꺼지면 None)
+    unsupported_claim: str | None  # grounded=False일 때 근거 없는 주장 요약
 
 
 _vectorstore = None
@@ -212,10 +216,65 @@ def get_llm(temperature: float = 0.0) -> ChatOllama:
     return _llm_cache[key]
 
 
+class RerankOrder(BaseModel):
+    """RRF 순위를 LLM이 다시 매긴다 — listwise, 한 번의 호출로.
+
+    diagnose.py가 지목한 병목(검색O·정답X 10건)에 대한 시도다. RRF는
+    등수만 합치는 결정적 융합이라 의미상 진짜 관련도는 못 본다. 문서마다
+    따로 점수를 매기는 pointwise 리랭킹은 TOP_K개만큼 LLM을 더 불러야
+    해서 이미 느린 CPU 추론에 안 맞고, cross-encoder 모델을 새로 추가하면
+    이 프로젝트가 지켜온 "가벼운 의존성" 원칙(MCP 서버 의존성 2개 등)과
+    어긋난다. 대신 grade와 같은 구조화 출력 패턴으로 **한 번에** 순서만
+    다시 받는다.
+    """
+    ranked_indices: list[int] = Field(
+        description="검색된 문서를 질문과의 관련도가 높은 순서로 나열한 "
+                    "인덱스 목록(0부터 시작). 모든 인덱스를 정확히 한 번씩 포함")
+
+
+RERANK_PROMPT = ChatPromptTemplate.from_template(
+    "질문에 가장 관련 있는 문서 순서를 다시 매기려 합니다.\n"
+    "질문: {question}\n\n"
+    "문서 목록:\n{numbered_context}\n\n"
+    "질문과의 관련도가 높은 순서대로 문서 인덱스를 정렬하세요."
+)
+
+_structured_rerank_cache: dict[str, object] = {}
+
+
+def _structured_rerank_llm():
+    model = config.LLM_MODEL
+    if model not in _structured_rerank_cache:
+        _structured_rerank_cache[model] = get_llm().with_structured_output(
+            RerankOrder, include_raw=True)
+    return _structured_rerank_cache[model]
+
+
+def rerank(question: str, docs: list[Document]) -> list[Document]:
+    """관련도 순으로 재정렬. 파싱 실패나 불완전한 순열이면 원래 순서를
+    그대로 반환한다(fail-open — RRF 순위보다 나쁘게 만들 이유는 없다)."""
+    if len(docs) <= 1:
+        return docs
+    numbered = "\n---\n".join(
+        f"[{i}] {d.page_content[:400]}" for i, d in enumerate(docs))
+    chain = RERANK_PROMPT | _structured_rerank_llm()
+    result = chain.invoke({"question": question, "numbered_context": numbered})
+    parsed = result.get("parsed")
+    if parsed is None or set(parsed.ranked_indices) != set(range(len(docs))):
+        return docs
+    return [docs[i] for i in parsed.ranked_indices]
+
+
 # ── Nodes ──────────────────────────────────────────────
 
 def retrieve(state: AgentState) -> dict:
-    return {"documents": hybrid_search(state["query"])}
+    docs = hybrid_search(state["query"])
+    # 재정렬은 원 질문 기준 — grade가 query(재작성 가능)가 아니라 question을
+    # 보는 것과 같은 이유다. 재작성된 검색어로 재정렬하면 정작 사용자가
+    # 물은 것과는 다른 기준으로 순서가 매겨진다.
+    if config.RERANK:
+        docs = rerank(state["question"], docs)
+    return {"documents": docs}
 
 
 # generate가 실제로 받는 청크 수. grade와 generate가 이 상수를 공유해야
@@ -330,60 +389,56 @@ GRADE_PROMPT = ChatPromptTemplate.from_template(
     "당신은 검색 품질 평가자입니다.\n"
     "질문: {question}\n\n"
     "검색된 문서:\n{context}\n\n"
-    "문서에 질문과 관련된 정보가 일부라도 포함되어 있으면 'yes', "
-    "전혀 관련 없는 내용뿐이면 'no'만 출력하세요."
+    "문서에 질문과 관련된 정보가 일부라도 포함되어 있는지 판단하세요."
 )
 
 
 # 판정 3값. 예전엔 yes/no 두 값이라 **파싱 실패가 sufficient에 흡수됐다** —
 # fail-open 정책은 맞지만, 그래서 실패가 몇 %인지 아무도 모르는 상태였다.
-# 세 번째 값을 만들어 세는 것이 이 파서의 핵심 변경이다.
 GRADE_YES, GRADE_NO, GRADE_UNPARSED = "yes", "no", "unparsed"
 
-# 2단 판정. ① 지시대로 답했다면 판정어가 **맨 앞**에 온다 → 앞부분에 명시적
-# 판정어가 있으면 그게 이긴다(뒤에 붙는 건 사족이다). ② 없으면 서술문에서
-# 찾아본다. 한 번에 뭉쳐서 보면 "yes. 다만 관련 없는 부분도…"가 yes/no 양쪽에
-# 걸려 판정 실패로 떨어진다.
-_VERDICT_LEAD = 16      # 판정어를 찾는 선두 구간
-_VERDICT_HEAD = 80      # 서술문을 훑는 구간
 
-# ^ 앵커 + \b 단어경계라 'no.' 'no,'가 특례 없이 잡힌다.
-_LEAD_NO = re.compile(
-    # '아닙니다'는 아+닙+니+다라서 '아니' 부분매칭으로 **안 잡힌다**
-    # (옛 파서가 못 잡던 케이스다. 음절 단위로 열거해야 한다.)
-    r"^\W*(no|n)\b|^\W*(아니(오|요|다|에요|었)|아닙니다|아녜요|아님)")
-_LEAD_YES = re.compile(r"^\W*(yes|y|예|네)\b")
+class GradeVerdict(BaseModel):
+    """grade 판정을 자유 문장이 아니라 이 스키마로 강제한다.
 
-# 서술문 패턴. '있는지/없는지'는 의문·확인 어미이므로 판정이 아니다 —
-# "관련 있는지 아니면…"을 긍정으로 읽던 것이 실제 오탐이었다.
-_PROSE_NO = re.compile(r"관련\s*(정보|내용|성)?\s*(이|가)?\s*없(?!는지|은지)"
-                       r"|찾을\s*수\s*없|no relevant|not relevant")
-_PROSE_YES = re.compile(r"관련\s*(정보|내용|성)?\s*(이|가)?\s*있(?!는지|은지)"
-                        r"|포함되어\s*있(?!는지|은지)")
+    예전엔 "yes/no만 출력하라"고 지시한 뒤 정규식(앵커+서술문 2단)으로
+    자유 문장을 역파싱했다. 그 파서를 eval_grade.py로 직접 재 보니
+    오탐(충분한데 재검색 보냄) 20%가 나왔고, corrective 루프 A/B
+    재검증(51문항 층화 표본)에서 이 오탐이 실제로 정답률을 깎는 것까지
+    확인됐다(OFF 81%→ON 69%, 전부 grade가 잘못 재작성을 건 케이스).
+    with_structured_output()으로 모델 출력 자체를 이 스키마에 강제하면
+    "아닙니다가 왜 안 잡히나" 같은 문장 파싱 버그 클래스 자체가 없어진다.
+    """
+    relevant: bool = Field(
+        description="문서에 질문과 관련된 정보가 일부라도 포함되어 있으면 "
+                    "true, 전혀 관련 없는 내용뿐이면 false")
 
 
-def parse_verdict(raw: str) -> str:
-    """grade 응답 → GRADE_YES / GRADE_NO / GRADE_UNPARSED."""
-    text = raw.strip().lower()
+_structured_grade_cache: dict[str, object] = {}
 
-    lead = text[:_VERDICT_LEAD]                 # ① 명시적 판정어 우선
-    if _LEAD_NO.search(lead):
-        return GRADE_NO
-    if _LEAD_YES.search(lead):
-        return GRADE_YES
 
-    head = text[:_VERDICT_HEAD]                 # ② 서술문 폴백
-    yes, no = bool(_PROSE_YES.search(head)), bool(_PROSE_NO.search(head))
-    if yes == no:                               # 둘 다거나 둘 다 아니면 실패
-        return GRADE_UNPARSED
-    return GRADE_YES if yes else GRADE_NO
+def _structured_grade_llm():
+    # get_llm()의 일반 캐시와 별도 — with_structured_output()으로 감싼
+    # 버전을 모델별로 재사용한다. include_raw=True라야 파싱 실패 시에도
+    # 예외 대신 parsed=None으로 받아 grade의 fail-open 정책을 그대로 쓸 수 있다.
+    model = config.LLM_MODEL
+    if model not in _structured_grade_cache:
+        _structured_grade_cache[model] = get_llm().with_structured_output(
+            GradeVerdict, include_raw=True)
+    return _structured_grade_cache[model]
 
 
 def judge_relevance(question: str, docs: list[Document]) -> tuple[str, str]:
     """(3값 판정, 모델 원문). 평가 스크립트가 파싱 실패까지 세도록 분리해 둔다."""
-    raw = (GRADE_PROMPT | get_llm()).invoke(
-        {"question": question, "context": context_text(docs)}).content
-    return parse_verdict(raw), raw
+    chain = GRADE_PROMPT | _structured_grade_llm()
+    result = chain.invoke({"question": question, "context": context_text(docs)})
+    raw_msg = result.get("raw")
+    raw = raw_msg.content if raw_msg is not None else ""
+    parsed = result.get("parsed")
+    if parsed is None:
+        err = result.get("parsing_error")
+        return GRADE_UNPARSED, raw or (str(err) if err else "")
+    return (GRADE_YES if parsed.relevant else GRADE_NO), raw
 
 
 def grade(state: AgentState) -> dict:
@@ -512,6 +567,65 @@ def generate(state: AgentState) -> dict:
             "contexts": [d.page_content for d in used]}
 
 
+class GroundednessVerdict(BaseModel):
+    """generate가 방금 쓴 답변이 근거 문서에 실제로 있는 내용에만
+    기반하는지. GENERATE_PROMPT가 "지어내지 마세요"라고 지시는 하지만,
+    지시를 따랐는지 확인하는 단계가 지금까지 없었다 — grade가 검색 쪽의
+    fail-open을 조용히 흡수하지 않도록 3값으로 바꾼 것과 같은 이유로,
+    생성 쪽에도 관측 지점을 하나 놓는다.
+    """
+    grounded: bool = Field(
+        description="답변의 핵심 주장이 전부 문서에서 확인되면 true, "
+                    "문서에 없는 내용을 지어냈으면 false")
+    unsupported_claim: str = Field(
+        default="",
+        description="grounded가 false일 때만: 문서에서 확인 안 되는 주장을 "
+                    "한 문장으로. grounded가 true면 빈 문자열")
+
+
+VERIFY_PROMPT = ChatPromptTemplate.from_template(
+    "아래 문서를 근거로 답변이 생성되었습니다. 답변의 핵심 주장이 문서 "
+    "내용과 일치하는지, 문서에 없는 수치나 사실을 지어내지 않았는지 "
+    "확인하세요.\n\n문서:\n{context}\n\n답변: {answer}"
+)
+
+_structured_verify_cache: dict[str, object] = {}
+
+
+def _structured_verify_llm():
+    model = config.LLM_MODEL
+    if model not in _structured_verify_cache:
+        _structured_verify_cache[model] = get_llm().with_structured_output(
+            GroundednessVerdict, include_raw=True)
+    return _structured_verify_cache[model]
+
+
+def verify(state: AgentState) -> dict:
+    """답변이 근거에 실제로 기반하는지 사후 확인한다.
+
+    generate 직후에 붙는 관측 노드다 — 판정 실패든(unparsed) 아니든
+    **답변 자체는 절대 안 바꾼다**(fail-open, grade·rewrite와 같은 정책).
+    지금은 결과를 State에 기록만 하고 라우팅을 바꾸지 않는다. 재생성
+    루프를 붙이는 건(예: grounded=False면 generate를 다시) 다음 단계고,
+    A/B로 값을 하는지부터 재는 게 먼저다 — 이 프로젝트가 반복해서 배운
+    "손잡이를 켜기 전에 잰다" 원칙.
+    """
+    if not config.VERIFY_GROUNDING:
+        return {"grounded": None, "unsupported_claim": None}
+
+    docs = context_docs(state["documents"])
+    chain = VERIFY_PROMPT | _structured_verify_llm()
+    result = chain.invoke(
+        {"context": context_text(docs), "answer": state["answer"]})
+    parsed = result.get("parsed")
+    if parsed is None:
+        print(f"[verify] 판정 파싱 실패 — 기록만 하고 통과: "
+              f"{(result.get('raw').content if result.get('raw') else '')[:60]!r}")
+        return {"grounded": None, "unsupported_claim": None}
+    return {"grounded": parsed.grounded,
+            "unsupported_claim": parsed.unsupported_claim or None}
+
+
 # ── Graph ──────────────────────────────────────────────
 
 def needs_grading(state: AgentState) -> str:
@@ -548,25 +662,63 @@ def build_graph():
     g.add_node("grade", grade)
     g.add_node("rewrite", rewrite)
     g.add_node("generate", generate)
+    g.add_node("verify", verify)
 
     g.add_edge(START, "retrieve")
     g.add_conditional_edges("retrieve", needs_grading, ["grade", "generate"])
     g.add_conditional_edges("grade", decide_next, ["rewrite", "generate"])
     g.add_conditional_edges("rewrite", after_rewrite, ["retrieve", "generate"])
-    g.add_edge("generate", END)
+    # verify는 항상 거친다 — config.VERIFY_GROUNDING이 꺼져 있으면 verify()가
+    # 즉시 {"grounded": None}만 반환하고 빠진다(LLM 호출 없음). 그래프
+    # 구조 자체를 조건부로 만들지 않은 이유는 stream_mode=["messages",...]가
+    # "generate" 다음 노드가 항상 있다고 가정하면 스트리밍 이벤트 필터링
+    # (api.py의 langgraph_node == "generate")이 더 단순해지기 때문이다.
+    g.add_edge("generate", "verify")
+    g.add_edge("verify", END)
     return g.compile()
 
 
 def ask(question: str) -> dict:
     graph = build_graph()
-    result = graph.invoke(
-        {"question": question, "query": question, "rewrites": 0}
-    )
+    with _type_routing(question):
+        result = graph.invoke(
+            {"question": question, "query": question, "rewrites": 0}
+        )
     return {
         "answer": result["answer"],
         "sources": result["sources"],
         "rewrites": result["rewrites"],
     }
+
+
+@contextmanager
+def _type_routing(question: str):
+    """config.TYPE_ROUTING이 켜져 있으면 질문 유형에 맞는 오버라이드를
+    그래프 실행 동안만 적용하고 끝나면 원래 값으로 되돌린다.
+
+    context_docs()·order_for_prompt()가 매 호출 config를 다시 읽으므로
+    (호출 시점 바인딩), 이렇게 전역값을 잠깐 바꾸는 것만으로 grade·generate
+    양쪽 모두 같은 오버라이드를 일관되게 본다 — 이미 ab_top_n.py 같은
+    실험 스크립트가 쓰는 패턴과 동일하다. FastAPI가 스레드풀에서 동시
+    요청을 처리하면 이 전역 상태가 스레드 안전하지 않다 — 지금은 이
+    프로젝트의 다른 런타임 config 조작(LLM_MODEL 등)도 같은 한계를 가진
+    기존 패턴이라 그대로 따르되, 알려진 한계로 남겨 둔다.
+    """
+    import route
+
+    if not config.TYPE_ROUTING:
+        yield
+        return
+
+    overrides = route.ROUTES.get(route.classify_question_type(question), {})
+    prev = {k: getattr(config, k) for k in overrides}
+    for k, v in overrides.items():
+        setattr(config, k, v)
+    try:
+        yield
+    finally:
+        for k, v in prev.items():
+            setattr(config, k, v)
 
 
 if __name__ == "__main__":

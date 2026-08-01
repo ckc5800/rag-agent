@@ -37,6 +37,15 @@ DERIVED_TYPES = {"aggregation", "comparison"}
 # 토큰 주변을 사람이 눈으로 볼 수 있게 찍는다.
 _TOKEN = re.compile(r"[0-9A-Za-z_가-힣]{3,}")
 
+# 수치 패턴이 단위 여러 개를 한꺼번에 허용하면(예: `9\s*(개|건|편)`),
+# 모델이 **다른 슬롯의 수치를 잘못 말한 것**이 우연히 매치될 수 있다.
+# 실제 사례: "합치면 몇 개?"(정답 9개)에 모델이 "논문 수는 9편이고 …
+# 총 11개"라고 답했는데 — 최종 결론은 11로 오답인데 — 잘못 센 "9편"이
+# `9\s*(개|건|편)`의 편 분기에 걸려 PASS로 집계됐다. 질문이 묻는 단위
+# 하나로 좁히면(`9\s*개`) 이 오매치가 구조적으로 막힌다.
+_MULTI_UNIT = re.compile(r"\d[^|()]*\((?:개|건|편|번|회|명|대|배)"
+                         r"(?:\|(?:개|건|편|번|회|명|대|배))+\)")
+
 
 def load_chunks() -> list[dict]:
     with open(config.CHUNKS_PATH, encoding="utf-8") as f:
@@ -77,6 +86,11 @@ def main() -> int:
 
         patterns = case.get("answer_patterns") or case.get("expected_keywords", [])
         for p in patterns:
+            if _MULTI_UNIT.search(p):
+                print(f"[?? 다단위 수치 패턴  ] {q[:40]}")
+                print(f"      {p!r} — 단위 여러 개를 허용하면 다른 슬롯의"
+                      " 오답 수치가 우연히 매치될 수 있다. 질문이 묻는"
+                      " 단위 하나로 좁힐 것")
             hits = [c for c in chunks if re.search(p, c["page_content"])]
             if not hits:
                 if derived:
