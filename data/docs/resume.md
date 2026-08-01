@@ -8,7 +8,7 @@ AI Engineer | MLOps Specialist
 • AI·MLOps 전문 — 프로덕션 ML 시스템 구축 및 운영 6년차
 • TTS 서비스: TTFB 85% 단축 (2292ms → 334ms, 6.85배 개선)
 • MLOps 인프라: 회사 최초 Kubernetes 기반 AI 플랫폼 구축
-• 학술 성과: 논문 7편(제1저자), 특허 2건(제1발명자), 우수논문상
+• 학술 성과 총계: 논문 7편(제1저자), 특허 2건(제1발명자), 우수논문상
 에이아이세스 (AICESS)
 Manager  |  Apr 2025 – Present
 TTS 프로젝트 (2025.09 ~ 현재)
@@ -57,10 +57,10 @@ Generative Model Research (2023.01 ~ 2023.12)
 • 배경: 국방 도메인 학습 데이터 부족 — 생성 모델 기반 데이터 확보 연구
 • Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증
 • 기술: Latent Diffusion, GAN, PyTorch
-• 성과: 논문 2편 게재(제1저자) | 우수 논문상 수상(국방기술학회 2023.11)
+• 성과: 이 프로젝트에서 논문 2편 게재(제1저자, 전체 경력 논문 7편 중 일부) | 우수 논문상 수상(국방기술학회 2023.11)
 3D Semantic Segmentation Research (2022.08 ~ 2022.12)
 • 배경: 자율주행 환경 인식에 3D 거리/높이 정보 필수 — 2D 세그멘테이션 한계 극복 위한 센서 퓨전 연구
-• 성과: 논문 2편 게재(제1저자, 한국자동차공학회) | 특허 2건 등록(제1발명자)
+• 성과: 이 연구에서 논문 2편 게재(제1저자, 한국자동차공학회, 전체 경력 논문 7편 중 일부) | 특허 2건 등록(제1발명자)
 • 기술: Trans-Unet, LiDAR + Camera Sensor Fusion, PyTorch
 이든티앤에스 (EDEN T&S)
 AI Engineer  Apr 2022 – Aug 2022
