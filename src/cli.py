@@ -1,4 +1,7 @@
 """대화형 CLI: 터미널에서 포트폴리오에 대해 질문."""
+import time
+
+import tracelog
 from graph import build_graph, warmup
 from preflight import check_all
 
@@ -12,7 +15,9 @@ def main():
         q = input("\n질문> ").strip()
         if not q or q.lower() == "q":
             break
+        t0 = time.time()
         result = graph.invoke({"question": q, "query": q, "rewrites": 0})
+        tracelog.log(q, result, time.time() - t0, source="cli")
         print(f"\n{result['answer']}")
         print(f"\n[출처: {', '.join(result['sources'])}"
               f" | 질문 재작성 {result['rewrites']}회]")

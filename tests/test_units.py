@@ -1,4 +1,5 @@
 """결정적 로직 단위 테스트 — LLM/인덱스 없이 CI에서 돈다."""
+import json
 import sys
 import threading
 import time
@@ -191,6 +192,59 @@ def test_diagram_extraction_does_not_leave_extra_blank_lines():
     body, _ = extract_diagrams(text)
 
     assert "\n\n\n" not in body
+
+
+# ── Parent-Child 청킹 ──
+#
+# child로 검색·판정하고 generate 직전에만 parent로 확장한다. 같은 parent에
+# 속한 child가 여러 개 뽑히면 parent 원문이 프롬프트에 중복으로 안 들어가야
+# 한다 — 확장 로직의 핵심은 사실상 이 중복 제거뿐이라 여기를 고정한다.
+
+def test_build_parent_child_links_children_to_correct_parent():
+    from ingest_parent_child import build_parent_child
+    from langchain_core.documents import Document
+
+    long_text = ("## 섹션\n\n" + "문장입니다. " * 200)  # parent_size(2000) 넘게
+    doc = Document(page_content=long_text, metadata={"source": "test.md"})
+    parents, children = build_parent_child([doc])
+
+    assert len(parents) >= 1
+    assert len(children) >= len(parents)  # parent당 child 1개 이상
+    parent_ids = {p.metadata["parent_id"] for p in parents}
+    for child in children:
+        assert child.metadata["parent_id"] in parent_ids
+
+
+def test_expand_to_parents_dedupes_same_parent():
+    import graph_parent_child as gpc
+    from langchain_core.documents import Document
+
+    gpc._parent_by_id = {"p1": "parent 원문 A", "p2": "parent 원문 B"}
+    children = [
+        Document(page_content="child1", metadata={"parent_id": "p1"}),
+        Document(page_content="child2", metadata={"parent_id": "p1"}),  # 같은 parent
+        Document(page_content="child3", metadata={"parent_id": "p2"}),
+    ]
+    parents = gpc.expand_to_parents(children)
+
+    assert len(parents) == 2  # p1은 한 번만
+    assert [p.page_content for p in parents] == ["parent 원문 A", "parent 원문 B"]
+
+
+def test_expand_to_parents_preserves_rank_order():
+    """중복 제거 후에도 첫 등장 순서(=검색 순위)를 유지해야 한다."""
+    import graph_parent_child as gpc
+    from langchain_core.documents import Document
+
+    gpc._parent_by_id = {"p1": "A", "p2": "B", "p3": "C"}
+    children = [
+        Document(page_content="c", metadata={"parent_id": "p3"}),
+        Document(page_content="c", metadata={"parent_id": "p1"}),
+        Document(page_content="c", metadata={"parent_id": "p2"}),
+    ]
+    parents = gpc.expand_to_parents(children)
+
+    assert [p.page_content for p in parents] == ["C", "A", "B"]
 
 
 # ── BM25 한국어 bigram 토크나이저 ──
@@ -645,70 +699,31 @@ def test_eval_set_composition():
     assert all(c.get("type") for c in cases), "type 없는 문항이 있다"
 
 
-# ── grade 판정 파싱 (3값) ──
+# ── grade 판정 (구조화 출력) ──
 #
-# 예전 파서는 yes/no 두 값이라 **파싱 실패가 sufficient에 흡수**됐다.
-# fail-open 정책은 유지하되, 실패를 별도 값으로 세는 것이 핵심이다.
+# 예전엔 "yes/no만 출력하라"고 지시하고 자유 문장을 정규식(앵커+서술문 2단)
+# 으로 역파싱했다. eval_grade.py로 그 파서를 직접 재보니 오탐(충분한데
+# 재검색 보냄) 20%가 나왔고, corrective 루프 A/B 재검증(51문항 층화 표본)
+# 에서 그 오탐이 실제로 정답률을 깎는 것까지 확인됐다 — grade가 이미
+# 충분한 근거를 "부족"으로 오판해 불필요한 재작성을 걸고, 재작성된 질의가
+# 원래보다 검색을 흐렸다.
+#
+# ChatOllama.with_structured_output()으로 모델 출력 자체를 GradeVerdict
+# 스키마에 강제해 이 파싱 버그 클래스를 없앴다("아닙니다"가 음절 분해상
+# "아니"와 매치 안 되는 것 같은 문제가 구조적으로 발생할 수 없다). 파싱
+# 관련 회귀 테스트(아닙니다·아니면·사족 등)는 그 파서와 함께 사라졌다 —
+# 스키마가 boolean이라 애초에 그런 모호성이 없다.
+#
+# LCEL 체인(GRADE_PROMPT | 구조화 LLM)의 실제 동작은 LLM 호출이 필요해
+# 여기서(LLM 없이 도는 스위트) 재현하지 않는다 — 직접 호출로 검증했다:
+# 관련 있는 컨텍스트 → relevant=True(17.5s), 무관한 컨텍스트 →
+# relevant=False(88.2s). 여기서는 grade() 노드가 judge_relevance의 3값
+# 반환을 올바르게 라우팅하는지만 확인한다(judge_relevance는 통째로 목).
 
-def test_verdict_plain_answers():
-    from graph import GRADE_NO, GRADE_YES, parse_verdict
-    assert parse_verdict("yes") == GRADE_YES
-    assert parse_verdict("no") == GRADE_NO
-    assert parse_verdict("YES\n") == GRADE_YES
-
-
-def test_verdict_with_punctuation():
-    """'no.' 'no,' — 옛 파서는 startswith 특례로 겨우 잡았다."""
-    from graph import GRADE_NO, parse_verdict
-    assert parse_verdict("no.") == GRADE_NO
-    assert parse_verdict("no, 관련 내용이 없습니다") == GRADE_NO
-    assert parse_verdict("The documents contain no relevant info") == GRADE_NO
-
-
-def test_verdict_korean_answers():
-    from graph import GRADE_NO, GRADE_YES, parse_verdict
-    for neg in ("아니오", "아니요", "아니다", "아니에요", "아님"):
-        assert parse_verdict(neg) == GRADE_NO
-    for pos in ("예", "네"):
-        assert parse_verdict(pos) == GRADE_YES
-    assert parse_verdict("관련 정보가 있습니다") == GRADE_YES
-    assert parse_verdict("관련 정보가 없습니다") == GRADE_NO
-
-
-def test_verdict_catches_anipnida():
-    """'아닙니다'는 아+닙+니+다라서 '아니' 부분매칭으로 안 잡힌다.
-
-    옛 파서는 `"아니" in verdict`였으므로 이 흔한 부정형을 **놓쳤다** —
-    부정인데 sufficient로 통과시키던 케이스다.
-    """
-    from graph import GRADE_NO, parse_verdict
-    assert "아니" not in "아닙니다"          # 옛 파서가 못 잡은 이유
-    assert parse_verdict("아닙니다") == GRADE_NO
-
-
-def test_verdict_animyeon_is_not_a_negative():
-    """'아니면'은 부정이 아니다 — 옛 파서('아니' 부분매칭)의 오탐 케이스."""
-    from graph import GRADE_NO, parse_verdict
-    out = parse_verdict("문서가 관련 있는지 아니면 판단이 필요한지 보겠습니다")
-    assert out != GRADE_NO          # 불필요한 재검색으로 가지 않는다
-
-
-def test_verdict_lead_token_wins_over_trailing_prose():
-    """판정어가 맨 앞에 있으면 뒤에 붙는 사족은 무시한다."""
-    from graph import GRADE_YES, parse_verdict
-    assert parse_verdict("yes. " + "다만 관련 없는 부분도 " * 20) == GRADE_YES
-    # 지시를 어기고 둘 다 말해도, 앞에 나온 판정을 취한다
-    # (fail-open이라 yes/unparsed는 어차피 같은 경로지만 계측이 정확해진다)
-    assert parse_verdict("yes and no") == GRADE_YES
-
-
-def test_verdict_garbage_is_unparsed():
-    from graph import GRADE_UNPARSED, parse_verdict
-    assert parse_verdict("") == GRADE_UNPARSED
-    assert parse_verdict("음... 잘 모르겠습니다") == GRADE_UNPARSED
-    # 서술문에서 긍정·부정이 동시에 잡히면 판정 실패로 센다
-    assert parse_verdict(
-        "관련 정보가 있습니다. 그런데 관련 정보가 없습니다") == GRADE_UNPARSED
+def test_grade_verdict_schema():
+    from graph import GradeVerdict
+    assert GradeVerdict(relevant=True).relevant is True
+    assert GradeVerdict(relevant=False).relevant is False
 
 
 def test_grade_node_fails_open_on_unparsed(monkeypatch):
@@ -835,3 +850,355 @@ def test_every_node_output_key_is_declared_in_state():
     for key in ("question", "query", "documents", "rewrites", "grade",
                 "rewrite_failed", "answer", "sources"):
         assert key in declared, f"AgentState에 {key} 선언 누락"
+
+
+# ── 유형별 라우팅 (route.py) ──
+#
+# fact·temporal·refusal에서 오탐이 나면 원래 좋던 기본 설정을 나쁜 설정으로
+# 바꿔버리므로(README의 NEIGHBOR_WINDOW·CONTEXT_ORDER 실측 참고), 그 세
+# 유형에서 오탐 0건인 것을 회귀 테스트로 고정한다. enumeration은 리콜이
+# 낮아도(안전하게 fact로 폴백) 손해가 없어 여기서는 안 다룬다.
+
+def test_classify_type_no_false_positive_on_fact_temporal_refusal():
+    from route import classify_question_type
+
+    safe_questions = [
+        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",   # fact, "몇 개"
+        "TTS 서비스는 몇 개 언어를 지원하나요?",              # fact, "몇 개"
+        "STT 엔진은 어떤 모델을 기반으로 만들었나요?",         # fact, "어떤"
+        "석사 학위는 어느 대학교에서 받았나요?",               # temporal 아님이지만 "어느" 포함 확인
+        "등록된 특허 번호를 알려주세요.",                      # fact, "알려주세요"(들 없음)
+    ]
+    for q in safe_questions:
+        assert classify_question_type(q) == "fact", q
+
+
+def test_classify_type_catches_aggregation_and_comparison():
+    from route import classify_question_type
+
+    assert classify_question_type("이윤선의 제1저자 논문은 몇 편인가요?") == "aggregation"
+    assert classify_question_type("등록된 특허는 총 몇 건인가요?") == "aggregation"
+    assert classify_question_type(
+        "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?"
+    ) == "comparison"
+
+
+def test_classify_type_catches_some_enumeration_safely():
+    from route import classify_question_type
+
+    assert classify_question_type("이윤선이 근무한 회사들을 알려주세요.") == "enumeration"
+    # 신호가 약한 열거형은 fact로 안전하게 폴백한다(오분류보다 미분류가 낫다)
+    assert classify_question_type("TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?") == "fact"
+
+
+def test_type_routing_applies_and_restores_config(monkeypatch):
+    """_type_routing이 켜져 있을 때만 오버라이드하고, 끝나면 원복해야 한다."""
+    import config
+    from graph import _type_routing
+
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 0)
+    monkeypatch.setattr(config, "GENERATE_TOP_N", 5)
+    monkeypatch.setattr(config, "TYPE_ROUTING", False)
+    with _type_routing("이윤선의 제1저자 논문은 몇 편인가요?"):
+        assert config.NEIGHBOR_WINDOW == 0   # 꺼져 있으면 오버라이드 없음
+
+    monkeypatch.setattr(config, "TYPE_ROUTING", True)
+    with _type_routing("이윤선의 제1저자 논문은 몇 편인가요?"):
+        # aggregation → 이웃 확장 + 개선이 측정된 top-3로 함께 이동.
+        # W=1을 top-5 위에 얹으면 컨텍스트 7.7k자(미측정 조합)가 되어
+        # base가 맞히던 질문을 깨뜨렸다 — route.py ROUTES 주석 참고.
+        assert config.NEIGHBOR_WINDOW == 1
+        assert config.GENERATE_TOP_N == 3
+    assert config.NEIGHBOR_WINDOW == 0       # 블록을 벗어나면 원복
+    assert config.GENERATE_TOP_N == 5
+
+    with _type_routing("TTS 프로젝트에서 TTFB를 얼마나 개선했나요?"):
+        assert config.NEIGHBOR_WINDOW == 0   # fact는 오버라이드 없음
+        assert config.GENERATE_TOP_N == 5
+
+
+# ── 리랭커 (graph.rerank) ──
+#
+# LLM 호출을 재현하지 않고 LCEL 체인만 목으로 대체해 후처리 로직(순서
+# 재배열, 실패 시 원 순서 유지)을 검증한다. RunnableLambda로 감싸면
+# `RERANK_PROMPT | fake`가 실제 LCEL 파이프처럼 동작해 실제 코드 경로를
+# 그대로 통과한다.
+
+def _fake_rerank_llm(result, monkeypatch):
+    from langchain_core.runnables import RunnableLambda
+    import graph
+    monkeypatch.setattr(graph, "_structured_rerank_llm",
+                        lambda: RunnableLambda(lambda _: result))
+
+
+def test_rerank_reorders_by_parsed_indices(monkeypatch):
+    import graph
+    from langchain_core.documents import Document
+
+    docs = [Document(page_content=f"doc{i}") for i in range(3)]
+    _fake_rerank_llm(
+        {"parsed": graph.RerankOrder(ranked_indices=[2, 0, 1]), "raw": None},
+        monkeypatch)
+    out = graph.rerank("q", docs)
+    assert [d.page_content for d in out] == ["doc2", "doc0", "doc1"]
+
+
+def test_rerank_falls_back_on_incomplete_permutation(monkeypatch):
+    """인덱스 누락(2개만 반환 등) — 원 순서를 그대로 유지한다."""
+    import graph
+    from langchain_core.documents import Document
+
+    docs = [Document(page_content=f"doc{i}") for i in range(3)]
+    _fake_rerank_llm(
+        {"parsed": graph.RerankOrder(ranked_indices=[0, 1]), "raw": None},
+        monkeypatch)
+    out = graph.rerank("q", docs)
+    assert [d.page_content for d in out] == ["doc0", "doc1", "doc2"]
+
+
+def test_rerank_falls_back_on_unparsed(monkeypatch):
+    import graph
+    from langchain_core.documents import Document
+
+    docs = [Document(page_content=f"doc{i}") for i in range(3)]
+    _fake_rerank_llm({"parsed": None, "raw": "", "parsing_error": "x"}, monkeypatch)
+    out = graph.rerank("q", docs)
+    assert [d.page_content for d in out] == ["doc0", "doc1", "doc2"]
+
+
+def test_rerank_skips_single_doc():
+    """문서가 0~1개면 재정렬할 게 없어 LLM을 부르지 않는다."""
+    from graph import rerank
+    assert rerank("q", []) == []
+
+
+def test_retrieve_reranks_only_when_config_enabled(monkeypatch):
+    import config
+    import graph
+
+    calls = []
+    monkeypatch.setattr(graph, "hybrid_search", lambda q: ["d1", "d2"])
+    monkeypatch.setattr(graph, "rerank", lambda q, d: calls.append(1) or d)
+
+    monkeypatch.setattr(config, "RERANK", False)
+    graph.retrieve({"query": "q", "question": "q"})
+    assert calls == []          # 꺼져 있으면 rerank 호출 안 함
+
+    monkeypatch.setattr(config, "RERANK", True)
+    graph.retrieve({"query": "q", "question": "q"})
+    assert calls == [1]
+
+
+# ── 응답 캐시 (cache.py) ──
+#
+# api.py의 서빙 경계에만 건다 — graph.ask()에는 안 건다. eval 스크립트가
+# 같은 질문을 설정만 바꿔(MAX_REWRITES 등) 반복 호출하는 게 이 프로젝트의
+# 기본 측정 방식이라, graph 안에 캐시가 있으면 A/B가 조용히 오염된다.
+# 그래서 캐시 키에 설정 지문을 넣어 설정이 다르면 자동으로 다른 항목이
+# 되게 만들었다 — 여기서는 그 지문 분리가 실제로 동작하는지만 확인한다.
+
+@pytest.fixture
+def isolated_cache(tmp_path, monkeypatch):
+    import cache
+    monkeypatch.setattr(cache, "CACHE_PATH", tmp_path / "answer_cache.json")
+    monkeypatch.setattr(cache, "_cache", None)
+    return cache
+
+
+def test_cache_miss_then_hit(isolated_cache):
+    cache = isolated_cache
+    assert cache.get("질문") is None
+    cache.put("질문", {"answer": "답", "sources": [], "rewrites": 0})
+    assert cache.get("질문") == {"answer": "답", "sources": [], "rewrites": 0}
+
+
+def test_cache_key_changes_with_config(isolated_cache, monkeypatch):
+    """같은 질문이라도 설정이 다르면 다른 캐시 항목이어야 한다 — 아니면
+    eval 스크립트의 A/B 비교가 옛 설정의 캐시된 답을 그대로 받는다."""
+    import config
+    cache = isolated_cache
+
+    monkeypatch.setattr(config, "MAX_REWRITES", 0)
+    cache.put("질문", {"answer": "OFF일 때 답"})
+
+    monkeypatch.setattr(config, "MAX_REWRITES", 1)
+    assert cache.get("질문") is None            # 설정이 바뀌어 미스여야 함
+    cache.put("질문", {"answer": "ON일 때 답"})
+
+    monkeypatch.setattr(config, "MAX_REWRITES", 0)
+    assert cache.get("질문")["answer"] == "OFF일 때 답"   # 원래 설정으로 돌아오면 그때 캐시
+
+
+def test_cache_persists_to_disk(isolated_cache):
+    cache = isolated_cache
+    cache.put("질문", {"answer": "답"})
+    assert cache.CACHE_PATH.exists()
+
+    # 프로세스 재시작을 흉내: 메모리 캐시를 비우고 디스크에서 다시 읽기
+    cache._cache = None
+    assert cache.get("질문") == {"answer": "답"}
+
+
+# ── 질의 트레이스 로그 (tracelog.py) ──
+
+def test_tracelog_appends_jsonl(tmp_path, monkeypatch):
+    import tracelog
+    monkeypatch.setattr(tracelog, "TRACE_PATH", tmp_path / "query_trace.jsonl")
+
+    tracelog.log("질문1", {"answer": "답1", "sources": ["a.md"], "rewrites": 0},
+                1.23, cached=False)
+    tracelog.log("질문2", {"answer": "답2", "sources": [], "rewrites": 1},
+                0.5, cached=True)
+
+    lines = tracelog.TRACE_PATH.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 2
+    row1 = json.loads(lines[0])
+    assert row1["question"] == "질문1"
+    assert row1["answer"] == "답1"
+    assert row1["cached"] is False
+    assert row1["elapsed_sec"] == 1.2          # round(…, 1)
+    assert "ts" in row1
+
+
+def test_tracelog_truncates_long_answers(tmp_path, monkeypatch):
+    """트레이스는 디버깅용이지 원문 저장소가 아니다 — 너무 길면 자른다."""
+    import tracelog
+    monkeypatch.setattr(tracelog, "TRACE_PATH", tmp_path / "t.jsonl")
+    tracelog.log("q", {"answer": "가" * 1000, "sources": [], "rewrites": 0}, 1.0)
+    row = json.loads(tracelog.TRACE_PATH.read_text(encoding="utf-8"))
+    assert len(row["answer"]) <= 500
+
+
+# ── /health 강화 ──
+
+def test_health_reflects_preflight_problems(monkeypatch):
+    """예전엔 무조건 ok였다 — 이제 preflight 점검 결과를 그대로 반영해야 한다."""
+    import api
+
+    monkeypatch.setattr(api, "check_all", lambda strict: ["Ollama 연결 실패"])
+    out = api.health()
+    assert out["status"] == "degraded"
+    assert out["problems"] == ["Ollama 연결 실패"]
+
+    monkeypatch.setattr(api, "check_all", lambda strict: [])
+    out = api.health()
+    assert out["status"] == "ok"
+    assert out["problems"] == []
+
+
+# ── groundedness 검증 (graph.verify) ──
+#
+# generate 직후 답변이 근거에 실제로 기반하는지 사후 확인하는 관측
+# 노드다. grade·rerank와 같은 원칙(fail-open, 조용히 흡수하지 않음)을
+# 따르는지, 그리고 꺼져 있으면 LLM을 아예 안 부르는지를 확인한다.
+
+def test_verify_skips_llm_call_when_disabled(monkeypatch):
+    """기본은 꺼짐 — LLM을 부르지 않고 즉시 None을 반환해야 한다."""
+    import config
+    import graph
+
+    monkeypatch.setattr(config, "VERIFY_GROUNDING", False)
+    called = []
+    monkeypatch.setattr(graph, "_structured_verify_llm",
+                        lambda: called.append(1))
+    out = graph.verify({"question": "q", "documents": [], "answer": "a"})
+    assert out == {"grounded": None, "unsupported_claim": None}
+    assert called == []          # LLM 캐시 함수 자체를 호출하지 않았다
+
+
+def test_verify_returns_parsed_verdict(monkeypatch):
+    import config
+    import graph
+    from langchain_core.runnables import RunnableLambda
+
+    monkeypatch.setattr(config, "VERIFY_GROUNDING", True)
+    verdict = graph.GroundednessVerdict(grounded=False, unsupported_claim="근거 없는 날짜 주장")
+    monkeypatch.setattr(graph, "_structured_verify_llm",
+                        lambda: RunnableLambda(lambda _: {"parsed": verdict, "raw": None}))
+    out = graph.verify({"question": "q", "documents": [], "answer": "a"})
+    assert out == {"grounded": False, "unsupported_claim": "근거 없는 날짜 주장"}
+
+
+def test_verify_fails_open_on_unparsed(monkeypatch):
+    """파싱 실패는 답변을 바꾸지 않고 grounded=None으로 조용히 기록만."""
+    import config
+    import graph
+    from langchain_core.runnables import RunnableLambda
+
+    monkeypatch.setattr(config, "VERIFY_GROUNDING", True)
+    monkeypatch.setattr(
+        graph, "_structured_verify_llm",
+        lambda: RunnableLambda(lambda _: {"parsed": None, "raw": None}))
+    out = graph.verify({"question": "q", "documents": [], "answer": "a"})
+    assert out == {"grounded": None, "unsupported_claim": None}
+
+
+def test_graph_compiles_with_verify_node():
+    from graph import build_graph
+    build_graph()   # verify 노드 추가 후에도 그래프가 컴파일되는지
+
+
+# ── 시맨틱 청킹 (semantic_chunk.py) ──
+#
+# 핵심 로직은 임베딩을 인자로 받는 순수 함수라 Ollama 없이 재현 가능하다.
+# 클러스터 둘(코사인 유사도가 뚜렷이 갈리는 벡터 두 묶음)을 만들어
+# breakpoint가 정확히 그 경계에서 잡히는지 확인한다.
+
+def test_split_sentences_basic():
+    from semantic_chunk import split_sentences
+    out = split_sentences("이것은 문장입니다. 이것도 문장입니다.\n\n다른 문단입니다.")
+    assert out == ["이것은 문장입니다.", "이것도 문장입니다.", "다른 문단입니다."]
+
+
+def test_find_breakpoints_detects_cluster_transition():
+    from semantic_chunk import find_breakpoints
+    embeddings = [
+        [1.0, 0.0, 0.0], [0.95, 0.05, 0.0], [0.9, 0.1, 0.0],   # 클러스터 A
+        [0.0, 0.0, 1.0], [0.05, 0.0, 0.95], [0.0, 0.05, 0.9],  # 클러스터 B
+    ]
+    bp = find_breakpoints(embeddings, percentile=80)
+    assert 2 in bp   # 인덱스 2(세 번째 문장) 뒤에서 끊겨야 한다
+
+
+def test_find_breakpoints_empty_on_uniform_embeddings():
+    """전부 비슷하면 튀는 지점이 없어 breakpoint도 없어야 한다."""
+    from semantic_chunk import find_breakpoints
+    embeddings = [[1.0, 0.0, 0.0]] * 5
+    assert find_breakpoints(embeddings, percentile=95) == set()
+
+
+def test_merge_into_chunks_respects_breakpoints():
+    from semantic_chunk import merge_into_chunks
+    sents = [f"문장{i}" for i in range(6)]
+    chunks = merge_into_chunks(sents, breakpoints={2}, max_chars=1000, min_chars=1)
+    assert chunks == ["문장0 문장1 문장2", "문장3 문장4 문장5"]
+
+
+def test_merge_into_chunks_enforces_max_chars_even_without_breakpoint():
+    """breakpoint가 없어도(주제 전환이 없는 긴 구간) 상한을 넘기지 않는다."""
+    from semantic_chunk import merge_into_chunks
+    sents = ["가" * 300, "나" * 300, "다" * 300]
+    chunks = merge_into_chunks(sents, breakpoints=set(), max_chars=500, min_chars=1)
+    assert all(len(c) <= 700 for c in chunks)   # 문장 하나가 최대 300+공백이라 여유
+    assert len(chunks) >= 2                      # 상한 때문에 최소 한 번은 갈렸다
+
+
+def test_merge_into_chunks_absorbs_short_fragments():
+    from semantic_chunk import merge_into_chunks
+    sents = ["첫 문장" * 20, "짧음", "그다음 문장" * 20]
+    chunks = merge_into_chunks(sents, breakpoints={0, 1}, max_chars=1000, min_chars=10)
+    assert not any(len(c) < 10 for c in chunks)   # 짧은 조각이 단독으로 안 남는다
+
+
+def test_chunk_semantically_uses_injected_embed_fn():
+    """embed_fn을 주입받아 쓴다 — 실제 Ollama 호출 없이 파이프라인 전체 검증."""
+    from semantic_chunk import chunk_semantically
+
+    def fake_embed(sentences):
+        # 앞 절반은 벡터 A, 뒤 절반은 벡터 B — 문장 개수와 무관하게 동작해야 함
+        half = len(sentences) // 2
+        return [[1.0, 0.0]] * half + [[0.0, 1.0]] * (len(sentences) - half)
+
+    text = "가나다. 라마바. 사아자.\n\n차카타. 파하거. 너더러."
+    chunks = chunk_semantically(text, fake_embed, percentile=50, max_chars=1000, min_chars=1)
+    assert len(chunks) >= 2   # 클러스터 전환이 최소 한 번은 잡혀야 한다

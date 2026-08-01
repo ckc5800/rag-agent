@@ -20,13 +20,21 @@ src/
 ├── inspect_data.py  인덱싱 전 데이터 검수 (길이 분포 + 잔여 노이즈 스캔)
 ├── vectorstore.py   벡터 저장소 교체 레이어 (FAISS / Qdrant)
 ├── ingest.py     문서 → 정제 → 청킹 → 임베딩 → 벡터 저장소 + 청크 저장(BM25용)
-├── graph.py      Corrective-RAG 그래프 (하이브리드 검색 + self-correction)
+├── graph.py      Corrective-RAG 그래프 (하이브리드 검색 + self-correction + 리랭크)
+├── route.py      질문 유형별 컨텍스트 전략 라우팅 (실험, 기본 꺼둠)
+├── cache.py      응답 캐시 — api.py 서빙 경계 전용 (설정 지문으로 A/B 오염 방지)
+├── tracelog.py   실사용 질의 트레이스 (JSONL, api.py·cli.py 경계 전용)
 ├── tools.py      Agent 도구 (검색 / 계산 / 날짜)
 ├── agent.py      Tool-Calling Agent (ReAct 루프 + 폴백)
 ├── team.py       Multi-Agent: Planner → RAG Workers → Synthesizer
 ├── mcp_agent.py  MCP 클라이언트 Agent (portfolio-mcp 서버의 도구 사용)
-├── api.py        FastAPI /ask
-└── cli.py        대화형 CLI
+├── api.py        FastAPI /ask, /ask/stream(SSE 토큰 스트리밍), /health
+├── cli.py        대화형 CLI
+├── ingest_parent_child.py  Parent-Child 청킹 인제스트 (실험, 별도 인덱스)
+├── graph_parent_child.py   Parent-Child RAG 그래프 (실험 — 현재 base 대비 이점 없음, 아래 참고)
+├── semantic_chunk.py       시맨틱 청킹 핵심 로직 (임베딩 유사도 breakpoint, 순수 함수)
+├── ingest_semantic.py      시맨틱 청킹 인제스트 (실험, 별도 인덱스 — 현재 base보다 recall 낮음)
+└── ingest_alt_embed.py     대안 임베딩 모델 인제스트 (실험, 미실행 — 모델 다운로드 필요)
 eval/
 ├── eval_set.json      평가 질문 51문항 (유형별 + 거부 10 · 패턴/앵커)
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
@@ -36,7 +44,9 @@ eval/
 ├── evaluate_team.py   멀티홉: 단일 RAG vs 팀 비교
 ├── diagnose.py        실패 원인 분해 — 검색/청킹/생성 층 분리 (LLM 불필요)
 ├── sweep_top_k.py     TOP_K 스윕 (검색 후보 수, LLM 불필요)
-├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1)
+├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1, 10문항)
+├── ab_rewrite_stratified.py  corrective 루프 A/B — 유형별 2문항 층화 표본(51문항 축소판)
+├── ab_type_routing.py TYPE_ROUTING A/B (aggregation·enumeration만 대상)
 ├── ab_top_n.py        generate 컨텍스트 개수 스윕 (top-3/4/5/6)
 ├── audit_patterns.py  채점 패턴 감사 (정답을 오답으로 집계하는지 검사)
 ├── audit_docs.py      README-코드 일치 확인 (CI에서 실행)
@@ -45,7 +55,12 @@ eval/
 ├── sweep_chunk_size.py 청크 크기 300~1600 스윕 (앵커 기반 gold, 기준선 포함)
 ├── relabel_retrieval.py 청킹이 바뀌었을 때 gold 라벨 재부착 (매칭 점수 출력)
 ├── audit_gold.py      gold 라벨 누락 감사 (정답 표현으로 전 청크 스캔)
-└── rescore.py         저장된 결과를 새 채점 기준으로 재채점
+├── rescore.py         저장된 결과를 새 채점 기준으로 재채점
+├── compare_parent_child.py    base vs parent-child recall·생성 비교
+├── experiment_paper_count.py  parent-child 실패 원인 분리 실험(모델 크기 vs 프롬프트)
+├── repeat_parent_child.py     base vs parent-child 반복 검증 (grade→rewrite 루프 포함)
+├── compare_semantic.py        base vs 시맨틱 청킹 recall 비교 (앵커 기반 gold)
+└── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold, 미실행)
 ```
 
 ### RAG 흐름
@@ -830,6 +845,50 @@ v5(패턴 채점)에 이어 두 번째 변경이다(동의 표기 인정, `expec
   크래시(0xC0000005)가 나서 CPU로 추론 중이다. DLL 로드와 드라이버는 정상이고
   백엔드 초기화 단계에서 죽는 것까지 재현해서 확인했다.
   [ollama#16957](https://github.com/ollama/ollama/issues/16957)과 같은 증상.
+
+## 최근 추가 (A/B 전 — 기본은 전부 꺼짐)
+
+- **grade 구조화 출력** — `judge_relevance()`가 자유 문장 정규식 파싱 대신
+  `ChatOllama.with_structured_output()`으로 `GradeVerdict(relevant: bool)`을
+  강제한다. eval_grade.py가 잰 오탐 20%, 그리고 corrective 루프 A/B
+  재검증(51문항 층화 표본)에서 그 오탐이 실제로 정답률을 깎는 것까지
+  확인한 뒤 바꿨다. 파싱 버그 클래스 자체가 구조적으로 없어진다.
+- **리랭커** (`config.RERANK`) — RRF 순위를 로컬 LLM 1회 호출로 다시
+  매긴다(listwise, 구조화 출력). cross-encoder 등 새 의존성 없이 diagnose.py가
+  지목한 병목(검색O·정답X)을 겨냥.
+- **유형별 라우팅** (`config.TYPE_ROUTING`, `src/route.py`) — 규칙 기반으로
+  질문 유형을 분류해 aggregation은 NEIGHBOR_WINDOW=1, enumeration은
+  CONTEXT_ORDER=sandwich를 그때만 적용한다. 두 손잡이 다 "전역으로 켜면
+  어떤 유형은 좋아지고 어떤 유형은 나빠진다"로 끝났던 것의 절충안.
+- **`/ask/stream`** — SSE 토큰 스트리밍. generate 노드만 필터링해서
+  내보낸다(`stream_mode=["messages","values"]`), grade의 구조화 출력
+  토큰은 안 섞인다.
+- **질의 트레이스** (`src/tracelog.py`) — api.py·cli.py 실사용 경계에서만
+  JSONL로 기록. eval 스크립트의 합성 트래픽은 안 섞는다.
+- **응답 캐시** (`src/cache.py`) — 마찬가지로 api.py 서빙 경계 전용.
+- **groundedness 검증** (`config.VERIFY_GROUNDING`, `graph.verify`) — generate
+  직후 답변이 근거 문서에 실제로 기반하는지 구조화 출력으로 재확인하는
+  관측 노드. grade·rewrite와 같은 fail-open 정책. 그래프에 항상 붙어
+  있지만(스트리밍 이벤트 필터링을 단순하게 유지하려고) 꺼져 있으면
+  LLM을 아예 안 부른다.
+- **시맨틱 청킹** (`src/semantic_chunk.py`, `src/ingest_semantic.py`) —
+  고정 800자 대신 문장 임베딩 유사도가 급락하는 지점(주제 전환)에서
+  자른다. `langchain_experimental` 없이 bge-m3 임베딩 + numpy로 직접
+  구현(핵심 breakpoint 로직은 순수 함수라 Ollama 없이 테스트됨). **실측
+  결과 — base(90%/100%/100%, MRR 0.95)가 시맨틱(80%/90%/100%, MRR 0.87)을
+  recall@1·@3·MRR 전부 앞선다**(`compare_semantic.py`, 10문항 앵커
+  기준). 청크가 51→34개로 줄며(중앙값 813자) 정밀도가 떨어진 것으로
+  보인다 — 문장 분리 정규식이 표나 목록 같은 비정형 구조를 잘 못 쪼개는
+  것도 원인 후보. parent-child 초기 실험과 같은 패턴("직관적으로 더
+  정교한 방법이 첫 시도에서 튜닝된 단순한 기본값을 못 이긴다")이라
+  아직 채택 안 함.
+
+**다음 순서 — Ollama NUM_PARALLEL** — `llm-bench` 프로젝트에서 같은 Ollama
+서버에 이 설정으로 TTFT p50 12.4s → 0.93s를 실측했다. 이 저장소는 아직
+`OLLAMA_NUM_PARALLEL`을 안 건드렸다(환경변수 미설정 확인함 — 기본값으로
+동작 중). 서버 재시작이 필요해 다른 백그라운드 작업과 충돌할 수 있어
+검증을 미뤄 뒀다. 코드 변경 없이 서버 설정만 바꾸는 문제라 다음으로
+검증하기 가장 싸다.
 
 ## 스택
 
