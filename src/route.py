@@ -23,10 +23,16 @@ enumeration으로 잘못 분류하면 원래 좋던 설정(reversed)을 나쁜 �
 51문항 평가셋으로 정밀도·재현율을 확인했다 — fact 19/19·temporal 4/4·
 refusal 10/10 오탐 없음, aggregation 6/6·comparison 2/2 전량 포착,
 enumeration은 8개 중 4개만 포착(나머지는 안전하게 fact로 폴백).
+
+**63문항 확장 후 재검증** — comparison이 2→8문항이 되자 2건을 놓쳤다.
+둘 다 "중 나중에" 형태였다("…중 나중에 시작한 쪽", "…중 나중에 취득한").
+기존 패턴은 "중 더/먼저"만 봤는데, 비교의 방향이 뒤쪽일 때(나중·늦게)를
+빠뜨린 것이다. 오탐은 여전히 0이므로 리콜만 넓힌다. 재검증 결과:
+fact 19/19·temporal 4/4·refusal 10/10 오탐 없음, comparison 8/8 포착.
 """
 import re
 
-_COMPARISON = re.compile(r"중\s*(더|먼저|어느|어떤|무엇)")
+_COMPARISON = re.compile(r"중\s*(더|먼저|나중|늦게|어느|어떤|무엇)")
 _AGGREGATION = re.compile(r"몇\s*(편|건|배)|(총|합치면|모두)\s*몇")
 _ENUMERATION = re.compile(
     r"들을?\s*(알려|무엇|모두)|모두\s*(알려|나열)|몇\s*가지|들을?\s*어떤\s*순서")
@@ -68,3 +74,35 @@ ROUTES: dict[str, dict[str, object]] = {
     "aggregation": {"NEIGHBOR_WINDOW": 1, "GENERATE_TOP_N": 3},
     "enumeration": {"CONTEXT_ORDER": "sandwich"},
 }
+
+
+def should_use_team(question: str) -> bool:
+    """멀티에이전트 팀(team.py)으로 보낼 질문인가.
+
+    측정 근거(eval/ab_team_routing.py, 22문항×2회, qwen2.5:14b):
+
+        single    35/44 (80%)   기준
+        routed    40/44 (91%)   +11%p   comparison 만 팀
+        all_team  30/44 (68%)   -11%p   전부 팀
+
+    **전부 팀으로 보내면 기준선보다 나쁘다** — aggregation 10/12→6/12,
+    enumeration 16/16→10/16. 분해는 서로 다른 청크의 사실을 엮을 때 이기고,
+    한 청크에 요약이 이미 있을 때는 그 근거를 잃는다. 그래서 팀이 좋은 게
+    아니라 **멀티홉에만** 좋다 — 분류기가 이득의 원천이다.
+
+    aggregation 신호를 배제하는 이유 — 두 신호를 동시에 가진 문항이 있다:
+
+        "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?"
+          단일 2/2 — 요약 청크("논문 7편(제1저자), 특허 2건")로 바로 답
+          팀   0/2 — 하위 질문으로 쪼개 목록을 직접 세다가 5편으로 오답
+
+    "중 더"(comparison)와 "몇 편"(aggregation)이 겹치는데 성격은 집계다.
+    classify_question_type 은 comparison 을 우선하지만(컨텍스트 전략에서는
+    그게 맞다), 팀 라우팅에서는 반대로 aggregation 이 있으면 보내지 않는다.
+
+    **한계**: 이 가드의 근거는 위 1문항이다. 겹치는 문항이 더 모이기 전에는
+    가설로 취급할 것 — 지금은 그 1건에서 routed 40/44 → 42/44 가 된다.
+    """
+    if _AGGREGATION.search(question):
+        return False
+    return classify_question_type(question) == "comparison"
