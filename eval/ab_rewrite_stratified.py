@@ -1,11 +1,13 @@
-"""corrective 루프 A/B — 51문항 층화 표본(유형별 2문항)으로 재검증.
+"""corrective 루프 A/B — 본 평가셋 층화 표본(유형별 2문항)으로 재검증.
 
 ab_rewrite.py의 원래 A/B(10문항, OFF 50%→ON 60%)는 10문항 시절 평가셋
-기준이라 comparison·aggregation 유형이 아예 없었다. 51문항 전체
+기준이라 comparison·aggregation 유형이 아예 없었다. 평가셋 전체
 (51×2조건×repeat)는 CPU 추론 기준 수 시간이 걸려 이번엔 유형별 2문항씩
 층화 표본(7유형×2=14문항)으로 시간을 줄이되 유형 다양성은 확보한다.
 
-전체 51문항 검증이 아니라 **층화 표본**이라는 것을 결과에 명시한다.
+전체 검증이 아니라 **층화 표본**이라는 것을 결과에 명시한다.
+(문항 수는 eval_set.json 에서 읽는다 — 51→63→71 로 늘어났으므로
+ 숫자를 문자열에 박아두면 곧 거짓이 된다.)
 
     python eval/ab_rewrite_stratified.py
 """
@@ -38,6 +40,7 @@ def main() -> int:
     import config
 
     cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
+    n_total = len(cases)
     sample = stratified_sample(cases, PER_TYPE)
     types = sorted({c.get("type", "?") for c in sample})
     print(f"층화 표본 {len(sample)}문항 (유형 {len(types)}종 × 최대 {PER_TYPE}개: {types})\n")
@@ -81,7 +84,7 @@ def main() -> int:
         print("  구제 질문: " + ", ".join(q[:30] for q in rescued))
     if broken:
         print("  악화 질문: " + ", ".join(q[:30] for q in broken))
-    print(f"\n주의: 51문항 전체가 아니라 유형별 {PER_TYPE}문항 층화 표본"
+    print(f"\n주의: 전체 {n_total}문항이 아니라 유형별 {PER_TYPE}문항 층화 표본"
           f"({len(sample)}문항)이다. 10문항 원 A/B(50%->60%)와 직접 비교 불가"
           " — 채점 기준·평가셋이 다르다.")
 
