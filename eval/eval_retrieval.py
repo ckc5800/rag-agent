@@ -8,6 +8,15 @@
 LLM 생성이 없어서 결정적이고, 임베딩 호출만 있어 수 초 안에 끝난다.
 청킹/검색 파라미터를 바꿀 때 이 지표부터 확인하면 실패 원인을
 검색/생성으로 분리할 수 있다.
+
+**표본은 retrieval_set.json 10문항이다** — 본 평가셋(71문항)이 아니다.
+md5 라벨을 손으로 붙여야 해서 늘리지 못했다. 인용할 때 반드시 표본 크기를
+같이 적을 것: 1문항이 10%p 이므로 recall@1 90% 는 "10문항 중 9개"다.
+
+또 이 recall 은 "gold 를 **하나라도** 회수했나"로 정의된다. 집계·비교처럼
+근거 전수가 필요한 질문에서는 실패를 숨긴다 — 그쪽은 eval/eval_coverage.py
+(앵커 경로 기반, 71문항 중 61문항)를 볼 것. 두 지표는 정의가 다르므로
+수치를 서로 비교하면 안 된다.
 """
 import hashlib
 import json
@@ -70,12 +79,16 @@ def main():
         sum(1 / r["gold_rank"] for r in rows if r["gold_rank"]) / len(rows), 3)
     summary["random_baseline"] = random_baseline(cases)
 
-    print("\n===== 검색 단독 평가 =====")
+    print(f"\n===== 검색 단독 평가 ({len(cases)}문항 · 1문항="
+          f"{100 / len(cases):.0f}%p) =====")
     for k in KS:
         base = summary["random_baseline"].get(f"recall@{k}")
         print(f"recall@{k} : {summary[f'recall@{k}']}%"
               f"   (무작위 기준선 {base}%)")
     print(f"MRR      : {summary['mrr']}")
+    print(f"\n※ 이 수치를 인용할 때는 표본({len(cases)}문항)을 같이 적을 것.\n"
+          "  근거 전수가 필요한 질문(집계·비교)은 eval/eval_coverage.py 를 볼 것 —\n"
+          "  여기 recall 은 'gold 를 하나라도 회수' 정의라 그쪽 실패를 숨긴다.")
 
     RESULTS.write_text(json.dumps({"summary": summary, "cases": rows},
                                   ensure_ascii=False, indent=2), encoding="utf-8")
