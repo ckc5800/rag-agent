@@ -843,7 +843,7 @@
   },
   {
     "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
-    "type": "trap",
+    "type": "aggregation",
     "answer_patterns": [
       "1\\s*편|한\\s*편"
     ],
@@ -858,7 +858,7 @@
   },
   {
     "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
-    "type": "trap",
+    "type": "temporal",
     "answer_patterns": [
       "5\\s*개월|다섯\\s*달"
     ],
@@ -874,7 +874,7 @@
   },
   {
     "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
-    "type": "trap",
+    "type": "fact",
     "answer_patterns": [
       "Triton"
     ],
@@ -889,7 +889,7 @@
   },
   {
     "question": "우수 논문상을 수상한 학회는 어디인가요?",
-    "type": "trap",
+    "type": "fact",
     "answer_patterns": [
       "국방기술학회"
     ],
@@ -904,7 +904,7 @@
   },
   {
     "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
-    "type": "trap",
+    "type": "fact",
     "answer_patterns": [
       "1\\.7"
     ],
@@ -919,7 +919,7 @@
   },
   {
     "question": "KISTI에서 수행한 업무는 무엇인가요?",
-    "type": "trap",
+    "type": "fact",
     "answer_patterns": [
       "고어"
     ],
@@ -930,6 +930,136 @@
     ],
     "gold_anchors": [
       "한국어 고어"
+    ]
+  },
+  {
+    "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "2\\.3\\s*초|2\\.3\\s*s"
+    ],
+    "gold_anchor_sets": [
+      [
+        "기존 응답 시간(2.3초)"
+      ]
+    ],
+    "gold_anchors": [
+      "기존 응답 시간(2.3초)"
+    ]
+  },
+  {
+    "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "12\\s*(개|채널)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "동시 채널(12개) 제약"
+      ]
+    ],
+    "gold_anchors": [
+      "동시 채널(12개) 제약"
+    ]
+  },
+  {
+    "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "50\\.1"
+    ],
+    "gold_anchor_sets": [
+      [
+        "ITN 정규화 정확도 50.1%"
+      ]
+    ],
+    "gold_anchors": [
+      "ITN 정규화 정확도 50.1%"
+    ]
+  },
+  {
+    "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "VM|수동"
+    ],
+    "gold_anchor_sets": [
+      [
+        "VM/수동 배포에서 컨테이너 기반"
+      ]
+    ],
+    "gold_anchors": [
+      "VM/수동 배포에서 컨테이너 기반"
+    ]
+  },
+  {
+    "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "협업"
+    ],
+    "gold_anchor_sets": [
+      [
+        "배포/서빙 담당, 팀 협업"
+      ]
+    ],
+    "gold_anchors": [
+      "배포/서빙 담당, 팀 협업"
+    ]
+  },
+  {
+    "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+    "type": "trap",
+    "answer_patterns": [
+      "이든티앤에스|EDEN"
+    ],
+    "gold_anchor_sets": [
+      [
+        "이든티앤에스",
+        "인피닉"
+      ]
+    ],
+    "gold_anchors": [
+      "이든티앤에스",
+      "인피닉"
+    ]
+  },
+  {
+    "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "7\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 7편(제1저자)",
+        "2저자"
+      ]
+    ],
+    "gold_anchors": [
+      "논문 7편(제1저자)",
+      "2저자"
+    ]
+  },
+  {
+    "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "3\\s*편|세\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국방 데이터 확보를 위한 생성 모델",
+        "GAN을 활용한 데이터 생성 연구 동향",
+        "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+        "특허 2건(제1발명자)"
+      ]
+    ],
+    "gold_anchors": [
+      "국방 데이터 확보를 위한 생성 모델",
+      "GAN을 활용한 데이터 생성 연구 동향",
+      "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+      "특허 2건(제1발명자)"
     ]
   }
 ]

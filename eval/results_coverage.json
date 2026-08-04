@@ -1,44 +1,44 @@
 {
   "overall": {
     "@1": {
-      "satisfied": 58,
-      "best_cov": 61,
+      "satisfied": 56,
+      "best_cov": 60,
       "any_anchor": 64
     },
     "@3": {
-      "satisfied": 87,
-      "best_cov": 89,
-      "any_anchor": 91
+      "satisfied": 84,
+      "best_cov": 87,
+      "any_anchor": 90
     },
     "@5": {
       "satisfied": 92,
-      "best_cov": 94,
-      "any_anchor": 96
+      "best_cov": 95,
+      "any_anchor": 97
     },
     "@6": {
-      "satisfied": 98,
+      "satisfied": 97,
       "best_cov": 99,
       "any_anchor": 100
     }
   },
   "baseline": {
     "@1": {
-      "satisfied": 3,
+      "satisfied": 2,
       "best_cov": 3,
       "any_anchor": 4
     },
     "@3": {
-      "satisfied": 8,
+      "satisfied": 7,
       "best_cov": 9,
       "any_anchor": 12
     },
     "@5": {
-      "satisfied": 13,
+      "satisfied": 12,
       "best_cov": 15,
-      "any_anchor": 18
+      "any_anchor": 19
     },
     "@6": {
-      "satisfied": 15,
+      "satisfied": 14,
       "best_cov": 18,
       "any_anchor": 22
     }
@@ -46,14 +46,14 @@
   "by_type": {
     "fact": {
       "@1": {
-        "satisfied": 79,
-        "best_cov": 79,
-        "any_anchor": 79
+        "satisfied": 78,
+        "best_cov": 78,
+        "any_anchor": 78
       },
       "@3": {
-        "satisfied": 95,
-        "best_cov": 95,
-        "any_anchor": 95
+        "satisfied": 96,
+        "best_cov": 96,
+        "any_anchor": 96
       },
       "@5": {
         "satisfied": 100,
@@ -68,19 +68,19 @@
     },
     "aggregation": {
       "@1": {
-        "satisfied": 67,
-        "best_cov": 72,
-        "any_anchor": 83
+        "satisfied": 71,
+        "best_cov": 76,
+        "any_anchor": 86
       },
       "@3": {
-        "satisfied": 83,
-        "best_cov": 83,
-        "any_anchor": 83
+        "satisfied": 86,
+        "best_cov": 86,
+        "any_anchor": 86
       },
       "@5": {
-        "satisfied": 83,
-        "best_cov": 83,
-        "any_anchor": 83
+        "satisfied": 86,
+        "best_cov": 86,
+        "any_anchor": 86
       },
       "@6": {
         "satisfied": 100,
@@ -112,31 +112,31 @@
     },
     "comparison": {
       "@1": {
-        "satisfied": 12,
+        "satisfied": 10,
         "best_cov": 25,
-        "any_anchor": 38
+        "any_anchor": 40
       },
       "@3": {
-        "satisfied": 38,
+        "satisfied": 30,
         "best_cov": 50,
-        "any_anchor": 62
+        "any_anchor": 70
       },
       "@5": {
-        "satisfied": 62,
-        "best_cov": 75,
-        "any_anchor": 88
+        "satisfied": 60,
+        "best_cov": 78,
+        "any_anchor": 90
       },
       "@6": {
-        "satisfied": 88,
-        "best_cov": 94,
+        "satisfied": 80,
+        "best_cov": 92,
         "any_anchor": 100
       }
     },
     "temporal": {
       "@1": {
-        "satisfied": 50,
-        "best_cov": 50,
-        "any_anchor": 50
+        "satisfied": 40,
+        "best_cov": 40,
+        "any_anchor": 40
       },
       "@3": {
         "satisfied": 100,
@@ -156,14 +156,14 @@
     },
     "trap": {
       "@1": {
-        "satisfied": 75,
-        "best_cov": 75,
+        "satisfied": 62,
+        "best_cov": 69,
         "any_anchor": 75
       },
       "@3": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 88,
+        "best_cov": 88,
+        "any_anchor": 88
       },
       "@5": {
         "satisfied": 100,
@@ -1825,7 +1825,7 @@
     },
     {
       "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
-      "type": "trap",
+      "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
         26,
@@ -1860,7 +1860,7 @@
     },
     {
       "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
-      "type": "trap",
+      "type": "temporal",
       "n_paths": 1,
       "retrieved": [
         15,
@@ -1895,7 +1895,7 @@
     },
     {
       "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
-      "type": "trap",
+      "type": "fact",
       "n_paths": 1,
       "retrieved": [
         22,
@@ -1930,7 +1930,7 @@
     },
     {
       "question": "우수 논문상을 수상한 학회는 어디인가요?",
-      "type": "trap",
+      "type": "fact",
       "n_paths": 1,
       "retrieved": [
         26,
@@ -1965,7 +1965,7 @@
     },
     {
       "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
-      "type": "trap",
+      "type": "fact",
       "n_paths": 1,
       "retrieved": [
         21,
@@ -2000,7 +2000,7 @@
     },
     {
       "question": "KISTI에서 수행한 업무는 무엇인가요?",
-      "type": "trap",
+      "type": "fact",
       "n_paths": 1,
       "retrieved": [
         25,
@@ -2029,6 +2029,286 @@
         "@6": {
           "satisfied": true,
           "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        20,
+        7,
+        6,
+        28,
+        50,
+        21
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        22,
+        21,
+        50,
+        49,
+        20,
+        4
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        37,
+        42,
+        48,
+        46,
+        41
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        23,
+        38,
+        11,
+        29,
+        40,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        47,
+        22,
+        16,
+        24,
+        28,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        10,
+        1,
+        16,
+        41,
+        25,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        19,
+        26,
+        24,
+        27,
+        20,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        13,
+        17,
+        26,
+        24,
+        18
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.75,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": false,
+          "best_cov": 0.75,
           "any_anchor": true
         }
       }
