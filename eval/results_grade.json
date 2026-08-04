@@ -1,17 +1,17 @@
 {
   "summary": {
-    "model": "qwen2.5:3b",
+    "model": "qwen2.5:14b",
     "repeat": 3,
-    "cases": 23,
-    "accuracy": 87.0,
-    "always_sufficient_baseline": 43.5,
-    "false_positive_rate": 20.0,
-    "false_negative_rate": 7.7,
+    "cases": 21,
+    "accuracy": 100.0,
+    "always_sufficient_baseline": 47.6,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
     "unparsed_rate": 0.0,
     "flip_cases": 0,
     "by_kind": {
       "positive": 10,
-      "shuffled": 9,
+      "shuffled": 7,
       "out-of-scope": 4
     }
   },
@@ -28,7 +28,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 10.7
+      "sec": 0.8
     },
     {
       "kind": "positive",
@@ -42,7 +42,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "positive",
@@ -56,7 +56,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "positive",
@@ -70,21 +70,21 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.4
     },
     {
       "kind": "positive",
       "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
       "expected": "yes",
       "verdicts": [
-        "no",
-        "no",
-        "no"
+        "yes",
+        "yes",
+        "yes"
       ],
-      "passed": 0,
+      "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.4
     },
     {
       "kind": "positive",
@@ -98,7 +98,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "positive",
@@ -112,21 +112,21 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.6
     },
     {
       "kind": "positive",
       "question": "화자 분할에는 어떤 모델을 사용했나요?",
       "expected": "yes",
       "verdicts": [
-        "no",
-        "no",
-        "no"
+        "yes",
+        "yes",
+        "yes"
       ],
-      "passed": 0,
+      "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "positive",
@@ -140,7 +140,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "positive",
@@ -154,7 +154,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "shuffled",
@@ -168,7 +168,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "shuffled",
@@ -182,7 +182,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.4
     },
     {
       "kind": "shuffled",
@@ -196,7 +196,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.4
     },
     {
       "kind": "shuffled",
@@ -210,35 +210,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
-    },
-    {
-      "kind": "shuffled",
-      "question": "우수 논문상을 받은 논문 제목은?",
-      "expected": "no",
-      "verdicts": [
-        "no",
-        "no",
-        "no"
-      ],
-      "passed": 3,
-      "of": 3,
-      "flipped": false,
-      "sec": 0.2
-    },
-    {
-      "kind": "shuffled",
-      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
-      "expected": "no",
-      "verdicts": [
-        "no",
-        "no",
-        "no"
-      ],
-      "passed": 3,
-      "of": 3,
-      "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "shuffled",
@@ -252,7 +224,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "shuffled",
@@ -266,21 +238,21 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "shuffled",
       "question": "이윤선이 근무한 회사들을 알려주세요.",
       "expected": "no",
       "verdicts": [
-        "yes",
-        "yes",
-        "yes"
+        "no",
+        "no",
+        "no"
       ],
-      "passed": 0,
+      "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.4
     },
     {
       "kind": "out-of-scope",
@@ -294,7 +266,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     },
     {
       "kind": "out-of-scope",
@@ -308,7 +280,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.6
     },
     {
       "kind": "out-of-scope",
@@ -322,7 +294,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.6
     },
     {
       "kind": "out-of-scope",
@@ -336,7 +308,7 @@
       "passed": 3,
       "of": 3,
       "flipped": false,
-      "sec": 0.2
+      "sec": 0.5
     }
   ]
 }

@@ -13,9 +13,9 @@
   "cases": [
     {
       "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
-      "gold_rank": 2,
+      "gold_rank": 1,
       "hits": {
-        "@1": false,
+        "@1": true,
         "@3": true,
         "@6": true
       }
@@ -58,9 +58,9 @@
     },
     {
       "question": "우수 논문상을 받은 논문 제목은?",
-      "gold_rank": 1,
+      "gold_rank": 2,
       "hits": {
-        "@1": true,
+        "@1": false,
         "@3": true,
         "@6": true
       }

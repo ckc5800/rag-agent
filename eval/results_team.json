@@ -1,68 +1,170 @@
 {
-  "single_pass": 1,
-  "team_pass": 1,
-  "total": 3,
+  "type": "comparison",
+  "repeat": 2,
+  "judgements": 16,
+  "single_hits": 9,
+  "team_hits": 14,
+  "single_sec": 3,
+  "team_sec": 5,
   "cases": [
     {
-      "question": "TTS 프로젝트와 Kubernetes 프로젝트 중 어느 것을 먼저 시작했어?",
-      "expected_keywords": [
-        "Kubernetes",
-        "2024"
-      ],
+      "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+      "expected_keywords": null,
       "single": {
-        "pass": true,
-        "answer": "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 포트폴리오에서 보여주는 정보를 보면, 이 분은 TTS 서비스 개발과 관련된 경험을 가지고 있습니다. 또한 Kubernetes 기반의 AI 인프라 구축에 대한 경험이 포함되어 있습니다.\n\nTTS (Text-to-Speech) 서비스 개발 프로젝트는 2022년부터 시작되었으며, 그 목표 중 하나는 배포 시간을 단축하는 것이었습니다. 이 분은 TTS 서비스를 통해 TTFB(Turn Time to First Byte)를 85% 이상 줄이는데 성공했습니다. 이는 기존의 응답 시간(2.3초)과 동시 채널 수(12개)에 대한 제약을 극복하는 데 도움이 되었습니다.\n\n반면, Kubernetes 프로젝트는 2024년 3월부터 시작되었으며, 이는 AI 서비스의 배포와 운영에 대한 자동화 및 확장성을 목표로 한 프로젝트였습니다. 회사 최초의 Kubernetes 기반 AI 플랫폼 구축을 달성한 것입니다.\n\n따라서 TTS 프로젝트가 먼저 시작되었을 가능성이 높습니다. 이 분은 텍스트를 음성으로 변환하는 서비스 개발에 대한 경험과 성공적인 결과를 보여주고 있기 때문입니다.",
-        "sec": 119
+        "pass": false,
+        "hits": 0,
+        "answer": "TTS 프로젝트의 시작 시점은 2025년 9월입니다. 문서에서 '화자 분할 프로젝트'에 대한 정보는 제공되지 않았으므로, TTS 프로젝트가 먼저 시작한 것으로 보입니다.\n\n답변: TTS 프로젝트의 시작 시점은 2025년 9월이며, 화자 분할 프로젝트와 관련된 정보는 문서에서 찾을 수 없습니다. 따라서 TTS 프로젝트가 먼저 시작한 것으로 추정됩니다.",
+        "sec": 8
       },
       "team": {
         "pass": true,
-        "answer": "TTS 프로젝트와 Kubernetes 프로젝트 중에서 먼저 시작한 것은 TTS 프로젝트입니다. TTS 프로젝트는 2025년 9월에 시작되었으나, Kubernetes 프로젝트의 시작 시기는 2024년 3월부터 2025년 4월까지였습니다. 따라서 TTS 프로젝트가 먼저 시작된 것으로 보입니다.",
+        "hits": 2,
+        "answer": "화자 분할 프로젝트가 먼저 시작된 것으로 보이며, 그 시작 시점은 2025년 4월입니다. TTS 프로젝트의 시작 시점은 2025년 9월이므로 화자 분할 프로젝트보다 나중에 시작되었습니다.",
         "sub_questions": [
-          "TTS 프로젝트는 언제 시작했어?",
-          "Kubernetes 프로젝트는 언제 시작했어?"
+          "TTS 프로젝트는 언제 시작했나?",
+          "화자 분할 프로젝트는 언제 시작했나?"
         ],
-        "sec": 32
+        "sec": 4
       }
     },
     {
-      "question": "논문 수와 특허 수를 합치면 몇 개야?",
-      "expected_keywords": [
-        "9"
-      ],
+      "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+      "expected_keywords": null,
       "single": {
-        "pass": false,
-        "answer": "논문 수는 4편(3차원 해석 방법, 센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램, 3D Semantic Segmentation Research)이고, 특허 수는 2건입니다. 두 가지를 합치면 총 6개입니다.",
-        "sec": 74
+        "pass": true,
+        "hits": 2,
+        "answer": "인피尼克에서의 근무 기간이 더 길어 2년 9개월입니다. (2022.08 ~ 2025.04)",
+        "sec": 2
       },
       "team": {
-        "pass": false,
-        "answer": "논문과 특허를 합치면 총 7개입니다. 논문은 5편이고, 특허는 2건이기 때문입니다.",
+        "pass": true,
+        "hits": 2,
+        "answer": "인피尼克과 이든티앤에스 중 더 오래 근무한 회사는 인피닉이며, 그 근무 기간은 2년 9개월입니다.",
         "sub_questions": [
-          "논문은 몇 편인가?",
-          "특허는 몇 건인가?"
+          "인피尼克에서의 근무 기간은 얼마나 되나?",
+          "이든티앤에스에서의 근무 기간은 얼마나 되나?"
         ],
-        "sec": 158
+        "sec": 4
       }
     },
     {
-      "question": "석사 학위는 어느 학교에서 받았고, 우수논문상은 어느 학회에서 받았어?",
-      "expected_keywords": [
-        "인하",
-        "국방"
-      ],
+      "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+      "expected_keywords": null,
       "single": {
         "pass": false,
-        "answer": "문서에는 석사학위와 관련된 정보가 제공되지 않았습니다. 또한, 우수논문상을 받은 학회나 기관에 대한 정보도 포함되어 있지 않습니다. 따라서 이러한 질문에 대해 문서에서 찾을 수 없습니다라고 답변해야 합니다.",
-        "sec": 109
+        "hits": 0,
+        "answer": "인피尼克(INFINIC)이 먼저입니다. 이윤선은 2022년 8월에 인피尼克에 입사하여 2025년 4월까지 재직했습니다. 에이아이세스(AICESS)는 2025년 4월부터 현재까지 재직 중인 회사입니다.",
+        "sec": 2
+      },
+      "team": {
+        "pass": true,
+        "hits": 2,
+        "answer": "인피尼克과 에이아이세스 중에서 먼저 입사한 회사는 인피닉입니다. 인피尼克은 2022년 8월 8일에, 에이아이세스는 2025년 4월에 각각 입사했습니다. 따라서 인피尼克가 먼저 입사한 회사이며, 에이아이세스는 그 뒤에 입사한 회사입니다.",
+        "sub_questions": [
+          "인피尼克에 언제 입사했나?",
+          "에이아이세스에 언제 입사했나?"
+        ],
+        "sec": 4
+      }
+    },
+    {
+      "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+      "expected_keywords": null,
+      "single": {
+        "pass": true,
+        "hits": 2,
+        "answer": "STT 배포는 2025년 7월부터 시작되었습니다 반면, Kubernetes 기반 AI 인프라는 2024년 3월부터 시작되었습니다. 따라서 나중에 시작한 쪽의 시작 시점은 STT 배포인 **2025년 7월**입니다.",
+        "sec": 2
+      },
+      "team": {
+        "pass": true,
+        "hits": 2,
+        "answer": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 2025년 7월입니다. 이는 STT 배포 프로젝트가 Kubernetes 기반 AI 인프라 프로젝트보다 늦게 시작된 것으로 나타났습니다.",
+        "sub_questions": [
+          "STT 배포의 시작 시점은 언제인가?",
+          "Kubernetes 기반 AI 인프라의 시작 시점은 언제인가?"
+        ],
+        "sec": 4
+      }
+    },
+    {
+      "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+      "expected_keywords": null,
+      "single": {
+        "pass": true,
+        "hits": 2,
+        "answer": "석사 학위는 인하대학교(Inha University)에서 2021년 8월에 취득하셨습니다.",
+        "sec": 3
+      },
+      "team": {
+        "pass": true,
+        "hits": 2,
+        "answer": "이윤선님이 취득한 두 학위 중 나중에 받으신 석사는 인하대학교(Inha University)에서 컴퓨터과학(M.S. Computer Science)으로 취득하셨습니다. 하지만, 학사와 석사 중 어느 것이 더 늦게 취득되었는지 명확하게 알려주진 않았기 때문에, 이것이 최종 답변일 수 없다고 말씀드립니다. 따라서 원 질문에 대한 정확한 답을 제공하기 위해서는 추가 정보가 필요합니다.",
+        "sub_questions": [
+          "석사는 어느 대학교에서 받으셨나요?",
+          "학사는 어느 대학교에서 받으셨나요?"
+        ],
+        "sec": 5
+      }
+    },
+    {
+      "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+      "expected_keywords": null,
+      "single": {
+        "pass": false,
+        "hits": 1,
+        "answer": "문서에서 제공된 정보만으로는 STT(음성 인식) 배포와 TTS(텍스트 투 스피치) 프로젝트의 정확한 시작 순서를 알 수 없습니다. 따라서, 주어진 문서 내용을 바탕으로 답변을 제공할 수 없으며, \"문서에서 찾을 수 없습니다\"라는 답을 드려야 합니다.",
+        "sec": 3
+      },
+      "team": {
+        "pass": true,
+        "hits": 2,
+        "answer": "STT 배포가 먼저 시작된 것으로 보입니다. TTS 프로젝트는 2025년 9월에 시작되었고, STT 배포 프로젝트는 그보다 이른 2025년 7월에 시작되었습니다. 따라서 STT 배포 프로젝트가 먼저 시작한 것입니다.",
+        "sub_questions": [
+          "TTS 프로젝트는 언제 시작했나?",
+          "STT 배포는 언제 시작했나?"
+        ],
+        "sec": 3
+      }
+    },
+    {
+      "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+      "expected_keywords": null,
+      "single": {
+        "pass": true,
+        "hits": 2,
+        "answer": "제1저자 논문의 수는 7편이고, 등록 특허 건수는 2건입니다. 따라서 제1저자 논문 편수가 더 많으며, 그 수는 7편입니다.",
+        "sec": 2
       },
       "team": {
         "pass": false,
-        "answer": "이윤선 선생님은 석사학위를 홍남대학교에서 받으셨고, 우수논문상을 국방기술학회에서 받았습니다. 하지만 다른 학회로의 우수논문상 수상 여부는 확인되지 않았습니다.",
+        "hits": 0,
+        "answer": "제1저자 논문은 총 5편이고, 등록 특허는 2건이므로 제1저자 논문 편수가 더 많습니다. 따라서 원 질문에 대한 답은 5편입니다.",
         "sub_questions": [
-          "석사 학위는 어느 학교에서 받았나요?",
-          "우수논문상을 어느 학회에서 수상했나요?"
+          "제1저자 논문은 몇 편인가?",
+          "등록 특허는 몇 건인가?"
         ],
-        "sec": 146
+        "sec": 9
+      }
+    },
+    {
+      "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+      "expected_keywords": null,
+      "single": {
+        "pass": false,
+        "hits": 0,
+        "answer": "Generative Model Research와 3D Semantic Segmentation Research 중에서 Generative Model Research는 문서에 명시적으로 언급되어 있지 않지만, \"국방 데이터 확보를 위한 생성 모델 Lattent Diffusion\"이라는 내용이 있으며 이 연구가 더 늦게 시작된 것으로 보입니다. 반면, 3D Semantic Segmentation Research의 시작 시점은 2022년 8월부터로 명시되어 있습니다.\n\n따라서 Generative Model Research인 \"국방 데이터 확보를 위한 생성 모델 Lattent Diffusion\"이 더 늦게 시작된 연구이며, 이 연구의 정확한 시작 시점은 문서에서 명시적으로 제공되지 않았지만, 3D Semantic Segmentation Research(2022년 8월 ~ 12월)보다는 이후로 추정됩니다.",
+        "sec": 4
+      },
+      "team": {
+        "pass": true,
+        "hits": 2,
+        "answer": "Generative Model Research와 3D Semantic Segmentation Research 중에서 Generative Model Research가 더 늦게 시작한 연구입니다. 따라서, Generative Model Research의 시작 시점인 2023년 1월이 두 연구 중 더 늦게 시작한 연구의 시작 시점으로 답할 수 있습니다. 하지만 주어진 정보는 특정 연구 분야의 역사적 사실과는 다소 맞지 않을 수 있으며, 이들 연구가 실제로 언제부터 활발하게 이루어졌는지를 정확히 파악하기 위해서는 추가적인 검토가 필요합니다. 여기서 제공된 정보에 따르면 2023년 1월이 최종 답변으로 제시됩니다.",
+        "sub_questions": [
+          "Generative Model Research는 언제 시작했나?",
+          "3D Semantic Segmentation Research는 언제 시작했나?"
+        ],
+        "sec": 4
       }
     }
   ]

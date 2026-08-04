@@ -1,0 +1,67 @@
+{
+  "repeat": 2,
+  "judgements": 44,
+  "totals": {
+    "single": 34,
+    "routed": 42,
+    "all_team": 30
+  },
+  "avg_sec": {
+    "single": 2.9,
+    "routed": 3.1,
+    "all_team": 3.8
+  },
+  "by_type": {
+    "single": {
+      "aggregation": [
+        10,
+        12
+      ],
+      "comparison": [
+        9,
+        16
+      ],
+      "enumeration": [
+        15,
+        16
+      ]
+    },
+    "routed": {
+      "aggregation": [
+        10,
+        12
+      ],
+      "comparison": [
+        16,
+        16
+      ],
+      "enumeration": [
+        16,
+        16
+      ]
+    },
+    "all_team": {
+      "aggregation": [
+        6,
+        12
+      ],
+      "comparison": [
+        14,
+        16
+      ],
+      "enumeration": [
+        10,
+        16
+      ]
+    }
+  },
+  "routed_questions": [
+    "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+    "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+    "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+    "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+    "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+    "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+    "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?"
+  ]
+}
