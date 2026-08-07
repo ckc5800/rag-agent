@@ -47,6 +47,20 @@ VARIANTS: dict[str, dict[str, dict]] = {
         "aggregation": {"NEIGHBOR_WINDOW": 1, "GENERATE_TOP_N": 3},
         "enumeration": {"NEIGHBOR_WINDOW": 1},
     },
+    # 위(채택본)에 targeted 프롬프트를 aggregation에만 얹는다.
+    # 근거: ab_prompt_variant.py(55문항 × 4회)에서 targeted는 전역으로는
+    # base와 완전 동률(78%, 171/220)이었지만 내역이 상쇄였다 —
+    # aggregation 10/24 → 13/24로 오르고 fact 76/88 → 71/88로 내렸다.
+    # 특히 "한국자동차공학회에 게재한 논문은 몇 편?"이 0/4 → 4/4로
+    # 구제됐는데, 이건 _TARGETED_RULES의 두 번째 규칙(같은 대상의 숫자가
+    # 여러 개면 질문이 묻는 범위를 확인하라)이 정확히 겨냥한 실패다.
+    # NEIGHBOR_WINDOW와 같은 모양("어떤 유형엔 좋고 어떤 유형엔 나쁘다")이라
+    # 같은 해법(유형별 라우팅)이 통하는지 잰다.
+    "enum_w1_agg_targeted": {
+        "aggregation": {"NEIGHBOR_WINDOW": 1, "GENERATE_TOP_N": 3,
+                        "GENERATE_PROMPT_VARIANT": "targeted"},
+        "enumeration": {"NEIGHBOR_WINDOW": 1},
+    },
 }
 
 
