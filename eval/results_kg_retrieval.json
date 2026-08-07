@@ -1,0 +1,35 @@
+{
+  "hybrid": {
+    "recall@1": 90,
+    "recall@3": 100,
+    "recall@6": 100,
+    "mrr": 0.95,
+    "by_type_hit@6": {
+      "aggregation": "1/1",
+      "enumeration": "2/2",
+      "fact": "7/7"
+    }
+  },
+  "kg_only": {
+    "recall@1": 10,
+    "recall@3": 40,
+    "recall@6": 40,
+    "mrr": 0.217,
+    "by_type_hit@6": {
+      "aggregation": "1/1",
+      "enumeration": "1/2",
+      "fact": "2/7"
+    }
+  },
+  "hybrid+kg_rrf": {
+    "recall@1": 80,
+    "recall@3": 100,
+    "recall@6": 100,
+    "mrr": 0.9,
+    "by_type_hit@6": {
+      "aggregation": "1/1",
+      "enumeration": "2/2",
+      "fact": "7/7"
+    }
+  }
+}

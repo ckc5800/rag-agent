@@ -16,3 +16,7 @@ uvicorn>=0.30
 # mcp_agent.py가 죽는다 — 상한을 명시한다.
 mcp>=1.0,<2
 langchain-mcp-adapters>=0.1
+# Graph RAG 실험(kg.py) — 순수 파이썬, 서버 불필요. FAISS·chunks.jsonl과
+# 같은 "파일 하나로 끝난다" 원칙에 맞아 골랐다(cross-encoder를 rerank에서
+# 안 쓴 것과 같은 이유).
+networkx>=3.0

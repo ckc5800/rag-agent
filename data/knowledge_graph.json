@@ -1,0 +1,3218 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "이윤선",
+      "id": "이윤선"
+    },
+    {
+      "label": "센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "id": "센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램"
+    },
+    {
+      "label": "시맨틱 세그멘테이션의 3차원 해석 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "id": "시맨틱 세그멘테이션의 3차원 해석 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램"
+    },
+    {
+      "label": "미코그룹 AICESS 인공지능 연구소",
+      "id": "미코그룹 AICESS 인공지능 연구소"
+    },
+    {
+      "label": "미코그룹 AICESS",
+      "id": "미코그룹 AICESS"
+    },
+    {
+      "label": "(현재)",
+      "id": "(현재)"
+    },
+    {
+      "label": "인피닉",
+      "id": "인피닉"
+    },
+    {
+      "label": "2022.08.08 - 2025.04.22(2년 9개월)",
+      "id": "2022.08.08 - 2025.04.22(2년 9개월)"
+    },
+    {
+      "label": "이든티앤에스",
+      "id": "이든티앤에스"
+    },
+    {
+      "label": "이들티앤에스",
+      "id": "이들티앤에스"
+    },
+    {
+      "label": "2022.04.04 - 2022.08.05(5개월)",
+      "id": "2022.04.04 - 2022.08.05(5개월)"
+    },
+    {
+      "label": "영어",
+      "id": "영어"
+    },
+    {
+      "label": "영어 (중급)",
+      "id": "영어 (중급)"
+    },
+    {
+      "label": "IM1",
+      "id": "im1"
+    },
+    {
+      "label": "AICESS",
+      "id": "aicess"
+    },
+    {
+      "label": "2025.04~재직중",
+      "id": "2025.04~재직중"
+    },
+    {
+      "label": "AI언어개발팀",
+      "id": "AI언어개발팀"
+    },
+    {
+      "label": "TTS",
+      "id": "tts"
+    },
+    {
+      "label": "2025.09~",
+      "id": "2025.09~"
+    },
+    {
+      "label": "QA 업무",
+      "id": "QA 업무"
+    },
+    {
+      "label": "TTS 데이터 정제",
+      "id": "TTS 데이터 정제"
+    },
+    {
+      "label": "ZipVoice 모델 학습",
+      "id": "ZipVoice 모델 학습"
+    },
+    {
+      "label": "[음성 샘플(1)]",
+      "id": "[음성 샘플(1)]"
+    },
+    {
+      "label": "[음성 샘플(2)]",
+      "id": "[음성 샘플(2)]"
+    },
+    {
+      "label": "사내 운영 테스트",
+      "id": "사내 운영 테스트"
+    },
+    {
+      "label": "FastAPI → Qwen3 Engine",
+      "id": "FastAPI → Qwen3 Engine"
+    },
+    {
+      "label": "`StreamingSynthesizeRequest`",
+      "id": "`streamingsynthesizerequest`"
+    },
+    {
+      "label": "FastAPI",
+      "id": "fastapi"
+    },
+    {
+      "label": "Redis",
+      "id": "redis"
+    },
+    {
+      "label": "Redis protocol",
+      "id": "redis protocol"
+    },
+    {
+      "label": "기술 명세서",
+      "id": "기술 명세서"
+    },
+    {
+      "label": "1",
+      "id": "1"
+    },
+    {
+      "label": "기술명세서(2)",
+      "id": "기술명세서(2)"
+    },
+    {
+      "label": "2",
+      "id": "2"
+    },
+    {
+      "label": "기술명세서(2) 상세",
+      "id": "기술명세서(2) 상세"
+    },
+    {
+      "label": "이벤트",
+      "id": "이벤트"
+    },
+    {
+      "label": "운영 페이지 제작",
+      "id": "운영 페이지 제작"
+    },
+    {
+      "label": "스트리밍 api 리팩토링",
+      "id": "스트리밍 api 리팩토링"
+    },
+    {
+      "label": "Demo 페이지",
+      "id": "Demo 페이지"
+    },
+    {
+      "label": "보고- 메일(개인 소장용)",
+      "id": "보고- 메일(개인 소장용)"
+    },
+    {
+      "label": "버전 (deprecated)",
+      "id": "버전 (deprecated)"
+    },
+    {
+      "label": "약 85.4%",
+      "id": "약 85.4%"
+    },
+    {
+      "label": "약 6.85배",
+      "id": "약 6.85배"
+    },
+    {
+      "label": "약 2292ms",
+      "id": "약 2292ms"
+    },
+    {
+      "label": "342개",
+      "id": "342개"
+    },
+    {
+      "label": "WAV",
+      "id": "wav"
+    },
+    {
+      "label": "24000 Hz",
+      "id": "24000 hz"
+    },
+    {
+      "label": "약 57.86s",
+      "id": "약 57.86s"
+    },
+    {
+      "label": "오후 1:14:26",
+      "id": "오후 1:14:26"
+    },
+    {
+      "label": "청크 수신",
+      "id": "청크 수신"
+    },
+    {
+      "label": "오후 1:14:27",
+      "id": "오후 1:14:27"
+    },
+    {
+      "label": "342개 청크",
+      "id": "342개 청크"
+    },
+    {
+      "label": "TTFB: 2292ms",
+      "id": "ttfb: 2292ms"
+    },
+    {
+      "label": "첫 청크 수신",
+      "id": "첫 청크 수신"
+    },
+    {
+      "label": "334ms",
+      "id": "334ms"
+    },
+    {
+      "label": "처음 문장 완성 시",
+      "id": "처음 문장 완성 시"
+    },
+    {
+      "label": "POST http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime",
+      "id": "post http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime"
+    },
+    {
+      "label": "오후 1:14:34",
+      "id": "오후 1:14:34"
+    },
+    {
+      "label": "화자",
+      "id": "화자"
+    },
+    {
+      "label": "2025.04~07",
+      "id": "2025.04~07"
+    },
+    {
+      "label": "[pyannote.pdf]",
+      "id": "[pyannote.pdf]"
+    },
+    {
+      "label": "엔진-브로커(api-http)",
+      "id": "엔진-브로커(api-http)"
+    },
+    {
+      "label": "통신 관련 에러 수정",
+      "id": "통신 관련 에러 수정"
+    },
+    {
+      "label": "文件基 STT 处理",
+      "id": "文件基 STT 处理"
+    },
+    {
+      "label": "[流式基 STT 处理]",
+      "id": "[流式基 STT 处理]"
+    },
+    {
+      "label": "STT 和语音分离的集成",
+      "id": "STT 和语音分离的集成"
+    },
+    {
+      "label": "STT 的高级化工作",
+      "id": "STT 的高级化工作"
+    },
+    {
+      "label": "开发团队",
+      "id": "开发团队"
+    },
+    {
+      "label": "쿠버네티스",
+      "id": "쿠버네티스"
+    },
+    {
+      "label": "PPSX",
+      "id": "ppsx"
+    },
+    {
+      "label": "3차원 시멘틱세그멘테이션",
+      "id": "3차원 시멘틱세그멘테이션"
+    },
+    {
+      "label": "텍스트 요약",
+      "id": "텍스트 요약"
+    },
+    {
+      "label": "탱크 생성모델",
+      "id": "탱크 생성모델"
+    },
+    {
+      "label": "[국방 데이터 확보를 위한 생성 모델 Lattent Diffusion]",
+      "id": "[국방 데이터 확보를 위한 생성 모델 Lattent Diffusion]"
+    },
+    {
+      "label": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "id": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion"
+    },
+    {
+      "label": "GAN을 활용한 데이터 생성 연구 동향",
+      "id": "GAN을 활용한 데이터 생성 연구 동향"
+    },
+    {
+      "label": "우수 논문 수상",
+      "id": "우수 논문 수상"
+    },
+    {
+      "label": "GAN",
+      "id": "gan"
+    },
+    {
+      "label": "데이터 생성",
+      "id": "데이터 생성"
+    },
+    {
+      "label": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11622970&nodeId=NODE11622970&mobileYN=N&medaTypeCode=185004&isPDFSizeAllowed=true&locale=ko&foreignIpYn=N&articleTitle=GAN%EC%9D%84+%ED%99%9C%EC%9A%A9%ED%95%9C+%EB%8D%B0%EC%9D%B4%ED%84%B0+%EC%83%9D%EC%84%B1+%EC%97%B0%EA%B5%AC+%EB%8F%99%ED%96%A5&articleTitleEn=Data+generation+research+trend+using+GAN",
+      "id": "https://www.dbpia.co.kr/journal/articledetail?nodeid=node11622970&nodeid=node11622970&mobileyn=n&medatypecode=185004&ispdfsizeallowed=true&locale=ko&foreignipyn=n&articletitle=gan%ec%9d%84+%ed%99%9c%ec%9a%a9%ed%95%9c+%eb%8d%b0%ec%9d%b4%ed%84%b0+%ec%83%9d%ec%84%b1+%ec%97%b0%ea%b5%ac+%eb%8f%99%ed%96%a5&articletitleen=data+generation+research+trend+using+gan"
+    },
+    {
+      "label": "탱크 탐지 모델",
+      "id": "탱크 탐지 모델"
+    },
+    {
+      "label": "23년 1월 ~8월",
+      "id": "23년 1월 ~8월"
+    },
+    {
+      "label": "2D, 3D 센서 퓨전 세그멘테이션 모델",
+      "id": "2D, 3D 센서 퓨전 세그멘테이션 모델"
+    },
+    {
+      "label": "22년 8월 ~ 22년 12월",
+      "id": "22년 8월 ~ 22년 12월"
+    },
+    {
+      "label": "[자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet]",
+      "id": "[자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet]"
+    },
+    {
+      "label": "[센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석]",
+      "id": "[센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석]"
+    },
+    {
+      "label": "10-2538225-0000",
+      "id": "10-2538225-0000"
+    },
+    {
+      "label": "3차원 해석方法",
+      "id": "3차원 해석方法"
+    },
+    {
+      "label": "등록번호",
+      "id": "등록번호"
+    },
+    {
+      "label": "10-2538231-0000",
+      "id": "10-2538231-0000"
+    },
+    {
+      "label": "KIPRIS 지식재산정보 검색 서비스.pdf",
+      "id": "KIPRIS 지식재산정보 검색 서비스.pdf"
+    },
+    {
+      "label": "텍스트",
+      "id": "텍스트"
+    },
+    {
+      "label": "AI 팀",
+      "id": "AI 팀"
+    },
+    {
+      "label": "2022-4",
+      "id": "2022-4"
+    },
+    {
+      "label": "2022-8",
+      "id": "2022-8"
+    },
+    {
+      "label": "pdf table detection 모델",
+      "id": "pdf table detection 모델"
+    },
+    {
+      "label": "GUI tool",
+      "id": "gui tool"
+    },
+    {
+      "label": "사내 프로젝트 축하 성과금",
+      "id": "사내 프로젝트 축하 성과금"
+    },
+    {
+      "label": "제목 없음",
+      "id": "제목 없음"
+    },
+    {
+      "label": "수영장 강사",
+      "id": "수영장 강사"
+    },
+    {
+      "label": "연구 수행 실적 (학위 논문 외)",
+      "id": "연구 수행 실적 (학위 논문 외)"
+    },
+    {
+      "label": "사내 풋살 동호회 운영",
+      "id": "사내 풋살 동호회 운영"
+    },
+    {
+      "label": "포스텍 MOOC 교육 프로그램 수료",
+      "id": "포스텍 MOOC 교육 프로그램 수료"
+    },
+    {
+      "label": "한국과학기술정보연구원",
+      "id": "한국과학기술정보연구원"
+    },
+    {
+      "label": "[**한국과학기술정보연구원 (kisti)**]",
+      "id": "[**한국과학기술정보연구원 (kisti)**]"
+    },
+    {
+      "label": "봉사 활동",
+      "id": "봉사 활동"
+    },
+    {
+      "label": "한국항공우주학회",
+      "id": "한국항공우주학회"
+    },
+    {
+      "label": "한국자동차공학회",
+      "id": "한국자동차공학회"
+    },
+    {
+      "label": "자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet",
+      "id": "자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet"
+    },
+    {
+      "label": "비정형, 정형 데이터의 이미지 학습을 활용한 시장예측",
+      "id": "비정형, 정형 데이터의 이미지 학습을 활용한 시장예측"
+    },
+    {
+      "label": "Trend of Malware Detection Using Deep Learning",
+      "id": "trend of malware detection using deep learning"
+    },
+    {
+      "label": "Deep Learning을 활용한 악성코드 탐지 방법 동향 분석",
+      "id": "Deep Learning을 활용한 악성코드 탐지 방법 동향 분석"
+    },
+    {
+      "label": "리눅스 기반 디지털 사이니지 콘텐츠 서버 구현을 위한 파일 시스템 동향 분석",
+      "id": "리눅스 기반 디지털 사이니지 콘텐츠 서버 구현을 위한 파일 시스템 동향 분석"
+    },
+    {
+      "label": "AI 엔지니어",
+      "id": "AI 엔지니어"
+    },
+    {
+      "label": "6년차 AI Engineer | MLOps Specialist",
+      "id": "6년차 AI Engineer | MLOps Specialist"
+    },
+    {
+      "label": "yoon7829@gmail.com",
+      "id": "yoon7829@gmail.com"
+    },
+    {
+      "label": "ckc5800.github.io",
+      "id": "ckc5800.github.io"
+    },
+    {
+      "label": "github.com/ckc5800",
+      "id": "github.com/ckc5800"
+    },
+    {
+      "label": "taepseon.tistory.com",
+      "id": "taepseon.tistory.com"
+    },
+    {
+      "label": "AI Engineer | MLOps Specialist",
+      "id": "ai engineer | mlops specialist"
+    },
+    {
+      "label": "Manager",
+      "id": "manager"
+    },
+    {
+      "label": "Apr 2025 – Present",
+      "id": "Apr 2025 – Present"
+    },
+    {
+      "label": "TTS 프로젝트",
+      "id": "TTS 프로젝트"
+    },
+    {
+      "label": "TTS 프로젝트 (2025.09 ~ 현재)",
+      "id": "TTS 프로젝트 (2025.09 ~ 현재)"
+    },
+    {
+      "label": "이미 명시되지 않음",
+      "id": "이미 명시되지 않음"
+    },
+    {
+      "label": "ICL(In-Context Learning) 기반 음성복제 기능",
+      "id": "ICL(In-Context Learning) 기반 음성복제 기능"
+    },
+    {
+      "label": "OpenAI TTS API 호환",
+      "id": "OpenAI TTS API 호환"
+    },
+    {
+      "label": "서비스 연동",
+      "id": "서비스 연동"
+    },
+    {
+      "label": "TTFB: 2292ms → 334ms (85% 단축, 6.85배)",
+      "id": "TTFB: 2292ms → 334ms (85% 단축, 6.85배)"
+    },
+    {
+      "label": "동시 처리 채널: 12 → 24개 (2배)",
+      "id": "동시 처리 채널: 12 → 24개 (2배)"
+    },
+    {
+      "label": "Throughput: 0.68 → 1.41 rps (2배), 최적화 후 ~1.7 rps (2.5배)",
+      "id": "Throughput: 0.68 → 1.41 rps (2배), 최적화 후 ~1.7 rps (2.5배)"
+    },
+    {
+      "label": "단건 지연시간 15% 감소 | RTF 0.1 이하 | CER(문자 오류율) 3~5%",
+      "id": "단건 지연시간 15% 감소 | RTF 0.1 이하 | CER(문자 오류율) 3~5%"
+    },
+    {
+      "label": "32개 언어 지원 단일 플랫폼",
+      "id": "32개 언어 지원 단일 플랫폼"
+    },
+    {
+      "label": "ITN 정규화 정확도 50.1% → 70.9%",
+      "id": "ITN 정규화 정확도 50.1% → 70.9%"
+    },
+    {
+      "label": "이름 없음",
+      "id": "이름 없음"
+    },
+    {
+      "label": "AI Engineer/MLOps Engineer",
+      "id": "ai engineer/mlops engineer"
+    },
+    {
+      "label": "Aug 2022 – Apr 2025",
+      "id": "Aug 2022 – Apr 2025"
+    },
+    {
+      "label": "Kubernetes, Docker, Helm, GitLab CI/CD, Jenkins, ArgoCD, Prometheus/Grafana/Loki/ELK",
+      "id": "kubernetes, docker, helm, gitlab ci/cd, jenkins, argocd, prometheus/grafana/loki/elk"
+    },
+    {
+      "label": "20개 이상 ML 모델 운영 환경 구축, GitLab → Jenkins → ArgoCD 배포 자동화",
+      "id": "20개 이상 ML 모델 운영 환경 구축, GitLab → Jenkins → ArgoCD 배포 자동화"
+    },
+    {
+      "label": "BART, T5, Hugging Face, PyTorch",
+      "id": "bart, t5, hugging face, pytorch"
+    },
+    {
+      "label": "사내 자체 개발 메신저에 기능 추가하여 회의록, 문서 요약에 적용",
+      "id": "사내 자체 개발 메신저에 기능 추가하여 회의록, 문서 요약에 적용"
+    },
+    {
+      "label": "Latent Diffusion, GAN, PyTorch",
+      "id": "latent diffusion, gan, pytorch"
+    },
+    {
+      "label": "Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증",
+      "id": "Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증"
+    },
+    {
+      "label": "이 OCR Dataset Auto-Generation Tool",
+      "id": "이 OCR Dataset Auto-Generation Tool"
+    },
+    {
+      "label": "OCR 학습 데이터 대량 생성 필요",
+      "id": "OCR 학습 데이터 대량 생성 필요"
+    },
+    {
+      "label": "Sep 2020",
+      "id": "sep 2020"
+    },
+    {
+      "label": "Intern",
+      "id": "intern"
+    },
+    {
+      "label": "Sep 2021",
+      "id": "sep 2021"
+    },
+    {
+      "label": "KISTI",
+      "id": "kisti"
+    },
+    {
+      "label": "韩国",
+      "id": "韩国"
+    },
+    {
+      "label": "Inha University",
+      "id": "inha university"
+    },
+    {
+      "label": "M.S. Computer Science",
+      "id": "m.s. computer science"
+    },
+    {
+      "label": "Hannam University",
+      "id": "hannam university"
+    },
+    {
+      "label": "B.S. Computer Science",
+      "id": "b.s. computer science"
+    },
+    {
+      "label": "Linux Master certification",
+      "id": "linux master certification"
+    },
+    {
+      "label": "2016年",
+      "id": "2016年"
+    },
+    {
+      "label": "Data Analytics Semi-Professional certification",
+      "id": "data analytics semi-professional certification"
+    },
+    {
+      "label": "2021年",
+      "id": "2021年"
+    },
+    {
+      "label": "国방기술학회",
+      "id": "国방기술학회"
+    },
+    {
+      "label": "《国防数据的获取》论文",
+      "id": "《国防数据的获取》论文"
+    },
+    {
+      "label": "《GAN在数据生成研究中的趋势》论文",
+      "id": "《GAN在数据生成研究中的趋势》论文"
+    },
+    {
+      "label": "《基于传感器融合的Trans-Unet在二维语义分割上的三维解释》论文和《基于传感器融合的Trans-Unet用于自动驾驶领域的三维语义分割》论文",
+      "id": "《基于传感器融合的Trans-Unet在二维语义分割上的三维解释》论文和《基于传感器融合的Trans-Unet用于自动驾驶领域的三维语义分割》论文"
+    },
+    {
+      "label": "스마트미디어학회",
+      "id": "스마트미디어학회"
+    },
+    {
+      "label": "《利用深度学习的市场预测：非结构化与结构化数据的图像学习》论文",
+      "id": "《利用深度学习的市场预测：非结构化与结构化数据的图像学习》论文"
+    },
+    {
+      "label": "Deep Learning",
+      "id": "deep learning"
+    },
+    {
+      "label": "악성코드 탐지 방법 동향 분석",
+      "id": "악성코드 탐지 방법 동향 분석"
+    },
+    {
+      "label": "한국정보기술학회",
+      "id": "한국정보기술학회"
+    },
+    {
+      "label": "Sensor Fusion-based Semantic Segmentation Method",
+      "id": "sensor fusion-based semantic segmentation method"
+    },
+    {
+      "label": "First Inventor",
+      "id": "first inventor"
+    },
+    {
+      "label": "Reg. No. 1025382250000",
+      "id": "reg. no. 1025382250000"
+    },
+    {
+      "label": "Reg. No. 1025382310000",
+      "id": "reg. no. 1025382310000"
+    },
+    {
+      "label": "3D Interpretation Method for Semantic Segmentation",
+      "id": "3d interpretation method for semantic segmentation"
+    },
+    {
+      "label": "Korea Defense Technology Society",
+      "id": "korea defense technology society"
+    },
+    {
+      "label": "Outstanding Paper Award",
+      "id": "outstanding paper award"
+    },
+    {
+      "label": "Qwen3-TTS Enterprise Gateway",
+      "id": "qwen3-tts enterprise gateway"
+    },
+    {
+      "label": "프로젝트",
+      "id": "프로젝트"
+    },
+    {
+      "label": "오픈소스 언어 모델(Qwen3-TTS-1.7B)과 vLLM 추론 엔진",
+      "id": "오픈소스 언어 모델(Qwen3-TTS-1.7B)과 vLLM 추론 엔진"
+    },
+    {
+      "label": "대규모 트래픽과 초저지연(Zero-Latency) 스트리밍을 감당할 수 있는 엔터프라이즈급 API 게이트웨이 및 통합 관리 시스템",
+      "id": "대규모 트래픽과 초저지연(Zero-Latency) 스트리밍을 감당할 수 있는 엔터프라이즈급 API 게이트웨이 및 통합 관리 시스템"
+    },
+    {
+      "label": "프로젝트의 전체 구조, 프로토콜 로직, 주요 트러블슈팅 사례를 기록한 기술 보고서(포트폴리오)",
+      "id": "프로젝트의 전체 구조, 프로토콜 로직, 주요 트러블슈팅 사례를 기록한 기술 보고서(포트폴리오)"
+    },
+    {
+      "label": "본 시스템",
+      "id": "본 시스템"
+    },
+    {
+      "label": "단순한 추론 API를 넘어",
+      "id": "단순한 추론 API를 넘어"
+    },
+    {
+      "label": "프론트엔드와 백엔드가 분리된 상태에서",
+      "id": "프론트엔드와 백엔드가 분리된 상태에서"
+    },
+    {
+      "label": "오디오를 렌더링하고",
+      "id": "오디오를 렌더링하고"
+    },
+    {
+      "label": "분산 서버를 관리할 수 있는",
+      "id": "분산 서버를 관리할 수 있는"
+    },
+    {
+      "label": "멀티-티어 형태로 설계되었습니다.",
+      "id": "멀티-티어 형태로 설계되었습니다."
+    },
+    {
+      "label": "UI",
+      "id": "ui"
+    },
+    {
+      "label": "Audio",
+      "id": "audio"
+    },
+    {
+      "label": "Auth",
+      "id": "auth"
+    },
+    {
+      "label": "WS & REST",
+      "id": "ws & rest"
+    },
+    {
+      "label": "ITN",
+      "id": "itn"
+    },
+    {
+      "label": "Chunker",
+      "id": "chunker"
+    },
+    {
+      "label": "cache for API calls",
+      "id": "cache for api calls"
+    },
+    {
+      "label": "JSON",
+      "id": "json"
+    },
+    {
+      "label": "database format",
+      "id": "database format"
+    },
+    {
+      "label": "Storage",
+      "id": "storage"
+    },
+    {
+      "label": "disk",
+      "id": "disk"
+    },
+    {
+      "label": "vLLM",
+      "id": "vllm"
+    },
+    {
+      "label": "CUDA",
+      "id": "cuda"
+    },
+    {
+      "label": "vLLM-Omni Engine Qwen3-TTS 1.7B",
+      "id": "vllm-omni engine qwen3-tts 1.7b"
+    },
+    {
+      "label": "Python 3.12",
+      "id": "python 3.12"
+    },
+    {
+      "label": "Backend",
+      "id": "backend"
+    },
+    {
+      "label": "Uvicorn",
+      "id": "uvicorn"
+    },
+    {
+      "label": "WebSocket",
+      "id": "websocket"
+    },
+    {
+      "label": "AsyncIO",
+      "id": "asyncio"
+    },
+    {
+      "label": "Database & Cache",
+      "id": "database & cache"
+    },
+    {
+      "label": "JSON File DB",
+      "id": "json file db"
+    },
+    {
+      "label": "React 18",
+      "id": "react 18"
+    },
+    {
+      "label": "Frontend",
+      "id": "frontend"
+    },
+    {
+      "label": "TypeScript",
+      "id": "typescript"
+    },
+    {
+      "label": "Vite",
+      "id": "vite"
+    },
+    {
+      "label": "client",
+      "id": "client"
+    },
+    {
+      "label": "Security",
+      "id": "security"
+    },
+    {
+      "label": "TextProcessor",
+      "id": "textprocessor"
+    },
+    {
+      "label": "Cache",
+      "id": "cache"
+    },
+    {
+      "label": "Inference Engine",
+      "id": "inference engine"
+    },
+    {
+      "label": "WebSocket连接请求",
+      "id": "WebSocket连接请求"
+    },
+    {
+      "label": "JWT验证",
+      "id": "JWT验证"
+    },
+    {
+      "label": "文本处理器",
+      "id": "文本处理器"
+    },
+    {
+      "label": "JSON合成功能参数",
+      "id": "JSON合成功能参数"
+    },
+    {
+      "label": "U1",
+      "id": "u1"
+    },
+    {
+      "label": "새로운 보이스(음성)",
+      "id": "새로운 보이스(음성)"
+    },
+    {
+      "label": "U4",
+      "id": "u4"
+    },
+    {
+      "label": "_24k_mono.wav",
+      "id": "_24k_mono.wav"
+    },
+    {
+      "label": "D4",
+      "id": "d4"
+    },
+    {
+      "label": ".24k_mono.wav",
+      "id": ".24k_mono.wav"
+    },
+    {
+      "label": "JWT",
+      "id": "jwt"
+    },
+    {
+      "label": "wss://?token=...",
+      "id": "wss://?token=..."
+    },
+    {
+      "label": "server",
+      "id": "server"
+    },
+    {
+      "label": "vLLM 엔진",
+      "id": "vLLM 엔진"
+    },
+    {
+      "label": "HTTP Chunked Transfer",
+      "id": "http chunked transfer"
+    },
+    {
+      "label": "WebSocket 기반 초저지연 스트리밍",
+      "id": "WebSocket 기반 초저지연 스트리밍"
+    },
+    {
+      "label": "극적으로 단축되다",
+      "id": "극적으로 단축되다"
+    },
+    {
+      "label": "Redis Pub/Sub 채널",
+      "id": "Redis Pub/Sub 채널"
+    },
+    {
+      "label": "backend workers",
+      "id": "backend workers"
+    },
+    {
+      "label": "redis_lock",
+      "id": "redis_lock"
+    },
+    {
+      "label": "정규식(Regex)",
+      "id": "정규식(Regex)"
+    },
+    {
+      "label": "루그어헤드(Look-ahead) 토크나이저",
+      "id": "루그어헤드(Look-ahead) 토크나이저"
+    },
+    {
+      "label": "스마트 ITN (정규화) 파이프라인 (`pipeline/itn.py`)",
+      "id": "스마트 ITN (정규화) 파이프라인 (`pipeline/itn.py`)"
+    },
+    {
+      "label": "영문, 숫자, 특수 기호가 혼합된 텍스트를 자연스러운 한국어 발음(TTS 입력용)으로 변환",
+      "id": "영문, 숫자, 특수 기호가 혼합된 텍스트를 자연스러운 한국어 발음(TTS 입력용)으로 변환"
+    },
+    {
+      "label": "_ENG_WORD",
+      "id": "_eng_word"
+    },
+    {
+      "label": "번역",
+      "id": "번역"
+    },
+    {
+      "label": "開發",
+      "id": "開發"
+    },
+    {
+      "label": "기술적 결함들",
+      "id": "기술적 결함들"
+    },
+    {
+      "label": "기술",
+      "id": "기술"
+    },
+    {
+      "label": "엔지니어링 기법",
+      "id": "엔지니어링 기법"
+    },
+    {
+      "label": "해결",
+      "id": "해결"
+    },
+    {
+      "label": "고도화 과정",
+      "id": "고도화 과정"
+    },
+    {
+      "label": "치명적인 기술",
+      "id": "치명적인 기술"
+    },
+    {
+      "label": "16-bit PCM(WAV) 오디오 청크",
+      "id": "16-bit PCM(WAV) 오디오 청크"
+    },
+    {
+      "label": "frontend/src/lib/audio.ts",
+      "id": "frontend/src/lib/audio.ts"
+    },
+    {
+      "label": "Uint8Array 기반의 잉여 버퍼",
+      "id": "Uint8Array 기반의 잉여 버퍼"
+    },
+    {
+      "label": "Web Audio API",
+      "id": "web audio api"
+    },
+    {
+      "label": "재생",
+      "id": "재생"
+    },
+    {
+      "label": "Float32Array",
+      "id": "float32array"
+    },
+    {
+      "label": "스피커로 출력",
+      "id": "스피커로 출력"
+    },
+    {
+      "label": "GainNode",
+      "id": "gainnode"
+    },
+    {
+      "label": "오디오 청크 재생",
+      "id": "오디오 청크 재생"
+    },
+    {
+      "label": "Linear Ramp",
+      "id": "linear ramp"
+    },
+    {
+      "label": "볼륨 곡선",
+      "id": "볼륨 곡선"
+    },
+    {
+      "label": "10ms 구간",
+      "id": "10ms 구간"
+    },
+    {
+      "label": "초반 볼륨 곡선(Linear Ramp) 주기",
+      "id": "초반 볼륨 곡선(Linear Ramp) 주기"
+    },
+    {
+      "label": "볼륨 곡선(Linear Ramp) 주기",
+      "id": "볼륨 곡선(Linear Ramp) 주기"
+    },
+    {
+      "label": "관리자",
+      "id": "관리자"
+    },
+    {
+      "label": "새로운 Референ스 음성",
+      "id": "새로운 Референ스 음성"
+    },
+    {
+      "label": "보이스",
+      "id": "보이스"
+    },
+    {
+      "label": "백엔드",
+      "id": "백엔드"
+    },
+    {
+      "label": "24kHz / Mono 포맷",
+      "id": "24kHz / Mono 포맷"
+    },
+    {
+      "label": "db/cache/audio_norm/",
+      "id": "db/cache/audio_norm/"
+    },
+    {
+      "label": "과거 버전의 명명 규칙에 맞춰진 파일 경로",
+      "id": "과거 버전의 명명 규칙에 맞춰진 파일 경로"
+    },
+    {
+      "label": "디ープ하게 생성된 새로운 MD5 해시 경로",
+      "id": "디ープ하게 생성된 새로운 MD5 해시 경로"
+    },
+    {
+      "label": "보이스 추가/삭제가 반복되는 서버 디스크",
+      "id": "보이스 추가/삭제가 반복되는 서버 디스크"
+    },
+    {
+      "label": "WebSocket 연결 시의 무중단 세션 탈취",
+      "id": "WebSocket 연결 시의 무중단 세션 탈취"
+    },
+    {
+      "label": "구형 토큰으로 웹소켓을 끊임없이 열고 오디오 무한 합성 서비스 백도어 시도",
+      "id": "구형 토큰으로 웹소켓을 끊임없이 열고 오디오 무한 합성 서비스 백도어 시도"
+    },
+    {
+      "label": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직이 WebSocket 연결에서 누락",
+      "id": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직이 WebSocket 연결에서 누락"
+    },
+    {
+      "label": "소켓 핸드쉐이크 단계에 강력한 DB 세션 싱크를 구축",
+      "id": "소켓 핸드쉐이크 단계에 강력한 DB 세션 싱크를 구축"
+    },
+    {
+      "label": "비밀번호 변경 시 데이터베이스의 `password_changed_at` 타임스탬프 갱신",
+      "id": "비밀번호 변경 시 데이터베이스의 `password_changed_at` 타임스탬프 갱신"
+    },
+    {
+      "label": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직",
+      "id": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직"
+    },
+    {
+      "label": "비밀번호 변경 시 JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직",
+      "id": "비밀번호 변경 시 JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직"
+    },
+    {
+      "label": "ITN 정규식 토크나이저",
+      "id": "ITN 정규식 토크나이저"
+    },
+    {
+      "label": "로마 숫자 충돌 및 URL 생략 문제",
+      "id": "로마 숫자 충돌 및 URL 생략 문제"
+    },
+    {
+      "label": "네이티브 Regex 토크나이저",
+      "id": "네이티브 Regex 토크나이저"
+    },
+    {
+      "label": "파이썬",
+      "id": "파이썬"
+    },
+    {
+      "label": "Look-ahead 인덱스 참조 기법",
+      "id": "Look-ahead 인덱스 참조 기법"
+    },
+    {
+      "label": "ITN 엔진 고도화",
+      "id": "ITN 엔진 고도화"
+    },
+    {
+      "label": "닷컴",
+      "id": "닷컴"
+    },
+    {
+      "label": "닷넷",
+      "id": "닷넷"
+    },
+    {
+      "label": "ITN 엔진",
+      "id": "ITN 엔진"
+    },
+    {
+      "label": "ReDoS 방어 장치",
+      "id": "ReDoS 방어 장치"
+    },
+    {
+      "label": "커스텀 정규식",
+      "id": "커스텀 정규식"
+    },
+    {
+      "label": "TTFB",
+      "id": "ttfb"
+    },
+    {
+      "label": "체감 속도",
+      "id": "체감 속도"
+    },
+    {
+      "label": "500ms(0.5초)",
+      "id": "500ms(0.5초)"
+    },
+    {
+      "label": "수십 초 단위",
+      "id": "수십 초 단위"
+    },
+    {
+      "label": "사전 문장 분해(Split) 컴포넌트",
+      "id": "사전 문장 분해(Split) 컴포넌트"
+    },
+    {
+      "label": "구두점 단위 청킹(Chunking)",
+      "id": "구두점 단위 청킹(Chunking)"
+    },
+    {
+      "label": "첫 번째 짧은 문장",
+      "id": "첫 번째 짧은 문장"
+    },
+    {
+      "label": "백그라운드 스레드",
+      "id": "백그라운드 스레드"
+    },
+    {
+      "label": "비동기로 사전 캐싱 및 합성",
+      "id": "비동기로 사전 캐싱 및 합성"
+    },
+    {
+      "label": "사용자",
+      "id": "사용자"
+    },
+    {
+      "label": "체감 딜레이 수렴",
+      "id": "체감 딜레이 수렴"
+    },
+    {
+      "label": "1번 문장",
+      "id": "1번 문장"
+    },
+    {
+      "label": "연산 시간",
+      "id": "연산 시간"
+    },
+    {
+      "label": "HTTP 기반 Chunked Stream",
+      "id": "HTTP 기반 Chunked Stream"
+    },
+    {
+      "label": "네트워크 버퍼링과 반복되는 TCP 오버헤드",
+      "id": "네트워크 버퍼링과 반복되는 TCP 오버헤드"
+    },
+    {
+      "label": "기존 HTTP 엔드포인트",
+      "id": "기존 HTTP 엔드포인트"
+    },
+    {
+      "label": "`wss://` 듀플렉스 채널",
+      "id": "`wss://` 듀플렉스 채널"
+    },
+    {
+      "label": "클라이언트와 양방향 소켓 통신",
+      "id": "클라이언트와 양방향 소켓 통신"
+    },
+    {
+      "label": "연결을 열어 둔 채 백엔드 메모리에 Audio Byte가 생성될 때 Flush 하도록 파이프라인 압축",
+      "id": "연결을 열어 둔 채 백엔드 메모리에 Audio Byte가 생성될 때 Flush 하도록 파이프라인 압축"
+    },
+    {
+      "label": "네트워크 핸드셰이크 시간",
+      "id": "네트워크 핸드셰이크 시간"
+    },
+    {
+      "label": "파이프라인을 압축하여 네트워크 핸드셰이크 시간 제거",
+      "id": "파이프라인을 압축하여 네트워크 핸드셰이크 시간 제거"
+    },
+    {
+      "label": "Qwen3-TTS",
+      "id": "qwen3-tts"
+    },
+    {
+      "label": "ICL(In-Context Learning)",
+      "id": "icl(in-context learning)"
+    },
+    {
+      "label": "Librosa 라이브러리로 디코딩하여 Resampling",
+      "id": "Librosa 라이브러리로 디코딩하여 Resampling"
+    },
+    {
+      "label": "24kHz / Mono 포맷으로",
+      "id": "24kHz / Mono 포맷으로"
+    },
+    {
+      "label": "대상 오디오 파일",
+      "id": "대상 오디오 파일"
+    },
+    {
+      "label": "ICL(In-Context Learning) 모델",
+      "id": "ICL(In-Context Learning) 모델"
+    },
+    {
+      "label": "프롬프트 음성의 음향 특징량(Acoustic Feature)",
+      "id": "프롬프트 음성의 음향 특징량(Acoustic Feature)"
+    },
+    {
+      "label": "Uvicorn 서버",
+      "id": "Uvicorn 서버"
+    },
+    {
+      "label": "warmup()",
+      "id": "warmup()"
+    },
+    {
+      "label": "Qwen3-TTS 프로젝트",
+      "id": "Qwen3-TTS 프로젝트"
+    },
+    {
+      "label": "요약 및 느낀점",
+      "id": "요약 및 느낀점"
+    },
+    {
+      "label": "예측 불가능한 인프라 결함들",
+      "id": "예측 불가능한 인프라 결함들"
+    },
+    {
+      "label": "치열한 엔지니어링으로 돌파",
+      "id": "치열한 엔지니어링으로 돌파"
+    },
+    {
+      "label": "PCM 얼라인먼트",
+      "id": "PCM 얼라인먼트"
+    },
+    {
+      "label": "바이너리 데이터의 PCM 얼라인먼트",
+      "id": "바이너리 데이터의 PCM 얼라인먼트"
+    },
+    {
+      "label": "Redis-backed Thundering Herd 방어",
+      "id": "Redis-backed Thundering Herd 방어"
+    },
+    {
+      "label": "분산 노드 환경에서",
+      "id": "분산 노드 환경에서"
+    },
+    {
+      "label": "정규식을 응용한 스마트 한글 NLP(ITN)",
+      "id": "정규식을 응용한 스마트 한글 NLP(ITN)"
+    }
+  ],
+  "edges": [
+    {
+      "relation": "발명자",
+      "chunk_index": 0,
+      "source": "이윤선",
+      "target": "센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "key": 0
+    },
+    {
+      "relation": "발명자",
+      "chunk_index": 0,
+      "source": "이윤선",
+      "target": "시맨틱 세그멘테이션의 3차원 해석 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "key": 0
+    },
+    {
+      "relation": "주제",
+      "chunk_index": 1,
+      "source": "이윤선",
+      "target": "이윤선",
+      "key": 0
+    },
+    {
+      "relation": "주제자",
+      "chunk_index": 2,
+      "source": "이윤선",
+      "target": "이윤선",
+      "key": 1
+    },
+    {
+      "relation": "현재 위치",
+      "chunk_index": 1,
+      "source": "이윤선",
+      "target": "미코그룹 AICESS 인공지능 연구소",
+      "key": 0
+    },
+    {
+      "relation": "工作经历",
+      "chunk_index": 1,
+      "source": "이윤선",
+      "target": "인피닉",
+      "key": 0
+    },
+    {
+      "relation": "주임",
+      "chunk_index": 22,
+      "source": "이윤선",
+      "target": "인피닉",
+      "key": 1
+    },
+    {
+      "relation": "工作经历",
+      "chunk_index": 1,
+      "source": "이윤선",
+      "target": "이든티앤에스",
+      "key": 0
+    },
+    {
+      "relation": "작성자",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "제목 없음",
+      "key": 0
+    },
+    {
+      "relation": "강사",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "수영장 강사",
+      "key": 0
+    },
+    {
+      "relation": "활동 참여",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "연구 수행 실적 (학위 논문 외)",
+      "key": 0
+    },
+    {
+      "relation": "활동 참여",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "사내 풋살 동호회 운영",
+      "key": 0
+    },
+    {
+      "relation": "수료 과정",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "포스텍 MOOC 교육 프로그램 수료",
+      "key": 0
+    },
+    {
+      "relation": "활동 참여",
+      "chunk_index": 16,
+      "source": "이윤선",
+      "target": "봉사 활동",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 17,
+      "source": "이윤선",
+      "target": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 18,
+      "source": "이윤선",
+      "target": "한국항공우주학회",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 18,
+      "source": "이윤선",
+      "target": "한국자동차공학회",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 19,
+      "source": "이윤선",
+      "target": "자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 19,
+      "source": "이윤선",
+      "target": "비정형, 정형 데이터의 이미지 학습을 활용한 시장예측",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 19,
+      "source": "이윤선",
+      "target": "trend of malware detection using deep learning",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 19,
+      "source": "이윤선",
+      "target": "Deep Learning을 활용한 악성코드 탐지 방법 동향 분석",
+      "key": 0
+    },
+    {
+      "relation": "저자",
+      "chunk_index": 19,
+      "source": "이윤선",
+      "target": "리눅스 기반 디지털 사이니지 콘텐츠 서버 구현을 위한 파일 시스템 동향 분석",
+      "key": 0
+    },
+    {
+      "relation": "주제명",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "AI 엔지니어",
+      "key": 0
+    },
+    {
+      "relation": "직업경력",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "6년차 AI Engineer | MLOps Specialist",
+      "key": 0
+    },
+    {
+      "relation": "이메일주소",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "yoon7829@gmail.com",
+      "key": 0
+    },
+    {
+      "relation": "웹사이트주소1",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "ckc5800.github.io",
+      "key": 0
+    },
+    {
+      "relation": "웹사이트주소2",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "github.com/ckc5800",
+      "key": 0
+    },
+    {
+      "relation": "블로그주소",
+      "chunk_index": 20,
+      "source": "이윤선",
+      "target": "taepseon.tistory.com",
+      "key": 0
+    },
+    {
+      "relation": "申请了",
+      "chunk_index": 13,
+      "source": "센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "target": "10-2538225-0000",
+      "key": 0
+    },
+    {
+      "relation": "涉及领域",
+      "chunk_index": 13,
+      "source": "센서 퓨전 기반의 시맨틱 세그멘테이션 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "target": "3차원 해석方法",
+      "key": 0
+    },
+    {
+      "relation": "申请了",
+      "chunk_index": 13,
+      "source": "시맨틱 세그멘테이션의 3차원 해석 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "target": "10-2538225-0000",
+      "key": 0
+    },
+    {
+      "relation": "涉及领域",
+      "chunk_index": 13,
+      "source": "시맨틱 세그멘테이션의 3차원 해석 방법 및 이를 실행하기 위하여 기록매체에 기록된 컴퓨터 프로그램",
+      "target": "3차원 해석方法",
+      "key": 0
+    },
+    {
+      "relation": "주제",
+      "chunk_index": 1,
+      "source": "미코그룹 AICESS",
+      "target": "미코그룹 AICESS",
+      "key": 0
+    },
+    {
+      "relation": "在职时间",
+      "chunk_index": 1,
+      "source": "미코그룹 AICESS",
+      "target": "(현재)",
+      "key": 0
+    },
+    {
+      "relation": "公司名",
+      "chunk_index": 1,
+      "source": "인피닉",
+      "target": "인피닉",
+      "key": 0
+    },
+    {
+      "relation": "在职时间",
+      "chunk_index": 1,
+      "source": "인피닉",
+      "target": "2022.08.08 - 2025.04.22(2년 9개월)",
+      "key": 0
+    },
+    {
+      "relation": "开发",
+      "chunk_index": 10,
+      "source": "인피닉",
+      "target": "开发团队",
+      "key": 0
+    },
+    {
+      "relation": "承接了",
+      "chunk_index": 15,
+      "source": "이든티앤에스",
+      "target": "AI 팀",
+      "key": 0
+    },
+    {
+      "relation": "開始時間",
+      "chunk_index": 15,
+      "source": "이든티앤에스",
+      "target": "2022-4",
+      "key": 0
+    },
+    {
+      "relation": "結束시간",
+      "chunk_index": 15,
+      "source": "이든티앤에스",
+      "target": "2022-8",
+      "key": 0
+    },
+    {
+      "relation": "公司名",
+      "chunk_index": 1,
+      "source": "이들티앤에스",
+      "target": "이들티앤에스",
+      "key": 0
+    },
+    {
+      "relation": "在职时间",
+      "chunk_index": 1,
+      "source": "이들티앤에스",
+      "target": "2022.04.04 - 2022.08.05(5개월)",
+      "key": 0
+    },
+    {
+      "relation": "능력",
+      "chunk_index": 2,
+      "source": "영어",
+      "target": "영어 (중급)",
+      "key": 0
+    },
+    {
+      "relation": "수업명",
+      "chunk_index": 2,
+      "source": "im1",
+      "target": "im1",
+      "key": 0
+    },
+    {
+      "relation": "주체",
+      "chunk_index": 2,
+      "source": "aicess",
+      "target": "이윤선",
+      "key": 0
+    },
+    {
+      "relation": "회사명",
+      "chunk_index": 20,
+      "source": "aicess",
+      "target": "ai engineer | mlops specialist",
+      "key": 0
+    },
+    {
+      "relation": "직위",
+      "chunk_index": 20,
+      "source": "aicess",
+      "target": "manager",
+      "key": 0
+    },
+    {
+      "relation": "경력시기",
+      "chunk_index": 20,
+      "source": "aicess",
+      "target": "Apr 2025 – Present",
+      "key": 0
+    },
+    {
+      "relation": "시기",
+      "chunk_index": 2,
+      "source": "2025.04~재직중",
+      "target": "aicess",
+      "key": 0
+    },
+    {
+      "relation": "부서명",
+      "chunk_index": 2,
+      "source": "AI언어개발팀",
+      "target": "AI언어개발팀",
+      "key": 0
+    },
+    {
+      "relation": "开始时间",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "2025.09~",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "QA 업무",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "TTS 데이터 정제",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "ZipVoice 모델 학습",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "[음성 샘플(1)]",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "[음성 샘플(2)]",
+      "key": 0
+    },
+    {
+      "relation": "工作内容",
+      "chunk_index": 3,
+      "source": "tts",
+      "target": "사내 운영 테스트",
+      "key": 0
+    },
+    {
+      "relation": "通信协议",
+      "chunk_index": 3,
+      "source": "FastAPI → Qwen3 Engine",
+      "target": "`streamingsynthesizerequest`",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 4,
+      "source": "fastapi",
+      "target": "redis",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "fastapi",
+      "target": "backend",
+      "key": 0
+    },
+    {
+      "relation": "协议",
+      "chunk_index": 4,
+      "source": "redis",
+      "target": "redis protocol",
+      "key": 0
+    },
+    {
+      "relation": "serves as",
+      "chunk_index": 30,
+      "source": "redis",
+      "target": "cache for api calls",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "redis",
+      "target": "database & cache",
+      "key": 0
+    },
+    {
+      "relation": "是",
+      "chunk_index": 5,
+      "source": "기술 명세서",
+      "target": "1",
+      "key": 0
+    },
+    {
+      "relation": "是",
+      "chunk_index": 5,
+      "source": "기술명세서(2)",
+      "target": "2",
+      "key": 0
+    },
+    {
+      "relation": "是",
+      "chunk_index": 5,
+      "source": "기술명세서(2) 상세",
+      "target": "2",
+      "key": 0
+    },
+    {
+      "relation": "작업",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "운영 페이지 제작",
+      "key": 0
+    },
+    {
+      "relation": "작업",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "스트리밍 api 리팩토링",
+      "key": 0
+    },
+    {
+      "relation": "작업",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "Demo 페이지",
+      "key": 0
+    },
+    {
+      "relation": "작업",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "보고- 메일(개인 소장용)",
+      "key": 0
+    },
+    {
+      "relation": "버전",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "버전 (deprecated)",
+      "key": 0
+    },
+    {
+      "relation": "성과: 응답 시간 단축",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "약 85.4%",
+      "key": 0
+    },
+    {
+      "relation": "성과: TTFB 단축",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "약 6.85배",
+      "key": 0
+    },
+    {
+      "relation": "성과: TTFB",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "약 2292ms",
+      "key": 0
+    },
+    {
+      "relation": "성과: 총 청크 수",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "342개",
+      "key": 0
+    },
+    {
+      "relation": "성과: 포맷",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "wav",
+      "key": 0
+    },
+    {
+      "relation": "성과: 샘플레이트 주파수",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "24000 hz",
+      "key": 0
+    },
+    {
+      "relation": "성과: 길이",
+      "chunk_index": 6,
+      "source": "이벤트",
+      "target": "약 57.86s",
+      "key": 0
+    },
+    {
+      "relation": "발생한 문제",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "WebSocket 연결 시의 무중단 세션 탈취",
+      "key": 0
+    },
+    {
+      "relation": "해결된 문제",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "구형 토큰으로 웹소켓을 끊임없이 열고 오디오 무한 합성 서비스 백도어 시도",
+      "key": 0
+    },
+    {
+      "relation": "발생한 문제의 원인",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직이 WebSocket 연결에서 누락",
+      "key": 0
+    },
+    {
+      "relation": "해결된 문제의 방법",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "소켓 핸드쉐이크 단계에 강력한 DB 세션 싱크를 구축",
+      "key": 0
+    },
+    {
+      "relation": "발생한 문제의 대상",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "비밀번호 변경 시 데이터베이스의 `password_changed_at` 타임스탬프 갱신",
+      "key": 0
+    },
+    {
+      "relation": "해결된 문제의 대상",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "비밀번호 변경 시 데이터베이스의 `password_changed_at` 타임스탬프 갱신",
+      "key": 1
+    },
+    {
+      "relation": "해결된 문제의 대상",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직",
+      "key": 0
+    },
+    {
+      "relation": "발생한 문제의 대상",
+      "chunk_index": 41,
+      "source": "이벤트",
+      "target": "비밀번호 변경 시 JWT 토큰 내의 `iat` 시간과 대조하여 구형 세션을 강제 튕기는 로직",
+      "key": 0
+    },
+    {
+      "relation": "수신 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:26",
+      "target": "청크 수신",
+      "key": 0
+    },
+    {
+      "relation": "완료 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:27",
+      "target": "342개 청크",
+      "key": 0
+    },
+    {
+      "relation": "수신 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:27",
+      "target": "ttfb: 2292ms",
+      "key": 0
+    },
+    {
+      "relation": "완료 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:27",
+      "target": "첫 청크 수신",
+      "key": 0
+    },
+    {
+      "relation": "수신 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:27",
+      "target": "post http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime",
+      "key": 0
+    },
+    {
+      "relation": "TTFB",
+      "chunk_index": 7,
+      "source": "334ms",
+      "target": "처음 문장 완성 시",
+      "key": 0
+    },
+    {
+      "relation": "TTFB",
+      "chunk_index": 7,
+      "source": "334ms",
+      "target": "처음 문장 완성 시",
+      "key": 1
+    },
+    {
+      "relation": "수신 시간",
+      "chunk_index": 7,
+      "source": "오후 1:14:34",
+      "target": "첫 청크 수신",
+      "key": 0
+    },
+    {
+      "relation": "분할",
+      "chunk_index": 8,
+      "source": "화자",
+      "target": "2025.04~07",
+      "key": 0
+    },
+    {
+      "relation": "PPT",
+      "chunk_index": 8,
+      "source": "화자",
+      "target": "[pyannote.pdf]",
+      "key": 0
+    },
+    {
+      "relation": "涉及",
+      "chunk_index": 9,
+      "source": "엔진-브로커(api-http)",
+      "target": "통신 관련 에러 수정",
+      "key": 0
+    },
+    {
+      "relation": "包含功能",
+      "chunk_index": 9,
+      "source": "엔진-브로커(api-http)",
+      "target": "文件基 STT 处理",
+      "key": 0
+    },
+    {
+      "relation": "包含功能",
+      "chunk_index": 9,
+      "source": "엔진-브로커(api-http)",
+      "target": "[流式基 STT 处理]",
+      "key": 0
+    },
+    {
+      "relation": "涉及角色",
+      "chunk_index": 9,
+      "source": "엔진-브로커(api-http)",
+      "target": "STT 和语音分离的集成",
+      "key": 0
+    },
+    {
+      "relation": "涉及角色",
+      "chunk_index": 9,
+      "source": "엔진-브로커(api-http)",
+      "target": "STT 的高级化工作",
+      "key": 0
+    },
+    {
+      "relation": "사용된 프로젝트/기술",
+      "chunk_index": 11,
+      "source": "쿠버네티스",
+      "target": "쿠버네티스",
+      "key": 0
+    },
+    {
+      "relation": "개발 도구",
+      "chunk_index": 11,
+      "source": "ppsx",
+      "target": "ppsx",
+      "key": 0
+    },
+    {
+      "relation": "프로젝트",
+      "chunk_index": 11,
+      "source": "3차원 시멘틱세그멘테이션",
+      "target": "3차원 시멘틱세그멘테이션",
+      "key": 0
+    },
+    {
+      "relation": "프로젝트",
+      "chunk_index": 11,
+      "source": "텍스트 요약",
+      "target": "텍스트 요약",
+      "key": 0
+    },
+    {
+      "relation": "프로젝트",
+      "chunk_index": 11,
+      "source": "탱크 생성모델",
+      "target": "탱크 생성모델",
+      "key": 0
+    },
+    {
+      "relation": "논문 제목",
+      "chunk_index": 11,
+      "source": "[국방 데이터 확보를 위한 생성 모델 Lattent Diffusion]",
+      "target": "[국방 데이터 확보를 위한 생성 모델 Lattent Diffusion]",
+      "key": 0
+    },
+    {
+      "relation": "개발한 프로젝트",
+      "chunk_index": 12,
+      "source": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "target": "GAN을 활용한 데이터 생성 연구 동향",
+      "key": 0
+    },
+    {
+      "relation": "발표된 논문",
+      "chunk_index": 12,
+      "source": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "target": "우수 논문 수상",
+      "key": 0
+    },
+    {
+      "relation": "개발한 프로젝트",
+      "chunk_index": 12,
+      "source": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "target": "탱크 탐지 모델",
+      "key": 0
+    },
+    {
+      "relation": "시행 기간",
+      "chunk_index": 12,
+      "source": "국방 데이터 확보를 위한 생성 모델 Lattent Diffusion",
+      "target": "23년 1월 ~8월",
+      "key": 0
+    },
+    {
+      "relation": "주제 분야",
+      "chunk_index": 12,
+      "source": "GAN을 활용한 데이터 생성 연구 동향",
+      "target": "gan",
+      "key": 0
+    },
+    {
+      "relation": "주제 분야",
+      "chunk_index": 12,
+      "source": "GAN을 활용한 데이터 생성 연구 동향",
+      "target": "데이터 생성",
+      "key": 0
+    },
+    {
+      "relation": "출처",
+      "chunk_index": 12,
+      "source": "GAN을 활용한 데이터 생성 연구 동향",
+      "target": "https://www.dbpia.co.kr/journal/articledetail?nodeid=node11622970&nodeid=node11622970&mobileyn=n&medatypecode=185004&ispdfsizeallowed=true&locale=ko&foreignipyn=n&articletitle=gan%ec%9d%84+%ed%99%9c%ec%9a%a9%ed%95%9c+%eb%8d%b0%ec%9d%b4%ed%84%b0+%ec%83%9d%ec%84%b1+%ec%97%b0%ea%b5%ac+%eb%8f%99%ed%96%a5&articletitleen=data+generation+research+trend+using+gan",
+      "key": 0
+    },
+    {
+      "relation": "开发了",
+      "chunk_index": 13,
+      "source": "2D, 3D 센서 퓨전 세그멘테이션 모델",
+      "target": "22년 8월 ~ 22년 12월",
+      "key": 0
+    },
+    {
+      "relation": "用于论文",
+      "chunk_index": 13,
+      "source": "2D, 3D 센서 퓨전 세그멘테이션 모델",
+      "target": "[자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet]",
+      "key": 0
+    },
+    {
+      "relation": "用于论文",
+      "chunk_index": 13,
+      "source": "2D, 3D 센서 퓨전 세그멘테이션 모델",
+      "target": "[센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석]",
+      "key": 0
+    },
+    {
+      "relation": "주어",
+      "chunk_index": 14,
+      "source": "등록번호",
+      "target": "10-2538231-0000",
+      "key": 0
+    },
+    {
+      "relation": "목적어",
+      "chunk_index": 14,
+      "source": "KIPRIS 지식재산정보 검색 서비스.pdf",
+      "target": "텍스트",
+      "key": 0
+    },
+    {
+      "relation": "開發了",
+      "chunk_index": 15,
+      "source": "pdf table detection 모델",
+      "target": "이들티앤에스",
+      "key": 0
+    },
+    {
+      "relation": "製作了",
+      "chunk_index": 15,
+      "source": "gui tool",
+      "target": "이들티앤에스",
+      "key": 0
+    },
+    {
+      "relation": "獲得",
+      "chunk_index": 15,
+      "source": "사내 프로젝트 축하 성과금",
+      "target": "이들티앤에스",
+      "key": 0
+    },
+    {
+      "relation": "참여 대상",
+      "chunk_index": 16,
+      "source": "한국과학기술정보연구원",
+      "target": "[**한국과학기술정보연구원 (kisti)**]",
+      "key": 0
+    },
+    {
+      "relation": "发表机构",
+      "chunk_index": 26,
+      "source": "한국항공우주학회",
+      "target": "《GAN在数据生成研究中的趋势》论文",
+      "key": 0
+    },
+    {
+      "relation": "发表机构",
+      "chunk_index": 26,
+      "source": "한국자동차공학회",
+      "target": "《基于传感器融合的Trans-Unet在二维语义分割上的三维解释》论文和《基于传感器融合的Trans-Unet用于自动驾驶领域的三维语义分割》论文",
+      "key": 0
+    },
+    {
+      "relation": "프로젝트명",
+      "chunk_index": 20,
+      "source": "TTS 프로젝트",
+      "target": "TTS 프로젝트 (2025.09 ~ 현재)",
+      "key": 0
+    },
+    {
+      "relation": "기반하여 구현된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "ICL(In-Context Learning) 기반 음성복제 기능",
+      "key": 0
+    },
+    {
+      "relation": "호환 인터페이스 및 레이어 개발로 지원하는",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "OpenAI TTS API 호환",
+      "key": 0
+    },
+    {
+      "relation": "지원하는",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "서비스 연동",
+      "key": 0
+    },
+    {
+      "relation": "개선된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "TTFB: 2292ms → 334ms (85% 단축, 6.85배)",
+      "key": 0
+    },
+    {
+      "relation": "확대된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "동시 처리 채널: 12 → 24개 (2배)",
+      "key": 0
+    },
+    {
+      "relation": "증가된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "Throughput: 0.68 → 1.41 rps (2배), 최적화 후 ~1.7 rps (2.5배)",
+      "key": 0
+    },
+    {
+      "relation": "개선된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "단건 지연시간 15% 감소 | RTF 0.1 이하 | CER(문자 오류율) 3~5%",
+      "key": 0
+    },
+    {
+      "relation": "지원하는 언어 수가 증가된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "32개 언어 지원 단일 플랫폼",
+      "key": 0
+    },
+    {
+      "relation": "정확도가 향상된",
+      "chunk_index": 21,
+      "source": "이미 명시되지 않음",
+      "target": "ITN 정규화 정확도 50.1% → 70.9%",
+      "key": 0
+    },
+    {
+      "relation": "직업",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "ai engineer/mlops engineer",
+      "key": 0
+    },
+    {
+      "relation": "기간",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "Aug 2022 – Apr 2025",
+      "key": 0
+    },
+    {
+      "relation": "기술",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "kubernetes, docker, helm, gitlab ci/cd, jenkins, argocd, prometheus/grafana/loki/elk",
+      "key": 0
+    },
+    {
+      "relation": "성과",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "20개 이상 ML 모델 운영 환경 구축, GitLab → Jenkins → ArgoCD 배포 자동화",
+      "key": 0
+    },
+    {
+      "relation": "기술",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "bart, t5, hugging face, pytorch",
+      "key": 0
+    },
+    {
+      "relation": "성과",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "사내 자체 개발 메신저에 기능 추가하여 회의록, 문서 요약에 적용",
+      "key": 0
+    },
+    {
+      "relation": "기술",
+      "chunk_index": 23,
+      "source": "이름 없음",
+      "target": "latent diffusion, gan, pytorch",
+      "key": 0
+    },
+    {
+      "relation": "기술",
+      "chunk_index": 24,
+      "source": "Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증",
+      "target": "latent diffusion, gan, pytorch",
+      "key": 0
+    },
+    {
+      "relation": "배경",
+      "chunk_index": 24,
+      "source": "이 OCR Dataset Auto-Generation Tool",
+      "target": "OCR 학습 데이터 대량 생성 필요",
+      "key": 0
+    },
+    {
+      "relation": "开始工作于",
+      "chunk_index": 25,
+      "source": "sep 2020",
+      "target": "intern",
+      "key": 0
+    },
+    {
+      "relation": "结束工作于",
+      "chunk_index": 25,
+      "source": "sep 2021",
+      "target": "intern",
+      "key": 0
+    },
+    {
+      "relation": "工作地点",
+      "chunk_index": 25,
+      "source": "kisti",
+      "target": "韩国",
+      "key": 0
+    },
+    {
+      "relation": "毕业院校",
+      "chunk_index": 26,
+      "source": "inha university",
+      "target": "m.s. computer science",
+      "key": 0
+    },
+    {
+      "relation": "毕业院校",
+      "chunk_index": 26,
+      "source": "hannam university",
+      "target": "b.s. computer science",
+      "key": 0
+    },
+    {
+      "relation": "获得认证",
+      "chunk_index": 26,
+      "source": "linux master certification",
+      "target": "2016年",
+      "key": 0
+    },
+    {
+      "relation": "获得认证",
+      "chunk_index": 26,
+      "source": "data analytics semi-professional certification",
+      "target": "2021年",
+      "key": 0
+    },
+    {
+      "relation": "发表机构",
+      "chunk_index": 26,
+      "source": "国방기술학회",
+      "target": "《国防数据的获取》论文",
+      "key": 0
+    },
+    {
+      "relation": "发表机构",
+      "chunk_index": 26,
+      "source": "스마트미디어학회",
+      "target": "《利用深度学习的市场预测：非结构化与结构化数据的图像学习》论文",
+      "key": 0
+    },
+    {
+      "relation": "used_in",
+      "chunk_index": 27,
+      "source": "deep learning",
+      "target": "악성코드 탐지 방법 동향 분석",
+      "key": 0
+    },
+    {
+      "relation": "published_by",
+      "chunk_index": 27,
+      "source": "한국정보기술학회",
+      "target": "Deep Learning을 활용한 악성코드 탐지 방법 동향 분석",
+      "key": 0
+    },
+    {
+      "relation": "inventor_of",
+      "chunk_index": 27,
+      "source": "sensor fusion-based semantic segmentation method",
+      "target": "first inventor",
+      "key": 0
+    },
+    {
+      "relation": "assigned_to",
+      "chunk_index": 27,
+      "source": "reg. no. 1025382250000",
+      "target": "sensor fusion-based semantic segmentation method",
+      "key": 0
+    },
+    {
+      "relation": "assigned_to",
+      "chunk_index": 27,
+      "source": "reg. no. 1025382310000",
+      "target": "3d interpretation method for semantic segmentation",
+      "key": 0
+    },
+    {
+      "relation": "awarded_by",
+      "chunk_index": 27,
+      "source": "korea defense technology society",
+      "target": "outstanding paper award",
+      "key": 0
+    },
+    {
+      "relation": "是",
+      "chunk_index": 28,
+      "source": "qwen3-tts enterprise gateway",
+      "target": "프로젝트",
+      "key": 0
+    },
+    {
+      "relation": "基于",
+      "chunk_index": 28,
+      "source": "qwen3-tts enterprise gateway",
+      "target": "오픈소스 언어 모델(Qwen3-TTS-1.7B)과 vLLM 추론 엔진",
+      "key": 0
+    },
+    {
+      "relation": "目标",
+      "chunk_index": 28,
+      "source": "qwen3-tts enterprise gateway",
+      "target": "대규모 트래픽과 초저지연(Zero-Latency) 스트리밍을 감당할 수 있는 엔터프라이즈급 API 게이트웨이 및 통합 관리 시스템",
+      "key": 0
+    },
+    {
+      "relation": "包含",
+      "chunk_index": 28,
+      "source": "qwen3-tts enterprise gateway",
+      "target": "프로젝트의 전체 구조, 프로토콜 로직, 주요 트러블슈팅 사례를 기록한 기술 보고서(포트폴리오)",
+      "key": 0
+    },
+    {
+      "relation": "高度化",
+      "chunk_index": 38,
+      "source": "프로젝트",
+      "target": "開發",
+      "key": 0
+    },
+    {
+      "relation": "은",
+      "chunk_index": 29,
+      "source": "본 시스템",
+      "target": "단순한 추론 API를 넘어",
+      "key": 0
+    },
+    {
+      "relation": "은",
+      "chunk_index": 29,
+      "source": "본 시스템",
+      "target": "프론트엔드와 백엔드가 분리된 상태에서",
+      "key": 0
+    },
+    {
+      "relation": "은",
+      "chunk_index": 29,
+      "source": "본 시스템",
+      "target": "오디오를 렌더링하고",
+      "key": 0
+    },
+    {
+      "relation": "은",
+      "chunk_index": 29,
+      "source": "본 시스템",
+      "target": "분산 서버를 관리할 수 있는",
+      "key": 0
+    },
+    {
+      "relation": "이",
+      "chunk_index": 29,
+      "source": "본 시스템",
+      "target": "멀티-티어 형태로 설계되었습니다.",
+      "key": 0
+    },
+    {
+      "relation": "is connected to",
+      "chunk_index": 30,
+      "source": "ui",
+      "target": "audio",
+      "key": 0
+    },
+    {
+      "relation": "provides security for",
+      "chunk_index": 30,
+      "source": "auth",
+      "target": "ws & rest",
+      "key": 0
+    },
+    {
+      "relation": "验证方",
+      "chunk_index": 33,
+      "source": "auth",
+      "target": "security",
+      "key": 0
+    },
+    {
+      "relation": "验证者",
+      "chunk_index": 33,
+      "source": "auth",
+      "target": "JWT验证",
+      "key": 0
+    },
+    {
+      "relation": "processes data from",
+      "chunk_index": 30,
+      "source": "itn",
+      "target": "ws & rest",
+      "key": 0
+    },
+    {
+      "relation": "处理方",
+      "chunk_index": 33,
+      "source": "itn",
+      "target": "textprocessor",
+      "key": 0
+    },
+    {
+      "relation": "处理者",
+      "chunk_index": 33,
+      "source": "itn",
+      "target": "文本处理器",
+      "key": 0
+    },
+    {
+      "relation": "发送者",
+      "chunk_index": 33,
+      "source": "itn",
+      "target": "JSON合成功能参数",
+      "key": 0
+    },
+    {
+      "relation": "->>",
+      "chunk_index": 34,
+      "source": "itn",
+      "target": "cache",
+      "key": 0
+    },
+    {
+      "relation": "analyzes data from",
+      "chunk_index": 30,
+      "source": "chunker",
+      "target": "itn",
+      "key": 0
+    },
+    {
+      "relation": "stores data in",
+      "chunk_index": 30,
+      "source": "json",
+      "target": "database format",
+      "key": 0
+    },
+    {
+      "relation": "sent_to_server",
+      "chunk_index": 36,
+      "source": "json",
+      "target": "client",
+      "key": 0
+    },
+    {
+      "relation": "holds audio files on",
+      "chunk_index": 30,
+      "source": "storage",
+      "target": "disk",
+      "key": 0
+    },
+    {
+      "relation": "is connected to",
+      "chunk_index": 31,
+      "source": "vllm",
+      "target": "cuda",
+      "key": 0
+    },
+    {
+      "relation": "推理引擎",
+      "chunk_index": 33,
+      "source": "vllm",
+      "target": "inference engine",
+      "key": 0
+    },
+    {
+      "relation": "-->>",
+      "chunk_index": 34,
+      "source": "vllm",
+      "target": "client",
+      "key": 0
+    },
+    {
+      "relation": "사용된 엔진",
+      "chunk_index": 44,
+      "source": "vllm",
+      "target": "첫 번째 짧은 문장",
+      "key": 0
+    },
+    {
+      "relation": "name of",
+      "chunk_index": 31,
+      "source": "vllm-omni engine qwen3-tts 1.7b",
+      "target": "vllm",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "python 3.12",
+      "target": "backend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "uvicorn",
+      "target": "backend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "websocket",
+      "target": "backend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "asyncio",
+      "target": "backend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "json file db",
+      "target": "database & cache",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "react 18",
+      "target": "frontend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "typescript",
+      "target": "frontend",
+      "key": 0
+    },
+    {
+      "relation": "使用于",
+      "chunk_index": 32,
+      "source": "vite",
+      "target": "frontend",
+      "key": 0
+    },
+    {
+      "relation": "发起方",
+      "chunk_index": 33,
+      "source": "client",
+      "target": "frontend",
+      "key": 0
+    },
+    {
+      "relation": "发送者",
+      "chunk_index": 33,
+      "source": "client",
+      "target": "WebSocket连接请求",
+      "key": 0
+    },
+    {
+      "relation": "구현한 기술",
+      "chunk_index": 44,
+      "source": "textprocessor",
+      "target": "사전 문장 분해(Split) 컴포넌트",
+      "key": 0
+    },
+    {
+      "relation": "구현한 기술",
+      "chunk_index": 44,
+      "source": "textprocessor",
+      "target": "구두점 단위 청킹(Chunking)",
+      "key": 0
+    },
+    {
+      "relation": "缓存方",
+      "chunk_index": 33,
+      "source": "cache",
+      "target": "redis",
+      "key": 0
+    },
+    {
+      "relation": "-->>",
+      "chunk_index": 34,
+      "source": "cache",
+      "target": "client",
+      "key": 0
+    },
+    {
+      "relation": "Uploads",
+      "chunk_index": 35,
+      "source": "u1",
+      "target": "새로운 보이스(음성)",
+      "key": 0
+    },
+    {
+      "relation": "Saves to Cache Dir with hash",
+      "chunk_index": 35,
+      "source": "u4",
+      "target": "_24k_mono.wav",
+      "key": 0
+    },
+    {
+      "relation": "Deletes Deep Cache Entry for Audio",
+      "chunk_index": 35,
+      "source": "d4",
+      "target": ".24k_mono.wav",
+      "key": 0
+    },
+    {
+      "relation": "used_in_request_parameter",
+      "chunk_index": 36,
+      "source": "jwt",
+      "target": "wss://?token=...",
+      "key": 0
+    },
+    {
+      "relation": "verified_by",
+      "chunk_index": 36,
+      "source": "jwt",
+      "target": "server",
+      "key": 0
+    },
+    {
+      "relation": "streams_binary_data",
+      "chunk_index": 36,
+      "source": "server",
+      "target": "client",
+      "key": 0
+    },
+    {
+      "relation": "produces_audio_chunk",
+      "chunk_index": 36,
+      "source": "vLLM 엔진",
+      "target": "server",
+      "key": 0
+    },
+    {
+      "relation": "產生",
+      "chunk_index": 39,
+      "source": "vLLM 엔진",
+      "target": "16-bit PCM(WAV) 오디오 청크",
+      "key": 0
+    },
+    {
+      "relation": "compared_to",
+      "chunk_index": 36,
+      "source": "http chunked transfer",
+      "target": "WebSocket 기반 초저지연 스트리밍",
+      "key": 0
+    },
+    {
+      "relation": "improves_time_to_first_audio",
+      "chunk_index": 36,
+      "source": "WebSocket 기반 초저지연 스트리밍",
+      "target": "극적으로 단축되다",
+      "key": 0
+    },
+    {
+      "relation": "broadcasts_global_settings_change",
+      "chunk_index": 36,
+      "source": "Redis Pub/Sub 채널",
+      "target": "backend workers",
+      "key": 0
+    },
+    {
+      "relation": "updates_memory_cache_without_restart",
+      "chunk_index": 36,
+      "source": "backend workers",
+      "target": "server",
+      "key": 0
+    },
+    {
+      "relation": "prevents_parallel_loading_of_same_voice_file",
+      "chunk_index": 36,
+      "source": "redis_lock",
+      "target": "vllm",
+      "key": 0
+    },
+    {
+      "relation": "구현",
+      "chunk_index": 37,
+      "source": "정규식(Regex)",
+      "target": "루그어헤드(Look-ahead) 토크나이저",
+      "key": 0
+    },
+    {
+      "relation": "기반",
+      "chunk_index": 37,
+      "source": "정규식(Regex)",
+      "target": "루그어헤드(Look-ahead) 토크나이저",
+      "key": 1
+    },
+    {
+      "relation": "구현된 기능",
+      "chunk_index": 37,
+      "source": "스마트 ITN (정규화) 파이프라인 (`pipeline/itn.py`)",
+      "target": "영문, 숫자, 특수 기호가 혼합된 텍스트를 자연스러운 한국어 발음(TTS 입력용)으로 변환",
+      "key": 0
+    },
+    {
+      "relation": "사용자 커스텀 사전",
+      "chunk_index": 37,
+      "source": "_eng_word",
+      "target": "번역",
+      "key": 0
+    },
+    {
+      "relation": "치명적인",
+      "chunk_index": 38,
+      "source": "기술적 결함들",
+      "target": "기술",
+      "key": 0
+    },
+    {
+      "relation": "발생한",
+      "chunk_index": 38,
+      "source": "기술적 결함들",
+      "target": "치명적인 기술",
+      "key": 0
+    },
+    {
+      "relation": "발생한",
+      "chunk_index": 38,
+      "source": "기술적 결함들",
+      "target": "치명적인 기술",
+      "key": 1
+    },
+    {
+      "relation": "사용한",
+      "chunk_index": 38,
+      "source": "엔지니어링 기법",
+      "target": "해결",
+      "key": 0
+    },
+    {
+      "relation": "사용하여",
+      "chunk_index": 38,
+      "source": "엔지니어링 기법",
+      "target": "해결",
+      "key": 1
+    },
+    {
+      "relation": "진행하는",
+      "chunk_index": 38,
+      "source": "고도화 과정",
+      "target": "프로젝트",
+      "key": 0
+    },
+    {
+      "relation": "진행하는",
+      "chunk_index": 38,
+      "source": "고도화 과정",
+      "target": "프로젝트",
+      "key": 1
+    },
+    {
+      "relation": "包含",
+      "chunk_index": 39,
+      "source": "frontend/src/lib/audio.ts",
+      "target": "Uint8Array 기반의 잉여 버퍼",
+      "key": 0
+    },
+    {
+      "relation": "應用於",
+      "chunk_index": 39,
+      "source": "web audio api",
+      "target": "재생",
+      "key": 0
+    },
+    {
+      "relation": "產生",
+      "chunk_index": 39,
+      "source": "float32array",
+      "target": "스피커로 출력",
+      "key": 0
+    },
+    {
+      "relation": "應用於",
+      "chunk_index": 39,
+      "source": "gainnode",
+      "target": "오디오 청크 재생",
+      "key": 0
+    },
+    {
+      "relation": "應用於",
+      "chunk_index": 39,
+      "source": "오디오 청크 재생",
+      "target": "볼륨 곡선(Linear Ramp) 주기",
+      "key": 0
+    },
+    {
+      "relation": "應用於",
+      "chunk_index": 39,
+      "source": "linear ramp",
+      "target": "볼륨 곡선",
+      "key": 0
+    },
+    {
+      "relation": "應用於",
+      "chunk_index": 39,
+      "source": "10ms 구간",
+      "target": "초반 볼륨 곡선(Linear Ramp) 주기",
+      "key": 0
+    },
+    {
+      "relation": "업로드",
+      "chunk_index": 40,
+      "source": "관리자",
+      "target": "새로운 Референ스 음성",
+      "key": 0
+    },
+    {
+      "relation": "삭제",
+      "chunk_index": 40,
+      "source": "관리자",
+      "target": "보이스",
+      "key": 0
+    },
+    {
+      "relation": "삭제",
+      "chunk_index": 40,
+      "source": "관리자",
+      "target": "과거 버전의 명명 규칙에 맞춰진 파일 경로",
+      "key": 0
+    },
+    {
+      "relation": "삭제",
+      "chunk_index": 40,
+      "source": "관리자",
+      "target": "디ープ하게 생성된 새로운 MD5 해시 경로",
+      "key": 0
+    },
+    {
+      "relation": "삭제",
+      "chunk_index": 40,
+      "source": "관리자",
+      "target": "보이스 추가/삭제가 반복되는 서버 디스크",
+      "key": 0
+    },
+    {
+      "relation": "정규화",
+      "chunk_index": 40,
+      "source": "백엔드",
+      "target": "24kHz / Mono 포맷",
+      "key": 0
+    },
+    {
+      "relation": "정규화",
+      "chunk_index": 40,
+      "source": "백엔드",
+      "target": "24kHz / Mono 포맷",
+      "key": 1
+    },
+    {
+      "relation": "캐싱",
+      "chunk_index": 40,
+      "source": "백엔드",
+      "target": "db/cache/audio_norm/",
+      "key": 0
+    },
+    {
+      "relation": "고도화된",
+      "chunk_index": 42,
+      "source": "ITN 정규식 토크나이저",
+      "target": "로마 숫자 충돌 및 URL 생략 문제",
+      "key": 0
+    },
+    {
+      "relation": "사용한",
+      "chunk_index": 42,
+      "source": "네이티브 Regex 토크나이저",
+      "target": "파이썬",
+      "key": 0
+    },
+    {
+      "relation": "추가된",
+      "chunk_index": 42,
+      "source": "Look-ahead 인덱스 참조 기법",
+      "target": "ITN 엔진 고도화",
+      "key": 0
+    },
+    {
+      "relation": "추가된",
+      "chunk_index": 42,
+      "source": "Look-ahead 인덱스 참조 기법",
+      "target": "ITN 엔진 고도화",
+      "key": 1
+    },
+    {
+      "relation": "추가된",
+      "chunk_index": 42,
+      "source": "Look-ahead 인덱스 참조 기법",
+      "target": "네이티브 Regex 토크나이저",
+      "key": 0
+    },
+    {
+      "relation": "통번역된 토큰",
+      "chunk_index": 42,
+      "source": "닷컴",
+      "target": "Look-ahead 인덱스 참조 기법",
+      "key": 0
+    },
+    {
+      "relation": "통번역된 토큰",
+      "chunk_index": 42,
+      "source": "닷넷",
+      "target": "Look-ahead 인덱스 참조 기법",
+      "key": 0
+    },
+    {
+      "relation": "고도화된",
+      "chunk_index": 42,
+      "source": "ITN 엔진",
+      "target": "로마 숫자 충돌 및 URL 생략 문제",
+      "key": 0
+    },
+    {
+      "relation": "방어하는 대상",
+      "chunk_index": 43,
+      "source": "ReDoS 방어 장치",
+      "target": "커스텀 정규식",
+      "key": 0
+    },
+    {
+      "relation": "결정하는 요인",
+      "chunk_index": 44,
+      "source": "ttfb",
+      "target": "체감 속도",
+      "key": 0
+    },
+    {
+      "relation": "지연 시간 단축 목표",
+      "chunk_index": 44,
+      "source": "500ms(0.5초)",
+      "target": "수십 초 단위",
+      "key": 0
+    },
+    {
+      "relation": "사용된 기술",
+      "chunk_index": 44,
+      "source": "백그라운드 스레드",
+      "target": "비동기로 사전 캐싱 및 합성",
+      "key": 0
+    },
+    {
+      "relation": "대상 사용자",
+      "chunk_index": 44,
+      "source": "사용자",
+      "target": "체감 딜레이 수렴",
+      "key": 0
+    },
+    {
+      "relation": "사용된 기술",
+      "chunk_index": 44,
+      "source": "1번 문장",
+      "target": "연산 시간",
+      "key": 0
+    },
+    {
+      "relation": "가중치",
+      "chunk_index": 45,
+      "source": "HTTP 기반 Chunked Stream",
+      "target": "네트워크 버퍼링과 반복되는 TCP 오버헤드",
+      "key": 0
+    },
+    {
+      "relation": "변경 대상",
+      "chunk_index": 45,
+      "source": "기존 HTTP 엔드포인트",
+      "target": "`wss://` 듀플렉스 채널",
+      "key": 0
+    },
+    {
+      "relation": "유지 방법",
+      "chunk_index": 45,
+      "source": "클라이언트와 양방향 소켓 통신",
+      "target": "연결을 열어 둔 채 백엔드 메모리에 Audio Byte가 생성될 때 Flush 하도록 파이프라인 압축",
+      "key": 0
+    },
+    {
+      "relation": "제거 방법",
+      "chunk_index": 45,
+      "source": "네트워크 핸드셰이크 시간",
+      "target": "파이프라인을 압축하여 네트워크 핸드셰이크 시간 제거",
+      "key": 0
+    },
+    {
+      "relation": "使用的技术",
+      "chunk_index": 46,
+      "source": "qwen3-tts",
+      "target": "icl(in-context learning)",
+      "key": 0
+    },
+    {
+      "relation": "使用的模型",
+      "chunk_index": 46,
+      "source": "qwen3-tts",
+      "target": "icl(in-context learning)",
+      "key": 1
+    },
+    {
+      "relation": "使用的模型",
+      "chunk_index": 46,
+      "source": "qwen3-tts",
+      "target": "qwen3-tts",
+      "key": 0
+    },
+    {
+      "relation": "使用的模型",
+      "chunk_index": 46,
+      "source": "qwen3-tts",
+      "target": "qwen3-tts",
+      "key": 1
+    },
+    {
+      "relation": "执行的操作",
+      "chunk_index": 46,
+      "source": "Librosa 라이브러리로 디코딩하여 Resampling",
+      "target": "24kHz / Mono 포맷으로",
+      "key": 0
+    },
+    {
+      "relation": "执行的操作对象",
+      "chunk_index": 46,
+      "source": "Librosa 라이브러리로 디코딩하여 Resampling",
+      "target": "대상 오디오 파일",
+      "key": 0
+    },
+    {
+      "relation": "执行的操作对象",
+      "chunk_index": 46,
+      "source": "ICL(In-Context Learning) 모델",
+      "target": "프롬프트 음성의 음향 특징량(Acoustic Feature)",
+      "key": 0
+    },
+    {
+      "relation": "执行的操作",
+      "chunk_index": 46,
+      "source": "Uvicorn 서버",
+      "target": "warmup()",
+      "key": 0
+    },
+    {
+      "relation": "작성한",
+      "chunk_index": 47,
+      "source": "Qwen3-TTS 프로젝트",
+      "target": "요약 및 느낀점",
+      "key": 0
+    },
+    {
+      "relation": "대상",
+      "chunk_index": 47,
+      "source": "예측 불가능한 인프라 결함들",
+      "target": "치열한 엔지니어링으로 돌파",
+      "key": 0
+    },
+    {
+      "relation": "대상",
+      "chunk_index": 47,
+      "source": "PCM 얼라인먼트",
+      "target": "바이너리 데이터의 PCM 얼라인먼트",
+      "key": 0
+    },
+    {
+      "relation": "대상",
+      "chunk_index": 47,
+      "source": "Redis-backed Thundering Herd 방어",
+      "target": "분산 노드 환경에서",
+      "key": 0
+    },
+    {
+      "relation": "대상",
+      "chunk_index": 47,
+      "source": "정규식을 응용한 스마트 한글 NLP(ITN)",
+      "target": "정규식을 응용한 스마트 한글 NLP(ITN)",
+      "key": 0
+    }
+  ]
+}

@@ -34,7 +34,9 @@ src/
 ├── graph_parent_child.py   Parent-Child RAG 그래프 (실험 — 현재 base 대비 이점 없음, 아래 참고)
 ├── semantic_chunk.py       시맨틱 청킹 핵심 로직 (임베딩 유사도 breakpoint, 순수 함수)
 ├── ingest_semantic.py      시맨틱 청킹 인제스트 (실험, 별도 인덱스 — 현재 base보다 recall 낮음)
-└── ingest_alt_embed.py     대안 임베딩 모델 인제스트 (실험, 미실행 — 모델 다운로드 필요)
+├── ingest_alt_embed.py     대안 임베딩 모델 인제스트 (실험, 미실행 — 모델 다운로드 필요)
+├── kg.py                   Graph RAG — 트리플 추출·그래프 검색·RRF 융합 (실험, 아래 참고)
+└── ingest_kg.py            지식 그래프 구축 (LLM로 청크마다 트리플 추출)
 eval/
 ├── eval_set.json      평가 질문 51문항 (유형별 + 거부 10 · 패턴/앵커)
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
@@ -60,7 +62,8 @@ eval/
 ├── experiment_paper_count.py  parent-child 실패 원인 분리 실험(모델 크기 vs 프롬프트)
 ├── repeat_parent_child.py     base vs parent-child 반복 검증 (grade→rewrite 루프 포함)
 ├── compare_semantic.py        base vs 시맨틱 청킹 recall 비교 (앵커 기반 gold)
-└── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold, 미실행)
+├── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold, 미실행)
+└── eval_kg_retrieval.py       hybrid vs 그래프 단독 vs RRF 융합 recall@k/MRR (LLM 불필요)
 ```
 
 ### RAG 흐름
@@ -824,6 +827,67 @@ gold 라벨 무효화는 0건이다.
 
 v5(패턴 채점)에 이어 두 번째 변경이다(동의 표기 인정, `expect_refusal` 추가,
 거부 정규식 확장). **위 v1~v7 표와 직접 비교할 수 없다.**
+
+## Graph RAG 실험 (미채택)
+
+채용 공고 조사에서 Graph RAG가 반복적으로 요구 기술로 등장했다. 이 코퍼스는
+"이윤선-근무-회사", "프로젝트-사용-기술" 같은 개체 중심 관계가 많고,
+enumeration(열거)·comparison(비교)형 질문 — "근무한 회사들을 알려주세요",
+"인피닉과 이든티앤에스 중 더 오래 근무한 곳은" — 은 사실이 여러 청크에
+흩어져 있어 하이브리드 검색(청크 단위)이 불리할 수 있다는 게 가설이었다.
+
+**구현**: `kg.py`가 LLM(`with_structured_output`, grade·rerank와 같은 패턴)로
+청크마다 (주어, 관계, 목적어) 트리플을 뽑아 `networkx` 그래프로 짓는다.
+검색은 질의 토큰과 겹치는 노드를 시드로 잡고(`bm25_tokenize` 재사용 —
+LLM 없이 결정적으로, eval_retrieval.py와 같은 원칙) 1-hop 이웃 엣지의 출처
+청크를 점수순으로 반환한다. `fused_search`는 이 결과를 하이브리드와
+RRF(K=60)로 융합한다 — `graph.hybrid_search`가 이미 쓰는 방식 그대로다.
+
+인제스트(`python src/ingest_kg.py`, qwen2.5:3b): 산문 청크 48개 전부에서
+트리플이 나왔다(추출 실패 0%) — 노드 328개, 엣지 271개.
+
+**결과** (`eval/eval_kg_retrieval.py`, retrieval_set.json 10문항):
+
+| 방식 | recall@1 | recall@3 | recall@6 | MRR |
+|---|---|---|---|---|
+| hybrid (기존) | 90% | 100% | 100% | 0.95 |
+| kg 단독 | 10% | 40% | 40% | 0.217 |
+| hybrid+kg RRF 융합 | 80% | 100% | 100% | 0.90 |
+
+**판정: 미채택.** 그래프 단독은 하이브리드에 크게 못 미치고, 융합은 오히려
+recall@1·MRR을 깎는다(90%→80%, 0.95→0.90) — 노이즈 있는 그래프 신호가
+RRF에서 정답 순위를 밀어내는 쪽으로 작용했다.
+
+원인을 질문별로 뜯어보면(시드 노드 직접 출력):
+
+- **시드가 아예 안 잡히는 질문 3건** — "특허 번호", "Kubernetes CI/CD 도구",
+  "웹소켓 세션 탈취". 그래프에 `특허`·`Kubernetes`·`웹소켓` 같은 노드가 없거나
+  질의 표현과 다른 명칭으로 추출됐다 — LLM이 트리플을 만들 때 문서마다
+  엔티티 명칭을 다르게 부른 것으로 보인다(예: "웹소켓 세션"이 아니라 특정
+  공격 기법명으로 추출).
+- **일반 동사가 유사 엔티티로 새어 들어간 경우** — "팝 노이즈를 어떻게
+  해결했나요" 질의가 노드 `해결`을 시드로 잡았다. 관계여야 할 서술어가
+  트리플 추출 과정에서 주어/목적어 자리에 들어간 것 — 프롬프트에 "관계는
+  동사, 주어/목적어는 명사 개체"라고 더 명시했어야 했다.
+- **부분적으로만 맞는 경우** — "이윤선의 제1저자 논문"에서 `1`이라는
+  숫자 하나가 노드로 분리 추출됐다(원인 미상, 트리플 추출 프롬프트가
+  숫자를 개체로 오인). "TTS 프로젝트"와 "프로젝트"가 별도 노드로 남아
+  마땅히 하나여야 할 개체가 갈라졌다 — `normalize()`가 공백·대소문자만
+  다루고 부분 문자열 병합은 하지 않기 때문이다.
+
+**결론**: 51개 문서·48개 청크 규모의 코퍼스에서는 하이브리드 검색이 이미
+recall@1 90%로 천장에 가깝고, 개선 여지가 적다. Graph RAG가 값을 하려면
+(1) 엔티티 정규화를 LLM 추출 직후 한 번 더(동의어 병합·비개체 필터링)
+거치거나, (2) 지금보다 더 큰·관계가 조밀한 코퍼스에서 재보는 것이 다음
+단계다 — 지금 코퍼스는 Graph RAG의 강점(개체 간 다단 추론)이 발휘되기엔
+너무 작고 청크당 정보 밀도가 이미 높다. parent-child·시맨틱 청킹과 같은
+결론이다: 새 검색 방식보다, generate가 이미 받은 근거를 얼마나 잘 쓰는지가
+이 프로젝트 규모에서는 더 큰 병목이다.
+
+재현: `python src/ingest_kg.py` (그래프 재구축) → `python eval/eval_kg_retrieval.py`
+(비교 재실행). 단위 테스트(`tests/test_kg.py`)는 정규화·그래프 구축·시드
+매칭·랭킹처럼 LLM 없는 결정적 로직만 검증한다 — 트리플 추출 자체는 LLM
+호출이라 CI 대상이 아니다.
 
 ## 한계
 
