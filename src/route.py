@@ -4,7 +4,9 @@ CONTEXT_ORDER)에 이미 나와 있다:
 
     aggregation — 이웃 확장(NEIGHBOR_WINDOW=1)이 두 번의 실행 모두 개선
                   (6/12→10/12, 6/12→9/12). 세는 질문은 문맥이 이어져야 한다.
-    enumeration — 샌드위치 배치가 두 번의 실행 모두 개선(7/16→12/16 등).
+    enumeration — 처음엔 샌드위치 배치가 개선으로 보였으나(7/16→12/16 등),
+                  재측정에서 이웃 확장이 더 낫다는 것이 확인됐다(아래 ROUTES
+                  주석 — sandwich 31/45 vs W=1 38/45, 대조군 대비 유의).
     comparison  — 샌드위치는 오히려 악화(4/4→2/4)라 기본(역순)을 유지해야 한다.
     temporal    — 이웃 확장이 두 번 다 악화(8/8→6/8, 8/8→7/8), 손대지 않는다.
 
@@ -62,9 +64,25 @@ def classify_question_type(question: str) -> str:
 # 환각 저항이 먼저 무너진다"(README §9)의 세 번째 재현이다. 그래서
 # 오버라이드를 개선이 실제로 측정된 좌표(top-3 + W=1 ≈ 4.3k자)로 되돌린다.
 #
-# enumeration의 sandwich는 base가 이미 top-5일 때 측정된 값이라(배치 순서
-# 실험, 51문항×2회) 그대로 둔다.
+# enumeration은 원래 sandwich였다(배치 순서 실험, 51문항×2회). 그런데
+# NEIGHBOR_WINDOW 재측정에서 enumeration이 W=0 12/18 → W=1 18/18로 가장 큰
+# 신호를 냈고, 정작 이 표에는 W가 없었다. sandwich+W=1은 아무도 안 재본
+# 조합이라 가정하지 않고 eval/ab_route_variants.py로 직접 겨뤘다
+# (15문항 × 5회, 2026-08):
+#
+#     조합                              aggregation(대조군)   enumeration(변수)
+#     current(sandwich)                 16/30                31/45
+#     enum_w1_reversed(W=1, 역순)       17/30                38/45   ← 채택
+#
+# **aggregation은 세 조합 모두 설정이 동일한 대조군**이다 — 여기가
+# 16/30 → 17/30(+3%p)으로 잔류 노이즈 수준을 알려주고, 그에 비해
+# enumeration은 +16%p로 명백히 크다. 2회 반복 실험에서는 이 대조군이
+# 5/12 → 7/12 → 8/12로 흔들려(설정이 같은데도) 결론을 낼 수 없었다 —
+# 반복을 5회로 올리고 나서야 신호와 노이즈가 갈렸다.
+#
+# 즉 enumeration에는 **sandwich보다 이웃 확장이 낫다**. sandwich를 빼고
+# W=1만 준다(배치는 전역 기본값인 역순을 그대로 쓴다).
 ROUTES: dict[str, dict[str, object]] = {
     "aggregation": {"NEIGHBOR_WINDOW": 1, "GENERATE_TOP_N": 3},
-    "enumeration": {"CONTEXT_ORDER": "sandwich"},
+    "enumeration": {"NEIGHBOR_WINDOW": 1},
 }
