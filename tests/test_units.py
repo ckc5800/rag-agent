@@ -292,6 +292,31 @@ def test_bm25_keeps_spaced_enumeration_comma_separate():
     assert "jenkins" in tokens and "argocd" in tokens
 
 
+def test_bm25_normalizes_math_italic_unicode():
+    # PDF 수식 추출(pypdf)이 만드는 수학 이탤릭 유니코드("𝐼𝑜𝑈")는
+    # [0-9A-Za-z]에 안 걸려 _RUNS가 통째로 건너뛰었다 — "IoU"와 겹치는
+    # 토큰이 0개였던 결함.
+    from graph import bm25_tokenize
+    assert set(bm25_tokenize("IoU")) & set(bm25_tokenize("𝐼𝑜𝑈"))
+    assert set(bm25_tokenize("Lfocal")) & set(bm25_tokenize("𝐿𝑓𝑜𝑐𝑎𝑙"))
+
+
+def test_bm25_normalizes_circled_digits_and_superscripts():
+    # 원문자 글머리("①②③")·위첨자("N²")도 같은 이유로 ASCII 숫자와
+    # 겹치는 토큰이 0개였다 — NFKC 정규화로 표준형(ASCII)에 맞춘다.
+    from graph import bm25_tokenize
+    assert set(bm25_tokenize("1 Navigator")) & set(bm25_tokenize("① Navigator"))
+    assert set(bm25_tokenize("N2")) & set(bm25_tokenize("O(N²)"))
+
+
+def test_bm25_hangul_syllables_unaffected_by_nfkc():
+    # 완성형 한글 음절은 NFKC에서도 NFC와 동일해야 한다(정준 분해 후
+    # 재조합 결과가 같음) — 정규화 도입이 기존 한글 토큰화를 깨면 안 된다.
+    from graph import bm25_tokenize
+    tokens = bm25_tokenize("회사들을 알려주세요")
+    assert "회사들을" in tokens and "회사" in tokens and "알려주세요" in tokens
+
+
 # ── grade/generate 컨텍스트 '길이' 불일치 회귀 테스트 ──
 #
 # 개수(GENERATE_TOP_N)는 context_docs로 맞췄지만 길이는 안 맞아 있었다:

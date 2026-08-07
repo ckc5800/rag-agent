@@ -10,6 +10,7 @@ State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으
 import hashlib
 import re
 import threading
+import unicodedata
 from contextlib import contextmanager
 from typing import TypedDict
 
@@ -80,7 +81,16 @@ def bm25_tokenize(text: str) -> list[str]:
     콤마 때문에 겹치는 토큰이 0개였다. 한국어 데이터 전처리를 재점검하다
     발견(2026-08): 코퍼스 자체(NFC 정규화·전각문자·자소분리)는 깨끗했지만
     이건 실제 결함이었다. 토큰화 전에 콤마부터 지운다.
+
+    같은 재점검에서 NFKC 정규화 부재도 발견했다 — PDF 수식 추출(pypdf가
+    논문의 loss function 수식을 그대로 뽑아냄)이 만드는 수학 이탤릭
+    유니코드("𝐹𝑜𝑐𝑎𝑙")와 위첨자("N²")·원문자 글머리("①②③")는 `[0-9A-Za-z]`에
+    안 걸려 `_RUNS`가 통째로 건너뛴다 — "Focal loss"와 "𝐿𝑓𝑜𝑐𝑎𝑙"이 겹치는
+    토큰 0개였다. NFKC는 이런 호환문자를 표준형(ASCII)으로 되돌리는 표준
+    절차라 토큰화 전에 한 번 통과시킨다. 한글 완성형 음절은 NFKC에서도
+    NFC와 동일해 영향이 없다(정준 분해 후 재조합 결과가 같다).
     """
+    text = unicodedata.normalize("NFKC", text)
     text = _THOUSANDS_COMMA.sub("", text)
     grams: list[str] = []
     for run in _RUNS.findall(text.lower()):
