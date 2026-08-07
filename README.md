@@ -1328,13 +1328,19 @@ fact가 전체 문항의 40%라 전역으로 켜면 손해가 이득을 덮는�
   강제한다. eval_grade.py가 잰 오탐 20%, 그리고 corrective 루프 A/B
   재검증(51문항 층화 표본)에서 그 오탐이 실제로 정답률을 깎는 것까지
   확인한 뒤 바꿨다. 파싱 버그 클래스 자체가 구조적으로 없어진다.
-- **리랭커** (`config.RERANK`) — RRF 순위를 로컬 LLM 1회 호출로 다시
-  매긴다(listwise, 구조화 출력). cross-encoder 등 새 의존성 없이 diagnose.py가
-  지목한 병목(검색O·정답X)을 겨냥.
+- **리랭커** (`config.RERANK`) — ❌ **실측 후 미채택(2026-08).** RRF 순위를
+  로컬 LLM 1회 호출로 다시 매긴다(listwise, 구조화 출력). cross-encoder 등
+  새 의존성 없이 diagnose.py가 지목한 병목(검색O·정답X)을 겨냥했다.
+  `eval/ab_rerank.py`(55문항 × 2회)로 처음 재보니 **정확도는 완전히
+  동률(78%, 86/110 대 86/110)인데 지연만 2.6s → 5.1s로 2배**였다. 뒤집힌
+  8문항도 상승 4 / 하락 4로 방향성이 없다. 켤 이유가 없어 기본 꺼둠 —
+  이제는 "안 재봐서 꺼둔 것"이 아니라 "재봤더니 값을 못 해서"다.
 - **유형별 라우팅** (`config.TYPE_ROUTING`, `src/route.py`) — ✅ **채택,
   기본 켜짐(2026-08).** 규칙 기반으로 질문 유형을 분류해 aggregation은
-  NEIGHBOR_WINDOW=1, enumeration은 CONTEXT_ORDER=sandwich를 그때만
-  적용한다. 두 손잡이 다 "전역으로 켜면 어떤 유형은 좋아지고 어떤 유형은
+  `NEIGHBOR_WINDOW=1`+`GENERATE_TOP_N=3`, enumeration은
+  `NEIGHBOR_WINDOW=1`을 그때만 적용한다(enumeration은 원래 sandwich였다가
+  후속 실험에서 이웃 확장으로 교체 — "라우팅 내용 자체를 겨루다" 절).
+  두 손잡이 다 "전역으로 켜면 어떤 유형은 좋아지고 어떤 유형은
   나빠진다"로 끝났던 것의 절충안. 재검증(`eval/ab_type_routing.py`,
   aggregation·enumeration 15문항 × 3회, Kiwi 토크나이저·
   SEED_MATCH_RATIO=0.7 반영 후): OFF 69% → ON 78%, 구제 2 / 악화 0 /
