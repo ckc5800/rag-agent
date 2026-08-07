@@ -38,7 +38,7 @@ def hybrid_search_alt(query: str, store, bm25):
     """base와 같은 RRF, 대상만 대안 임베딩 인덱스."""
     vec_docs = store.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
-    K = 60
+    K = config.RRF_K
     scores, by_key = {}, {}
     for docs in (vec_docs, kw_docs):
         for rank, doc in enumerate(docs):

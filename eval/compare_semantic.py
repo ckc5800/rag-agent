@@ -35,7 +35,7 @@ KS = [1, 3, 6]
 def hybrid_search_semantic(query: str, store, bm25):
     vec_docs = store.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
-    K = 60
+    K = config.RRF_K
     scores, by_key = {}, {}
     for docs in (vec_docs, kw_docs):
         for rank, doc in enumerate(docs):

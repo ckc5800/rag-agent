@@ -157,13 +157,14 @@ def build_questions(chunks: list[Document], triples_by_chunk: dict[int, list[Tri
 
 
 def hybrid_search(query: str, vectorstore, bm25, k: int) -> list[Document]:
-    """graph.hybrid_search와 같은 RRF(K=60)를 독립 인덱스(vectorstore/bm25
-    객체를 직접 받음)에 적용한다. graph.py의 전역 싱글턴(_vectorstore/_bm25)은
-    원 코퍼스에 묶여 있어 재사용하지 않고, 여기서 같은 로직을 다시 구현한다 —
-    두 코퍼스의 인덱스가 한 프로세스 안에서 섞일 위험을 원천 차단한다."""
+    """graph.hybrid_search와 같은 RRF(config.RRF_K)를 독립 인덱스(vectorstore/
+    bm25 객체를 직접 받음)에 적용한다. graph.py의 전역 싱글턴(_vectorstore/
+    _bm25)은 원 코퍼스에 묶여 있어 재사용하지 않고, 여기서 같은 로직을 다시
+    구현한다 — 두 코퍼스의 인덱스가 한 프로세스 안에서 섞일 위험을 원천
+    차단한다."""
     vec_docs = vectorstore.similarity_search(query, k=k)
     kw_docs = bm25.invoke(query)
-    K = 60
+    K = config.RRF_K
     scores: dict[str, float] = {}
     by_key: dict[str, Document] = {}
     for docs in (vec_docs, kw_docs):
