@@ -14,6 +14,7 @@ import unicodedata
 from contextlib import contextmanager
 from typing import TypedDict
 
+from kiwipiepy import Kiwi
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
@@ -42,66 +43,74 @@ _bm25 = None
 _index_lock = threading.Lock()
 
 
-# 어절을 문자 종류별 런(run)으로 쪼갠다. ASCII 런은 내부의 . - _ 를 품어
-# '0.68', 'password_changed_at', '10-2538225-0000', '24kHz'를 통째로 살린다.
-_ASCII_RUN = r"[0-9A-Za-z]+(?:[._-][0-9A-Za-z]+)*"
-_HANGUL_RUN = r"[가-힣]+"
-_RUNS = re.compile(f"{_ASCII_RUN}|{_HANGUL_RUN}")
-_SPLITTABLE = re.compile(r"[._-]")
-
-# 천단위 콤마 제거. '.', '-', '_'와 달리 콤마는 **구분자를 없애야** 같은
-# 숫자가 된다("2,292" vs "2292" — 지우지 않으면 "2"·"292"로 쪼개져 겹치는
-# 토큰이 0개). 반대로 "Jenkins, ArgoCD" 같은 열거 콤마는 사이에 공백이 있어
+# 천단위 콤마 제거. Kiwi는 숫자를 SN 태그로 인식하지만 콤마를 그대로
+# 형태(form)에 남긴다("2,292" ≠ "2292") — 지우지 않으면 겹치는 토큰이
+# 0개. 반대로 "Jenkins, ArgoCD" 같은 열거 콤마는 사이에 공백이 있어
 # \d{3}에 걸리지 않는다 — 코퍼스 전수 검사로 확인(portfolio.md 24,000·
 # 32,768·9,600·2,048 등 전부 천단위였고 목록 용도의 무공백 콤마 나열은
 # 0건이었다).
 _THOUSANDS_COMMA = re.compile(r"(?<=\d),(?=\d{3}(?:\D|$))")
 
+_kiwi = None
+_kiwi_lock = threading.Lock()
+
+# 체언(N*)·용언 어간(V*)·부사(MA*)·어근(XR)·외국어(SL)·한자(SH)·숫자(SN)·
+# URL·이메일·일련번호(W_*, 예: "10-2538225-0000"→W_SERIAL)만 남긴다.
+# 조사(JK*/JX/JC)·어미(E*)·순수 기호(SF/SP/SS/SE/SO/SW)는 버린다 — 이게 곧
+# '회사들'에서 '들'(XSN)을 떼고 '회사'만 남기는 지점이라 별도 bigram
+# 없이도 조사가 붙은 질의가 겹친다.
+_KEEP_TAG_PREFIXES = ("N", "V", "MA", "XR", "W")
+_KEEP_TAGS = frozenset({"SL", "SH", "SN"})
+
+
+def _get_kiwi() -> Kiwi:
+    global _kiwi
+    if _kiwi is None:
+        with _kiwi_lock:
+            if _kiwi is None:
+                _kiwi = Kiwi()
+    return _kiwi
+
 
 def bm25_tokenize(text: str) -> list[str]:
-    """문자 종류별로 쪼갠 뒤, 한글 런에만 문자 bigram을 추가한다.
+    """Kiwi 형태소 분석으로 어간·명사·숫자·외국어 토큰만 추출한다.
 
-    BM25의 공백 토큰화는 '회사들'과 '회사'를 다른 토큰으로 취급해 조사가
-    붙은 한국어 질의에 약하다. 한글에 문자 bigram을 함께 넣으면
-    '회사들' ↔ '회사'가 bigram(회사)으로 겹친다.
+    이전엔 문자 종류별 런(run) 분해 + 한글 bigram으로 조사 문제를
+    우회했다("회사들" ↔ "회사"가 bigram '회사'로 겹침). 하지만 bigram은
+    형태소 경계를 모르는 근사치라 노이즈 토큰이 섞이고('회사들을' →
+    '사들'·'들을' 같은 의미 없는 조각까지 토큰화됨), 진짜 복합명사
+    분해("화자분할" → "화자"+"분할")는 못 했다.
 
-    문제는 **영문·숫자에 구두점이나 조사가 붙는 경우**였다. 공백으로만
-    자르면 이렇게 된다:
+    Kiwi는 형태소 경계를 실제로 알아서 이 둘을 한 번에 해결한다 —
+    "회사들을" → 어간 '회사'만 남고(들=XSN 접미사, 을=JKO 조사는 버림),
+    "화자분할"·"화자 분할" 둘 다 ['화자','분할']로 동일하게 분해된다.
+    영문·숫자도 SL/SN 태그로 그대로 보존되어 "Throughput은"(SL+JX)과
+    "Throughput:"(SL+SP)이 똑같이 'throughput' 하나로 겹친다 — 예전엔
+    구두점·조사가 토큰에 눌어붙어 겹치는 토큰이 0개였던 자리다.
 
-        질의 'Throughput은'  → ['throughput은', 'th','hr','ro',…]
-        문서 'Throughput:'   → ['throughput:']
+    다만 Kiwi도 두 가지는 직접 안 해준다:
+      1. 천단위 콤마를 형태(form)에 그대로 남긴다 — 지우지 않으면
+         "2,292"(SN)과 "2292"(SN)가 다른 토큰이 된다. 토큰화 전에 지운다.
+      2. 수학 이탤릭 유니코드("𝐼𝑜𝑈")·원문자 글머리("①②③")·위첨자("N²")는
+         PDF 수식 추출(pypdf)이 그대로 뽑아내는데, NFKC로 정규화하지
+         않으면 "IoU"와 별개 문자로 인식한다. 토큰화 전에 NFKC를 한 번
+         통과시킨다(완성형 한글 음절은 NFKC에서도 NFC와 동일해 영향 없음).
 
-    깨끗한 'throughput'이 양쪽 어디에도 안 생겨 **겹치는 토큰이 0개**다.
-    게다가 어절에 한글이 하나라도 있으면 ASCII 구간까지 bigram으로 쪼개져
-    순수 노이즈('th','hr',…)가 된다. 이 코퍼스의 질문은 대부분
-    "gRPC로", "Throughput은", "자격증을" 처럼 섞여 있어서 BM25가 사실상
-    죽어 있었다(진단: eval/diagnose.py). 런 단위로 쪼개 해결한다.
-
-    비슷한 문제가 천단위 콤마에도 있었다 — "2,292"(코퍼스)와 "2292"(질의)가
-    콤마 때문에 겹치는 토큰이 0개였다. 한국어 데이터 전처리를 재점검하다
-    발견(2026-08): 코퍼스 자체(NFC 정규화·전각문자·자소분리)는 깨끗했지만
-    이건 실제 결함이었다. 토큰화 전에 콤마부터 지운다.
-
-    같은 재점검에서 NFKC 정규화 부재도 발견했다 — PDF 수식 추출(pypdf가
-    논문의 loss function 수식을 그대로 뽑아냄)이 만드는 수학 이탤릭
-    유니코드("𝐹𝑜𝑐𝑎𝑙")와 위첨자("N²")·원문자 글머리("①②③")는 `[0-9A-Za-z]`에
-    안 걸려 `_RUNS`가 통째로 건너뛴다 — "Focal loss"와 "𝐿𝑓𝑜𝑐𝑎𝑙"이 겹치는
-    토큰 0개였다. NFKC는 이런 호환문자를 표준형(ASCII)으로 되돌리는 표준
-    절차라 토큰화 전에 한 번 통과시킨다. 한글 완성형 음절은 NFKC에서도
-    NFC와 동일해 영향이 없다(정준 분해 후 재조합 결과가 같다).
+    "password_changed_at"처럼 밑줄로 이어붙인 식별자는 Kiwi가
+    'password'·'changed'·'at' 세 개의 SL 토큰(+ SW 기호, 버려짐)으로
+    쪼갠다 — 예전엔 통짜 토큰으로 유지했지만, 질의도 똑같이 쪼개지므로
+    BM25 매칭 자체는 깨지지 않는다(eval_retrieval.py로 회귀 없음 확인).
+    "10-2538225-0000" 같은 일련번호는 Kiwi가 W_SERIAL 태그로 통째로
+    인식해 오히려 더 정확히 보존된다.
     """
     text = unicodedata.normalize("NFKC", text)
     text = _THOUSANDS_COMMA.sub("", text)
-    grams: list[str] = []
-    for run in _RUNS.findall(text.lower()):
-        grams.append(run)
-        if "가" <= run[0] <= "힣":
-            if len(run) >= 2:                      # 한글만 bigram
-                grams += [run[i:i + 2] for i in range(len(run) - 1)]
-        elif _SPLITTABLE.search(run):
-            # 'password_changed_at' → 부분 토큰도 함께 (통째 토큰은 유지)
-            grams += [p for p in _SPLITTABLE.split(run) if p]
-    return grams
+    kiwi = _get_kiwi()
+    tokens = []
+    for t in kiwi.tokenize(text):
+        if t.tag in _KEEP_TAGS or t.tag.startswith(_KEEP_TAG_PREFIXES):
+            tokens.append(t.form.lower())
+    return tokens
 
 
 class IndexError_(RuntimeError):

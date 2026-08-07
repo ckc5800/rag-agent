@@ -10,6 +10,11 @@ pypdf>=4.0
 python-docx>=1.1
 python-hwpx>=6.0
 rank_bm25>=0.2
+# BM25 한국어 형태소 분석기. 순수 정규식+bigram 방식(런던-런던 등 근사치)을
+# 대체 — 조사(JX/JKO 등)를 실제로 인식해서 떼어내고 복합명사를 정확히
+# 분해한다. JVM 불필요(Mecab/Kkma/Okt와 달리 순수 C++ 바인딩)라 서버·설치
+# 부담이 없다는 게 이 프로젝트의 "파일 하나로 끝난다" 원칙에 맞는다.
+kiwipiepy>=0.20
 # 벡터 저장소 대안 — VECTOR_STORE=qdrant 로 교체 (서버 없이 임베디드 모드)
 langchain-qdrant>=0.2
 qdrant-client>=1.12

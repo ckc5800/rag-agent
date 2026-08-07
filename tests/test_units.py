@@ -259,11 +259,12 @@ def test_expand_to_parents_preserves_rank_order():
     assert [p.page_content for p in parents] == ["C", "A", "B"]
 
 
-# ── BM25 한국어 bigram 토크나이저 ──
+# ── BM25 한국어 형태소 분석 토크나이저(Kiwi) ──
 
 def test_bm25_bigram_overlap_with_josa():
     from graph import bm25_tokenize
-    # '회사들'(질의)과 '회사'(문서)가 bigram '회사'로 겹친다
+    # '회사들'(질의)과 '회사'(문서)가 어간 '회사'로 겹친다 — 예전엔 문자
+    # bigram으로 근사했지만, Kiwi는 '들'(XSN 접미사)을 실제로 인식해 뗀다.
     assert "회사" in bm25_tokenize("회사들")
     assert "회사" in bm25_tokenize("회사")
 
@@ -272,8 +273,8 @@ def test_bm25_keeps_full_tokens_and_ascii():
     from graph import bm25_tokenize
     tokens = bm25_tokenize("Jenkins 파이프라인")
     assert "jenkins" in tokens          # 영문은 소문자 어절 그대로
-    assert "파이프라인" in tokens        # 원 어절 유지
-    assert "파이" in tokens             # bigram 추가
+    assert "파이프라인" in tokens        # 복합명사를 노이즈 없이 통째로 인식
+    assert "파이" not in tokens         # bigram 노이즈가 더는 안 생긴다
 
 
 def test_bm25_strips_thousands_comma():
@@ -311,10 +312,35 @@ def test_bm25_normalizes_circled_digits_and_superscripts():
 
 def test_bm25_hangul_syllables_unaffected_by_nfkc():
     # 완성형 한글 음절은 NFKC에서도 NFC와 동일해야 한다(정준 분해 후
-    # 재조합 결과가 같음) — 정규화 도입이 기존 한글 토큰화를 깨면 안 된다.
+    # 재조합 결과가 같음) — 정규화 도입이 Kiwi 형태소 분석을 깨면 안 된다.
+    # '알려주세요'는 어간 '알리'+'주'로, 조사/어미 없이 정확히 분해된다.
     from graph import bm25_tokenize
     tokens = bm25_tokenize("회사들을 알려주세요")
-    assert "회사들을" in tokens and "회사" in tokens and "알려주세요" in tokens
+    assert "회사" in tokens and "알리" in tokens and "주" in tokens
+
+
+def test_bm25_decomposes_korean_compound_noun_regardless_of_spacing():
+    # "화자분할"(붙여쓰기)과 "화자 분할"(띄어쓰기)이 Kiwi 형태소 경계
+    # 인식으로 동일하게 분해된다 — bigram으로는 못 하던 정확한 복합명사
+    # 분해(한국어 전처리 재점검, 2026-08).
+    from graph import bm25_tokenize
+    assert set(bm25_tokenize("화자분할")) == set(bm25_tokenize("화자 분할")) == {"화자", "분할"}
+
+
+def test_bm25_keeps_serial_number_as_single_token():
+    # "10-2538225-0000" 같은 일련번호는 Kiwi가 W_SERIAL 태그로 통째로
+    # 인식한다 — 예전 런(run) 방식이 하던 걸 형태소 분석기가 대신한다.
+    from graph import bm25_tokenize
+    assert "10-2538225-0000" in bm25_tokenize("특허 번호 10-2538225-0000 입니다")
+
+
+def test_bm25_josa_particle_does_not_break_ascii_token_match():
+    # "Throughput은"(SL+JX 조사)과 "Throughput:"(SL+SP 기호)이 조사·기호를
+    # 버리고 둘 다 'throughput' 하나로 겹친다 — 원래 런 기반 수정의 동기가
+    # 됐던 결함(README "BM25 토크나이저 결함")을 Kiwi로도 재확인.
+    from graph import bm25_tokenize
+    assert "throughput" in bm25_tokenize("Throughput은 얼마인가요")
+    assert "throughput" in bm25_tokenize("Throughput:")
 
 
 # ── grade/generate 컨텍스트 '길이' 불일치 회귀 테스트 ──
