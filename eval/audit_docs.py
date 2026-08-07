@@ -17,6 +17,11 @@ import pathlib
 import re
 import sys
 
+# Windows 콘솔(cp949) 기본 인코딩에서 em dash(—) 등을 출력하면 UnicodeEncodeError로
+# 죽는다. CI(Ubuntu)는 영향 없지만 로컬 실행(PYTHONUTF8 미설정)을 위해 강제한다.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 REPO = pathlib.Path(__file__).resolve().parent.parent
 readme = (REPO / "README.md").read_text(encoding="utf-8")
 problems = []

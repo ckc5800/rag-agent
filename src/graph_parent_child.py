@@ -97,7 +97,7 @@ def hybrid_search_child(query: str) -> list[Document]:
     vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
 
-    K = 60
+    K = config.RRF_K
     scores: dict[str, float] = {}
     by_key: dict[str, Document] = {}
     for docs in (vec_docs, kw_docs):
@@ -194,9 +194,18 @@ def generate(state: ParentChildState) -> dict:
     answer = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip()
-    sources = sorted({d.metadata.get("source", "?") for d in state["documents"]})
+    # 출처는 실제로 프롬프트에 들어간 parent 청크에서만 뽑는다 (base graph.py의
+    # generate와 같은 이유 — state["documents"]는 top_children 자르기 전의
+    # 검색 결과 전체라, 여기서 뽑으면 생성에 쓰이지도 않은 문서가 근거로
+    # 표시된다).
+    sources = sorted({d.metadata.get("source", "?") for d in parents})
     return {"answer": answer, "sources": sources,
             "contexts": [d.page_content for d in parents]}
+
+
+def needs_grading(state: ParentChildState) -> str:
+    """base graph.py와 동일한 이유로 재작성 여력이 없으면 grade를 건너뛴다."""
+    return "generate" if state["rewrites"] >= config.MAX_REWRITES else "grade"
 
 
 def decide_next(state: ParentChildState) -> str:
@@ -217,7 +226,7 @@ def build_graph():
     g.add_node("generate", generate)
 
     g.add_edge(START, "retrieve")
-    g.add_edge("retrieve", "grade")
+    g.add_conditional_edges("retrieve", needs_grading, ["grade", "generate"])
     g.add_conditional_edges("grade", decide_next, ["rewrite", "generate"])
     g.add_conditional_edges("rewrite", after_rewrite, ["retrieve", "generate"])
     g.add_edge("generate", END)
