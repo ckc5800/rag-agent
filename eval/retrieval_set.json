@@ -186,5 +186,49 @@
         "preview": "# 이윤선 포트폴리오  ### Lee Yoon Seon  > Seoul, South Korea E. yoon7829@gmail"
       }
     ]
+  },
+  {
+    "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+    "gold": [
+      {
+        "chunk_index": 40,
+        "source": "segmentation-paper.pdf",
+        "md5": "0796112bda6f721ce5c8d76b969ff26e",
+        "preview": "자율 주행 도메인의 3D 시맨틱 세그멘테이션 을 위한 센서 퓨전 기반의 Trans-Unet 발표자 : 이윤선"
+      }
+    ]
+  },
+  {
+    "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+    "gold": [
+      {
+        "chunk_index": 44,
+        "source": "segmentation-paper.pdf",
+        "md5": "442c651fb5e316e3bd4142ea36391aad",
+        "preview": "4. EXPERIMENT RESULT  4. Experiment Result: - implementation"
+      }
+    ]
+  },
+  {
+    "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+    "gold": [
+      {
+        "chunk_index": 45,
+        "source": "segmentation-paper.pdf",
+        "md5": "74457892284f56d01331c301da865af3",
+        "preview": "4. Experiment Result: ablation test - Loss function 16 • Foc"
+      }
+    ]
+  },
+  {
+    "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+    "gold": [
+      {
+        "chunk_index": 44,
+        "source": "segmentation-paper.pdf",
+        "md5": "442c651fb5e316e3bd4142ea36391aad",
+        "preview": "4. EXPERIMENT RESULT  4. Experiment Result: - implementation"
+      }
+    ]
   }
 ]

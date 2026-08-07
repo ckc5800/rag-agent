@@ -7,6 +7,7 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import config
+import loaders
 import vectorstore
 
 # 노션 내보내기 특유의 노이즈. 특히 $\color{...}{About}$ 같은 LaTeX 장식이
@@ -110,20 +111,30 @@ def clean_markdown(text: str) -> str:
 
 
 def load_documents() -> tuple[list[Document], list[Document]]:
-    """(본문 문서, 다이어그램 청크) — 다이어그램은 이미 청크 단위로 완성돼 있다."""
+    """(본문 문서, 다이어그램 청크) — 다이어그램은 이미 청크 단위로 완성돼 있다.
+
+    확장자로 포맷을 나눈다: .md는 마크다운 정제+다이어그램 분리를 거치고,
+    .pdf/.docx는 loaders.py로 텍스트만 뽑는다(비마크다운이라 노션 노이즈
+    정제·다이어그램 분리 대상이 아니다 — 대신 loaders.py 안에서 자체적으로
+    공백만 정리한다).
+    """
     docs, diagrams = [], []
-    for path in sorted(Path(config.DOCS_DIR).glob("*.md")):
-        # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제
-        # 규칙(이미지·마크다운 링크·HTML 태그)이 펜스 안의 그림까지 건드린다 —
-        # 통짜로 보존하는 게 다이어그램 청크의 존재 이유인데 그게 깨진다.
-        # (현재 코퍼스의 다이어그램 3개는 정제 규칙에 걸리는 게 없어 이 순서
-        #  변경으로 청크 내용은 바뀌지 않는다. 앞으로를 위한 방어다.)
-        body, diag_docs = extract_diagrams(path.read_text(encoding="utf-8"))
-        body = clean_markdown(body)
-        docs.append(Document(page_content=body, metadata={"source": path.name}))
-        for d in diag_docs:
-            d.metadata["source"] = path.name
-        diagrams.extend(diag_docs)
+    for path in sorted(Path(config.DOCS_DIR).glob("*")):
+        if path.suffix == ".md":
+            # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제
+            # 규칙(이미지·마크다운 링크·HTML 태그)이 펜스 안의 그림까지
+            # 건드린다 — 통짜로 보존하는 게 다이어그램 청크의 존재 이유인데
+            # 그게 깨진다. (현재 코퍼스의 다이어그램 3개는 정제 규칙에 걸리는
+            # 게 없어 이 순서 변경으로 청크 내용은 바뀌지 않는다. 앞으로를
+            # 위한 방어다.)
+            body, diag_docs = extract_diagrams(path.read_text(encoding="utf-8"))
+            body = clean_markdown(body)
+            docs.append(Document(page_content=body, metadata={"source": path.name}))
+            for d in diag_docs:
+                d.metadata["source"] = path.name
+            diagrams.extend(diag_docs)
+        elif path.suffix in loaders.LOADERS:
+            docs.append(loaders.LOADERS[path.suffix](path))
     return docs, diagrams
 
 

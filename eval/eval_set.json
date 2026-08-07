@@ -515,5 +515,60 @@
     "question": "이윤선의 결혼 여부를 알려주세요.",
     "type": "refusal",
     "expect_refusal": true
+  },
+  {
+    "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+    "expected_keywords": [
+      "1425165319"
+    ],
+    "answer_patterns": [
+      "1425165319"
+    ],
+    "type": "fact",
+    "gold_anchors": [
+      "No. 1425165319"
+    ]
+  },
+  {
+    "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+    "expected_keywords": [
+      "A100"
+    ],
+    "answer_patterns": [
+      "A100"
+    ],
+    "type": "fact",
+    "gold_anchors": [
+      "GPU : A100 80GB"
+    ]
+  },
+  {
+    "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+    "expected_keywords": [
+      "Focal",
+      "Dice"
+    ],
+    "answer_patterns": [
+      "Focal",
+      "Dice"
+    ],
+    "type": "enumeration",
+    "gold_anchors": [
+      "Focal loss",
+      "Dice loss"
+    ]
+  },
+  {
+    "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+    "expected_keywords": [
+      "Tensorflow"
+    ],
+    "answer_patterns": [
+      "[Tt]ensorflow"
+    ],
+    "type": "fact",
+    "gold_anchors": [
+      "Tensorflow 2.8.0"
+    ]
   }
 ]
