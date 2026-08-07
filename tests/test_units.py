@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "eval"))
 
-from evaluate import is_pass  # noqa: E402
+from evaluate import is_pass, normalize_punctuation  # noqa: E402
 from team import _parse_sub_questions  # noqa: E402
 
 
@@ -33,6 +33,18 @@ def test_bare_number_no_longer_passes():
 def test_number_with_unit_passes():
     assert is_pass("제1저자 논문은 총 7편입니다.", CASE_PAPERS)
     assert is_pass("논문 7 편을 게재했습니다.", CASE_PAPERS)
+
+
+def test_fullwidth_punctuation_normalized_before_grading():
+    # qwen이 한국어로 답하면서도 중국어 학습 데이터 흔적으로 전각 마침표(。)를
+    # 섞어 낼 때가 있다 — 정규화 없이는 "\\.$" 같은 반각 패턴이 못 잡는다.
+    case = {"answer_patterns": ["7\\s*편\\."]}
+    assert is_pass("제1저자 논문은 총 7편。", case)
+
+
+def test_normalize_punctuation_maps_common_cjk_fullwidth():
+    assert normalize_punctuation("완료。확인：필요？") == "완료.확인:필요?"
+    assert normalize_punctuation("이미 반각.") == "이미 반각."  # 이미 반각이면 그대로
 
 
 def test_all_patterns_required():

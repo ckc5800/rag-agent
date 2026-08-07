@@ -32,6 +32,22 @@ REFUSAL = re.compile(
     r"|언급이 없|언급되어 있지 않|언급되지 않|나와 있지 않|나타나 있지 않"
     r"|제공되지 않|확인할 수 없|명시되어 있지 않|기재되어 있지 않")
 
+# 로컬 LLM(qwen)이 한국어로 답하면서도 중국어 학습 데이터의 흔적으로 전각
+# 문장부호(。：，)를 섞어 낼 때가 있다(실측: 55문항 중 3건, 2026-08 확인).
+# 지금까지는 우연히 answer_patterns와 안 부딪혀 통과했지만, 정답 패턴이
+# 반각 문장부호(마침표 등)를 요구하는 문항이었다면 **정답을 오답으로 채점하는
+# 잠재 버그**였다 — 코퍼스(data/chunks.jsonl)는 전각문자 0건으로 깨끗해
+# 이건 입력이 아니라 모델 출력의 문제다. 채점 직전에 정규화한다.
+_FULLWIDTH_TO_HALFWIDTH = str.maketrans({
+    "。": ".", "，": ",", "、": ",", "：": ":", "；": ";",
+    "！": "!", "？": "?", "（": "(", "）": ")",
+    "「": '"', "」": '"', "『": '"', "』": '"',
+})
+
+
+def normalize_punctuation(text: str) -> str:
+    return text.translate(_FULLWIDTH_TO_HALFWIDTH)
+
 
 def is_pass(answer: str, case: dict) -> bool:
     """정답 패턴 전부 일치 + 거부 답변 아님.
@@ -41,6 +57,7 @@ def is_pass(answer: str, case: dict) -> bool:
     실패로 세야 하는데, 지금까지는 거부를 무조건 오답 처리해서 그 유형을
     평가셋에 넣는 것 자체가 불가능했다. 환각을 재는 지표가 없었던 셈이다.
     """
+    answer = normalize_punctuation(answer)
     refused = bool(REFUSAL.search(answer))
     if case.get("expect_refusal"):
         return refused          # 거부해야 하는데 답을 지어냈으면 실패
