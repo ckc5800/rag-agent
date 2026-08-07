@@ -215,7 +215,7 @@ def hybrid_search(query: str) -> list[Document]:
     vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
     kw_docs = bm25.invoke(query)
 
-    K = 60  # RRF 완충 상수 (표준값)
+    K = config.RRF_K
     scores: dict[str, float] = {}
     by_key: dict[str, Document] = {}
     for docs in (vec_docs, kw_docs):

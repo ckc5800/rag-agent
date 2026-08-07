@@ -1,0 +1,58 @@
+[
+  {
+    "rrf_k": 1,
+    "recall@1": 57,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.711
+  },
+  {
+    "rrf_k": 5,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 10,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 20,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 40,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 60,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 100,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  },
+  {
+    "rrf_k": 200,
+    "recall@1": 50,
+    "recall@3": 79,
+    "recall@6": 93,
+    "mrr": 0.669
+  }
+]

@@ -39,6 +39,18 @@ CHUNK_OVERLAP = 100
 # (측정: eval/sweep_top_k.py)
 TOP_K = int(os.environ.get("TOP_K", "6"))
 
+# RRF(Reciprocal Rank Fusion) 완충 상수 — score = Σ 1/(K+rank). graph.py의
+# hybrid_search와 kg.py의 fused_search가 공유한다. 도입 당시 "표준값"으로
+# 60을 그냥 썼고 스윕한 적이 없었다.
+#
+# eval/sweep_rrf_k.py(원 코퍼스 14문항)로 재보니 K=1이 recall@1 57%로
+# K=60(50%)보다 높아 보였지만, 문항이 14개뿐이라 이건 질문 1개가 뒤집힌
+# 것뿐이었다(±7%p = 1/14). KLUE-RE(120문항)로 다시 재니 K=5~200 구간에서
+# recall@1 73%·MRR 0.812로 완전히 동일하고, K=1만 오히려 더 낮다(70%,
+# MRR 0.792) — 작은 표본의 신호와 방향이 반대였다. 60은 "실측 없이 표준값
+# 이라 썼다"가 아니라 실측으로도 평평한 최적 구간 안에 있는 값으로 확인됨.
+RRF_K = int(os.environ.get("RRF_K", "60"))
+
 # generate·grade가 실제로 보는 상위 N개.
 #
 # 오래 3이었다(소형 모델의 lost-in-the-middle 대응). 진단에서 검색 기인

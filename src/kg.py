@@ -209,7 +209,7 @@ def search(query: str, g: nx.MultiDiGraph, k: int,
 def fused_search(query: str, g: nx.MultiDiGraph, k: int, hybrid_search_fn=None,
                  chunks_by_index: dict[int, Document] | None = None) -> list[Document]:
     """하이브리드 검색(벡터+BM25)과 그래프 검색을 RRF로 융합.
-    graph.hybrid_search와 같은 RRF(K=60) — 이미 검증된 융합 방식을 재사용.
+    graph.hybrid_search와 같은 RRF(config.RRF_K) — 이미 검증된 융합 방식을 재사용.
 
     hybrid_search_fn을 안 주면 원 코퍼스의 graph.hybrid_search를 쓴다.
     klue_re.py처럼 다른 코퍼스 인덱스로 융합할 때는 그 코퍼스의
@@ -223,7 +223,7 @@ def fused_search(query: str, g: nx.MultiDiGraph, k: int, hybrid_search_fn=None,
     hy_docs = hybrid_search_fn(query)
     kg_docs = search(query, g, k, chunks_by_index=chunks_by_index)
 
-    K = 60
+    K = config.RRF_K
     scores: dict[str, float] = {}
     by_key: dict[str, Document] = {}
     for docs in (hy_docs, kg_docs):

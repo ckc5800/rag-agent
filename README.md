@@ -68,7 +68,8 @@ eval/
 ├── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold)
 ├── eval_kg_retrieval.py       hybrid vs 그래프 단독 vs RRF 융합 recall@k/MRR (LLM 불필요)
 ├── eval_klue_retrieval.py     KLUE-RE 2차 코퍼스에서 같은 3종 비교 (LLM 불필요)
-└── sweep_seed_match_ratio.py  Graph RAG 시드 판정 임계값 스윕 (KLUE-RE, LLM 불필요)
+├── sweep_seed_match_ratio.py  Graph RAG 시드 판정 임계값 스윕 (KLUE-RE, LLM 불필요)
+└── sweep_rrf_k.py             RRF 완충 상수 스윕 (LLM 불필요)
 ```
 
 ### RAG 흐름
@@ -1189,6 +1190,27 @@ Kiwi(80%, 44/55)로 각각 직접 실행해 비교했다:
 
 재현: `git stash`로 `src/graph.py`·`requirements.txt`를 되돌린 뒤
 `eval/evaluate.py` 실행(정규식+bigram), `git stash pop` 후 재실행(Kiwi).
+
+### RRF_K 스윕 — "표준값"이라 실측 안 했던 상수 검증
+
+`hybrid_search`·`fused_search`가 공유하는 RRF 완충 상수(K=60, score =
+Σ 1/(K+rank))는 도입 당시 "표준값"이라는 이유로 스윕 없이 그대로 썼다.
+`eval/sweep_rrf_k.py`로 처음 재봤다.
+
+원 코퍼스(14문항)에서는 K=1이 recall@1 57%로 K=60(50%)보다 높아 보였지만,
+14문항에서 7%p는 질문 1개가 뒤집힌 것뿐이다. KLUE-RE(120문항, 통계적으로
+더 믿을 만한 표본)로 재확인하니 결과가 반대였다:
+
+| RRF_K | recall@1 | recall@3 | recall@6 | MRR |
+|---|---|---|---|---|
+| 1 | 70% | 88% | 96% | 0.792 |
+| 5~200 (전 구간 동일) | 73% | 88% | 96% | 0.812 |
+
+K=5부터 200까지 지표가 완전히 평평하고, K=1만 오히려 더 낮다 — 작은
+표본의 신호와 방향이 정반대였다. **60은 "실측 없이 관행값을 썼다"가
+아니라 실측으로도 평평한 최적 구간 안에 있는 값으로 확인됐다.** 바꿀
+이유가 없어 그대로 유지 — 이번 실험의 산출물은 상수 변경이 아니라
+"안 바꿔도 되는 이유"다.
 
 ## 한계
 
