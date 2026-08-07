@@ -4,10 +4,11 @@ langchain-ollama>=0.2
 langchain-community>=0.3
 langchain-text-splitters>=0.3
 faiss-cpu>=1.8
-# 비마크다운 코퍼스 포맷(loaders.py) — PDF/DOCX 텍스트 추출 전용, 둘 다
-# 순수 파이썬이라 서버·모델 다운로드가 없다.
+# 비마크다운 코퍼스 포맷(loaders.py) — PDF/DOCX/HWPX 텍스트 추출 전용,
+# 전부 순수 파이썬이라 서버·모델 다운로드가 없다.
 pypdf>=4.0
 python-docx>=1.1
+python-hwpx>=6.0
 rank_bm25>=0.2
 # 벡터 저장소 대안 — VECTOR_STORE=qdrant 로 교체 (서버 없이 임베디드 모드)
 langchain-qdrant>=0.2

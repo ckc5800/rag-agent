@@ -11,7 +11,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from loaders import LOADERS, _normalize_whitespace, load_docx, load_pdf  # noqa: E402
+from loaders import LOADERS, _normalize_whitespace, load_docx, load_hwpx, load_pdf  # noqa: E402
 
 DOCS_DIR = ROOT / "data" / "docs"
 PDF_PATH = DOCS_DIR / "segmentation-paper.pdf"
@@ -20,6 +20,9 @@ PDF_PATH = DOCS_DIR / "segmentation-paper.pdf"
 # 잡아먹는 회귀가 실측됐다(README "비정형 문서 확장" 절). 파서 자체의 정확성은
 # 여기서 별도로 검증한다.
 DOCX_PATH = ROOT / "tests" / "fixtures" / "resume-original.docx"
+# HWPX도 픽스처 전용 — 개인 소유 실물이 없어 국토교통부가 공개 배포한
+# 보도자료로 검증한다(내용은 코퍼스와 무관해 애초에 넣을 이유가 없다).
+HWPX_PATH = ROOT / "tests" / "fixtures" / "moltm-railway-day-notice.hwpx"
 
 
 def test_normalize_whitespace_collapses_and_trims():
@@ -47,5 +50,15 @@ def test_load_docx_extracts_real_content_and_agrees_with_resume_md():
     assert "MiCo AI" in doc.page_content
 
 
-def test_loaders_registry_covers_pdf_and_docx():
-    assert set(LOADERS) == {".pdf", ".docx"}
+@pytest.mark.skipif(not HWPX_PATH.exists(), reason="실물 HWPX 없음")
+def test_load_hwpx_extracts_real_government_notice():
+    doc = load_hwpx(HWPX_PATH)
+    assert doc.metadata["source"] == "moltm-railway-day-notice.hwpx"
+    assert len(doc.page_content) > 500
+    # 국토교통부 실제 보도자료(2026 철도의 날) 핵심 내용이 뽑혔는지 확인
+    assert "국토교통부" in doc.page_content
+    assert "철도의 날" in doc.page_content
+
+
+def test_loaders_registry_covers_pdf_docx_hwpx():
+    assert set(LOADERS) == {".pdf", ".docx", ".hwpx"}

@@ -1,10 +1,15 @@
-"""비마크다운 포맷 로더 — PDF·DOCX. ingest.py의 load_documents()가 이 함수들을
-불러 마크다운과 같은 파이프라인(정제→청킹→임베딩)에 합류시킨다.
+"""비마크다운 포맷 로더 — PDF·DOCX·HWPX. ingest.py의 load_documents()가 이
+함수들을 불러 마크다운과 같은 파이프라인(정제→청킹→임베딩)에 합류시킨다.
 
 채용 공고(그래파이 등)가 요구한 "비정형 데이터(PDF/DOCX/HWP) 처리"의 실제
-구현. HWP는 이 PC·계정 전체를 검색해도 실물 파일이 0건이라(2026-08 확인)
-만들지 않았다 — 검증할 실물 없이 파서를 만들면 동작을 아무도 확인 못 한다.
-필요해지면(실물 HWP 확보 시) 같은 구조로 loaders.py에 추가한다.
+구현. 구형 바이너리 .hwp는 만들지 않았다 — 이 PC·계정 전체를 검색해도 실물
+파일이 0건이고(2026-08 확인), 검증할 실물 없이 파서를 만들면 동작을 아무도
+확인 못 한다. 대신 **신형 .hwpx**(ZIP+XML 기반, 2026-05-18부터 중앙부처·
+지자체 공문서 표준으로 의무화된 포맷)는 지원한다 — 개인 소유 실물은 없지만,
+국토교통부가 실제로 배포한 보도자료(2026 철도의 날 기념행사, 공개 웹에서
+직접 내려받음)로 검증했다. 합성 문서가 아니라는 이 프로젝트의 원칙은
+"내가 쓴 문서"가 아니라 "실재하는 문서"로 지켜도 된다 — KLUE-RE 실험에서
+개인 코퍼스가 작아 공개 벤치마크로 검증 범위를 넓혔던 것과 같은 논리다.
 """
 import re
 from pathlib import Path
@@ -57,5 +62,20 @@ def load_docx(path: Path) -> Document:
     return Document(page_content=text, metadata={"source": path.name})
 
 
+def load_hwpx(path: Path) -> Document:
+    """HWPX(ZIP+XML) 본문을 평문으로 추출한다. `python-hwpx`(Apache-2.0)에
+    위임 — HWPX는 표 셀·문단 구조가 DOCX보다 복잡해(섹션·트랙체인지 등)
+    직접 XML을 파싱하는 것보다 검증된 라이브러리를 쓰는 게 안전하다.
+    `.text.plain()`을 쓴다(구버전 `export_text()`는 6.0에서 폐기 예고)."""
+    import hwpx
+
+    doc = hwpx.HwpxDocument.open(str(path))
+    try:
+        text = _normalize_whitespace(doc.text.plain())
+    finally:
+        doc.close()
+    return Document(page_content=text, metadata={"source": path.name})
+
+
 # 확장자 → 로더. ingest.py의 load_documents()가 이 표로 포맷을 분기한다.
-LOADERS = {".pdf": load_pdf, ".docx": load_docx}
+LOADERS = {".pdf": load_pdf, ".docx": load_docx, ".hwpx": load_hwpx}
