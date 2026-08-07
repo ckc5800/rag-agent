@@ -65,7 +65,7 @@ eval/
 ├── experiment_paper_count.py  parent-child 실패 원인 분리 실험(모델 크기 vs 프롬프트)
 ├── repeat_parent_child.py     base vs parent-child 반복 검증 (grade→rewrite 루프 포함)
 ├── compare_semantic.py        base vs 시맨틱 청킹 recall 비교 (앵커 기반 gold)
-├── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold, 미실행)
+├── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold)
 ├── eval_kg_retrieval.py       hybrid vs 그래프 단독 vs RRF 융합 recall@k/MRR (LLM 불필요)
 ├── eval_klue_retrieval.py     KLUE-RE 2차 코퍼스에서 같은 3종 비교 (LLM 불필요)
 └── sweep_seed_match_ratio.py  Graph RAG 시드 판정 임계값 스윕 (KLUE-RE, LLM 불필요)
@@ -1199,13 +1199,19 @@ Kiwi(80%, 44/55)로 각각 직접 실행해 비교했다:
   모든 A/B는 반복 측정을 기본값으로 하며 1~2문항 차이로 결론을 내지 않는다.
 - 남은 실패는 집계·열거·비교에 집중돼 있다. 근거를 전달받고도 오답을 내는
   영역이므로 검색 개선으로는 해결되지 않는다.
-- BM25의 조사 문제는 런 단위 토큰화로 완화했으나 형태소 분석기 대비 정밀도는
-  여전히 낮다.
+- BM25의 조사 문제는 처음엔 런 단위 토큰화로 완화했으나(형태소 분석기 대비
+  정밀도가 낮다는 한계가 있었다), 이후 Kiwi 형태소 분석으로 교체해 해소했다
+  ("BM25 토크나이저 교체" 절). 남은 한계는 형태소 분석 자체가 아니라 개별
+  A/B의 반복 측정 부족 쪽으로 옮겨갔다.
 - 실패 16건 중 10건은 gold가 이미 top-3에 있었다(5건은 rank 1). 검색·청킹을
   완벽하게 만들어도 그대로 틀린다. 남은 병목은 받은 근거를 쓰는 능력이다.
 - 청크 크기 스윕은 아직 10문항 기준이다. 41문항 앵커로 다시 재야 한다 —
   10문항이 이미 두 번 잘못된 결론을 만들었다.
-- 임베딩은 bge-m3 하나만 써봤다. 비교 대상이 없다.
+- ~~임베딩은 bge-m3 하나만 써봤다. 비교 대상이 없다.~~ → 해소:
+  `eval/compare_embeddings.py`로 nomic-embed-text와 실측 대조(같은 58청크
+  코퍼스, 임베딩 모델만 변수). recall@1 70%→20%, MRR 0.85→0.533으로
+  bge-m3가 크게 앞선다 — 다국어·한국어 강세 모델과 경량 다국어 모델의
+  격차가 이 코퍼스에서는 뚜렷하다. bge-m3 유지가 근거 있는 선택으로 확인됨.
 - 개발 PC(i7-4790 + RTX 2070)에서 Ollama의 GPU 백엔드(ggml-cuda)가 초기화 중
   크래시(0xC0000005)가 나서 CPU로 추론 중이다. DLL 로드와 드라이버는 정상이고
   백엔드 초기화 단계에서 죽는 것까지 재현해서 확인했다.

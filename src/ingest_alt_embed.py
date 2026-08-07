@@ -9,25 +9,21 @@
 """
 import json
 import sys
-from pathlib import Path
 
-from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 import config
 import vectorstore
-from ingest import clean_markdown, extract_diagrams
+from ingest import load_documents
 
 
 def main():
-    docs, diagrams = [], []
-    for path in sorted(Path(config.DOCS_DIR).glob("*.md")):
-        text = clean_markdown(path.read_text(encoding="utf-8"))
-        body, diag_docs = extract_diagrams(text)
-        docs.append(Document(page_content=body, metadata={"source": path.name}))
-        for d in diag_docs:
-            d.metadata["source"] = path.name
-        diagrams.extend(diag_docs)
+    # base(ingest.py)와 같은 load_documents()를 그대로 재사용한다 — PDF·DOCX·
+    # HWPX 로더 추가(loaders.py) 이후 여기 자체 markdown-only 로직이 낡아
+    # base(58청크)와 청크 수가 어긋난 채(51청크) 비교하던 결함을 고쳤다.
+    # 임베딩 모델 외의 변수(코퍼스 구성)가 섞이면 recall 차이의 원인을
+    # 임베딩으로 단정할 수 없다.
+    docs, diagrams = load_documents()
     print(f"{len(docs)}개 문서 로드 (다이어그램 {len(diagrams)}개 분리)")
 
     # base와 완전히 같은 청킹 — 임베딩 모델만 변수로 남긴다.

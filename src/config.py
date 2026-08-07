@@ -168,12 +168,15 @@ SEMANTIC_MIN_CHARS = 30
 SEMANTIC_DB_DIR = str(BASE_DIR / "data" / "semantic_faiss_index")
 SEMANTIC_CHUNKS_PATH = BASE_DIR / "data" / "semantic_chunks.jsonl"
 
-# ── 임베딩 모델 비교 (실험, 미실행) ──────────────────────────
+# ── 임베딩 모델 비교 (실측 완료, 미채택) ──────────────────────
 #
 # README 한계에 "임베딩은 bge-m3 하나만 써봤다. 비교 대상이 없다"고
-# 정직하게 적어 뒀던 것을 겨냥한다. nomic-embed-text는 다국어 지원을
+# 정직하게 적어 뒀던 것을 겨냥했다. nomic-embed-text는 다국어 지원을
 # 내세우는 가벼운 모델(~137M)이라 비교 대상으로 골랐다 — bge-m3(다국어,
-# 한국어 강세)와 정반대 크기대의 선택.
+# 한국어 강세)와 정반대 크기대의 선택. 실측(compare_embeddings.py, 같은
+# 58청크 코퍼스): recall@1 70%→20%, MRR 0.85→0.533으로 bge-m3가 크게
+# 앞선다. 한국어 코퍼스에서는 경량 다국어 모델이 밀린다는 뚜렷한 신호라
+# 기본은 bge-m3 유지.
 ALT_EMBED_MODEL = "nomic-embed-text"
 ALT_EMBED_DB_DIR = str(BASE_DIR / "data" / "alt_embed_faiss_index")
 ALT_EMBED_CHUNKS_PATH = BASE_DIR / "data" / "alt_embed_chunks.jsonl"
