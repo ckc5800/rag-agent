@@ -4,6 +4,7 @@ data/faiss_index/
 data/qdrant_index/
 data/parent_faiss_index/
 data/semantic_faiss_index/
+data/klue/faiss_index/
 eval/results.json
 *.pyc
 

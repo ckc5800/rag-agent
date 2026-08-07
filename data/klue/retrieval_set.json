@@ -1,0 +1,1442 @@
+[
+  {
+    "question": "하비에르 파스토레의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 1,
+        "source": "klue_re",
+        "md5": "16d6b91f0440da5133a320270261fe87",
+        "preview": "하비에르 파스토레는 아르헨티나 클럽 타예레스의 유소년팀에서 축구를 시작하였다."
+      }
+    ]
+  },
+  {
+    "question": "김종필의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 2,
+        "source": "klue_re",
+        "md5": "78116fb6463be919e133dc8553656360",
+        "preview": "1971년 대선을 앞두고 김종필은 1971년 선거에서 박정희 당선을 위해 무려 600억원이나 썼다고 밝혔다."
+      }
+    ]
+  },
+  {
+    "question": "미국의 소리의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 3,
+        "source": "klue_re",
+        "md5": "3b949237c8fe801c5bf8f40e51f71d14",
+        "preview": "미국 정부는 1942년 2월 24일 전 세계의 청취자를 대상으로 태평양 전쟁의 전쟁상황을 알리기 위한 방송인"
+      }
+    ]
+  },
+  {
+    "question": "강경준의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 4,
+        "source": "klue_re",
+        "md5": "2972c3b25539bcad7594015b6db2e8b1",
+        "preview": "배우 장신영(35) 씨와 남편 강경준(36) 씨가 둘째를 품에 안았다."
+      }
+    ]
+  },
+  {
+    "question": "몽골 인민 공화국은 어떤 정치·종교 성향과 관련이 있나요?",
+    "relation": "org:political/religious_affiliation",
+    "gold": [
+      {
+        "chunk_index": 5,
+        "source": "klue_re",
+        "md5": "8c682a65c7ff4cbc33ac2bab90805ee1",
+        "preview": "1924년 11월 26일에는 정부 형태를 군주제에서 인민 공화제로 고쳐 국호를 몽골 인민 공화국으로 정하고,"
+      }
+    ]
+  },
+  {
+    "question": "곡성군의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 6,
+        "source": "klue_re",
+        "md5": "1a6ae8b9be739b19d91991c1903d82f0",
+        "preview": "곡성군(군수 유근기)이 ‘희망 2019 나눔캠페인 우수기관’으로 선정돼 전남공동모금회로부터 감사패를 전달받았"
+      }
+    ]
+  },
+  {
+    "question": "방송위원회는 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 8,
+        "source": "klue_re",
+        "md5": "de9edd3ea44b834f49741f39c94c02bc",
+        "preview": "2008년 2월 29일 방송위원회를 개편하여 발족하였으며, 경기도 과천시 관문로 47 정부과천청사에 위치하고"
+      }
+    ]
+  },
+  {
+    "question": "기요하라 가즈히로의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 10,
+        "source": "klue_re",
+        "md5": "b3dc210064b7d0f51a304479737b17ba",
+        "preview": "이듬해 1997년에는 부상에서 회복된 채로 시즌을 맞이했으나 7월 1일 요미우리전에서 내야 땅볼을 때린 뒤 "
+      }
+    ]
+  },
+  {
+    "question": "산업통상자원부의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 12,
+        "source": "klue_re",
+        "md5": "858b7ee351d3f3e5df870d97e032ea3b",
+        "preview": "또 이날 성윤모 산업통상자원부 장관이 세코 히로시게 일본 경제산업상의 트윗에 반박한 페북을 소개했다."
+      }
+    ]
+  },
+  {
+    "question": "리사 디 배나의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 13,
+        "source": "klue_re",
+        "md5": "7a404a461ba60fcfdf53e8d04fccbdbd",
+        "preview": "리사 디 배나는 중국에서 개최된 2007년 FIFA 여자 월드컵에서 노르웨이와의 조별 예선 경기(오스트레일리"
+      }
+    ]
+  },
+  {
+    "question": "라인홀트 니부어의 종교는 무엇인가요?",
+    "relation": "per:religion",
+    "gold": [
+      {
+        "chunk_index": 15,
+        "source": "klue_re",
+        "md5": "8b86e7828609d1b57b97812606a0c997",
+        "preview": "개신교 신학자이자 유니온 신학교 교수로 일하던 라인홀트 니부어가 신학 교수 자리를 마련한 뒤, 초대장을 보냈"
+      }
+    ]
+  },
+  {
+    "question": "브리지워터 어소시에이츠의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 18,
+        "source": "klue_re",
+        "md5": "93f92a226c7a29ca75f28002a0093494",
+        "preview": "2005년부터 레이 달리오는 브리지워터 어소시에이츠 직원들에게 \"Principles\" (원칙) 이라는 제목의"
+      }
+    ]
+  },
+  {
+    "question": "나가시마 시게오는 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 19,
+        "source": "klue_re",
+        "md5": "0e073dcfd5280af7f3fdf0e78f0d1bb8",
+        "preview": "다음해인 1996년에는 2년 연속 리그 우승을 이끌었고 일본 시리즈에서는 나가시마 시게오 감독이 이끄는 요미"
+      }
+    ]
+  },
+  {
+    "question": "삼부토건이 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 21,
+        "source": "klue_re",
+        "md5": "60ebcbf13ae1f9393132f6cf9b3cb240",
+        "preview": "주거 브랜드인 삼부르네상스를 도시에 두고 있고 삼부토건사인 조정구에 의해 설립하였다."
+      }
+    ]
+  },
+  {
+    "question": "빈 국립음악예술대학교의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 22,
+        "source": "klue_re",
+        "md5": "2ad2283a4eb1d3e5d9c0bc71e7ee3fa1",
+        "preview": "이후 오스트리아로 건너가 빈 국립음악예술대학교 지휘과에서 최고연주자과정에서 현대음악의 거장이자 지휘자인 시메"
+      }
+    ]
+  },
+  {
+    "question": "무함마드는 어디에 거주하나요?",
+    "relation": "per:place_of_residence",
+    "gold": [
+      {
+        "chunk_index": 23,
+        "source": "klue_re",
+        "md5": "151a2a2af0ca20c3e71f59005b284edf",
+        "preview": "다만 역법의 시작을 이슬람력과 동일하게 무함마드 및 그의 추종자들이 메카에서 메디나로 피난을 간 양력 622"
+      }
+    ]
+  },
+  {
+    "question": "리처드 닉슨은 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 25,
+        "source": "klue_re",
+        "md5": "f1636cf5613282ea3ebbf4a832187b06",
+        "preview": "1974년 리처드 닉슨(공화당, 재임기간 1967년 1월 20일 - 1974년 8월 9일) 미국 대통령 시절"
+      }
+    ]
+  },
+  {
+    "question": "신의손은 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 26,
+        "source": "klue_re",
+        "md5": "b8e068298a57a44d12ffa2984e75e73a",
+        "preview": "신의손(申宜孫, 1960년 1월 12일 ~)은 러시아계 한국인 축구 선수로, 원래 이름은 발레리 콘스탄치노비"
+      }
+    ]
+  },
+  {
+    "question": "교황령은 어떤 정치·종교 성향과 관련이 있나요?",
+    "relation": "org:political/religious_affiliation",
+    "gold": [
+      {
+        "chunk_index": 28,
+        "source": "klue_re",
+        "md5": "d88d793261ffa4c2c25803ba3a44b631",
+        "preview": "교황령의 통치자인 교황은 가톨릭교회의 종교 지도자이기도 하였다."
+      }
+    ]
+  },
+  {
+    "question": "LG생활건강의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 30,
+        "source": "klue_re",
+        "md5": "341807203bbc5781a1a10cd3543766f0",
+        "preview": "한국의 동문 중에는 송상현 국제형사재판소 전 소장, 정갑영 연세대학교 전 총장, 백성기 포항공과대학교 전 총"
+      }
+    ]
+  },
+  {
+    "question": "아모레퍼시픽의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 30,
+        "source": "klue_re",
+        "md5": "341807203bbc5781a1a10cd3543766f0",
+        "preview": "한국의 동문 중에는 송상현 국제형사재판소 전 소장, 정갑영 연세대학교 전 총장, 백성기 포항공과대학교 전 총"
+      }
+    ]
+  },
+  {
+    "question": "민주정의당의 대표(임원)는 누구인가요?",
+    "relation": "org:top_members/employees",
+    "gold": [
+      {
+        "chunk_index": 31,
+        "source": "klue_re",
+        "md5": "1b7cb03b596f7a112d1c8d6196fc71bc",
+        "preview": "8월 5일 전두환이 민주정의당 총재직을 사퇴하면서 당일의 전당대회에서 민주정의당 제2대 총재에 피선되었다."
+      }
+    ]
+  },
+  {
+    "question": "보루시아 도르트문트는 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 32,
+        "source": "klue_re",
+        "md5": "e041677328926145c7bc8b7912001909",
+        "preview": "도르트문트 출신으로, 리켄은 지역 클럽인 어린 나이에 보루시아 도르트문트의 유소년팀 일원이 되었고, 1994"
+      }
+    ]
+  },
+  {
+    "question": "양평군의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 36,
+        "source": "klue_re",
+        "md5": "ef6db07bfd7002d73d829b4929b0c5fa",
+        "preview": "양평군은 경기도에 신종 코로나 바이러스 확진자가 발생하자 정동균 군수를 본부장으로 하는 ‘양평군 재난안전대책"
+      }
+    ]
+  },
+  {
+    "question": "퍼시픽 리그는 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 39,
+        "source": "klue_re",
+        "md5": "dbfc8470f063345946d420e7f19f6c9c",
+        "preview": "일본 프로 야구 포스트 시즌에서 1차전의 선발로 나선 고졸 신인 투수는 센트럴 리그와 퍼시픽 리그를 통틀어 "
+      }
+    ]
+  },
+  {
+    "question": "메르세데스 벤츠가 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 40,
+        "source": "klue_re",
+        "md5": "b49a15a419f08cf4e7c2b75793688987",
+        "preview": "메르세데스 벤츠의 콘셉트카 '비전 AVTR'은 미래 자동차는 어떤 차가 될 수 있는지에 대한 상상을 불러일으"
+      }
+    ]
+  },
+  {
+    "question": "알프레드 노벨의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 41,
+        "source": "klue_re",
+        "md5": "027f718ca78bfdf2ab85354dc5e90b88",
+        "preview": "노벨상은 다이너마이트의 발명가인 스웨덴의 알프레드 노벨이 1895년 작성한 유언에 따라 매년 인류의 문명 발"
+      }
+    ]
+  },
+  {
+    "question": "바이어 04 레버쿠젠은 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 43,
+        "source": "klue_re",
+        "md5": "f13e98a82ac1f27b65782abd1c22a5bf",
+        "preview": "분데스리가 2011-12 22라운드에서 레버쿠젠전에 선발 출장하여 후반 5분에 골을 넣었지만 FC 아우크스부"
+      }
+    ]
+  },
+  {
+    "question": "일본군의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 45,
+        "source": "klue_re",
+        "md5": "414ee5138cafd824c096d410afbc3c21",
+        "preview": "그러나 1934년 일본 제국에 투항하였고, 일본군 헌병대의 특무조직인 간도협조회 본부 소속 공작원이 되었다."
+      }
+    ]
+  },
+  {
+    "question": "이태승은 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 46,
+        "source": "klue_re",
+        "md5": "a116402a5d902c5cae2ca47af6c4f748",
+        "preview": "'틴틴(TEEN TEEN)'은 지난 7월 종영한 Mnet 서바이벌 프로그램 '프로듀스 X 101' 막내 라인"
+      }
+    ]
+  },
+  {
+    "question": "바즈겐 사르키샨은 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 48,
+        "source": "klue_re",
+        "md5": "aabd537c004a0430db21423d7e7f24ec",
+        "preview": "바즈겐 사르키샨(1959년 3월 5일 ~ 1999년 10월 27일)은 아르메니아의 군인, 정치인이다."
+      }
+    ]
+  },
+  {
+    "question": "동양방송의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 53,
+        "source": "klue_re",
+        "md5": "d68c1cd358f3adb3a8bf6de507d74fd9",
+        "preview": "서라벌예술대학에서 연극을 전공했으며, 1967년 연극배우 첫 데뷔한 그는 1968년 TBC 동양방송 특채 코"
+      }
+    ]
+  },
+  {
+    "question": "호조씨의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 54,
+        "source": "klue_re",
+        "md5": "27749793e5dc75a2e6ead8dd297be699",
+        "preview": "덴분 23년(1554년) 하루노부는 후 호조씨(後北条氏), 이마가와씨(今川氏)와 서로 동맹을 맺어 배후를 든"
+      }
+    ]
+  },
+  {
+    "question": "유럽 축구 연맹의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 57,
+        "source": "klue_re",
+        "md5": "0e8d9209c0761f81ec7af78594b64a87",
+        "preview": "2003년 유럽 축구 연맹(UEFA)이 주관한 크로아티아의 UEFA 주빌리 어워드 수상자로 명명되기도 했으며"
+      }
+    ]
+  },
+  {
+    "question": "근녕군의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 58,
+        "source": "klue_re",
+        "md5": "81c8ffc1a096e65240c01fe6e3994f49",
+        "preview": "위 기록들을 보면 근녕군의 어머니인 태종의 궁인(정빈 고씨)은 1426년(세종 8)에 세상을 떠났고, 신녕궁"
+      }
+    ]
+  },
+  {
+    "question": "구카이의 종교는 무엇인가요?",
+    "relation": "per:religion",
+    "gold": [
+      {
+        "chunk_index": 59,
+        "source": "klue_re",
+        "md5": "8e68e0f486c5565cc7a185b2324d0ca2",
+        "preview": "일본의 진언종은 구카이(空海くうかい홍법 대사: 774-835)가 중국 당나라의 장안으로 건너가 청룡사에서 혜"
+      }
+    ]
+  },
+  {
+    "question": "진선미의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 60,
+        "source": "klue_re",
+        "md5": "3b7394520016172fa7a154c98d83297d",
+        "preview": "이 사건과 관련하여 민변 여성복지위원장 진선미 변호사는 \"연예인의 CF 계약은 일명 '노예계약'이라지만, 이"
+      }
+    ]
+  },
+  {
+    "question": "한국철도공사가 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 62,
+        "source": "klue_re",
+        "md5": "80ab5863f873c46c6062782b68dc573f",
+        "preview": "는 지난 16일 한국철도공사를 방문해 손병석 사장에게 전라선 KTX 증편과 동력분산식 전기차량(EMU) 정비"
+      }
+    ]
+  },
+  {
+    "question": "수비 권씨의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 65,
+        "source": "klue_re",
+        "md5": "af7771ddc3d4fab61c041b5e37352f3b",
+        "preview": "충숙왕의 제5비인 수비 권씨는 그녀의 외사촌이며, 훗날 반란을 일으킨 조일신은 홍씨의 매부다."
+      }
+    ]
+  },
+  {
+    "question": "아스타나는 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 66,
+        "source": "klue_re",
+        "md5": "b11958edcc4b6210d9b09387d595bf68",
+        "preview": "맨유는 29일(한국시간) 카자흐스탄 아스타나 아레나에서 열린 아스타나와의 2019~2020시즌 유럽축구연맹("
+      }
+    ]
+  },
+  {
+    "question": "위키미키는 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 69,
+        "source": "klue_re",
+        "md5": "509181927866546100f5384990fc0cce",
+        "preview": "지난 16일 위키미키 소속사 판타지오뮤직은 \"최유정 양은 당분간 모든 일정에서 제외하여 충분한 휴식과 컨디션"
+      }
+    ]
+  },
+  {
+    "question": "내무인민위원회의 소속 구성원(회원)은 누구인가요?",
+    "relation": "org:members",
+    "gold": [
+      {
+        "chunk_index": 70,
+        "source": "klue_re",
+        "md5": "8762538de6b7e9b3c2e47c00e91950aa",
+        "preview": "체카는 1922년 내무인민위원회 산하의 국가정치부(GPU)로 개편되었다."
+      }
+    ]
+  },
+  {
+    "question": "루이 2세 당주의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 71,
+        "source": "klue_re",
+        "md5": "738ca6c46733b80900cd7d0d5186937b",
+        "preview": "샤를 5세 당주 (Charles V d'Anjou, 1446년 – 1481년 12월 10일)는 루이 2세 당"
+      }
+    ]
+  },
+  {
+    "question": "배삼룡의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 72,
+        "source": "klue_re",
+        "md5": "cff25376550a61027574d67f3aec61df",
+        "preview": "이 가운데 양훈, 양석천, 구봉서, 배삼룡, 서영춘, 김희갑 등 유명 코미디언들이 출연한 희극 영화가 상당수"
+      }
+    ]
+  },
+  {
+    "question": "나경은의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 73,
+        "source": "klue_re",
+        "md5": "3d0a334c9b93218f15425b082bc60d70",
+        "preview": "유재석 씨는 아내 나경은(38) 씨와 관련 있다고 대답했다."
+      }
+    ]
+  },
+  {
+    "question": "제임스 먼로의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 76,
+        "source": "klue_re",
+        "md5": "2bab245b2e4635ad15f28233033037b5",
+        "preview": "이러한 고립주의는 존 아담스(John Adams)나 토머스 제퍼슨(Thomas Jefferson)에 의해서도"
+      }
+    ]
+  },
+  {
+    "question": "고려대학교 안산병원은 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 77,
+        "source": "klue_re",
+        "md5": "ad34842fa9e4828f423de3cc8e4d1737",
+        "preview": "안산시 단원구 적금로 123에 위치한 고려대학교 안산병원은 1985년 개원해 804병상을 갖춘 상급종합병원으"
+      }
+    ]
+  },
+  {
+    "question": "SS-FHA의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 78,
+        "source": "klue_re",
+        "md5": "82301100b3c1eed4eb72589c573e04af",
+        "preview": "그 결과 SS-HA는 대폭 감축당했고 친위대 지도본부(SS-FHA), 국가보안본부(RSHA)만한 위세를 누리"
+      }
+    ]
+  },
+  {
+    "question": "바르셀로나는 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 80,
+        "source": "klue_re",
+        "md5": "15ddee47730995283349913cc08529f8",
+        "preview": "이는 중앙 기관에 의해 하나의 스페인이라는 메시지가 스페인 사람들과 클럽 바르셀로나의 시민 대다수에게 보이며"
+      }
+    ]
+  },
+  {
+    "question": "오르토나의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 81,
+        "source": "klue_re",
+        "md5": "41206ee3a895f3340e416e503900b4c8",
+        "preview": "첫 번째 회의는 1960년 3월 9일부터 11일까지 미국 워싱턴D.C에서 열렸고, 이탈리아 오르토나 대사가 "
+      }
+    ]
+  },
+  {
+    "question": "류호정은 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 82,
+        "source": "klue_re",
+        "md5": "024de89a0d305b57fffbc922100f8f35",
+        "preview": "그러면서 \"비례대표 1번은 류호정이 얻어낸 자리가 아니다. 당원과 시민들이 만들어주셨다\"며 \"정의당 비례대표"
+      }
+    ]
+  },
+  {
+    "question": "FC 모스크바는 어디에 소속되어 있나요?",
+    "relation": "org:member_of",
+    "gold": [
+      {
+        "chunk_index": 86,
+        "source": "klue_re",
+        "md5": "f2932140a5a3a6201ef88b65c90cecbd",
+        "preview": "2005년 러시아 프리미어리그의 FC 모스크바로 이적하면서 본격적인 러시아에서의 축구생활을 시작했다."
+      }
+    ]
+  },
+  {
+    "question": "박완주는 어느 조직(회사)에 소속되어 있나요?",
+    "relation": "per:employee_of",
+    "gold": [
+      {
+        "chunk_index": 88,
+        "source": "klue_re",
+        "md5": "d589486394375204d1408484f390a72c",
+        "preview": "더불어민주당 박완주 의원(천안을)은 24일 천안시청과 공주대 천안캠퍼스가 생활밀착형 숲 조성 사업지로 선정됐"
+      }
+    ]
+  },
+  {
+    "question": "주호영의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 89,
+        "source": "klue_re",
+        "md5": "00f3aff68acb7a1a22501eb48177276c",
+        "preview": "미래통합당 주호영 원내대표가 \"북한의 인권 실상을 알리고 자유민주주의 가치를 알리기 위해 하는 대북 전단 살"
+      }
+    ]
+  },
+  {
+    "question": "백종원의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 91,
+        "source": "klue_re",
+        "md5": "413c10dcf103bb16ae11512aa6505aa4",
+        "preview": "지난 26일 방송된 채널A '아빠본색'에서 새해를 맞은 백종원·소유진 부부 일상이 공개됐다."
+      }
+    ]
+  },
+  {
+    "question": "슈체친의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 92,
+        "source": "klue_re",
+        "md5": "9de632e7cfd1f7200face0c402fe1f41",
+        "preview": "지금의 폴란드의 슈체친 시인 포메라니아의 슈테틴에서 태어나, 1796년 용기병 연대에 입대하였고 2년 후에 "
+      }
+    ]
+  },
+  {
+    "question": "저스틴 팀버레이크의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 93,
+        "source": "klue_re",
+        "md5": "a219cc78d59d7dc68fd3361c65c30013",
+        "preview": "해당 제품에 논란이 시작된 건 한 소비자가 제조사 홈페이지를 확인한 결과 회사 책임자 소개에 미국 가수 겸 "
+      }
+    ]
+  },
+  {
+    "question": "천재노창의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 98,
+        "source": "klue_re",
+        "md5": "203468659cb79b9a6840e778cda079ee",
+        "preview": "래퍼 천재노창이 자신의 랩 네임을 '그냥노창'으로 변경해 팬들로부터 화제를 모았다."
+      }
+    ]
+  },
+  {
+    "question": "루카스 파케타는 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 104,
+        "source": "klue_re",
+        "md5": "d57327a47d409d9d31e8d1ae5b46cb30",
+        "preview": "루카스 파케타(1997년 8월 27일 ~)는 브라질의 축구 선수이다."
+      }
+    ]
+  },
+  {
+    "question": "존 애덤스의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 106,
+        "source": "klue_re",
+        "md5": "60fd14f38b25d8e5b9cecc6f03c2d416",
+        "preview": "존 애덤스는 토머스 제퍼슨등과 함께 독립선언서 작성에 참여했다."
+      }
+    ]
+  },
+  {
+    "question": "카를로스 사우라의 국적(출신)은 어디인가요?",
+    "relation": "per:origin",
+    "gold": [
+      {
+        "chunk_index": 107,
+        "source": "klue_re",
+        "md5": "e8bb67c19438667ab656ffb5979e28b9",
+        "preview": "스페인 영화는 세군도 데 초몬, 플로리안 레이, 루이스 가르시아 베르랑가, 후안 안토니오 바르뎀, 카를로스 "
+      }
+    ]
+  },
+  {
+    "question": "이해승은 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 108,
+        "source": "klue_re",
+        "md5": "6a673f4a0944a282f07e947a03404673",
+        "preview": "청풍군 이해승(淸豐君 李海昇, 1890년 6월 22일 ~ 1958년)은 조선말기의 왕족 종친이자 대한제국의 "
+      }
+    ]
+  },
+  {
+    "question": "토미 메이컴은 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 111,
+        "source": "klue_re",
+        "md5": "ef96288d369cc59600ca44ee15ca6e48",
+        "preview": "토미 메이컴은 북아일랜드 카운티 아마의 키디에서 1932년에 태어났다."
+      }
+    ]
+  },
+  {
+    "question": "고동빈은 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 115,
+        "source": "klue_re",
+        "md5": "24f9358f97d2bde063fcdd66e77c2288",
+        "preview": "고동빈(1992년 7월 8일 ~)은 대한민국의 전 리그 오브 레전드 프로게이머로 선수 시절 포지션은 정글 라"
+      }
+    ]
+  },
+  {
+    "question": "헨리 5세의 자녀는 누구인가요?",
+    "relation": "per:children",
+    "gold": [
+      {
+        "chunk_index": 119,
+        "source": "klue_re",
+        "md5": "bc0668e001eb58a4363534356bbe7187",
+        "preview": "하급 귀족 오언 튜더와 헨리 5세의 과부였던 발루아의 캐서린이 결혼함에 따라, 두 사람 사이에 태어난 아이들"
+      }
+    ]
+  },
+  {
+    "question": "유상무의 배우자는 누구인가요?",
+    "relation": "per:spouse",
+    "gold": [
+      {
+        "chunk_index": 121,
+        "source": "klue_re",
+        "md5": "4dd787ba3f755acb6f574227c833bf77",
+        "preview": "아내 김연지 씨가 자신의 사진을 보정하면서 유상무 씨의 얼굴이 일부분 변형된 것으로 보였다."
+      }
+    ]
+  },
+  {
+    "question": "창원 LG 세이커스의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 123,
+        "source": "klue_re",
+        "md5": "0bbfe6e76a40b7f975a6ddd1d02f94ff",
+        "preview": "창원 LG 세이커스(Changwon LG Sakers)는 경상남도 창원시를 연고로 하는 대한민국의 프로 농구"
+      }
+    ]
+  },
+  {
+    "question": "박정희는 언제 사망했나요?",
+    "relation": "per:date_of_death",
+    "gold": [
+      {
+        "chunk_index": 126,
+        "source": "klue_re",
+        "md5": "b78c762a648f31d0de103cbf91fe7286",
+        "preview": "1979년 10월 26일 박정희 사후 야당화되었으며 1980년 10월 27일 해산되었다."
+      }
+    ]
+  },
+  {
+    "question": "빌리 오르반은 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 130,
+        "source": "klue_re",
+        "md5": "02b24e39dd8830ccab4299f55015d3d5",
+        "preview": "빌리 오르반은 독일 카이저슬라우테른에서 헝가리인 아버지와 폴란드인 어머니 사이에서 태어났다."
+      }
+    ]
+  },
+  {
+    "question": "곽민정의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 132,
+        "source": "klue_re",
+        "md5": "84c0cb7e4ed876ebc4f150746be93cb6",
+        "preview": "곽민정(郭珉整, 1994년 1월 23일 ~)은 대한민국의 피겨 스케이팅 선수로, 2009년 한국 선수권 주니"
+      }
+    ]
+  },
+  {
+    "question": "미겔 후안 세바스티안 피녜라 에체니케의 직함(역할)은 무엇인가요?",
+    "relation": "per:title",
+    "gold": [
+      {
+        "chunk_index": 136,
+        "source": "klue_re",
+        "md5": "ad00724cf50d3e5d0cf137f271b5208f",
+        "preview": "미겔 후안 세바스티안 피녜라 에체니케(1949년 12월 1일 ~)는 칠레의 정치인으로, 2010년부터 201"
+      }
+    ]
+  },
+  {
+    "question": "비산도서관의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 140,
+        "source": "klue_re",
+        "md5": "f34a5ad456a2fded057f24ed865746fa",
+        "preview": "양명고, 양명여고, 대림대학교 등이 인근에 있으며 안양시립비산도서관, 평촌학원가도 다니기 편하다."
+      }
+    ]
+  },
+  {
+    "question": "올림픽 위원회의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "org:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 141,
+        "source": "klue_re",
+        "md5": "1a3c1325769989c2c11194b3ff359df0",
+        "preview": "하지만 기후 변화와 관련된 기온 상승으로 인한 도쿄의 폭염, 무더위로 인해 2020년 도쿄 하계 올림픽이 역"
+      }
+    ]
+  },
+  {
+    "question": "광주 서구의 구성원(직원) 수는 몇 명인가요?",
+    "relation": "org:number_of_employees/members",
+    "gold": [
+      {
+        "chunk_index": 142,
+        "source": "klue_re",
+        "md5": "bb54e2f876b716ca61fb2a9a18bf9639",
+        "preview": "한편, 광주 서구는 ‘주민주도의 좋은 마을만들기’사업을 통해 18개동에서 100여개의 마을공동체가 왕성한 활"
+      }
+    ]
+  },
+  {
+    "question": "헨리 3세의 자녀는 누구인가요?",
+    "relation": "per:children",
+    "gold": [
+      {
+        "chunk_index": 144,
+        "source": "klue_re",
+        "md5": "a071c915de5812dbfb3f5926d4cb8a31",
+        "preview": "같은 날, 클레멘스 4세는 샤를에게 그가 시칠리아의 왕이 되기 위해서는 동의해야 하는 35가지 조건이 있다고"
+      }
+    ]
+  },
+  {
+    "question": "유인영의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 151,
+        "source": "klue_re",
+        "md5": "9f5f022d5d7ee33e96b72b36e2e61951",
+        "preview": "배우 유인영(유효민)과 김지석(김보석)이 '찐사친(진짜 사람 친구)'다운 대화를 보여줬다."
+      }
+    ]
+  },
+  {
+    "question": "리틀 리처드의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 161,
+        "source": "klue_re",
+        "md5": "42f3aab35e4d34bcab7b9e99777e2bd3",
+        "preview": "리처드 웨인 페니먼(Richard Wayne Penniman, 1932년 12월 5일 ~ 2020년 5월 9"
+      }
+    ]
+  },
+  {
+    "question": "열린우리당은 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 169,
+        "source": "klue_re",
+        "md5": "389b2e54baa39525a9270b8234afaad8",
+        "preview": "열린우리당(열린우리黨, 약칭 우리당)은 개혁국민정당, 한나라당, 새천년민주당의 내 정당 개혁, 정치 개혁의 "
+      }
+    ]
+  },
+  {
+    "question": "카를로 2세 디 사보이아의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 171,
+        "source": "klue_re",
+        "md5": "1146f581d721407df69909558998d860",
+        "preview": "카를로 2세 디 사보이아(1489년 6월 23일 - 1496년 4월 16일)는 1490년부터 1496년까지의"
+      }
+    ]
+  },
+  {
+    "question": "이세돌의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 177,
+        "source": "klue_re",
+        "md5": "d0e3caad21acc71870b3c4c076b28421",
+        "preview": "생중계 방송에는 공부의 신 강성태, 프로바둑기사 한해원, 칼럼니스트 김태훈, AI 전문가 이경전, 이세돌의 "
+      }
+    ]
+  },
+  {
+    "question": "소크라치스의 본사는 어디에 있나요?",
+    "relation": "org:place_of_headquarters",
+    "gold": [
+      {
+        "chunk_index": 181,
+        "source": "klue_re",
+        "md5": "d7eaeb763cfe0ba1cb9d37df4cc40e35",
+        "preview": "지쿠는 1982년 FIFA 월드컵 당시 텔레 산타나가 이끌던 브라질 축구 국가대표팀에서 소크라치스, 파우캉,"
+      }
+    ]
+  },
+  {
+    "question": "스타니스와프 2세는 언제 태어났나요?",
+    "relation": "per:date_of_birth",
+    "gold": [
+      {
+        "chunk_index": 184,
+        "source": "klue_re",
+        "md5": "ba9bd237282e5352face9c270975ee52",
+        "preview": "스타니스와프 아우구스트 포니아토프스키(1732년 1월 17일 ~ 1798년 2월 12일) 또는 스타니스와프 "
+      }
+    ]
+  },
+  {
+    "question": "리오넬 메시는 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 192,
+        "source": "klue_re",
+        "md5": "00fae078fdd1ac615232ef1f2ebf9f33",
+        "preview": "리오넬 메시가 겪어온 아르헨티나의 축구 감독 중에서 리오넬 메시를 가장 제대로 활용하는 감독으로 정평나 있으"
+      }
+    ]
+  },
+  {
+    "question": "한예슬의 다른 이름(별칭)은 무엇인가요?",
+    "relation": "per:alternate_names",
+    "gold": [
+      {
+        "chunk_index": 195,
+        "source": "klue_re",
+        "md5": "eba5919f4437de0477bb3ffd9dbcb1e8",
+        "preview": "한예슬(김예슬이·38)이 전지적 참견 시점에 등장한다."
+      }
+    ]
+  },
+  {
+    "question": "귀위크의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 196,
+        "source": "klue_re",
+        "md5": "0ee9fb9a4eaf3f6ac1d90af1b7342b80",
+        "preview": "1241년에 우구데이 칸이 죽자 대칸의 자리를 두고 우구데이의 아들인 귀위크와 바투 사이에 분쟁이 발생했다."
+      }
+    ]
+  },
+  {
+    "question": "중국중앙텔레비전의 소속 구성원(회원)은 누구인가요?",
+    "relation": "org:members",
+    "gold": [
+      {
+        "chunk_index": 199,
+        "source": "klue_re",
+        "md5": "cefb73bbfc519269a86310c5346afa97",
+        "preview": "CCTV-4(CCTV-4 中文国际)은 중국중앙텔레비전의 텔레비전 채널 중 하나이며, 중국어 국제 방송 채널이"
+      }
+    ]
+  },
+  {
+    "question": "이현주의 종교는 무엇인가요?",
+    "relation": "per:religion",
+    "gold": [
+      {
+        "chunk_index": 209,
+        "source": "klue_re",
+        "md5": "07d7ee7f3958e0f11cc7b8daed9c4789",
+        "preview": "그 실례로 문익환 목사는 감리교 목사인 이현주 목사와 함께 공동번역성서 번역에 개신교측 번역자로 참여했으며,"
+      }
+    ]
+  },
+  {
+    "question": "롤스로이스는 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 213,
+        "source": "klue_re",
+        "md5": "f058d979ac8f4ad104bf577539b24d7b",
+        "preview": "1906년 3월 15일, 찰스 롤스와 헨리 로이스는 롤스로이스 유한회사(Rolls-Royce Limited)"
+      }
+    ]
+  },
+  {
+    "question": "위버 주립 대학교는 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 216,
+        "source": "klue_re",
+        "md5": "573a94eca15f8d6054cf013a22d0785c",
+        "preview": "위버 주립 대학교의 시초는 1889년에 예수 그리스도 후기성도 교회에서 세운 위버 교구 학원(Weber St"
+      }
+    ]
+  },
+  {
+    "question": "루키노 비스콘티는 언제 사망했나요?",
+    "relation": "per:date_of_death",
+    "gold": [
+      {
+        "chunk_index": 219,
+        "source": "klue_re",
+        "md5": "2567d3698a04e1ba1afadc9e341fee54",
+        "preview": "루키노 비스콘티(Luchino Visconti, 1287년 또는 1292년 – 1349년 1월 24일) 13"
+      }
+    ]
+  },
+  {
+    "question": "우스이 요시토가 관여한 제품(작품)은 무엇인가요?",
+    "relation": "per:product",
+    "gold": [
+      {
+        "chunk_index": 224,
+        "source": "klue_re",
+        "md5": "035b709586194b0971608a49962af461",
+        "preview": "우스이 요시토의 《주간 액션》에 연재된 만화 《크레용 신짱》을 원작으로 하여 제작된 TV시리즈 《크레용 신짱"
+      }
+    ]
+  },
+  {
+    "question": "덕흥군의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 238,
+        "source": "klue_re",
+        "md5": "9ebce9d131ca401884f51581dc4c86b8",
+        "preview": "공민왕 12년(1363)에는 서장관이 되어 원나라에 간 일이 있었는데, 당시 원나라에 와 있던 고려사람 최유"
+      }
+    ]
+  },
+  {
+    "question": "넷마블의 소속 구성원(회원)은 누구인가요?",
+    "relation": "org:members",
+    "gold": [
+      {
+        "chunk_index": 241,
+        "source": "klue_re",
+        "md5": "e5b8f8f897cf127893a4d96b7f1df3f5",
+        "preview": "넷마블 측은 “코웨이 인수 완료 후에도 넷마블 본체 투자자산, 계열사 현금 자산까지 모두 합치면 2조5000"
+      }
+    ]
+  },
+  {
+    "question": "하인리히 3세의 자녀는 누구인가요?",
+    "relation": "per:children",
+    "gold": [
+      {
+        "chunk_index": 251,
+        "source": "klue_re",
+        "md5": "0d93f9176a96a1370c5b50aa759a9ae7",
+        "preview": "하인리히 3세의 아들인 하인리히 4세가 1065년 친정을 시작하지만 선친보다는 무능하였다."
+      }
+    ]
+  },
+  {
+    "question": "을지문덕은 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 252,
+        "source": "klue_re",
+        "md5": "0851d52925198e1788059fa17bb538a5",
+        "preview": "우중문은 을지문덕이나 고구려왕이 올 때에는 반드시 잡으라는 양제의 기밀명령에 따라 을지문덕을 잡으려 했으나,"
+      }
+    ]
+  },
+  {
+    "question": "안네 매키넨은 어디에 거주하나요?",
+    "relation": "per:place_of_residence",
+    "gold": [
+      {
+        "chunk_index": 259,
+        "source": "klue_re",
+        "md5": "f35d28ecd52f96389ae87aa436edd0d3",
+        "preview": "안네 매키넨은 2006년 3월 9일에 열린 독일과의 알가르브컵 경기에서 A매치 100경기 출전 기록을 수립했"
+      }
+    ]
+  },
+  {
+    "question": "록스타 게임즈가 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 268,
+        "source": "klue_re",
+        "md5": "ae09d043df4953b3cffe94b2d57f3fe0",
+        "preview": "유로비전 송 콘테스트 2004에서 Wild Dances란 곡으로 35개 참가국 가운데 34개국으로부터 점수를"
+      }
+    ]
+  },
+  {
+    "question": "의자왕의 자녀는 누구인가요?",
+    "relation": "per:children",
+    "gold": [
+      {
+        "chunk_index": 269,
+        "source": "klue_re",
+        "md5": "3bafe1be35cf5ef35fa8a136b2cf58eb",
+        "preview": "무왕의 손자이자 의자왕의 아들로, 부여효, 부여태는 그의 형이고, 부여융, 부여연, 풍왕은 그의 형 또는 동"
+      }
+    ]
+  },
+  {
+    "question": "김서현의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 274,
+        "source": "klue_re",
+        "md5": "46fe3b6f8e6b28241effe3a6d966d306",
+        "preview": "629년에는 대장군이 되어 김서현, 김유신을 부장으로 이끌고 출진, 낭비성(娘臂城)을 함락시켰으며, 635년"
+      }
+    ]
+  },
+  {
+    "question": "이시영의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 288,
+        "source": "klue_re",
+        "md5": "829cc684db2e38855590689238c0d54d",
+        "preview": "1948년 7월 20일 국회에서 대통령 이승만, 부통령 이시영이 선출되었고, 8월 15일 이승만은 정부 구성"
+      }
+    ]
+  },
+  {
+    "question": "삼성전자가 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 292,
+        "source": "klue_re",
+        "md5": "fd67eafb9409c70932488fd2182afb81",
+        "preview": "삼성전자는 이번 으뜸효율가전 환급 해당 품목은 아니지만 국내 유일 에너지소비효율 1등급 건조기 ‘삼성 그랑데"
+      }
+    ]
+  },
+  {
+    "question": "현대차가 만든 제품(생산물)은 무엇인가요?",
+    "relation": "org:product",
+    "gold": [
+      {
+        "chunk_index": 295,
+        "source": "klue_re",
+        "md5": "718528a3e8c684fa59223d3efe80a29c",
+        "preview": "송선재 연구원은 “제네시스의 현대차 전체 판매 대수 내 비중은 1.9%에서 3.7%로 상승, 자동차 부문 매"
+      }
+    ]
+  },
+  {
+    "question": "제도혁명당은 어떤 정치·종교 성향과 관련이 있나요?",
+    "relation": "org:political/religious_affiliation",
+    "gold": [
+      {
+        "chunk_index": 302,
+        "source": "klue_re",
+        "md5": "b211f70e1c4a42fad1781eeb9e00b262",
+        "preview": "2012년 7월 실시된 대통령 선거에서 중도주의 정당인 제도혁명당(PRI)의 엔리케 페냐 니에토(임기 : 2"
+      }
+    ]
+  },
+  {
+    "question": "구본무의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 313,
+        "source": "klue_re",
+        "md5": "16d38ca955a319bbe8b089656cfe9e11",
+        "preview": "구자경 명예회장은 지난해 숙환으로 별세한 장남 구본무 LG 회장을 비롯해 구본능 희성그룹 회장, 구본준 LG"
+      }
+    ]
+  },
+  {
+    "question": "정인옹주는 언제 사망했나요?",
+    "relation": "per:date_of_death",
+    "gold": [
+      {
+        "chunk_index": 314,
+        "source": "klue_re",
+        "md5": "2ea8405884a63e50d80ff2d22f8f2711",
+        "preview": "정인옹주(貞仁翁主, 1590년 ~ 1656년 음력 1월 10일)는 조선의 왕족이다."
+      }
+    ]
+  },
+  {
+    "question": "카이사르는 언제 사망했나요?",
+    "relation": "per:date_of_death",
+    "gold": [
+      {
+        "chunk_index": 323,
+        "source": "klue_re",
+        "md5": "232e612b3dc7253598f9f5b73d7cba9a",
+        "preview": "기원전 44년 3월 15일 카이사르가 암살당할 때, 옥타비아누스는 일리리아의 아폴로니아에서 공부와 군사 훈련"
+      }
+    ]
+  },
+  {
+    "question": "장희재는 언제 사망했나요?",
+    "relation": "per:date_of_death",
+    "gold": [
+      {
+        "chunk_index": 326,
+        "source": "klue_re",
+        "md5": "8ea867044e224ffef3b2000a2d7903c7",
+        "preview": "계실 윤씨에게서 훗날 김지중에게 출가한 장녀 장씨와 차남 장희재(1651년 ~ 1701년), 차녀이자 막내딸"
+      }
+    ]
+  },
+  {
+    "question": "토머스 제퍼슨의 동료는 누구인가요?",
+    "relation": "per:colleagues",
+    "gold": [
+      {
+        "chunk_index": 328,
+        "source": "klue_re",
+        "md5": "776ed7756795d505338a05e5bc2b1a85",
+        "preview": "그 이유는 혁명으로 인하여 얻은 독립의 원인이 영국의 부당한 처사로 인해 식민지배의 노예로 부터의 해방이라고"
+      }
+    ]
+  },
+  {
+    "question": "이성재의 자녀는 누구인가요?",
+    "relation": "per:children",
+    "gold": [
+      {
+        "chunk_index": 331,
+        "source": "klue_re",
+        "md5": "5718476bdc1a21bb4def05d912901bd3",
+        "preview": "이성재 장녀 이인영 씨는 임신 20주 차에 접어들었다."
+      }
+    ]
+  },
+  {
+    "question": "가투소는 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 346,
+        "source": "klue_re",
+        "md5": "d83c16326943db738db8d62293a53926",
+        "preview": "젠나로 이반 \"리노\" 가투소(1978년 1월 9일, 이탈리아 코릴리아노 칼라브로 ~)는 이탈리아의 전 축구 "
+      }
+    ]
+  },
+  {
+    "question": "김립은 어디에서 사망했나요?",
+    "relation": "per:place_of_death",
+    "gold": [
+      {
+        "chunk_index": 351,
+        "source": "klue_re",
+        "md5": "3c3ef82cda4bce9c3bd332d46ce5ebfe",
+        "preview": "1921년 6월 자유시참변(自由市慘變) 발생 후 상해파 고려공산당의 간부들이 거의 러시아로 이동하여 이르쿠츠"
+      }
+    ]
+  },
+  {
+    "question": "동아일보는 언제 설립되었나요?",
+    "relation": "org:founded",
+    "gold": [
+      {
+        "chunk_index": 353,
+        "source": "klue_re",
+        "md5": "c81760e001eebf4a51bee8b5a4e56b2c",
+        "preview": "1918년 윌슨 미국대통령의 전후문제처리방안으로 민족자결주의 원칙이 발표된 후, 국내외에서 한결같이 독립운동"
+      }
+    ]
+  },
+  {
+    "question": "기예르모 프랑코는 어디에서 태어났나요?",
+    "relation": "per:place_of_birth",
+    "gold": [
+      {
+        "chunk_index": 357,
+        "source": "klue_re",
+        "md5": "1a91daf22093f3ac9f8e9b6ca1b05aba",
+        "preview": "기예르모 루이스 프랑코 파르콰르손(1976년 2월 11일 ~)은 기예르모 프랑코로 불리는 아르헨티나 태생 멕"
+      }
+    ]
+  },
+  {
+    "question": "사마의의 부모는 누구인가요?",
+    "relation": "per:parents",
+    "gold": [
+      {
+        "chunk_index": 360,
+        "source": "klue_re",
+        "md5": "19e3df99d87b85996228b2fd4f2a5b66",
+        "preview": "아버지는 경조윤을 지낸 사마방으로, 사마의는 그의 둘째 아들이다."
+      }
+    ]
+  },
+  {
+    "question": "알바니아는 어떤 정치·종교 성향과 관련이 있나요?",
+    "relation": "org:political/religious_affiliation",
+    "gold": [
+      {
+        "chunk_index": 363,
+        "source": "klue_re",
+        "md5": "9cbb37a9e394bc952437ddc988300e59",
+        "preview": "1989년부터 시위가 일어나면서, 1990년에는 공산 정부가 자체적으로 개혁을 도입하더니, 1992년에는 알"
+      }
+    ]
+  },
+  {
+    "question": "무함마드의 종교는 무엇인가요?",
+    "relation": "per:religion",
+    "gold": [
+      {
+        "chunk_index": 379,
+        "source": "klue_re",
+        "md5": "f3b6337625b43574273818e161a04cb6",
+        "preview": "무함마드에 의하여 시작된 이슬람교는 그 세력을 확장하여 불과 100여 년 사이에 서쪽으로는 스페인 및 북아프"
+      }
+    ]
+  },
+  {
+    "question": "T.I.가 관여한 제품(작품)은 무엇인가요?",
+    "relation": "per:product",
+    "gold": [
+      {
+        "chunk_index": 380,
+        "source": "klue_re",
+        "md5": "e6529cc96bb08603bc0a0a70bc5ea50a",
+        "preview": "《Paper Trail》은 미국의 힙합 가수 T.I.의 여섯번째 정규 음반이다."
+      }
+    ]
+  },
+  {
+    "question": "붉은 셔츠단을 설립한 사람(단체)은 누구인가요?",
+    "relation": "org:founded_by",
+    "gold": [
+      {
+        "chunk_index": 388,
+        "source": "klue_re",
+        "md5": "91a40fb5e1b30f7c9a35f607c37ad9e4",
+        "preview": "제2차 이탈리아 독립 전쟁에서 주세페 가리발디는 양시칠리아 왕국을 단숨에 정복하여 이탈리아 통일의 영웅으로 "
+      }
+    ]
+  },
+  {
+    "question": "사회당은 어떤 정치·종교 성향과 관련이 있나요?",
+    "relation": "org:political/religious_affiliation",
+    "gold": [
+      {
+        "chunk_index": 425,
+        "source": "klue_re",
+        "md5": "bed36f6aa7dcd1537c52339ce2102438",
+        "preview": "프랑스 사회당 등이 속해 있는 사회민주주의 국제연합인 사회주의 인터내셔널(Socialist Internati"
+      }
+    ]
+  },
+  {
+    "question": "정세균은 어디에 거주하나요?",
+    "relation": "per:place_of_residence",
+    "gold": [
+      {
+        "chunk_index": 426,
+        "source": "klue_re",
+        "md5": "9f37da3d7ccb4f0d8991e3d21d0efcef",
+        "preview": "종로구 국회의원인 새정치민주연합의 정세균 상임고문은 \"저를 비롯해 종로 주민들의 극심한 반대에도 불구하고 정"
+      }
+    ]
+  }
+]

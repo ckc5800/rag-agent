@@ -166,11 +166,17 @@ def seed_nodes(query: str, g: nx.MultiDiGraph) -> list[str]:
     return seeds
 
 
-def search(query: str, g: nx.MultiDiGraph, k: int) -> list[Document]:
+def search(query: str, g: nx.MultiDiGraph, k: int,
+           chunks_by_index: dict[int, Document] | None = None) -> list[Document]:
     """질의 엔티티를 시드로 1-hop 이웃 엣지를 모아, 그 출처 청크를 점수순으로
     반환한다. 점수 = 시드에 연결된 엣지 수 — 시드와 관련된 사실을 더 많이
     담은 청크일수록 위로 온다. 시드가 하나도 안 잡히면 빈 리스트(그래프가
-    포기하고 하이브리드에 넘기는 신호 — fused_search가 이걸로 자동 처리)."""
+    포기하고 하이브리드에 넘기는 신호 — fused_search가 이걸로 자동 처리).
+
+    chunks_by_index를 주면 그걸 쓰고, 안 주면 원 코퍼스(config.CHUNKS_PATH)
+    조회표를 쓴다 — klue_re.py처럼 다른 코퍼스의 그래프를 검색할 때
+    이 모듈의 원 코퍼스 캐시와 섞이지 않게 하려고 둔 확장 지점이다.
+    """
     seeds = seed_nodes(query, g)
     if not seeds:
         return []
@@ -183,20 +189,27 @@ def search(query: str, g: nx.MultiDiGraph, k: int) -> list[Document]:
                 continue
             chunk_scores[idx] = chunk_scores.get(idx, 0.0) + 1.0
 
-    chunks_by_idx = _chunks_by_index()
+    chunks_by_idx = chunks_by_index if chunks_by_index is not None else _chunks_by_index()
     ranked = sorted(chunk_scores, key=chunk_scores.get, reverse=True)
     return [chunks_by_idx[i] for i in ranked[:k] if i in chunks_by_idx]
 
 
-def fused_search(query: str, g: nx.MultiDiGraph, k: int) -> list[Document]:
+def fused_search(query: str, g: nx.MultiDiGraph, k: int, hybrid_search_fn=None,
+                 chunks_by_index: dict[int, Document] | None = None) -> list[Document]:
     """하이브리드 검색(벡터+BM25)과 그래프 검색을 RRF로 융합.
-    graph.hybrid_search와 같은 RRF(K=60) — 이미 검증된 융합 방식을 재사용."""
+    graph.hybrid_search와 같은 RRF(K=60) — 이미 검증된 융합 방식을 재사용.
+
+    hybrid_search_fn을 안 주면 원 코퍼스의 graph.hybrid_search를 쓴다.
+    klue_re.py처럼 다른 코퍼스 인덱스로 융합할 때는 그 코퍼스의
+    hybrid_search 함수를 주입한다(chunks_by_index도 마찬가지).
+    """
     import hashlib
 
-    from graph import hybrid_search
+    if hybrid_search_fn is None:
+        from graph import hybrid_search as hybrid_search_fn
 
-    hy_docs = hybrid_search(query)
-    kg_docs = search(query, g, k)
+    hy_docs = hybrid_search_fn(query)
+    kg_docs = search(query, g, k, chunks_by_index=chunks_by_index)
 
     K = 60
     scores: dict[str, float] = {}

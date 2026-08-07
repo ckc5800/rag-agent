@@ -20,3 +20,7 @@ langchain-mcp-adapters>=0.1
 # 같은 "파일 하나로 끝난다" 원칙에 맞아 골랐다(cross-encoder를 rerank에서
 # 안 쓴 것과 같은 이유).
 networkx>=3.0
+# Graph RAG 2차 검증(klue_re.py) — 공개 벤치마크(KLUE-RE) 로드 전용.
+# klue_re.py 안에서만 지연 임포트해 이 프로젝트를 쓰는 다른 코드가 이
+# 의존성을 강제로 물지 않는다.
+datasets>=3.0

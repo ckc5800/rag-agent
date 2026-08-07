@@ -16,7 +16,7 @@ jobs:
       # 임포트가 깨진 조합(예: mcp 2.0 + langchain-mcp-adapters 0.3)이 잡히면
       # 단위 테스트는 통과하는데 실행만 죽는다. 진입점 임포트를 먼저 확인한다.
       - name: 진입점 임포트 확인
-        run: python -c "import sys; sys.path.insert(0,'src'); import graph, agent, team, api, mcp_agent, kg, ingest_kg"
+        run: python -c "import sys; sys.path.insert(0,'src'); import graph, agent, team, api, mcp_agent, kg, ingest_kg, klue_re, ingest_klue"
         env:
           PYTHONUTF8: "1"
       - run: pytest -q tests
