@@ -81,6 +81,20 @@ GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '5'))
 #     aggregation  6/12 → 10/12,  6/12 → 9/12   (세는 질문은 문맥이 이어져야)
 #     temporal     8/8  →  6/8,   8/8  → 7/8
 # 집계 유형에 한해 켜볼 만한 신호다. 반복을 늘려 다시 재는 것이 다음 순서.
+#
+# **재측정 완료(eval/ab_neighbor_window.py, 55문항 × 2회, GENERATE_TOP_N=5·
+# TYPE_ROUTING 끈 조건, 2026-08)** — "다음 순서"로 남겨 뒀던 TODO를 닫는다.
+# 전체 정답률은 다시 한 번 동률이었다(W=0 78% vs W=1 77%). 그런데 유형별
+# 분해는 예전보다 훨씬 선명하게 갈렸다:
+#     enumeration  12/18 → 18/18   (만점 — 가장 큰 신호)
+#     comparison    1/4  →  3/4
+#     aggregation   5/12 →  6/12
+#     fact         40/44 → 33/44   (가장 큰 손해)
+#     refusal      20/20 → 18/20   (환각 저항이 무너진다 — 반복 관찰된 패턴)
+#     temporal      6/8  →  5/8
+# 지연도 2.9s → 4.6s(1.6배)로 는다. **전역 기본값은 계속 0이 맞다** —
+# fact가 전체 문항의 40%라 전역으로 켜면 손해가 이득을 덮는다. 대신 이
+# 측정이 route.py의 유형별 오버라이드를 정당화한다(TYPE_ROUTING 참고).
 NEIGHBOR_WINDOW = int(os.environ.get("NEIGHBOR_WINDOW", "0"))
 
 # generate 프롬프트에 청크를 배치하는 순서.

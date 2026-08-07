@@ -57,6 +57,7 @@ eval/
 ├── ab_context_order.py    CONTEXT_ORDER A/B 반복 재측정 (reversed/ranked/sandwich)
 ├── ab_rerank.py           RERANK A/B (첫 실측)
 ├── ab_prompt_variant.py   GENERATE_PROMPT_VARIANT A/B (base vs targeted)
+├── ab_route_variants.py   route.ROUTES 오버라이드 조합 A/B (라우팅 내용 자체)
 ├── audit_patterns.py  채점 패턴 감사 (정답을 오답으로 집계하는지 검사)
 ├── audit_docs.py      README-코드 일치 확인 (CI에서 실행)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
@@ -1215,6 +1216,34 @@ K=5부터 200까지 지표가 완전히 평평하고, K=1만 오히려 더 낮�
 아니라 실측으로도 평평한 최적 구간 안에 있는 값으로 확인됐다.** 바꿀
 이유가 없어 그대로 유지 — 이번 실험의 산출물은 상수 변경이 아니라
 "안 바꿔도 되는 이유"다.
+
+### NEIGHBOR_WINDOW 재측정 — "반복해서 다시 재라"고 남긴 TODO 닫기
+
+`config.py`에 "반복을 늘려 다시 재는 것이 다음 순서"로 명시해 둔 미완
+항목이다. 예전 측정은 `GENERATE_TOP_N=3` 시절 값이라, 현재 조건
+(`TOP_N=5`, TYPE_ROUTING은 전역값 스윕을 덮지 않도록 끔)에서 55문항 ×
+2회로 다시 쟀다(`eval/ab_neighbor_window.py`).
+
+전체 정답률은 이번에도 동률이었다 — **W=0 78%(86/110) vs W=1
+77%(85/110)**. 하지만 유형별 분해는 예전보다 훨씬 선명하게 갈렸다:
+
+| 유형 | W=0 | W=1 | |
+|---|---|---|---|
+| enumeration | 12/18 | **18/18** | 만점 — 가장 큰 이득 |
+| comparison | 1/4 | **3/4** | |
+| aggregation | 5/12 | 6/12 | |
+| fact | **40/44** | 33/44 | 가장 큰 손해 |
+| refusal | **20/20** | 18/20 | 환각 저항이 무너짐 |
+| temporal | **6/8** | 5/8 | |
+
+지연도 2.9s → 4.6s(1.6배)로 는다. **전역 기본값은 계속 0이 맞다** —
+fact가 전체 문항의 40%라 전역으로 켜면 손해가 이득을 덮는다. "컨텍스트를
+키우면 환각 저항이 먼저 무너진다"는 이 저장소의 반복 관찰(§9)이 refusal
+20/20 → 18/20으로 또 한 번 재현됐다.
+
+이 측정의 값어치는 기본값 변경이 아니라 **유형별 라우팅을 정당화한
+것**이다 — 하나의 전역값으로는 enumeration(+6)과 fact(−7)를 동시에
+만족시킬 수 없다는 것이 수치로 확인됐다.
 
 ## 한계
 

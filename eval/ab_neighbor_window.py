@@ -28,6 +28,11 @@ RESULTS = Path(__file__).parent / "results_ab_neighbor_window.json"
 def run_condition(cases: list[dict], window: int, repeat: int) -> dict:
     from graph import build_graph
 
+    # TYPE_ROUTING이 기본 켜져 있어(2026-08~) aggregation 질문은 실행 중
+    # route.ROUTES가 NEIGHBOR_WINDOW를 1로 강제 오버라이드한다 — 여기서
+    # 재는 건 "전역 기본값을 얼마로 할까"이지 라우팅 자체가 아니므로,
+    # 오버라이드가 이 전역값 스윕을 덮어쓰지 않도록 끈다.
+    config.TYPE_ROUTING = False
     config.NEIGHBOR_WINDOW = window
     graph = build_graph()
 
