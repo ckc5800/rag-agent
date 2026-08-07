@@ -48,6 +48,14 @@ _HANGUL_RUN = r"[가-힣]+"
 _RUNS = re.compile(f"{_ASCII_RUN}|{_HANGUL_RUN}")
 _SPLITTABLE = re.compile(r"[._-]")
 
+# 천단위 콤마 제거. '.', '-', '_'와 달리 콤마는 **구분자를 없애야** 같은
+# 숫자가 된다("2,292" vs "2292" — 지우지 않으면 "2"·"292"로 쪼개져 겹치는
+# 토큰이 0개). 반대로 "Jenkins, ArgoCD" 같은 열거 콤마는 사이에 공백이 있어
+# \d{3}에 걸리지 않는다 — 코퍼스 전수 검사로 확인(portfolio.md 24,000·
+# 32,768·9,600·2,048 등 전부 천단위였고 목록 용도의 무공백 콤마 나열은
+# 0건이었다).
+_THOUSANDS_COMMA = re.compile(r"(?<=\d),(?=\d{3}(?:\D|$))")
+
 
 def bm25_tokenize(text: str) -> list[str]:
     """문자 종류별로 쪼갠 뒤, 한글 런에만 문자 bigram을 추가한다.
@@ -67,7 +75,13 @@ def bm25_tokenize(text: str) -> list[str]:
     순수 노이즈('th','hr',…)가 된다. 이 코퍼스의 질문은 대부분
     "gRPC로", "Throughput은", "자격증을" 처럼 섞여 있어서 BM25가 사실상
     죽어 있었다(진단: eval/diagnose.py). 런 단위로 쪼개 해결한다.
+
+    비슷한 문제가 천단위 콤마에도 있었다 — "2,292"(코퍼스)와 "2292"(질의)가
+    콤마 때문에 겹치는 토큰이 0개였다. 한국어 데이터 전처리를 재점검하다
+    발견(2026-08): 코퍼스 자체(NFC 정규화·전각문자·자소분리)는 깨끗했지만
+    이건 실제 결함이었다. 토큰화 전에 콤마부터 지운다.
     """
+    text = _THOUSANDS_COMMA.sub("", text)
     grams: list[str] = []
     for run in _RUNS.findall(text.lower()):
         grams.append(run)

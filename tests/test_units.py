@@ -276,6 +276,22 @@ def test_bm25_keeps_full_tokens_and_ascii():
     assert "파이" in tokens             # bigram 추가
 
 
+def test_bm25_strips_thousands_comma():
+    # "2,292"(코퍼스 표기)와 "2292"(질의)가 콤마 때문에 겹치는 토큰이
+    # 0개였던 결함 — 천단위 콤마는 구두점이 아니라 삭제 대상이다.
+    from graph import bm25_tokenize
+    assert set(bm25_tokenize("2,292")) & set(bm25_tokenize("2292"))
+    assert set(bm25_tokenize("12,345,678")) & set(bm25_tokenize("12345678"))
+
+
+def test_bm25_keeps_spaced_enumeration_comma_separate():
+    # 공백이 있는 열거 콤마("Jenkins, ArgoCD")는 천단위가 아니므로 그대로
+    # 별개 토큰이어야 한다 — 위 콤마 삭제가 여기까지 지우면 안 된다.
+    from graph import bm25_tokenize
+    tokens = bm25_tokenize("Jenkins, ArgoCD")
+    assert "jenkins" in tokens and "argocd" in tokens
+
+
 # ── grade/generate 컨텍스트 '길이' 불일치 회귀 테스트 ──
 #
 # 개수(GENERATE_TOP_N)는 context_docs로 맞췄지만 길이는 안 맞아 있었다:
