@@ -130,8 +130,13 @@ MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))
 # 질문 유형별로 NEIGHBOR_WINDOW·CONTEXT_ORDER를 다르게 적용할지(src/route.py).
 # NEIGHBOR_WINDOW·CONTEXT_ORDER 실험 둘 다 "어떤 유형엔 좋고 어떤 유형엔
 # 나쁘다"로 끝나 전역 기본값을 못 바꿨다 — 유형별로 다르게 주면 상충을 풀 수
-# 있는지가 가설이다. 아직 A/B 전이라 기본은 꺼둔다(eval/ab_type_routing.py).
-TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "0") == "1"
+# 있는지가 가설이었다.
+#
+# eval/ab_type_routing.py(aggregation·enumeration 15문항 × 3회, 2026-08
+# 재측정 — Kiwi 토크나이저·SEED_MATCH_RATIO=0.7 반영 후)로 채택 여부를
+# 결정했다: OFF 69% → ON 78%, 구제 2 / 악화 0 / 변화없음 13. 악화가
+# 하나도 없어 트레이드오프가 아니라 순개선이다. 기본을 켠다.
+TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "1") == "1"
 
 # RRF 순위를 LLM으로 재정렬할지(graph.rerank). diagnose.py가 지목한 병목
 # (검색은 top-3에 근거를 올렸는데 생성이 놓치는 10건)을 겨냥한 시도다.

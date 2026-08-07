@@ -53,6 +53,10 @@ eval/
 ├── ab_rewrite_stratified.py  corrective 루프 A/B — 유형별 2문항 층화 표본(51문항 축소판)
 ├── ab_type_routing.py TYPE_ROUTING A/B (aggregation·enumeration만 대상)
 ├── ab_top_n.py        generate 컨텍스트 개수 스윕 (top-3/4/5/6)
+├── ab_neighbor_window.py  NEIGHBOR_WINDOW A/B 반복 재측정
+├── ab_context_order.py    CONTEXT_ORDER A/B 반복 재측정 (reversed/ranked/sandwich)
+├── ab_rerank.py           RERANK A/B (첫 실측)
+├── ab_prompt_variant.py   GENERATE_PROMPT_VARIANT A/B (base vs targeted)
 ├── audit_patterns.py  채점 패턴 감사 (정답을 오답으로 집계하는지 검사)
 ├── audit_docs.py      README-코드 일치 확인 (CI에서 실행)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
@@ -1239,7 +1243,7 @@ K=5부터 200까지 지표가 완전히 평평하고, K=1만 오히려 더 낮�
   백엔드 초기화 단계에서 죽는 것까지 재현해서 확인했다.
   [ollama#16957](https://github.com/ollama/ollama/issues/16957)과 같은 증상.
 
-## 최근 추가 (A/B 전 — 기본은 전부 꺼짐)
+## 최근 추가 (표시 없으면 A/B 전 — 기본 꺼짐)
 
 - **grade 구조화 출력** — `judge_relevance()`가 자유 문장 정규식 파싱 대신
   `ChatOllama.with_structured_output()`으로 `GradeVerdict(relevant: bool)`을
@@ -1249,10 +1253,16 @@ K=5부터 200까지 지표가 완전히 평평하고, K=1만 오히려 더 낮�
 - **리랭커** (`config.RERANK`) — RRF 순위를 로컬 LLM 1회 호출로 다시
   매긴다(listwise, 구조화 출력). cross-encoder 등 새 의존성 없이 diagnose.py가
   지목한 병목(검색O·정답X)을 겨냥.
-- **유형별 라우팅** (`config.TYPE_ROUTING`, `src/route.py`) — 규칙 기반으로
-  질문 유형을 분류해 aggregation은 NEIGHBOR_WINDOW=1, enumeration은
-  CONTEXT_ORDER=sandwich를 그때만 적용한다. 두 손잡이 다 "전역으로 켜면
-  어떤 유형은 좋아지고 어떤 유형은 나빠진다"로 끝났던 것의 절충안.
+- **유형별 라우팅** (`config.TYPE_ROUTING`, `src/route.py`) — ✅ **채택,
+  기본 켜짐(2026-08).** 규칙 기반으로 질문 유형을 분류해 aggregation은
+  NEIGHBOR_WINDOW=1, enumeration은 CONTEXT_ORDER=sandwich를 그때만
+  적용한다. 두 손잡이 다 "전역으로 켜면 어떤 유형은 좋아지고 어떤 유형은
+  나빠진다"로 끝났던 것의 절충안. 재검증(`eval/ab_type_routing.py`,
+  aggregation·enumeration 15문항 × 3회, Kiwi 토크나이저·
+  SEED_MATCH_RATIO=0.7 반영 후): OFF 69% → ON 78%, 구제 2 / 악화 0 /
+  변화없음 13 — 악화가 하나도 없어 트레이드오프가 아니라 순개선이라 기본을
+  켰다. 55문항 전체 재평가로도 같은 방향 확인: 80%(44/55, Kiwi 교체 직후
+  기준선) → 82%(45/55, TYPE_ROUTING 기본 켠 뒤).
 - **`/ask/stream`** — SSE 토큰 스트리밍. generate 노드만 필터링해서
   내보낸다(`stream_mode=["messages","values"]`), grade의 구조화 출력
   토큰은 안 섞인다.

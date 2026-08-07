@@ -1,101 +1,178 @@
 {
   "repeat": 3,
   "model": "qwen2.5:3b",
-  "off_accuracy": 66.7,
-  "on_accuracy": 81.0,
+  "off_accuracy": 68.9,
+  "on_accuracy": 77.8,
   "rescued": [
-    "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
-    "인프라 모니터링에 사용한 도구들을 알려주세요.",
-    "2023년에 게재한 논문은 몇 편인가요?",
-    "한국자동차공학회에 게재한 논문은 몇 편인가요?"
+    "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+    "2023년에 게재한 논문은 몇 편인가요?"
   ],
-  "broken": [
-    "이윤선의 제1저자 논문은 몇 편인가요?"
-  ],
+  "broken": [],
   "off": [
     {
       "question": "이윤선의 제1저자 논문은 몇 편인가요?",
       "type": "aggregation",
-      "passed": 3,
-      "of": 3
+      "passed": 0,
+      "of": 3,
+      "answers": [
+        "이윤선의 제1저자 논문은 4편입니다.",
+        "이윤선의 제1저자 논문은 4편입니다.",
+        "이윤선의 제1저자 논문은 2편입니다."
+      ]
     },
     {
       "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
       "type": "enumeration",
-      "passed": 0,
-      "of": 3
+      "passed": 2,
+      "of": 3,
+      "answers": [
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축 프로젝트는 2024년 3월부터 2025년 4월까지 진행되었으며, 이 프로젝트에서는 회사 최초의 Kubernetes 도입을 목표로 하였습니다. 그녀는 GitLab CI/CD를 사용하여 자동화 및 확장성을 위한 배포 체계를 구축하였습니다.\n\n따라서, 이윤선은 Kubernetes 인프라 구축 과정에서 GitLab CI/CD 도구를 사용한 것으로 보입니다.",
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축에 대한 2022년 8월부터 2025년 4월까지의 프로젝트에서 GitLab CI/CD 도구가 사용되었다고 문서에서 언급되었습니다. 이는 자동화 및 확장성을 위한 Kubernetes 배포를 달성하기 위해 GitLab CI/CD 도구와 함께 GitLab → Jenkins → ArgoCD 배포 자동화를 구축한 것으로 보입니다.\n\n따라서, 이윤선은 Kubernetes 인프라 구축에 GitLab CI/CD 도구를 사용했다고 볼 수 있습니다.",
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축에 대한 2022년 8월부터 2025년 4월까지의 프로젝트에서 GitLab CI/CD 도구가 사용되었다고 문서에서 언급되었습니다. 이는 자동화 및 확장성을 위한 Kubernetes 배포를 달성하기 위해 GitLab CI/CD 도구와 함께 GitLab → Jenkins → ArgoCD 배포 자동화를 구축한 것으로 보입니다.\n\n따라서, 이윤선은 Kubernetes 인프라 구축에 GitLab CI/CD 도구를 사용했다고 볼 수 있습니다."
+      ]
     },
     {
       "question": "이윤선이 근무한 회사들을 알려주세요.",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선은 다음과 같은 회사를 근무했습니다:\n\n1. AICESS (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+        "이윤선은 다음과 같은 회사를 근무했습니다:\n\n1. AI언어개발팀 (현재 재직 중)\n2. AICESS (2025.04~ 현재)\n3. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n4. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 4개월)\n5. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+        "이윤선은 다음과 같은 회사를 근무했습니다:\n\n1. AICESS (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)"
+      ]
     },
     {
       "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
       "type": "enumeration",
-      "passed": 1,
-      "of": 3
+      "passed": 3,
+      "of": 3,
+      "answers": [
+        "이윤선은 다음과 같은 네 회사를 재직했습니다:\n\n1. AICESS (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+        "이윤선은 다음 네 회사를 재직했습니다:\n\n1. AICESS (2025.04~재직중)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+        "이윤선은 다음과 같은 네 회사를 재직했습니다:\n\n1. AICESS (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)"
+      ]
     },
     {
       "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "Kubernetes 배포 자동화를 위한 도구들은 다음과 같은 순서로 연결되었습니다:\n\n1. **GitLab CI/CD**: GitLab의 Continuous Integration and Continuous Deployment (CI/CD) 플랫폼을 사용하여 코드 변경 사항이 발생하면 자동으로 Jenkins와 ArgoCD에 이전됩니다.\n2. **Jenkins**: Jenkins는 GitLab에서 전달받은 CI/CD 작업을 기반으로 Docker 이미지를 생성하고 Kubernetes 클러스터에 배포합니다.\n3. **ArgoCD**: ArgoCD는 Jenkins가 생성한 Docker 이미지와 Kubernetes 리소스를 관리하여, 새로운 배포가 자동으로 Kubernetes 클러스터에 적용됩니다.\n\n이 과정을 통해 GitLab에서의 CI/CD 작업이 Jenkins로 이전되어 Docker 이미지를 생성하고, 그 결과물이 ArgoCD를 통해 Kubernetes 클러스터에 배포되게 되어, Kubernetes 배포 자동화가 이루어집니다.",
+        "Kubernetes 배포 자동화 프로젝트에서는 다음과 같은 도구들이 사용되어 GitLab → Jenkins → ArgoCD의 순서로 배포流程을 자동화했습니다:\n\n1. **GitLab**: 사내에서 생성된 컨테이너 이미지와 관련 정보를 관리하는 플랫폼입니다.\n2. **Jenkins**: CI/CD 프로세스를 구현하기 위한 오픈 소스 테스트 및 배포 도구입니다. Jenkins는 GitLab에서 받은 변경 사항을 검사하고, 필요한 작업들을 자동으로 수행합니다.\n3. **ArgoCD**: Kubernetes 환경의 변화를 관리하는 도구로, ArgoCD는 Jenkins가 생성한 컨테이너 이미지를 Kubernetes 클러스터에 배포하도록 돕습니다.\n\n이렇게 GitLab → Jenkins → ArgoCD의 순서로 연결된 이 세 개의 도구들은 사내에서 생성된 컨테이너 이미지와 관련 정보를 자동으로 배포하고, 이를 통해 Kubernetes 환경을 유지 및 확장하는 데 사용되었습니다.",
+        "Kubernetes 배포 자동화 프로젝트에서는 다음과 같은 도구들이 사용되어 GitLab → Jenkins → ArgoCD의 순서로 배포流程을 자동화했습니다:\n\n1. **GitLab**: 사내에서 생성된 컨테이너 이미지와 관련 정보를 관리하는 플랫폼입니다.\n2. **Jenkins**: CI/CD 프로세스를 구현하기 위한 오픈 소스 테스트 및 배포 도구입니다. Jenkins는 GitLab에서 받은 변경 사항을 검사하고, 필요한 작업들을 자동으로 수행합니다.\n3. **ArgoCD**: Kubernetes 환경의 변화를 관리하는 도구로, ArgoCD는 Jenkins가 생성한 컨테이너 이미지를 Kubernetes 클러스터에 배포하도록 돕습니다.\n\n이렇게 GitLab → Jenkins → ArgoCD의 순서로 연결된 이 세 개의 도구들은 사내에서 생성된 컨테이너 이미지와 관련 정보를 자동으로 배포하고, 이를 통해 Kubernetes 환경을 유지 및 확장하는 데 사용되었습니다."
+      ]
     },
     {
       "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
       "type": "enumeration",
       "passed": 0,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "문서에서 찾을 수 없습니다.",
+        "문서에서 찾을 수 없습니다.",
+        "문서에서 제공된 정보로 인프라 모니터링에 사용한 도구는 명시되어 있지 않습니다. 해당 정보가 문서 내에 포함되어 있지 않아, 문서에서 찾을 수 없습니다."
+      ]
     },
     {
       "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다.",
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다.",
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다."
+      ]
     },
     {
       "question": "보유한 자격증을 알려주세요.",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선님의 보유 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)",
+        "이윤선님의 보유 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)",
+        "이윤선님의 보유 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)"
+      ]
     },
     {
       "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 다음과 같습니다:\n\n- **Frontend**: React 18, TypeScript, Vite",
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React와 TypeScript를 사용합니다. 이를 구현하기 위해 Vite도 함께 사용하고 있습니다. 또한, CSS3를 통해 디자인을 처리하며, Web Audio API를 활용하여 오디오 관련 기능을 제공할 수 있습니다.",
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React와 TypeScript를 사용합니다. 또한 Vite을 이용해 빠른 개발 환경을 제공하며, Web Audio API를 통해 오디오 처리 기능을 구현하고 있습니다."
+      ]
     },
     {
       "question": "등록된 특허는 총 몇 건인가요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "등록된 특허는 총 2건입니다.",
+        "등록된 특허는 총 2건입니다.",
+        "등록된 특허는 총 2건입니다."
+      ]
     },
     {
       "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
       "type": "aggregation",
-      "passed": 3,
-      "of": 3
+      "passed": 2,
+      "of": 3,
+      "answers": [
+        "제1저자 논문 수는 9편이고, 특허 건수는 2건입니다. 따라서 제1저자 논문과 특허를 합치면 총 11개입니다.",
+        "제1저자 논문 수는 7편이고, 특허 건수는 2건입니다. 따라서 제1저자 논문과 특허의 총합은 9개입니다.",
+        "제1저자 논문 수는 7편이고, 특허 건수는 2건입니다. 두 수치를 더하면 총 9개입니다."
+      ]
     },
     {
       "question": "2023년에 게재한 논문은 몇 편인가요?",
       "type": "aggregation",
       "passed": 0,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "2023년에 게재한 논문은 2편입니다. 이 논문들은 모두 국방기술학회에서 출판된 논문으로, 제1저자로 기여했습니다. 논문 제목은 \"국방 데이터 확보를 위한 생성 모델 Lattent Diffusion\" 입니다.",
+        "2023년에 게재한 논문은 2편입니다. 이 논문들은 모두 국방기술학회에서 출판된 논문으로, 제1저자로 기여했습니다. 논문 제목은 \"국방 데이터 확보를 위한 생성 모델 Lattent Diffusion\" 입니다.",
+        "2023년에 게재한 논문은 4편입니다. 이 논문들은 다음과 같습니다:\n\n1. \"국방 데이터 확보를 위한 생성모델 Latent Diffusion 실험\"\n2. \"GAN을 활용한 데이터 생성 연구 동향\"\n3. \"센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석\"\n4. \"자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet\"\n\n이 중 제1저자로 참여한 논문은 4편입니다."
+      ]
     },
     {
       "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
       "type": "aggregation",
       "passed": 0,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "한국자동차공학회에 게재한 논문은 3편입니다. 그 논문들은 다음과 같습니다:\n\n1. [센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11232100)\n2. [자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11220500)\n3. [비정형, 정형 데이터의 이미지 학습을 활용한 시장예측](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002735413)",
+        "한국자동차공학회에 게재한 논문은 3편입니다. 그 논문들은 다음과 같습니다:\n\n1. [센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11232100)\n2. [자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11220500)\n3. [비정형, 정형 데이터의 이미지 학습을 활용한 시장예측](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002735413)",
+        "한국자동차공학회에 게재한 논문은 3편입니다. 그 논문들은 다음과 같습니다:\n\n1. [센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11232100)\n2. [자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11220500)\n3. [비정형, 정형 데이터의 이미지 학습을 활용한 시장예측](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002735413)"
+      ]
     },
     {
       "question": "TTFB는 몇 배 빨라졌나요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "TTFB은 약 6.85배 개선되었습니다.",
+        "TTFB은 약 6.85배 개선되었습니다.",
+        "TTFB은 약 6.85배 개선되었습니다."
+      ]
+    },
+    {
+      "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+      "type": "enumeration",
+      "passed": 3,
+      "of": 3,
+      "answers": [
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n1. Focal loss\n2. Dice loss\n3. Loss function 2D MIoU\n4. Dice regularized Dice loss\n5. Dice regularized Focal loss\n6. Focal regularized Dice loss",
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n1. Focal loss\n2. Dice loss\n3. Loss function 2D MIoU\n4. Dice regularized Dice loss\n5. Dice regularized Focal loss\n6. Focal regularized Dice loss",
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n1. Focal loss\n2. Dice loss\n3. Loss function 2D MIoU\n4. Dice regularized Dice loss\n5. Dice regularized Focal loss\n6. Focal regularized Dice loss"
+      ]
     }
   ],
   "on": [
@@ -103,85 +180,166 @@
       "question": "이윤선의 제1저자 논문은 몇 편인가요?",
       "type": "aggregation",
       "passed": 0,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선의 제1저자 논문은 2편입니다。",
+        "이윤선의 제1저자 논문은 2편입니다。",
+        "이윤선의 제1저자 논문은 2편입니다."
+      ]
     },
     {
       "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
       "type": "enumeration",
-      "passed": 0,
-      "of": 3
+      "passed": 2,
+      "of": 3,
+      "answers": [
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축에 대한 2024년 3월부터 2025년 4월까지의 프로젝트에서 GitLab CI/CD 도구가 사용되었다고 문서에서 언급되었습니다. 이는 자동화 및 확장성을 위한 Kubernetes 배포를 달성하기 위해 GitLab CI/CD 도구를 활용한 것으로 보입니다.",
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축을 담당한 2022년 8월부터 2025년 4월까지의 프로젝트에서 GitLab CI/CD 도구가 사용되었음을 확인할 수 있습니다. 이는 자동화 및 확장성을 위한 Kubernetes 배포를 포함하여 GitLab → Jenkins → ArgoCD 배포 자동화에 활용되었다고 합니다.\n\n따라서, 이윤선은 Kubernetes 인프라 구축 과정에서 GitLab CI/CD 도구를 사용한 것으로 보입니다.",
+        "이윤선さんは AI 엔지니어 및 MLOps 전문가입니다. 그녀의 포트폴리오에서 Kubernetes 기반 인프라 구축과 관련된 기술 중 하나로 GitLab CI/CD 도구를 사용했다는 정보가 있습니다.\n\nKubernetes 기반 AI 인프라 구축을 담당한 2022년 8월부터 2025년 4월까지의 프로젝트에서 GitLab CI/CD 도구가 사용되었음을 확인할 수 있습니다. 이는 자동화 및 확장성을 위한 Kubernetes 배포를 포함하여 GitLab → Jenkins → ArgoCD 배포 자동화에 활용되었다고 합니다.\n\n따라서, 이윤선은 Kubernetes 인프라 구축 과정에서 GitLab CI/CD 도구를 사용한 것으로 보입니다."
+      ]
     },
     {
       "question": "이윤선이 근무한 회사들을 알려주세요.",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선은 다음과 같은 회사를 근무했습니다:\n\n1. AICESS (2025.04~ 현재)\n2. 인피닉 (2022.08 - 2025.04)\n3. 이든티앤에스 (2022.04 - 2022.08)\n4. 큐헷지 (2020.09 - 2021.09)",
+        "이윤선은 다음 회사를 근무했습니다:\n\n1. AICESS (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 약 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 약 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 약 1년 1개월)",
+        "이윤선은 다음과 같은 회사를 근무했습니다:\n\n1. 에이아이세스 (AICESS) - 2025년 4월 23일부터 현재까지\n2. 인피닉 - 2022년 8월 8일부터 2025년 4월 22일까지\n3. 이든티앤에스 - 2022년 4월 4일부터 2022년 8월 5일까지\n4. 큐헷지 - 2020년 9월부터 2021년 9월까지"
+      ]
     },
     {
       "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선은 다음 네 회사를 재직했습니다:\n\n1. 에이아이세스 (AICESS) - 2025년 4월부터 현재까지 재직 중입니다.\n2. 인피닉 - 2022년 8월 8일부터 2025년 4월 22일까지 재직했습니다. (약 2년 9개월)\n3. 이든티앤에스 - 2022년 4월 4일부터 2022년 8월 5일까지 재직했습니다. (약 5개월)\n4. 큐헷지 - 2020년 9월부터 2021년 9월까지 재직했습니다. (약 1년 1개월)",
+        "이윤선은 다음 네 회사를 재직했습니다:\n\n1. 에이아이세스 (AICESS) - 2025년 4월부터 현재까지 재직 중입니다.\n2. 인피닉 - 2022년 8월 8일부터 2025년 4월 22일까지 재직했습니다. \n3. 이든티앤에스 - 2022년 4월 4일부터 2022년 8월 5일까지 재직했습니다.\n4. 큐헷지 - 2020년 9월부터 2021년 9월까지 재직했습니다.",
+        "이윤선은 다음 네 회사를 재직했습니다:\n\n1. AICESS (2025.04~재직중)\n2. 인피닉 (2022.08.08 - 2025.04.22, 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 1년 1개월)"
+      ]
     },
     {
       "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "AI 엔지니어 이윤선의 포트폴리오에서 Kubernetes 기반 AI 인프라 구축 과정을 설명할 때, 배포 자동화를 담당한 GitLab CI/CD, Jenkins, ArgoCD 도구들이 연결되어 있음을 볼 수 있습니다.\n\n이 윤선은 2024년 3월부터 2025년 4월까지 Kubernetes 기반 AI 인프라 구축을 담당했으며, 이 기간 동안 GitLab CI/CD와 Jenkins를 통해 ML 모델 운영 환경을 자동화하고, 이를 ArgoCD를 통해 배포하는 방식으로 배포 자동화를 수행했습니다.\n\n따라서 Kubernetes 배포 자동화 과정은 다음과 같이 연결되어 있었습니다:\n\n1. GitLab CI/CD: 이 윤선은 GitLab CI/CD 도구를 사용하여 새로운 ML 모델의 변경 사항을 감지하고, 이를 Jenkins에 전달합니다.\n2. Jenkins: Jenkins는 GitLab에서 받은 변경 사항을 기반으로 Docker 이미지를 생성하고, 이를 Kubernetes 클러스터로 배포하는 작업을 수행합니다.\n3. ArgoCD: 마지막으로, Jenkins에서 생성된 Kubernetes 리소스를 ArgoCD에 제공하여 실제 배포가 이루어집니다.\n\n이 과정은 GitLab CI/CD → Jenkins → ArgoCD의 순서로 연결되어 있습니다.",
+        "AI 엔지니어 이윤선의 포트폴리오에서 Kubernetes 기반 AI 인프라 구축 과정을 설명할 때, 배포 자동화를 담당한 GitLab CI/CD, Jenkins, ArgoCD 도구들이 연결되어 있음을 볼 수 있습니다. \n\n이 윤선은 2024년 3월부터 2025년 4월까지 Kubernetes 기반 AI 인프라 구축을 담당했으며, 이 기간 동안 GitLab CI/CD와 Jenkins를 통해 ML 모델 운영 환경을 자동화하고, 이를 ArgoCD를 통해 배포하는 방식으로 배포 자동화를 수행했습니다.\n\n먼저, GitLab CI/CD는 프로젝트의 CI(CI) 셀에서 빌드 및 테스트 작업을 처리하며, Jenkins는 CI/CD에서 생성된 결과물인 Docker 이미지를 Kubernetes 클러스터에 배포하는 역할을 담당했습니다. 마지막으로 ArgoCD는 Jenkins에서 배포한 Kubernetes 리소스를 관리하고, 변경 사항을 실시간으로 감지하여 자동화된 방식으로 적용하도록 도와줍니다.\n\n따라서 이 윤선은 GitLab CI/CD → Jenkins → ArgoCD의 순서로 도구들을 연결하여 배포 자동화를 수행한 것으로 보입니다.",
+        "AI 엔지니어 이윤선의 Kubernetes 배포 자동화 과정은 다음과 같은 순서와 도구를 사용하여 이루어졌습니다:\n\n1. **GitLab → Jenkins → ArgoCD**:\n   - GitLab에서 코드가 변경되면, 이를 Jenkins로 전송합니다.\n   - Jenkins는 새로운 배포 정보를 ArgoCD에 알려주어 Kubernetes 리소스의 자동화된 배포가 이루어집니다.\n\n이 과정을 간단히 요약하면:\n\n1. **GitLab**에서 변경 사항이 발생하면, 이 내용은 **Jenkins**로 전송됩니다.\n2. Jenkins는 이러한 변경사항을 인식하고, 이를 **ArgoCD**에 알립니다.\n3. ArgoCD는 Argo의 도구를 사용하여 Kubernetes 리소스를 자동으로 업데이트합니다.\n\n이 과정은 이윤선이 2024년 3월부터 2025년 4월까지 수행한 Kubernetes 기반 AI 인프라 구축 프로젝트에서 이루어진 배포 자동화입니다."
+      ]
     },
     {
       "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
       "type": "enumeration",
-      "passed": 3,
-      "of": 3
+      "passed": 0,
+      "of": 3,
+      "answers": [
+        "문서에서 제공된 정보를 통해 인프라 모니터링에 사용한 도구들이 명시적으로 언급되지 않았습니다. 따라서 이 부분은 문서에서 찾을 수 없습니다.",
+        "문서에서 제공된 정보를 통해 인프라 모니터링에 사용한 도구들이 명시적으로 언급되지 않았습니다. 따라서 이 부분은 문서에서 찾을 수 없습니다.",
+        "문서에서 제공된 정보를 통해 인프라 모니터링에 사용한 도구들이 명시적으로 언급되지 않았습니다. 따라서 이 부분은 문서에서 찾을 수 없습니다."
+      ]
     },
     {
       "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다.",
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다.",
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 카메라와 라이다입니다."
+      ]
     },
     {
       "question": "보유한 자격증을 알려주세요.",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "보유한 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)",
+        "이윤선님의 보유 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)",
+        "이윤선님의 보유 자격증은 다음과 같습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)"
+      ]
     },
     {
       "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
       "type": "enumeration",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React와 TypeScript를 사용합니다. 또한 Vite을 이용해 빠른 개발 환경을 제공하며, Web Audio API를 통해 오디오 처리 기능을 구현하고 있습니다.",
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React와 TypeScript를 사용합니다. 또한 Vite을 이용해 빠른 개발 환경을 제공하며, Web Audio API를 통해 오디오 처리 기능을 구현하고 있습니다.",
+        "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React와 TypeScript를 사용합니다. 또한 Vite을 이용해 빠른 개발 환경을 제공하며, Web Audio API를 통해 오디오 처리 기능을 구현하고 있습니다."
+      ]
     },
     {
       "question": "등록된 특허는 총 몇 건인가요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "등록된 특허는 총 2건입니다.",
+        "등록된 특허는 총 2건입니다.",
+        "등록된 특허는 총 2건입니다."
+      ]
     },
     {
       "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "이윤선 선생님의 포트폴리오에서 확인할 수 있는 이슈는 다음과 같습니다:\n\n- 논문 제1저자 수: 7편\n- 특허 발명자 수: 2건\n\n제1저자 논문 수와 특허 건수를 합치면 총 9개입니다.",
+        "이윤선 선생님의 포트폴리오에서 확인된 정보로, 제1저자 논문 수는 7편이며, 특허 건수는 2건입니다. 따라서 제1저자 논문 수와 특허 건수를 합치면 총 9개가 됩니다.",
+        "이윤선 선생님의 포트폴리오에서 확인할 수 있는 제1저자 논문 수는 7편이고, 특허 건수는 2건입니다. 두 가지를 더하면 총 9개입니다."
+      ]
     },
     {
       "question": "2023년에 게재한 논문은 몇 편인가요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "2023년에 게재한 논문은 3편입니다.",
+        "2023년에 게재한 논문은 3편입니다.",
+        "2023년에 게재한 논문은 3편입니다. 이 논문들은 한국국방기술학회, 한국항공우주학회, 그리고 한국자동차공학회에서 발표되었습니다."
+      ]
     },
     {
       "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
       "type": "aggregation",
-      "passed": 1,
-      "of": 3
+      "passed": 0,
+      "of": 3,
+      "answers": [
+        "한국자동차공학회에 게재한 논문은 3편입니다:\n\n1. \"센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석\" (2023.04)\n2. \"자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet\" (2022.11)\n3. \"비정형, 정형 데이터의 이미지 학습을 활용한 시장예측\" (2021.03)",
+        "한국자동차공학회에 게재한 논문은 3편입니다:\n\n1. \"센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석\" (2023.04)\n2. \"자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet\" (2022.11)\n3. \"비정형, 정형 데이터의 이미지 학습을 활용한 시장예측\" (2021.03)",
+        "한국자동차공학회에 게재한 논문은 3편입니다:\n\n1. \"센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석\" (2023.04)\n2. \"자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet\" (2022.11)\n3. \"비정형, 정형 데이터의 이미지 학습을 활용한 시장예측\" (2021.03)"
+      ]
     },
     {
       "question": "TTFB는 몇 배 빨라졌나요?",
       "type": "aggregation",
       "passed": 3,
-      "of": 3
+      "of": 3,
+      "answers": [
+        "TTFB (Time to First Byte)가 약 **6.85배** 빨라진 것으로 보입니다. 이는 버전에서 버전으로 응답 시간이 약 85.4% 단축된 것을 의미합니다.",
+        "TTFB (Time to First Byte)가 약 **6.85배** 빨라졌습니다. 이는 버전 (deprecated)에서 2292ms로, 신버전에서는 334ms로 줄어들었습니다.",
+        "TTFB (Time to First Byte)가 약 **6.85배** 빨라졌습니다. 이는 버전 (deprecated)에서 2292ms로, 신버전에서는 334ms로 줄어들었습니다."
+      ]
+    },
+    {
+      "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+      "type": "enumeration",
+      "passed": 3,
+      "of": 3,
+      "answers": [
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n- Dice loss: 0.2739\n- Focal loss: 0.2240\n- Dice regularized Dice loss: 0.2749\n- Dice regularized Focal loss: 0.3194\n- Focal regularized Dice loss: 0.3075\n\n이 손실 함수들은 실험 결과에서 제안 방법의 성능을 평가하기 위해 사용되었습니다. 이 중 가장 높은 점수를 기록한 손실 함수는 \"Dice regularized Dice loss\"로, 0.2749이라는 값으로 나타났습니다.",
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n1. Dice loss: 0.2739\n2. Focal loss: 0.2240\n3. Dice regularized Dice loss: 0.2749\n4. Focal regularized Dice loss: 0.3075\n\n이 손실 함수들은 추론 값과 정답 사이의 유사도를 계산하여 가중치를 주어 모델을 학습시키는데 사용되었습니다.",
+        "센서 퓨전 모델 학습에 사용된 손실 함수는 다음과 같습니다:\n\n1. Focal loss\n2. Dice loss\n3. Loss function 2D MIoU\n4. Dice regularized Dice loss\n5. Dice regularized Focal loss\n6. Focal regularized Dice loss"
+      ]
     }
   ]
 }
