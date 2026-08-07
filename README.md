@@ -67,7 +67,8 @@ eval/
 ├── compare_semantic.py        base vs 시맨틱 청킹 recall 비교 (앵커 기반 gold)
 ├── compare_embeddings.py      bge-m3 vs 대안 임베딩 recall 비교 (앵커 기반 gold, 미실행)
 ├── eval_kg_retrieval.py       hybrid vs 그래프 단독 vs RRF 융합 recall@k/MRR (LLM 불필요)
-└── eval_klue_retrieval.py     KLUE-RE 2차 코퍼스에서 같은 3종 비교 (LLM 불필요)
+├── eval_klue_retrieval.py     KLUE-RE 2차 코퍼스에서 같은 3종 비교 (LLM 불필요)
+└── sweep_seed_match_ratio.py  Graph RAG 시드 판정 임계값 스윕 (KLUE-RE, LLM 불필요)
 ```
 
 ### RAG 흐름
@@ -999,6 +1000,26 @@ RRF 같은 균등 융합은 그 강점을 오히려 희석시킬 수 있다.** (
 수 분) → `python eval/eval_klue_retrieval.py`(비교, LLM 없이 수 초).
 단위 테스트(`tests/test_klue_re.py`)는 문장 병합·질문 생성·조사 처리 등
 결정적 로직을, 실제 HF 다운로드 없이 가짜 데이터로 검증한다(7개).
+
+### SEED_MATCH_RATIO 스윕 — 도입 당시 미룬 민감도 분석을 완료
+
+시드 판정 임계값(`kg.SEED_MATCH_RATIO`)은 도입 당시 "스윕은 안 했고, RRF
+융합이 이 실험의 핵심이라 민감도는 후순위로 미뤘다"고 명시적으로 남겨둔
+값(0.6)이었다. KLUE-RE(120문항, Graph RAG가 실제로 채택된 코퍼스)로
+`eval/sweep_seed_match_ratio.py`를 돌려 0.3~0.9를 스윕했다:
+
+| ratio | 평균 시드 수 | kg_only@1 | fused@1 | fused@6 |
+|---|---|---|---|---|
+| 0.3 | 6.19 | 78% | 84% | 99% |
+| 0.6 (기존값) | 1.23 | 92% | 83% | 100% |
+| **0.7** | **0.97** | **93%** | **85%** | **100%** |
+| 0.8 | 0.97 | 93% | 85% | 100% |
+| 0.9 | 0.97 | 93% | 85% | 100% |
+
+0.6은 최적이 아니었다 — 0.7로 올리면 평균 시드 수가 1.23→0.97로 줄면서
+(느슨한 매칭이 걷어내던 무관 엔티티 감소) kg_only@1·fused@1이 오히려
+오른다. 0.8·0.9는 0.7과 완전히 같아 그 이상 올릴 이유가 없다 — 0.7이
+"더 이상 엄격해져도 결과가 안 바뀌는" elbow다. **0.7로 채택.**
 
 ## 비정형 문서 확장 — PDF·DOCX·HWPX 파싱
 
