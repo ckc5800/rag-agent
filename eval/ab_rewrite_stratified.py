@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from ab_rewrite import run_condition  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 RESULTS = Path(__file__).parent / "results_ab_rewrite_stratified.json"
 EVAL_SET = Path(__file__).parent / "eval_set.json"
@@ -91,6 +92,7 @@ def main() -> int:
     RESULTS.write_text(json.dumps({
         "sample_size": len(sample), "per_type": PER_TYPE, "repeat": repeat,
         "model": config.LLM_MODEL,
+        "env": run_metadata(),
         "off_accuracy": round(off_rate * 100, 1),
         "on_accuracy": round(on_rate * 100, 1),
         "rescued": rescued, "broken": broken,

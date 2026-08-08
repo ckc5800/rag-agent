@@ -34,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config  # noqa: E402
 from evaluate import EVAL_SET, is_pass  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 RESULTS = Path(__file__).parent / "results_ab_rewrite.json"
 
@@ -126,6 +127,7 @@ def main() -> int:
 
     RESULTS.write_text(json.dumps({
         "repeat": args.repeat, "model": config.LLM_MODEL,
+        "env": run_metadata(),
         "off_accuracy": round(off_rate * 100, 1),
         "on_accuracy": round(on_rate * 100, 1),
         "off_median_sec": off_med, "on_median_sec": on_med,

@@ -77,6 +77,20 @@ for name in re.findall(r"`(TOP_K|GENERATE_TOP_N|NEIGHBOR_WINDOW|CONTEXT_ORDER|"
     if not hasattr(config, name):
         problems.append(f"[손잡이 없음] README가 {name}을 언급하는데 config에 없음")
 
+# 6. A/B·스윕 스크립트가 환경 지문(runmeta)을 기록하는가
+#
+# 이 저장소는 "90% vs 74%가 비교 가능한지 판단할 근거가 결과 파일에 없다"로
+# 한 번 데였고 runmeta.py를 만들었다. 그런데 실제로 쓰는 건 evaluate.py
+# 하나뿐이었고 A/B·스윕 9개가 전부 빠져 있었다 — 3B 결과와 14B 결과가 한
+# 폴더에 섞여도 파일만 보고는 구분할 수 없었다. 관례를 사람 기억이 아니라
+# 빌드로 강제한다.
+for p in sorted((REPO / "eval").glob("ab_*.py")) + sorted((REPO / "eval").glob("sweep_*.py")):
+    src = p.read_text(encoding="utf-8")
+    if "run_metadata" not in src:
+        problems.append(
+            f"[지문 누락] {p.name} 이 결과를 저장하는데 runmeta.run_metadata()를 "
+            "기록하지 않음 (모델·인덱스를 모르면 나중에 비교 불가)")
+
 if problems:
     print("문서-코드 불일치:")
     for p in problems:

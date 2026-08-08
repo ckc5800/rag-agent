@@ -42,6 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from evaluate import EVAL_SET, is_pass  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 from graph import build_graph  # noqa: E402
 from route import should_use_team  # noqa: E402
 from team import build_team  # noqa: E402
@@ -120,6 +121,7 @@ def main() -> int:
         print(f"  {t:<12}{row}")
 
     RESULTS.write_text(json.dumps({
+        "env": run_metadata(),
         "repeat": args.repeat, "judgements": n,
         "totals": {c: sum(hits[c].values()) for c in CONDITIONS},
         "avg_sec": {c: round(sum(secs[c]) / len(secs[c]), 1) for c in CONDITIONS},

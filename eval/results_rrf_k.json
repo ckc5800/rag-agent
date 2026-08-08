@@ -1,58 +1,31 @@
-[
-  {
-    "rrf_k": 1,
-    "recall@1": 57,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.711
+{
+  "env": {
+    "llm_model": "qwen2.5:3b",
+    "embed_model": "bge-m3",
+    "ollama_version": "0.32.6",
+    "vector_store": "faiss",
+    "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
+    "n_chunks": 58,
+    "params": {
+      "TOP_K": 6,
+      "GENERATE_TOP_N": 5,
+      "MAX_REWRITES": 1,
+      "CHUNK_SIZE": 800,
+      "CHUNK_OVERLAP": 100
+    },
+    "host": {
+      "os": "Windows-10-10.0.19045-SP0",
+      "python": "3.14.4",
+      "gpu": "NVIDIA GeForce RTX 2070"
+    }
   },
-  {
-    "rrf_k": 5,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 10,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 20,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 40,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 60,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 100,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  },
-  {
-    "rrf_k": 200,
-    "recall@1": 50,
-    "recall@3": 79,
-    "recall@6": 93,
-    "mrr": 0.669
-  }
-]
+  "rows": [
+    {
+      "rrf_k": 60,
+      "recall@1": 50,
+      "recall@3": 79,
+      "recall@6": 93,
+      "mrr": 0.669
+    }
+  ]
+}

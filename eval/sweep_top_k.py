@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 import config  # noqa: E402
 import graph  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 RESULTS = Path(__file__).parent / "results_top_k.json"
@@ -81,7 +82,10 @@ def main() -> int:
     print(f"\n주의: 후보를 늘려도 generate가 받는 건 {gen_n}개로 동일하므로"
           "\n      컨텍스트 길이·지연은 변하지 않는다. 순위만 좋아진다.")
 
-    RESULTS.write_text(json.dumps(rows, ensure_ascii=False, indent=2),
+    # 이 스크립트는 루프에서 config.TOP_K를 바꾸므로 지문의 params.TOP_K는
+    # **마지막 스텝** 값이다. 스윕한 값 자체는 rows에 들어 있다.
+    RESULTS.write_text(json.dumps({"env": run_metadata(), "rows": rows},
+                                  ensure_ascii=False, indent=2),
                        encoding="utf-8")
     print(f"\n저장: {RESULTS}")
     return 0

@@ -18,6 +18,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 import config  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 # 질문 → 정답이 반드시 담겨 있어야 하는 문자열(하나라도 포함하면 gold)
 ANCHORS = {
@@ -144,7 +145,10 @@ def main():
 
     import json
     out = Path(__file__).parent / "results_chunk_sweep.json"
-    out.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    # 이 스크립트는 인덱스를 매 스텝 덮어쓰므로 지문의 n_chunks·md5는
+    # **마지막 스텝** 값이다. 비교에 쓸 건 embed_model·host 쪽이다.
+    out.write_text(json.dumps({"env": run_metadata(), "rows": rows},
+                              ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n저장: {out}")
     print("주의: 이 스크립트는 인덱스와 chunks.jsonl을 덮어쓴다. "
           "끝나면 `python src/ingest.py`로 기본 설정(800자) 복구할 것.")

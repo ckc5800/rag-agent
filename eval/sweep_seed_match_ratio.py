@@ -27,6 +27,7 @@ from langchain_ollama import OllamaEmbeddings  # noqa: E402
 
 import config  # noqa: E402
 import kg  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 import klue_re  # noqa: E402
 from eval_klue_retrieval import score  # noqa: E402
 from graph import bm25_tokenize  # noqa: E402
@@ -57,8 +58,12 @@ def main() -> int:
     cases = json.loads(klue_re.KLUE_RETRIEVAL_SET.read_text(encoding="utf-8"))
     g = kg.load(klue_re.KLUE_GRAPH_PATH)
     store, bm25, chunks_by_index = load_klue_index()
+    # LLM은 안 쓰지만 임베딩 모델이 융합 결과를 좌우하므로 함께 남긴다.
+    # (n_chunks·index_chunks_md5는 **원 코퍼스** 지문이라 KLUE 실험과는 무관 —
+    #  여기서 의미 있는 건 embed_model·host 쪽이다.)
+    env = run_metadata()
     print(f"그래프: 노드 {g.number_of_nodes()}개, 엣지 {g.number_of_edges()}개, "
-          f"질문 {len(cases)}건\n")
+          f"질문 {len(cases)}건 · embed={env['embed_model']}\n")
 
     def hy(q):
         return klue_re.hybrid_search(q, store, bm25, config.TOP_K)
@@ -100,7 +105,8 @@ def main() -> int:
           f"({best_fused['fused']['recall@6']}%, MRR {best_fused['fused']['mrr']})")
     print(f"현재 코드 값: SEED_MATCH_RATIO={original_ratio}")
 
-    RESULTS.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    RESULTS.write_text(json.dumps({"env": env, "corpus": "klue-re", "rows": rows},
+                                  ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n저장: {RESULTS}")
     return 0
 

@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config  # noqa: E402
 from evaluate import is_pass  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 RESULTS = Path(__file__).parent / "results_ab_route_variants.json"
@@ -92,8 +93,10 @@ def main() -> int:
     cases = [c for c in json.loads(EVAL_SET.read_text(encoding="utf-8"))
              if c.get("type") in TARGET_TYPES]
     n = len(cases) * args.repeat
+    # 환경 지문은 **조합 루프가 config·route.ROUTES를 변형하기 전에** 찍는다.
+    env = run_metadata()
     print(f"{len(cases)}문항(aggregation·enumeration) × {len(args.variants)}조합 "
-          f"× {args.repeat}회\n")
+          f"× {args.repeat}회 (model={env['llm_model']})\n")
 
     out = {}
     for v in args.variants:
@@ -130,7 +133,7 @@ def main() -> int:
             print("  (없음)")
 
     RESULTS.write_text(json.dumps(
-        {"repeat": args.repeat,
+        {"env": env, "repeat": args.repeat,
          "variants": {v: VARIANTS[v] for v in args.variants},
          "results": {v: {"accuracy": round(sum(out[v].values()) / n * 100, 1),
                          "per_question": dict(out[v])} for v in args.variants}},

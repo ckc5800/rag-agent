@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 import config  # noqa: E402
 import graph  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 RETRIEVAL_SET = Path(__file__).parent / "retrieval_set.json"
 RESULTS = Path(__file__).parent / "results_rrf_k.json"
@@ -51,7 +52,10 @@ def main() -> int:
     args = ap.parse_args()
 
     cases = json.loads(RETRIEVAL_SET.read_text(encoding="utf-8"))
-    print(f"{len(cases)}문항 · 현재 코드 값 RRF_K={config.RRF_K}\n")
+    # LLM은 안 쓰지만 임베딩 모델·인덱스 지문이 recall을 좌우하므로 함께 남긴다.
+    env = run_metadata()
+    print(f"{len(cases)}문항 · 현재 코드 값 RRF_K={config.RRF_K} "
+          f"· embed={env['embed_model']} · 인덱스 {env['n_chunks']}청크\n")
     print(f"{'RRF_K':>6} {'recall@1':>9} {'recall@3':>9} {'recall@6':>9} {'MRR':>7}")
 
     rows = []
@@ -76,7 +80,8 @@ def main() -> int:
           f"({best['recall@1']}%, MRR {best['mrr']})")
     print(f"현재 코드 값: RRF_K={config.RRF_K}")
 
-    RESULTS.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    RESULTS.write_text(json.dumps({"env": env, "rows": rows},
+                                  ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n저장: {RESULTS}")
     return 0
 

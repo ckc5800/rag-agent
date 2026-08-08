@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config  # noqa: E402
 from evaluate import is_pass  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 EVAL_SET = Path(__file__).parent / "eval_set.json"
 RESULTS = Path(__file__).parent / "results_ab_type_routing.json"
@@ -92,6 +93,7 @@ def main() -> int:
 
     RESULTS.write_text(json.dumps({
         "repeat": args.repeat, "model": config.LLM_MODEL,
+        "env": run_metadata(),
         "off_accuracy": round(off_rate * 100, 1),
         "on_accuracy": round(on_rate * 100, 1),
         "rescued": rescued, "broken": broken,

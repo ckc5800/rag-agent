@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config  # noqa: E402
 from evaluate import EVAL_SET, is_pass  # noqa: E402
+from runmeta import run_metadata  # noqa: E402
 
 RESULTS = Path(__file__).parent / "results_ab_context_order.json"
 
@@ -55,7 +56,10 @@ def main() -> int:
 
     cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
     n = len(cases) * args.repeat
-    print(f"{len(cases)}문항 × {len(args.values)}조건 × {args.repeat}회\n")
+    # 환경 지문은 **조건 루프가 config를 변형하기 전에** 찍는다.
+    env = run_metadata()
+    print(f"{len(cases)}문항 × {len(args.values)}조건 × {args.repeat}회 "
+          f"(model={env['llm_model']})\n")
 
     out = {}
     for v in args.values:
@@ -90,7 +94,7 @@ def main() -> int:
                       f"{out[b]['tally'][q]}/{args.repeat}  {q[:44]}")
 
     RESULTS.write_text(json.dumps(
-        {"repeat": args.repeat,
+        {"env": env, "repeat": args.repeat,
          "conditions": {v: {"accuracy": round(
              sum(out[v]["tally"].values()) / n * 100, 1),
              "median_sec": round(out[v]["median_sec"], 2),
