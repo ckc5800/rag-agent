@@ -1281,3 +1281,67 @@ def test_chunk_semantically_uses_injected_embed_fn():
     text = "가나다. 라마바. 사아자.\n\n차카타. 파하거. 너더러."
     chunks = chunk_semantically(text, fake_embed, percentile=50, max_chars=1000, min_chars=1)
     assert len(chunks) >= 2   # 클러스터 전환이 최소 한 번은 잡혀야 한다
+
+
+# ── 라우팅 배선 회귀 테스트 ──
+#
+# 유형별 라우팅은 오래 `graph.ask()` 안에서만 걸려 있었고, 정작 실사용·평가
+# 경로(api.py·cli.py·eval/evaluate.py)는 `graph.invoke()`를 직접 불러 **라우팅을
+# 통째로 건너뛰고 있었다**. 그래서 TYPE_ROUTING=1을 켜도 서빙에 반영되지 않았고,
+# evaluate.py로 잰 "켠 전후" 수치는 같은 코드 경로를 두 번 잰 것이었다.
+# 진입점을 graph.run()으로 모아 고쳤으니, 그 계약이 깨지지 않는지 고정한다.
+
+def test_run_applies_type_routing_overrides():
+    """run()이 aggregation 질문에 route.ROUTES 오버라이드를 적용하는가."""
+    import config
+    import graph as g
+    import route
+
+    seen = []
+    original = g.context_docs
+    g.context_docs = lambda docs: (
+        seen.append((config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N)), original(docs))[1]
+    fake = type("G", (), {"invoke": lambda self, s: (g.context_docs([]), {})[1]})()
+    prev = config.TYPE_ROUTING
+    try:
+        config.TYPE_ROUTING = True
+        g.run("등록된 특허는 총 몇 건인가요?", graph=fake)
+        expected = (route.ROUTES["aggregation"]["NEIGHBOR_WINDOW"],
+                    route.ROUTES["aggregation"]["GENERATE_TOP_N"])
+        assert seen == [expected], f"라우팅 미적용: {seen} != [{expected}]"
+    finally:
+        g.context_docs = original
+        config.TYPE_ROUTING = prev
+
+
+def test_run_restores_config_after_routing():
+    """오버라이드가 실행 후 원래 값으로 복원되는가 (전역 오염 방지)."""
+    import config
+    import graph as g
+
+    before = (config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N)
+    fake = type("G", (), {"invoke": lambda self, s: {}})()
+    prev = config.TYPE_ROUTING
+    try:
+        config.TYPE_ROUTING = True
+        g.run("등록된 특허는 총 몇 건인가요?", graph=fake)
+        assert (config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N) == before
+    finally:
+        config.TYPE_ROUTING = prev
+
+
+def test_uses_team_is_gated_by_config_flag():
+    """TEAM_ROUTING이 꺼져 있으면 멀티홉 질문도 팀으로 안 보낸다."""
+    import config
+    import graph as g
+
+    multihop = "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?"
+    prev = config.TEAM_ROUTING
+    try:
+        config.TEAM_ROUTING = False
+        assert g.uses_team(multihop) is False
+        config.TEAM_ROUTING = True
+        assert g.uses_team(multihop) is True          # comparison → 팀
+        assert g.uses_team("영어 OPIc 등급은 무엇인가요?") is False   # fact → 단일
+    finally:
+        config.TEAM_ROUTING = prev

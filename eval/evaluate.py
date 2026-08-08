@@ -76,7 +76,11 @@ def is_pass(answer: str, case: dict) -> bool:
 
 
 def main():
-    from graph import build_graph  # noqa: E402  (지연 임포트 — rescore.py가 LLM 없이 is_pass만 쓰게)
+    # 지연 임포트 — rescore.py가 LLM 없이 is_pass만 쓰게.
+    # run()을 쓰는 이유: graph.invoke를 직접 부르면 유형별 라우팅을 건너뛴다.
+    # 예전엔 그 상태여서 "TYPE_ROUTING 켠 전후"를 이 스크립트로 재도 **같은
+    # 코드 경로를 두 번 잰 것**이라 차이가 나올 수 없었다(README 정정 참고).
+    from graph import build_graph, run  # noqa: E402
 
     cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
     graph = build_graph()
@@ -85,9 +89,7 @@ def main():
     passed = 0
     for i, case in enumerate(cases, 1):
         t0 = time.time()
-        out = graph.invoke(
-            {"question": case["question"], "query": case["question"], "rewrites": 0}
-        )
+        out = run(case["question"], graph=graph)
         elapsed = time.time() - t0
 
         answer = out["answer"]

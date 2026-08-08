@@ -2,7 +2,7 @@
 import time
 
 import tracelog
-from graph import build_graph, warmup
+from graph import build_graph, run, warmup
 from preflight import check_all
 
 
@@ -16,7 +16,7 @@ def main():
         if not q or q.lower() == "q":
             break
         t0 = time.time()
-        result = graph.invoke({"question": q, "query": q, "rewrites": 0})
+        result = run(q, graph=graph)   # graph.invoke 직접 호출은 라우팅을 건너뛴다
         tracelog.log(q, result, time.time() - t0, source="cli")
         print(f"\n{result['answer']}")
         print(f"\n[출처: {', '.join(result['sources'])}"

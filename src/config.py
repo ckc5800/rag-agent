@@ -190,6 +190,19 @@ MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))
 # 하나도 없어 트레이드오프가 아니라 순개선이다. 기본을 켠다.
 TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "1") == "1"
 
+# 멀티홉 질문만 team.py(Planner→Workers→Synthesizer)로 보낼지(route.should_use_team).
+#
+# 측정은 있었는데 **배선이 없었다** — ab_team_routing.py가 routed 42/44(95%)
+# vs single 34/44(77%)로 이 저장소 최대 개선폭(+18%p)을 냈는데, 정작
+# should_use_team()을 부르는 건 그 평가 스크립트뿐이었고 api.py·cli.py는
+# 단일 그래프로만 갔다. 값이 증명된 기능이 제품에 없던 셈이라 연결한다.
+#
+# 기본은 꺼둔다 — 그 +18%p는 **qwen2.5:14b·22문항** 기준이고 이 저장소의
+# 기본 모델은 3b다. 팀 경로는 질의당 LLM 호출이 여러 번(계획→하위질문 N개→
+# 종합) 늘어 3b·CPU에서는 지연이 크게 는다. 현재 기본 조건에서 재측정한 뒤
+# 켤지 정한다(eval/ab_team_routing.py).
+TEAM_ROUTING = os.environ.get("TEAM_ROUTING", "0") == "1"
+
 # RRF 순위를 LLM으로 재정렬할지(graph.rerank). diagnose.py가 지목한 병목
 # (검색은 top-3에 근거를 올렸는데 생성이 놓치는 10건)을 겨냥한 시도다.
 # LLM 호출이 질의당 1회 늘어(retrieve 직후) 지연이 커진다.

@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 import cache
 import tracelog
-from graph import build_graph, warmup
+from graph import _type_routing, build_graph, run, uses_team, warmup
 from preflight import check_all
 
 graph = None
@@ -44,6 +44,9 @@ class AskResponse(BaseModel):
     # "확인했더니 근거 있음"을 구분하기 위해 False가 아니라 None을 쓴다.
     grounded: bool | None = None
     unsupported_claim: str | None = None
+    # 어느 경로로 답했는지 — "single"(단일 RAG) | "team"(멀티에이전트).
+    # 서빙 로그에서 구분되지 않으면 라우팅이 실제로 걸렸는지 알 수 없다.
+    route: str = "single"
 
 
 @app.post("/ask", response_model=AskResponse)
@@ -57,9 +60,17 @@ def ask(req: AskRequest):
         return AskResponse(**hit, cached=True)
 
     try:
-        result = graph.invoke(
-            {"question": req.question, "query": req.question, "rewrites": 0}
-        )
+        # graph.invoke를 직접 부르면 유형별 라우팅(_type_routing)을 건너뛴다 —
+        # 실제로 그 상태였고 TYPE_ROUTING=1이 서빙에 반영되지 않고 있었다.
+        # 라우팅이 붙는 자리는 graph.run()/uses_team() 하나로 모았다.
+        if uses_team(req.question):
+            import team
+            r = team.ask_team(req.question)
+            result = {"answer": r["answer"], "sources": r["sources"],
+                      "rewrites": 0, "route": "team"}
+        else:
+            result = dict(run(req.question, graph=graph))
+            result["route"] = "single"
     except Exception as e:                                   # noqa: BLE001
         # 대부분 Ollama 다운·모델 언로드다. 스택트레이스 대신 원인을 준다.
         raise HTTPException(
@@ -72,6 +83,7 @@ def ask(req: AskRequest):
         "rewrites": result["rewrites"],
         "grounded": result.get("grounded"),
         "unsupported_claim": result.get("unsupported_claim"),
+        "route": result["route"],
     }
     cache.put(req.question, payload)
     tracelog.log(req.question, payload, time.time() - t0, cached=False)
@@ -103,17 +115,21 @@ def ask_stream(req: AskRequest):
 
         final_state = {}
         try:
-            for mode, chunk in graph.stream(
-                {"question": req.question, "query": req.question, "rewrites": 0},
-                stream_mode=["messages", "values"],
-            ):
-                if mode == "messages":
-                    msg_chunk, metadata = chunk
-                    if (metadata.get("langgraph_node") == "generate"
-                            and msg_chunk.content):
-                        yield (f"data: {json.dumps({'token': msg_chunk.content}, ensure_ascii=False)}\n\n")
-                elif mode == "values":
-                    final_state = chunk
+            # /ask 와 같은 이유로 라우팅을 걸어야 한다. 여기는 스트리밍이라
+            # run()을 못 쓰고(제너레이터를 돌려야 한다) 컨텍스트 매니저를
+            # 직접 감싼다 — 두 엔드포인트가 다른 설정으로 답하면 안 된다.
+            with _type_routing(req.question):
+                for mode, chunk in graph.stream(
+                    {"question": req.question, "query": req.question, "rewrites": 0},
+                    stream_mode=["messages", "values"],
+                ):
+                    if mode == "messages":
+                        msg_chunk, metadata = chunk
+                        if (metadata.get("langgraph_node") == "generate"
+                                and msg_chunk.content):
+                            yield (f"data: {json.dumps({'token': msg_chunk.content}, ensure_ascii=False)}\n\n")
+                    elif mode == "values":
+                        final_state = chunk
         except Exception as e:                               # noqa: BLE001
             yield f"data: {json.dumps({'error': f'{type(e).__name__}: {e}'}, ensure_ascii=False)}\n\n"
             return
@@ -124,6 +140,12 @@ def ask_stream(req: AskRequest):
             "rewrites": final_state.get("rewrites", 0),
             "grounded": final_state.get("grounded"),
             "unsupported_claim": final_state.get("unsupported_claim"),
+            # 스트리밍은 **항상 단일 경로**다. 팀 경로는 하위 질문을 다 푼 뒤
+            # 종합해야 첫 토큰이 나와서 스트리밍의 이점이 없고, 지금 구조로는
+            # generate 노드가 여러 번 돌아 토큰이 뒤섞인다. 그래서 /ask 와
+            # /ask/stream 이 같은 멀티홉 질문에 다른 경로로 답할 수 있다 —
+            # 숨기지 말고 응답에 표시한다(알려진 제약).
+            "route": "single",
         }
         cache.put(req.question, payload)
         tracelog.log(req.question, payload, time.time() - t0, cached=False,

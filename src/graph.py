@@ -711,16 +711,60 @@ def build_graph():
     return g.compile()
 
 
-def ask(question: str) -> dict:
-    graph = build_graph()
+def run(question: str, graph=None) -> dict:
+    """질의 1건을 **라우팅을 적용해** 실행하고 State 전체를 반환한다.
+
+    이 함수가 생긴 이유 — 예전엔 `_type_routing`을 `ask()` 안에서만 걸었는데,
+    정작 실사용·평가 경로는 `graph.invoke()`를 직접 불러서 **라우팅을 통째로
+    건너뛰고 있었다**(api.py·cli.py·eval/evaluate.py). 즉 `TYPE_ROUTING=1`을
+    켜도 서빙에는 반영되지 않았고, evaluate.py로 잰 "라우팅 켠 전후" 수치는
+    같은 코드 경로를 두 번 잰 것이라 애초에 차이가 나올 수 없었다(실측으로
+    확인: aggregation 질문 실행 중 관측된 (NEIGHBOR_WINDOW, GENERATE_TOP_N)이
+    invoke 직접 호출은 (0,5), ask()는 (1,3)).
+
+    그래서 **진입점을 하나로 모은다**. 질의를 실행하는 코드는 전부 이 함수를
+    거치게 해서, 라우팅이 붙는 자리가 한 군데만 존재하도록 한다.
+
+    graph를 넘기면 그걸 쓴다 — api.py는 기동 시 1회만 컴파일해 두고 재사용한다.
+    """
+    g = graph if graph is not None else build_graph()
     with _type_routing(question):
-        result = graph.invoke(
-            {"question": question, "query": question, "rewrites": 0}
-        )
+        return g.invoke({"question": question, "query": question, "rewrites": 0})
+
+
+def uses_team(question: str) -> bool:
+    """이 질의를 멀티에이전트 팀으로 보낼 것인가 (config.TEAM_ROUTING 게이트).
+
+    route를 지연 임포트하는 이유는 _type_routing과 같다 — team.py가
+    graph.py를 임포트하므로 모듈 최상위에서 부르면 순환이 된다.
+    """
+    if not config.TEAM_ROUTING:
+        return False
+    import route
+    return route.should_use_team(question)
+
+
+def ask(question: str) -> dict:
+    """질의 1건에 답한다 — 서빙·평가가 공유하는 단일 진입점.
+
+    TEAM_ROUTING이 켜져 있고 멀티홉 질문이면 team.py로 보낸다. 팀 경로는
+    하위 답변을 종합하므로 rewrites 개념이 없어 0으로 채운다(질의 재작성은
+    worker 안에서 별도로 일어난다). 어느 경로를 탔는지는 `route` 키로
+    돌려준다 — 서빙 로그·평가에서 구분할 수 있어야 한다.
+    """
+    if uses_team(question):
+        import team
+        r = team.ask_team(question)
+        return {"answer": r["answer"], "sources": r["sources"],
+                "rewrites": 0, "route": "team",
+                "sub_questions": r["sub_questions"]}
+
+    result = run(question)
     return {
         "answer": result["answer"],
         "sources": result["sources"],
         "rewrites": result["rewrites"],
+        "route": "single",
     }
 
 
