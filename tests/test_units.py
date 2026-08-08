@@ -1345,3 +1345,27 @@ def test_uses_team_is_gated_by_config_flag():
         assert g.uses_team("영어 OPIc 등급은 무엇인가요?") is False   # fact → 단일
     finally:
         config.TEAM_ROUTING = prev
+
+
+def test_enumeration_catches_numeral_plus_gaji():
+    """'센서 두 가지는 무엇인가요' — 수사+가지는 답이 목록임을 질문이 못박는다.
+    '몇 가지'만 보다가 놓쳤던 형태."""
+    from route import classify_question_type
+    assert classify_question_type(
+        "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?") == "enumeration"
+    assert classify_question_type("몇 가지 방법이 있나요?") == "enumeration"
+
+
+def test_classifier_keeps_precision_on_lookalike_fact_questions():
+    """리콜을 넓힐 때 정밀도가 깨지지 않는지 고정한다.
+
+    'X는 무엇인가요'·'어떤 X를 사용'은 표면형이 같아도 대부분 fact/refusal이라
+    (75문항 실측: 무엇인가요 16건 중 enumeration은 3건뿐) 잡으면 손해다.
+    이 문항들이 fact로 남아 있어야 한다.
+    """
+    from route import classify_question_type
+    for q in ["영어 OPIc 등급은 무엇인가요?",
+              "화자 분할에는 어떤 모델을 사용했나요?",
+              "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+              "이윤선의 혈액형은 무엇인가요?"]:
+        assert classify_question_type(q) == "fact", q
