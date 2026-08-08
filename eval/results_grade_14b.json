@@ -1,0 +1,314 @@
+{
+  "summary": {
+    "model": "qwen2.5:14b",
+    "repeat": 3,
+    "cases": 21,
+    "accuracy": 100.0,
+    "always_sufficient_baseline": 47.6,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "unparsed_rate": 0.0,
+    "flip_cases": 0,
+    "by_kind": {
+      "positive": 10,
+      "shuffled": 7,
+      "out-of-scope": 4
+    }
+  },
+  "cases": [
+    {
+      "kind": "positive",
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.8
+    },
+    {
+      "kind": "positive",
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "positive",
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "positive",
+      "question": "등록된 특허 번호를 알려주세요.",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.4
+    },
+    {
+      "kind": "positive",
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.4
+    },
+    {
+      "kind": "positive",
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "positive",
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.6
+    },
+    {
+      "kind": "positive",
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "positive",
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "positive",
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "expected": "yes",
+      "verdicts": [
+        "yes",
+        "yes",
+        "yes"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "shuffled",
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "shuffled",
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.4
+    },
+    {
+      "kind": "shuffled",
+      "question": "등록된 특허 번호를 알려주세요.",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.4
+    },
+    {
+      "kind": "shuffled",
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "shuffled",
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "shuffled",
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "shuffled",
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.4
+    },
+    {
+      "kind": "out-of-scope",
+      "question": "이윤선의 혈액형이 뭐야?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    },
+    {
+      "kind": "out-of-scope",
+      "question": "이윤선이 키우는 반려동물 이름은?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.6
+    },
+    {
+      "kind": "out-of-scope",
+      "question": "이윤선의 토익 점수는 몇 점이야?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.6
+    },
+    {
+      "kind": "out-of-scope",
+      "question": "이윤선이 좋아하는 음식은 뭐야?",
+      "expected": "no",
+      "verdicts": [
+        "no",
+        "no",
+        "no"
+      ],
+      "passed": 3,
+      "of": 3,
+      "flipped": false,
+      "sec": 0.5
+    }
+  ]
+}

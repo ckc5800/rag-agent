@@ -1,0 +1,2317 @@
+{
+  "overall": {
+    "@1": {
+      "satisfied": 56,
+      "best_cov": 60,
+      "any_anchor": 64
+    },
+    "@3": {
+      "satisfied": 84,
+      "best_cov": 87,
+      "any_anchor": 90
+    },
+    "@5": {
+      "satisfied": 92,
+      "best_cov": 95,
+      "any_anchor": 97
+    },
+    "@6": {
+      "satisfied": 97,
+      "best_cov": 99,
+      "any_anchor": 100
+    }
+  },
+  "baseline": {
+    "@1": {
+      "satisfied": 2,
+      "best_cov": 3,
+      "any_anchor": 4
+    },
+    "@3": {
+      "satisfied": 7,
+      "best_cov": 9,
+      "any_anchor": 12
+    },
+    "@5": {
+      "satisfied": 12,
+      "best_cov": 15,
+      "any_anchor": 19
+    },
+    "@6": {
+      "satisfied": 14,
+      "best_cov": 18,
+      "any_anchor": 22
+    }
+  },
+  "by_type": {
+    "fact": {
+      "@1": {
+        "satisfied": 78,
+        "best_cov": 78,
+        "any_anchor": 78
+      },
+      "@3": {
+        "satisfied": 96,
+        "best_cov": 96,
+        "any_anchor": 96
+      },
+      "@5": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@6": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      }
+    },
+    "aggregation": {
+      "@1": {
+        "satisfied": 71,
+        "best_cov": 76,
+        "any_anchor": 86
+      },
+      "@3": {
+        "satisfied": 86,
+        "best_cov": 86,
+        "any_anchor": 86
+      },
+      "@5": {
+        "satisfied": 86,
+        "best_cov": 86,
+        "any_anchor": 86
+      },
+      "@6": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      }
+    },
+    "enumeration": {
+      "@1": {
+        "satisfied": 38,
+        "best_cov": 38,
+        "any_anchor": 38
+      },
+      "@3": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@5": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@6": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      }
+    },
+    "comparison": {
+      "@1": {
+        "satisfied": 10,
+        "best_cov": 25,
+        "any_anchor": 40
+      },
+      "@3": {
+        "satisfied": 30,
+        "best_cov": 50,
+        "any_anchor": 70
+      },
+      "@5": {
+        "satisfied": 60,
+        "best_cov": 78,
+        "any_anchor": 90
+      },
+      "@6": {
+        "satisfied": 80,
+        "best_cov": 92,
+        "any_anchor": 100
+      }
+    },
+    "temporal": {
+      "@1": {
+        "satisfied": 40,
+        "best_cov": 40,
+        "any_anchor": 40
+      },
+      "@3": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@5": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@6": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      }
+    },
+    "trap": {
+      "@1": {
+        "satisfied": 62,
+        "best_cov": 69,
+        "any_anchor": 75
+      },
+      "@3": {
+        "satisfied": 88,
+        "best_cov": 88,
+        "any_anchor": 88
+      },
+      "@5": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      },
+      "@6": {
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
+      }
+    }
+  },
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        7,
+        20,
+        6,
+        24,
+        44,
+        21
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        39,
+        33,
+        34,
+        40,
+        21,
+        46
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        20,
+        1,
+        24,
+        19,
+        26,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        14,
+        13,
+        24,
+        27,
+        26
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "type": "enumeration",
+      "n_paths": 2,
+      "retrieved": [
+        23,
+        47,
+        22,
+        38,
+        11,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        12,
+        26,
+        24,
+        11,
+        27,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        50,
+        20,
+        22,
+        3,
+        6
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        8,
+        38,
+        0,
+        22,
+        12,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        41,
+        47,
+        43,
+        45,
+        21,
+        40
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        1,
+        20,
+        2,
+        49,
+        15,
+        43
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        20,
+        6,
+        29,
+        3,
+        7
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        20,
+        3,
+        14,
+        37,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        37,
+        46,
+        47,
+        42,
+        48
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 추론 엔진은 어떤 모델을 사용하나요?",
+      "type": "fact",
+      "n_paths": 2,
+      "retrieved": [
+        44,
+        28,
+        20,
+        38,
+        22,
+        49
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "팝 노이즈를 막는 Micro-fade는 몇 ms 구간에 적용되나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        39,
+        7,
+        21,
+        50,
+        30,
+        46
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "석사 학위는 어느 대학교에서 받았나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        1,
+        16,
+        26,
+        44,
+        25,
+        47
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "영어 OPIc 등급은 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        50,
+        26,
+        48,
+        21,
+        2,
+        42
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        22,
+        9,
+        28,
+        8,
+        38,
+        47
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "설정 변경을 워커들에게 알리는 Redis Pub/Sub 토픽 이름은 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        36,
+        49,
+        4,
+        50,
+        48,
+        8
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        48,
+        42,
+        49,
+        50,
+        26
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        46,
+        45,
+        50,
+        48,
+        38,
+        33
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        28,
+        32,
+        50,
+        3,
+        47,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        20,
+        1,
+        2,
+        43,
+        15,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        23,
+        22,
+        49,
+        38,
+        11,
+        47
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        49,
+        23,
+        32,
+        8,
+        47,
+        37
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        13,
+        0,
+        24,
+        26,
+        19,
+        27
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "보유한 자격증을 알려주세요.",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        1,
+        26,
+        49,
+        16,
+        50,
+        14
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        20,
+        32,
+        28,
+        49,
+        29,
+        3
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "등록된 특허는 총 몇 건인가요?",
+      "type": "aggregation",
+      "n_paths": 2,
+      "retrieved": [
+        0,
+        13,
+        26,
+        27,
+        24,
+        16
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        24,
+        16,
+        0,
+        26,
+        27,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "2023년에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        17,
+        26,
+        24,
+        18,
+        19,
+        0
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.3333333333333333,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 2,
+      "retrieved": [
+        26,
+        19,
+        24,
+        27,
+        18,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTFB는 몇 배 빨라졌나요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        6,
+        44,
+        21,
+        7,
+        20,
+        3
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "n_paths": 2,
+      "retrieved": [
+        7,
+        8,
+        3,
+        6,
+        28,
+        48
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        1,
+        15,
+        10,
+        24,
+        20,
+        2
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "AICESS에 입사한 날짜는 언제인가요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        2,
+        1,
+        20,
+        50,
+        23,
+        44
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인피닉에서 근무한 기간은 얼마인가요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        10,
+        1,
+        2,
+        16,
+        11,
+        41
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "우수 논문상은 언제 수상했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        24,
+        12,
+        26,
+        11,
+        27,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "특허 두 건은 언제 등록됐나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        13,
+        24,
+        26,
+        27,
+        16
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제2저자로 참여한 논문은 몇 편인가요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        19,
+        24,
+        11,
+        26,
+        20,
+        27
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "ReDoS 방어용 ThreadPoolExecutor에 걸었던 타임아웃은 몇 초였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        43,
+        49,
+        22,
+        21,
+        7,
+        50
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        10,
+        1,
+        22,
+        20,
+        2,
+        44
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        23,
+        22,
+        8,
+        47,
+        11,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        1,
+        16,
+        24,
+        26,
+        50,
+        25
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        7,
+        28,
+        3,
+        44,
+        22,
+        6
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        13,
+        26,
+        24,
+        27,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        24,
+        27,
+        12,
+        13,
+        0,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        26,
+        17,
+        19,
+        27,
+        24,
+        18
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        15,
+        1,
+        24,
+        20,
+        41,
+        2
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        22,
+        49,
+        28,
+        36,
+        9,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "우수 논문상을 수상한 학회는 어디인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        26,
+        24,
+        12,
+        27,
+        11,
+        19
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        43,
+        50,
+        6,
+        45,
+        46
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "KISTI에서 수행한 업무는 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        25,
+        16,
+        22,
+        47,
+        23,
+        1
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        20,
+        7,
+        6,
+        28,
+        50,
+        21
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        22,
+        21,
+        50,
+        49,
+        20,
+        4
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        21,
+        37,
+        42,
+        48,
+        46,
+        41
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        23,
+        38,
+        11,
+        29,
+        40,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        47,
+        22,
+        16,
+        24,
+        28,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        10,
+        1,
+        16,
+        41,
+        25,
+        23
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        19,
+        26,
+        24,
+        27,
+        20,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        13,
+        17,
+        26,
+        24,
+        18
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.75,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": false,
+          "best_cov": 0.75,
+          "any_anchor": true
+        }
+      }
+    }
+  ]
+}

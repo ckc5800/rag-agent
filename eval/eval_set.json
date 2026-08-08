@@ -13,6 +13,11 @@
     "type": "fact",
     "gold_anchors": [
       "2292"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2292"
+      ]
     ]
   },
   {
@@ -27,6 +32,11 @@
     "type": "fact",
     "gold_anchors": [
       "Residual Buffer"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Residual Buffer"
+      ]
     ]
   },
   {
@@ -40,6 +50,11 @@
     "type": "aggregation",
     "gold_anchors": [
       "논문 7편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 7편"
+      ]
     ]
   },
   {
@@ -56,6 +71,12 @@
     "gold_anchors": [
       "1025382250000",
       "10-2538225-0000"
+    ],
+    "gold_anchor_sets": [
+      [
+        "1025382250000",
+        "1025382310000"
+      ]
     ]
   },
   {
@@ -72,6 +93,14 @@
     "gold_anchors": [
       "Jenkins, ArgoCD",
       "GitLab → Jenkins → ArgoCD"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Jenkins, ArgoCD"
+      ],
+      [
+        "GitLab → Jenkins → ArgoCD"
+      ]
     ]
   },
   {
@@ -85,6 +114,11 @@
     "type": "fact",
     "gold_anchors": [
       "국방 데이터 확보를 위한"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국방 데이터 확보를 위한"
+      ]
     ]
   },
   {
@@ -98,6 +132,11 @@
     "type": "fact",
     "gold_anchors": [
       "12 → 24"
+    ],
+    "gold_anchor_sets": [
+      [
+        "12 → 24"
+      ]
     ]
   },
   {
@@ -111,6 +150,11 @@
     "type": "fact",
     "gold_anchors": [
       "Pyannote"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Pyannote"
+      ]
     ]
   },
   {
@@ -125,6 +169,11 @@
     "type": "fact",
     "gold_anchors": [
       "password_changed_at"
+    ],
+    "gold_anchor_sets": [
+      [
+        "password_changed_at"
+      ]
     ]
   },
   {
@@ -140,6 +189,11 @@
     "type": "enumeration",
     "gold_anchors": [
       "Experience Overview"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Experience Overview"
+      ]
     ]
   },
   {
@@ -151,6 +205,11 @@
     ],
     "gold_anchors": [
       "0.68 → 1.41"
+    ],
+    "gold_anchor_sets": [
+      [
+        "0.68 → 1.41"
+      ]
     ]
   },
   {
@@ -161,6 +220,11 @@
     ],
     "gold_anchors": [
       "32개 언어"
+    ],
+    "gold_anchor_sets": [
+      [
+        "32개 언어"
+      ]
     ]
   },
   {
@@ -172,6 +236,11 @@
     ],
     "gold_anchors": [
       "50.1% → 70.9%"
+    ],
+    "gold_anchor_sets": [
+      [
+        "50.1% → 70.9%"
+      ]
     ]
   },
   {
@@ -182,6 +251,14 @@
     ],
     "gold_anchors": [
       "Qwen3-TTS"
+    ],
+    "gold_anchor_sets": [
+      [
+        "vLLM-Omni"
+      ],
+      [
+        "Qwen3-TTS-1.7B"
+      ]
     ]
   },
   {
@@ -192,6 +269,11 @@
     ],
     "gold_anchors": [
       "초반 10ms 구간"
+    ],
+    "gold_anchor_sets": [
+      [
+        "초반 10ms 구간"
+      ]
     ]
   },
   {
@@ -202,6 +284,11 @@
     ],
     "gold_anchors": [
       "Inha University"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Inha University"
+      ]
     ]
   },
   {
@@ -212,6 +299,11 @@
     ],
     "gold_anchors": [
       "OPIc IM1"
+    ],
+    "gold_anchor_sets": [
+      [
+        "OPIc IM1"
+      ]
     ]
   },
   {
@@ -222,6 +314,11 @@
     ],
     "gold_anchors": [
       "WhisperX"
+    ],
+    "gold_anchor_sets": [
+      [
+        "WhisperX"
+      ]
     ]
   },
   {
@@ -232,6 +329,11 @@
     ],
     "gold_anchors": [
       "config_update"
+    ],
+    "gold_anchor_sets": [
+      [
+        "config_update"
+      ]
     ]
   },
   {
@@ -242,6 +344,11 @@
     ],
     "gold_anchors": [
       "CER(문자 오류율) 3~5%"
+    ],
+    "gold_anchor_sets": [
+      [
+        "CER(문자 오류율) 3~5%"
+      ]
     ]
   },
   {
@@ -254,7 +361,12 @@
     "gold_anchors": [
       "24kHz / Mono"
     ],
-    "_note": "모델이 '24,000 Hz'로 답했는데 패턴이 천단위 콤마를 허용하지 않아 오답 처리됐다."
+    "_note": "모델이 '24,000 Hz'로 답했는데 패턴이 천단위 콤마를 허용하지 않아 오답 처리됐다.",
+    "gold_anchor_sets": [
+      [
+        "24kHz / Mono"
+      ]
+    ]
   },
   {
     "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
@@ -264,6 +376,11 @@
     ],
     "gold_anchors": [
       "9104"
+    ],
+    "gold_anchor_sets": [
+      [
+        "9104"
+      ]
     ]
   },
   {
@@ -277,6 +394,11 @@
     ],
     "gold_anchors": [
       "Experience Overview"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Experience Overview"
+      ]
     ]
   },
   {
@@ -289,6 +411,11 @@
     ],
     "gold_anchors": [
       "GitLab → Jenkins → ArgoCD"
+    ],
+    "gold_anchor_sets": [
+      [
+        "GitLab → Jenkins → ArgoCD"
+      ]
     ]
   },
   {
@@ -300,6 +427,11 @@
     ],
     "gold_anchors": [
       "Prometheus/Grafana/Loki/ELK"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Prometheus/Grafana/Loki/ELK"
+      ]
     ]
   },
   {
@@ -311,6 +443,11 @@
     ],
     "gold_anchors": [
       "LiDAR + Camera Sensor Fusion"
+    ],
+    "gold_anchor_sets": [
+      [
+        "LiDAR + Camera Sensor Fusion"
+      ]
     ]
   },
   {
@@ -322,6 +459,11 @@
     ],
     "gold_anchors": [
       "Linux Master (2016)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Linux Master (2016)"
+      ]
     ]
   },
   {
@@ -333,6 +475,11 @@
     ],
     "gold_anchors": [
       "React 18, TypeScript"
+    ],
+    "gold_anchor_sets": [
+      [
+        "React 18, TypeScript"
+      ]
     ]
   },
   {
@@ -343,6 +490,15 @@
     ],
     "gold_anchors": [
       "특허 2건(제1발명자)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "특허 2건(제1발명자)"
+      ],
+      [
+        "1025382250000",
+        "1025382310000"
+      ]
     ]
   },
   {
@@ -353,6 +509,11 @@
     ],
     "gold_anchors": [
       "논문 7편(제1저자), 특허 2건"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 7편(제1저자), 특허 2건"
+      ]
     ]
   },
   {
@@ -363,6 +524,13 @@
     ],
     "gold_anchors": [
       "한국국방기술학회"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국방 데이터 확보를 위한 생성 모델",
+        "GAN을 활용한 데이터 생성 연구 동향",
+        "센서 퓨전 기반의 Trans-Unet을 활용한 2차원"
+      ]
     ]
   },
   {
@@ -373,6 +541,15 @@
     ],
     "gold_anchors": [
       "한국자동차공학회"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 2편 게재(제1저자, 한국자동차공학회"
+      ],
+      [
+        "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+        "자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한"
+      ]
     ]
   },
   {
@@ -383,6 +560,11 @@
     ],
     "gold_anchors": [
       "6.85배"
+    ],
+    "gold_anchor_sets": [
+      [
+        "6.85배"
+      ]
     ]
   },
   {
@@ -393,6 +575,14 @@
     ],
     "gold_anchors": [
       "Speaker Diarization (2025.04"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Speaker Diarization (2025.04"
+      ],
+      [
+        "화자 분할(2025.04"
+      ]
     ]
   },
   {
@@ -403,6 +593,11 @@
     ],
     "gold_anchors": [
       "2년 9개월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2년 9개월"
+      ]
     ]
   },
   {
@@ -414,7 +609,12 @@
     "gold_anchors": [
       "2025.04.23"
     ],
-    "_note": "모델이 '2025년 04월 23일'로 답했는데 패턴이 '4월'만 허용해 오답 처리됐다 (앞자리 0)."
+    "_note": "모델이 '2025년 04월 23일'로 답했는데 패턴이 '4월'만 허용해 오답 처리됐다 (앞자리 0).",
+    "gold_anchor_sets": [
+      [
+        "2025.04.23"
+      ]
+    ]
   },
   {
     "question": "인피닉에서 근무한 기간은 얼마인가요?",
@@ -424,6 +624,11 @@
     ],
     "gold_anchors": [
       "2년 9개월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2년 9개월"
+      ]
     ]
   },
   {
@@ -434,6 +639,11 @@
     ],
     "gold_anchors": [
       "국방기술학회 2023.11"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국방기술학회 2023.11"
+      ]
     ]
   },
   {
@@ -444,6 +654,11 @@
     ],
     "gold_anchors": [
       "(2023.05.25)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "(2023.05.25)"
+      ]
     ]
   },
   {
@@ -454,6 +669,11 @@
     ],
     "gold_anchors": [
       "2저자"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2저자"
+      ]
     ]
   },
   {
@@ -464,6 +684,11 @@
     ],
     "gold_anchors": [
       "timeout=0.5"
+    ],
+    "gold_anchor_sets": [
+      [
+        "timeout=0.5"
+      ]
     ]
   },
   {
@@ -517,6 +742,327 @@
     "expect_refusal": true
   },
   {
+    "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "인피닉|INFINIIC"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Aug 2022 – Apr 2025",
+        "Apr 2025 – Present"
+      ]
+    ],
+    "gold_anchors": [
+      "Aug 2022 – Apr 2025",
+      "Apr 2025 – Present"
+    ]
+  },
+  {
+    "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "2025[.\\s]*0?7|2025년\\s*0?7월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "STT 배포 (2025.07",
+        "Kubernetes 기반 AI 인프라 (2024.03"
+      ]
+    ],
+    "gold_anchors": [
+      "STT 배포 (2025.07",
+      "Kubernetes 기반 AI 인프라 (2024.03"
+    ]
+  },
+  {
+    "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "Inha|인하"
+    ],
+    "gold_anchor_sets": [
+      [
+        "M.S. Computer Science  |  Inha University (2021.08)",
+        "B.S. Computer Science  |  Hannam University (2018.02)"
+      ]
+    ],
+    "gold_anchors": [
+      "M.S. Computer Science  |  Inha University (2021.08)",
+      "B.S. Computer Science  |  Hannam University (2018.02)"
+    ]
+  },
+  {
+    "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "STT"
+    ],
+    "gold_anchor_sets": [
+      [
+        "TTS 프로젝트 (2025.09",
+        "STT 배포 (2025.07"
+      ]
+    ],
+    "gold_anchors": [
+      "TTS 프로젝트 (2025.09",
+      "STT 배포 (2025.07"
+    ]
+  },
+  {
+    "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "7\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 7편(제1저자), 특허 2건(제1발명자)"
+      ]
+    ],
+    "gold_anchors": [
+      "논문 7편(제1저자), 특허 2건(제1발명자)"
+    ]
+  },
+  {
+    "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "2023[.\\s]*0?1|2023년\\s*0?1월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Generative Model Research (2023.01",
+        "3D Semantic Segmentation Research (2022.08"
+      ]
+    ],
+    "gold_anchors": [
+      "Generative Model Research (2023.01",
+      "3D Semantic Segmentation Research (2022.08"
+    ]
+  },
+  {
+    "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "1\\s*편|한\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "한국항공우주학회"
+      ]
+    ],
+    "gold_anchors": [
+      "한국항공우주학회"
+    ]
+  },
+  {
+    "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "5\\s*개월|다섯\\s*달"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2022.04.04 - 2022.08.05(5개월)"
+      ]
+    ],
+    "gold_anchors": [
+      "2022.04.04 - 2022.08.05(5개월)"
+    ],
+    "_note": "날짜 계산(4.04~8.05)은 4개월이지만 문서가 5개월로 명시한다. 문서 표기를 정답으로 삼는다."
+  },
+  {
+    "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "Triton"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Triton Inference Server"
+      ]
+    ],
+    "gold_anchors": [
+      "Triton Inference Server"
+    ]
+  },
+  {
+    "question": "우수 논문상을 수상한 학회는 어디인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "국방기술학회"
+    ],
+    "gold_anchor_sets": [
+      [
+        "우수 논문상 수상(국방기술학회 2023.11)"
+      ]
+    ],
+    "gold_anchors": [
+      "우수 논문상 수상(국방기술학회 2023.11)"
+    ]
+  },
+  {
+    "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "1\\.7"
+    ],
+    "gold_anchor_sets": [
+      [
+        "최적화 후 ~1.7 rps"
+      ]
+    ],
+    "gold_anchors": [
+      "최적화 후 ~1.7 rps"
+    ]
+  },
+  {
+    "question": "KISTI에서 수행한 업무는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "고어"
+    ],
+    "gold_anchor_sets": [
+      [
+        "한국어 고어"
+      ]
+    ],
+    "gold_anchors": [
+      "한국어 고어"
+    ]
+  },
+  {
+    "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "2\\.3\\s*초|2\\.3\\s*s"
+    ],
+    "gold_anchor_sets": [
+      [
+        "기존 응답 시간(2.3초)"
+      ]
+    ],
+    "gold_anchors": [
+      "기존 응답 시간(2.3초)"
+    ]
+  },
+  {
+    "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "12\\s*(개|채널)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "동시 채널(12개) 제약"
+      ]
+    ],
+    "gold_anchors": [
+      "동시 채널(12개) 제약"
+    ]
+  },
+  {
+    "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "50\\.1"
+    ],
+    "gold_anchor_sets": [
+      [
+        "ITN 정규화 정확도 50.1%"
+      ]
+    ],
+    "gold_anchors": [
+      "ITN 정규화 정확도 50.1%"
+    ]
+  },
+  {
+    "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "VM|수동"
+    ],
+    "gold_anchor_sets": [
+      [
+        "VM/수동 배포에서 컨테이너 기반"
+      ]
+    ],
+    "gold_anchors": [
+      "VM/수동 배포에서 컨테이너 기반"
+    ]
+  },
+  {
+    "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "협업"
+    ],
+    "gold_anchor_sets": [
+      [
+        "배포/서빙 담당, 팀 협업"
+      ]
+    ],
+    "gold_anchors": [
+      "배포/서빙 담당, 팀 협업"
+    ]
+  },
+  {
+    "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+    "type": "trap",
+    "answer_patterns": [
+      "이든티앤에스|EDEN"
+    ],
+    "gold_anchor_sets": [
+      [
+        "이든티앤에스",
+        "인피닉"
+      ]
+    ],
+    "gold_anchors": [
+      "이든티앤에스",
+      "인피닉"
+    ]
+  },
+  {
+    "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "7\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "논문 7편(제1저자)",
+        "2저자"
+      ]
+    ],
+    "gold_anchors": [
+      "논문 7편(제1저자)",
+      "2저자"
+    ]
+  },
+  {
+    "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "3\\s*편|세\\s*편"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국방 데이터 확보를 위한 생성 모델",
+        "GAN을 활용한 데이터 생성 연구 동향",
+        "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+        "특허 2건(제1발명자)"
+      ]
+    ],
+    "gold_anchors": [
+      "국방 데이터 확보를 위한 생성 모델",
+      "GAN을 활용한 데이터 생성 연구 동향",
+      "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+      "특허 2건(제1발명자)"
+    ]
+  },
+  {
     "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
     "expected_keywords": [
       "1425165319"
@@ -527,6 +1073,11 @@
     "type": "fact",
     "gold_anchors": [
       "No. 1425165319"
+    ],
+    "gold_anchor_sets": [
+      [
+        "No. 1425165319"
+      ]
     ]
   },
   {
@@ -540,6 +1091,11 @@
     "type": "fact",
     "gold_anchors": [
       "GPU : A100 80GB"
+    ],
+    "gold_anchor_sets": [
+      [
+        "GPU : A100 80GB"
+      ]
     ]
   },
   {
@@ -556,6 +1112,14 @@
     "gold_anchors": [
       "Focal loss",
       "Dice loss"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Focal loss"
+      ],
+      [
+        "Dice loss"
+      ]
     ]
   },
   {
@@ -569,6 +1133,11 @@
     "type": "fact",
     "gold_anchors": [
       "Tensorflow 2.8.0"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Tensorflow 2.8.0"
+      ]
     ]
   }
 ]

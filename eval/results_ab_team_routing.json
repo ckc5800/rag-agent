@@ -1,0 +1,46 @@
+{
+  "repeat": 2,
+  "judgements": 20,
+  "totals": {
+    "single": 9,
+    "routed": 16,
+    "all_team": 16
+  },
+  "avg_sec": {
+    "single": 2.7,
+    "routed": 4.9,
+    "all_team": 4.3
+  },
+  "by_type": {
+    "single": {
+      "comparison": [
+        9,
+        20
+      ]
+    },
+    "routed": {
+      "comparison": [
+        16,
+        20
+      ]
+    },
+    "all_team": {
+      "comparison": [
+        16,
+        20
+      ]
+    }
+  },
+  "routed_questions": [
+    "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+    "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+    "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+    "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+    "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+    "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+    "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+    "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+    "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?"
+  ]
+}

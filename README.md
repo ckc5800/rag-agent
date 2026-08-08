@@ -41,17 +41,20 @@ src/
 ├── klue_re.py              KLUE-RE 2차 코퍼스 — 청크·정답 그래프·평가질문 생성 (실험, 아래 참고)
 └── ingest_klue.py          KLUE-RE 인덱스 구축 (하이브리드 + 정답 그래프, LLM 불필요)
 eval/
-├── eval_set.json      평가 질문 51문항 (유형별 + 거부 10 · 패턴/앵커)
+├── eval_set.json      평가 질문 75문항 (유형별 + 거부 10 · 패턴/앵커/경로)
 ├── evaluate.py        정답률, 재작성률, 지연시간 측정
 ├── retrieval_set.json 질문별 gold chunk 라벨 (내용 md5로 고정)
 ├── eval_retrieval.py  검색 단독 recall@k / MRR (LLM 불필요, 수 초)
+├── eval_coverage.py   경로 기반 커버리지 — 집계 질문의 전수 회수를 잰다 (41문항)
+├── patch_gold_sets.py gold_anchor_sets(대안 근거 경로) 라벨 패치 (기본 dry-run)
 ├── eval_grade.py      grade 판정기 단독 평가 (gold에서 라벨 유도 + 상수 기준선)
-├── evaluate_team.py   멀티홉: 단일 RAG vs 팀 비교
+├── evaluate_team.py   멀티홉: 단일 RAG vs 팀 비교 (--type 으로 eval_set 유형 사용)
 ├── diagnose.py        실패 원인 분해 — 검색/청킹/생성 층 분리 (LLM 불필요)
 ├── sweep_top_k.py     TOP_K 스윕 (검색 후보 수, LLM 불필요)
 ├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1, 10문항)
 ├── ab_rewrite_stratified.py  corrective 루프 A/B — 유형별 2문항 층화 표본(51문항 축소판)
 ├── ab_type_routing.py TYPE_ROUTING A/B (aggregation·enumeration만 대상)
+├── ab_team_routing.py 팀 라우팅 A/B (single vs routed vs all_team)
 ├── ab_top_n.py        generate 컨텍스트 개수 스윕 (top-3/4/5/6)
 ├── ab_neighbor_window.py  NEIGHBOR_WINDOW A/B 반복 재측정
 ├── ab_context_order.py    CONTEXT_ORDER A/B 반복 재측정 (reversed/ranked/sandwich)
@@ -59,6 +62,7 @@ eval/
 ├── ab_prompt_variant.py   GENERATE_PROMPT_VARIANT A/B (base vs targeted)
 ├── ab_route_variants.py   route.ROUTES 오버라이드 조합 A/B (라우팅 내용 자체)
 ├── audit_patterns.py  채점 패턴 감사 (정답을 오답으로 집계하는지 검사)
+├── audit_coverage.py  커버리지 라벨 감사 (앵커 미해결·구조적 불가·라벨 누락)
 ├── audit_docs.py      README-코드 일치 확인 (CI에서 실행)
 ├── eval_tool_chain.py 도구 체이닝 한계 측정 (모델을 바꿔가며 1→2→3단)
 ├── compare_stores.py  FAISS vs Qdrant — 결과 일치 확인 + 필터 비교
@@ -190,16 +194,21 @@ python src/agent.py "질문"      # tool-calling agent로 질문
 python src/team.py "질문"       # multi-agent로 멀티홉 질문
 python src/mcp_agent.py "질문"  # MCP 도구를 쓰는 agent (portfolio-mcp 필요)
 python eval/evaluate.py         # 단일 RAG 평가 (LLM 필요)
-python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 수 초)
+python eval/eval_retrieval.py   # 검색 단독 recall@k (LLM 불필요, 10문항)
+python eval/eval_coverage.py    # 경로 기반 커버리지 (LLM 불필요, 41문항)
+python eval/patch_gold_sets.py  # gold_anchor_sets 라벨 확인 (--write 로 반영)
 python eval/eval_grade.py       # grade 판정기 단독 평가 (정확도·오탐·파싱실패)
 python src/preflight.py         # 인덱스·Ollama·모델 사전 점검
 python eval/diagnose.py         # 실패 원인 분해: 검색/청킹/생성 (LLM 불필요)
 python eval/sweep_top_k.py      # TOP_K 스윕 (LLM 불필요)
 python eval/audit_patterns.py --strict   # 채점 패턴 감사 (CI에서도 실행)
+python eval/audit_coverage.py            # 커버리지 라벨 감사 (LLM 불필요)
 python eval/audit_docs.py       # README-코드 일치 확인 (CI에서도 실행)
 python eval/ab_rewrite.py       # corrective 루프가 값을 하는지 A/B (수십 분)
 python eval/ab_top_n.py --values 3 4 5 6 # generate 컨텍스트 개수 스윕
-python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교
+python eval/ab_team_routing.py --types comparison aggregation enumeration  # 팀 라우팅 A/B
+python eval/evaluate_team.py    # 멀티홉: 단일 RAG vs 팀 비교 (기존 3문항)
+python eval/evaluate_team.py --type comparison --repeat 2  # eval_set의 8문항으로
 
 # 정제/청킹을 바꾸면 gold 라벨(md5)이 무효화된다 → 재부착
 git show HEAD:data/chunks.jsonl > /tmp/old.jsonl
@@ -603,6 +612,26 @@ recall@1은 클수록 좋아 보이지만 그대로 믿으면 안 된다. 청크
 |---|---:|---:|---:|---:|---:|---:|---:|
 | 문항 수 | 19 | 8 | 6 | 4 | 2 | 2 | 10 |
 
+> **후속(63문항):** 위 표에서 `comparison`·`trap`이 각 2문항인 것이 그대로
+> 남아 있었다. 10문항 평가셋을 버린 이유(1문항이 결과를 좌우한다)가 이 두
+> 유형 안에서는 해소되지 않은 것이다 — 실제로 1문항이 50%p를 움직여
+> 유형별 수치를 인용할 수 없었다. 각 8문항으로 늘려 63문항이 됐다.
+>
+> **재작업(71문항):** 그때 넣은 trap 6문항은 **함정이 아니었다** — 14B 8/8,
+> 3B 도 5/6 을 맞혔다. 설계 원리를 뽑지 않고 늘린 탓이다. 기존 2문항을
+> 분석하니 공통 구조가 있었다: *한정어가 가리키는 값이, 코퍼스가 압도적으로
+> 강조하는 값과 다르다*("제2저자 논문 몇 편" → 문서는 "논문 7편(제1저자)"를
+> 반복 강조). 실패한 6문항은 지우지 않고 실제 성격대로 재분류하고
+> (trap → fact·aggregation·temporal), 그 원리로 새 trap 6문항을 만들었다 —
+> 전부 **개선 "전"** 값을 묻는다. 성과 문서라 개선 후 수치는 반복되고 개선 전
+> 수치는 배경에 한 번씩만 나오기 때문이다.
+> 여기에 `should_use_team()` 가드 검증용으로 comparison∩aggregation
+> 2문항을 더해 71문항이 됐다.
+>
+> | 유형 | fact | enumeration | aggregation | temporal | comparison | trap | refusal |
+> |---|---:|---:|---:|---:|---:|---:|---:|
+> | 문항 수 | 23 | 8 | 7 | 5 | 10 | 8 | 10 |
+
 주요 변경 두 가지.
 
 - **거부 문항 10개 추가.** 기존 `is_pass()`는 거부 답변("찾을 수 없습니다")을
@@ -877,6 +906,70 @@ v5(패턴 채점)에 이어 두 번째 변경이다(동의 표기 인정, `expec
 `results.json`을 `rescore.py`로 재채점해 42/55 → 42/55, **뒤집힌 케이스
 없음**을 확인했다(패턴에 전각문자를 쓴 케이스가 원래 없었다) — 순수하게
 안전망을 추가한 변경이다.
+
+### 11. 팀 라우팅 — 멀티에이전트는 언제 손해인가 (`eval/ab_team_routing.py`)
+
+`team.py`(Planner→Workers→Synthesizer)를 만든 근거는 "단일 RAG는 멀티홉에
+약하다"였는데, 그 주장을 `eval_team.json` **3문항**으로 판정하고 있었다.
+1문항이 33%p이므로 어느 쪽이 이겨도 의미가 없다. comparison을 8문항으로
+늘린 뒤 세 조건을 같은 채점기로 재봤다 (22문항×2회, qwen2.5:14b).
+
+| 조건 | 정답 | 평균 지연 | 델타 |
+|---|---:|---:|---:|
+| `single` (전부 단일) | 34/44 (77%) | 2.9s | 기준 |
+| `routed` (멀티홉만 팀) | **42/44 (95%)** | 3.1s | **+18%p** |
+| `all_team` (전부 팀) | 30/44 (68%) | 3.8s | −9%p |
+
+| 유형 | single | routed | all_team |
+|---|---:|---:|---:|
+| aggregation | 10/12 | 10/12 | **6/12** |
+| comparison | 9/16 | **16/16** | 14/16 |
+| enumeration | 15/16 | 16/16 | **10/16** |
+
+**전부 팀으로 보내면 기준선보다 나쁘다.** 두 조건(single vs routed)만 쟀다면
+"멀티에이전트가 +18%p 좋다"로 끝났을 텐데, 세 번째 조건이 결론을 뒤집는다 —
+멀티에이전트 자체는 손해이고, 이득은 **언제 쓰지 않을지**를 아는 데서 나온다.
+
+원인은 일관된다. 분해는 서로 다른 청크의 사실을 엮을 때 이기고, **한 청크에
+요약이 이미 있을 때 그 근거를 잃는다.**
+
+```
+"제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?"
+  단일 2/2 — 요약 청크("논문 7편(제1저자), 특허 2건")를 받아 바로 답
+  팀   0/2 — 하위 질문으로 쪼개 목록을 직접 세다가 5편으로 오답
+     ↳ 분해: ['제1저자 논문은 몇 편인가?', '등록 특허는 몇 건인가?']
+```
+
+이 문항은 "중 더"(comparison)와 "몇 편"(aggregation) 신호를 동시에 갖는다.
+그래서 `should_use_team()`에 "aggregation 신호가 있으면 팀으로 보내지 않는다"는
+가드를 넣었고 routed 가 40/44 → 42/44 가 됐다. **근거가 1문항뿐이라 가설로
+표시해 뒀는데, 겹치는 문항을 2개 더 만들자 뒤집혔다** (3문항×2회):
+
+| 문항 | 단일 | 팀 |
+|---|---:|---:|
+| 제1저자 논문 vs 등록 특허 | **2/2** | 0/2 |
+| 제1저자 논문 vs 제2저자 논문 | 0/2 | **1/2** |
+| 등록 특허 vs 2023년 논문 | 0/2 | **2/2** |
+| 합계 | 2/6 | **3/6** |
+
+원래 근거였던 문항만 **두 사실이 한 청크에 같이** 있었다("논문 7편(제1저자),
+특허 2건(제1발명자)"). 나머지 둘은 흩어져 있어 분해가 이긴다. 즉 진짜 기준은
+"집계 신호"가 아니라 **"두 사실이 한 청크에 모여 있는가"** 이고, 그건 질문
+문자열이 아니라 검색 결과의 성질이라 어휘 규칙으로 판정할 수 없다.
+**가드는 철회했다.**
+
+n=1 로 만든 규칙이 n=3 에서 무너진 사례다. 규칙을 넣을 때 근거의 크기를 코드에
+같이 적어두지 않았다면 이 검증을 하지 않았을 것이다.
+
+가드 철회 후 comparison 10문항 재측정(10문항×2회): 단일 9/20(45%) →
+팀 16/20(80%), **+35%p**. 이 부분집합에서는 routed 와 all_team 이 정의상
+같으므로(전부 comparison), all_team 의 손해는 위 22문항 표를 볼 것.
+
+부수적으로 규칙 분류기의 결함도 드러났다. comparison 이 2문항일 때는
+`중\s*(더|먼저|어느|어떤|무엇)` 가 2/2 를 맞혀 만점이었는데, 8문항으로 늘리자
+**"중 나중에" 형태 2건을 놓쳤다**(비교의 방향이 뒤쪽인 경우). 오탐이 0이므로
+리콜만 넓혀 `나중|늦게` 를 추가했고, 재검증에서 comparison 8/8·오탐 0 이다.
+작은 표본의 만점은 실력이 아니라 표본의 성질이었다.
 
 ## Graph RAG 실험 1 — 원 코퍼스 (미채택, 원인: 코퍼스가 작다)
 
@@ -1319,9 +1412,28 @@ fact가 전체 문항의 40%라 전역으로 켜면 손해가 이득을 덮는�
 
 ## 한계
 
-- 51문항도 충분하지 않으며, 제3자 라벨링이 아니다. 질문을 문서에서 직접
-  추출했으므로 자기 라벨링 편향이 남는다. 유형별로 분할하면 각 2~19문항이므로
+- **평가셋 크기가 시기마다 다르다(51 → 55 → 63 → 71 → 75).** 위 각 실험의
+  수치는 그 시점의 표본에서 잰 것이라 서로 직접 비교하면 안 된다 —
+  특히 55문항 표기가 붙은 실험들(Kiwi 토크나이저·NEIGHBOR_WINDOW·RERANK·
+  targeted 프롬프트)은 PDF 4문항까지만 있던 표본이고, 71문항 표기가 붙은
+  것들(trap 재설계·팀 라우팅·모델 크기 스윕)은 그 뒤 확장된 표본이다.
+  두 갈래를 병합한 현재 표본은 75문항이며, **양쪽 결론 모두 이 75문항에서
+  재측정한 적은 아직 없다.**
+- 75문항도 충분하지 않으며, 제3자 라벨링이 아니다. 질문을 문서에서 직접
+  추출했으므로 자기 라벨링 편향이 남는다. 유형별로 분할하면 각 5~23문항이므로
   유형별 수치는 방향성 참고용이다.
+- **`gold_anchors` 와 `gold_anchor_sets` 는 의미론이 다르다.** 후자가
+  정본이다 — 경로(= 함께 있어야 답이 되는 앵커 묶음) 여러 개를 담고,
+  "어느 한 경로라도 완전 충족"으로 판정한다(eval_coverage.py).
+  전자는 하위 호환용 평탄화 목록이라 **"이 중 아무거나"** 로 읽힌다.
+  `diagnose.py`·`sweep_top_k.py` 는 아직 전자를 쓰므로, 전수가 필요한
+  문항(앵커 2개 이상인 경로를 가진 8문항)에서 gold 를 실제보다 넓게 잡아
+  순위를 낙관적으로 본다. 청킹 실험용 도구라 그대로 뒀고, 검색 품질 판정은
+  eval_coverage.py 를 기준으로 한다.
+- 측정 결과 파일은 조건이 다르면 덮어쓰지 않고 파일을 나눈다
+  (`results_grade.json` 3b / `results_grade_14b.json` 14b,
+   `results_team.json` 멀티홉 3문항 / `results_team_comparison.json`
+   comparison 8문항). 같은 이름에 다른 조건을 덮어쓰면 이전 기록이 사라진다.
 - 3B의 런 간 편차가 ±6%p다. 동일 코드·동일 채점기에서 67%와 73%가 나왔다.
   모든 A/B는 반복 측정을 기본값으로 하며 1~2문항 차이로 결론을 내지 않는다.
 - 남은 실패는 집계·열거·비교에 집중돼 있다. 근거를 전달받고도 오답을 내는
