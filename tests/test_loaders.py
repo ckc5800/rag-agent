@@ -1,7 +1,30 @@
-"""loaders.py 단위 테스트 — data/docs/의 실제 PDF·DOCX로 검증한다(모킹
-없이). 이 프로젝트는 파서를 실물 문서로만 검증한다는 원칙(README "HWP는
-실물이 없어 안 만듦")과 같은 이유로, 합성 PDF/DOCX 대신 실제 코퍼스 파일을
-쓴다 — 실제 문서에서 안 깨지는 것 자체가 검증이다.
+"""loaders.py 단위 테스트.
+
+**픽스처 정책이 한 번 바뀌었다(2026-08).** 원래 이 파일은 "파서는 실물
+문서로만 검증한다"는 원칙에 따라 실제 이력서 DOCX와 국토교통부 보도자료
+HWPX를 `tests/fixtures/`에 두고 썼다. 그런데 그 둘은 각각 **개인정보와
+외부 기관 문서**라 공개 저장소에 있으면 안 되는 파일이었고, 히스토리
+정리로 제거됐다(`.gitignore` 참고).
+
+문제는 그 다음이었다 — 파일이 사라졌는데 테스트는 `skipif`로 **조용히
+건너뛰었다**. CI는 초록불인데 DOCX·HWPX 파서는 아무도 검증하지 않는
+상태가 됐다(실측: 121 passed → 119 passed + 2 skipped). "검증했다"고
+문서에 적힌 채 검증이 사라지는 게 가장 나쁜 조합이라, 픽스처를 **테스트
+시점에 코드로 생성**하도록 바꿨다.
+
+생성물은 가짜가 아니다 — `python-docx`·`python-hwpx`가 각 규격대로 쓴
+진짜 OOXML/HWPX 파일이다(HWPX는 ZIP 매직바이트 `PK\\x03\\x04`까지
+확인한다). 다만 **원래 검증보다 약하다**는 점은 정직하게 남긴다:
+
+  - 같은 라이브러리로 쓰고 읽는 왕복(round-trip)이라, 한글(HWP) 같은
+    **다른 생산자가 만든 파일**의 변형은 못 잡는다. 실제로 이 프로젝트는
+    "HWPX인 줄 알았는데 OLE 기반 구형 .hwp였던" 파일을 두 번 만났고,
+    그건 실물 검증이었기에 잡혔다.
+  - 그 커버리지는 이제 없다. 대신 매직바이트 검사로 최소한 "ZIP 기반
+    HWPX가 맞는지"는 계속 확인한다.
+
+PDF만은 실물을 그대로 쓴다 — 공개된 학술 논문이라 저장소에 둬도 되고,
+실제 코퍼스(`data/docs/`)에 들어가 있는 파일이기도 하다.
 """
 import sys
 from pathlib import Path
@@ -15,14 +38,39 @@ from loaders import LOADERS, _normalize_whitespace, load_docx, load_hwpx, load_p
 
 DOCS_DIR = ROOT / "data" / "docs"
 PDF_PATH = DOCS_DIR / "segmentation-paper.pdf"
-# DOCX는 코퍼스(data/docs/)가 아니라 테스트 전용 픽스처에 둔다 — resume.md와
-# 거의 같은 내용이라 코퍼스에 넣으면 근중복 청크가 top-N 컨텍스트 슬롯을
-# 잡아먹는 회귀가 실측됐다(README "비정형 문서 확장" 절). 파서 자체의 정확성은
-# 여기서 별도로 검증한다.
-DOCX_PATH = ROOT / "tests" / "fixtures" / "resume-original.docx"
-# HWPX도 픽스처 전용 — 개인 소유 실물이 없어 국토교통부가 공개 배포한
-# 보도자료로 검증한다(내용은 코퍼스와 무관해 애초에 넣을 이유가 없다).
-HWPX_PATH = ROOT / "tests" / "fixtures" / "moltm-railway-day-notice.hwpx"
+
+
+@pytest.fixture(scope="module")
+def docx_path(tmp_path_factory) -> Path:
+    """python-docx로 진짜 .docx를 만든다(문단 + 표) — 로더가 둘 다 읽는지 본다."""
+    from docx import Document as DocxDocument
+
+    path = tmp_path_factory.mktemp("fixtures") / "sample-resume.docx"
+    d = DocxDocument()
+    d.add_paragraph("이윤선 — AI 엔지니어")
+    d.add_paragraph("TTS 프로젝트: TTFB 2292ms → 334ms 개선")
+    # 표도 넣는다. load_docx가 문단뿐 아니라 표 행까지 훑는지 검증하는
+    # 유일한 지점이라, 표를 빼면 그 분기가 통째로 미검증이 된다.
+    table = d.add_table(rows=2, cols=2)
+    table.cell(0, 0).text = "회사"
+    table.cell(0, 1).text = "기간"
+    table.cell(1, 0).text = "MiCo AI"
+    table.cell(1, 1).text = "2025.04~"
+    d.save(path)
+    return path
+
+
+@pytest.fixture(scope="module")
+def hwpx_path(tmp_path_factory) -> Path:
+    """python-hwpx로 규격에 맞는 진짜 .hwpx(ZIP+XML)를 만든다."""
+    from hwpx.document import HwpxDocument
+
+    path = tmp_path_factory.mktemp("fixtures") / "sample-notice.hwpx"
+    doc = HwpxDocument.new()
+    doc.add_paragraph("국토교통부 보도자료")
+    doc.add_paragraph("제3회 철도의 날 기념식을 개최한다.")
+    doc.save_to_path(path)
+    return path
 
 
 def test_normalize_whitespace_collapses_and_trims():
@@ -39,23 +87,23 @@ def test_load_pdf_extracts_real_content():
     assert "세그멘테이션" in doc.page_content
 
 
-@pytest.mark.skipif(not DOCX_PATH.exists(), reason="실물 DOCX 없음")
-def test_load_docx_extracts_real_content_and_agrees_with_resume_md():
-    doc = load_docx(DOCX_PATH)
-    assert doc.metadata["source"] == "resume-original.docx"
-    assert len(doc.page_content) > 500
-    # resume.md의 이미 검증된 핵심 수치와 교차 검증 — DOCX 파서가 같은
-    # 사실을 뽑아내는지 확인한다(파서 신뢰도의 실질적인 증거).
-    assert "2292" in doc.page_content or "0.33초" in doc.page_content
+def test_load_docx_extracts_paragraphs_and_table_cells(docx_path):
+    doc = load_docx(docx_path)
+    assert doc.metadata["source"] == "sample-resume.docx"
+    assert "이윤선" in doc.page_content
+    assert "2292" in doc.page_content
+    # 표 셀까지 텍스트로 들어왔는지 — load_docx의 표 분기 검증
     assert "MiCo AI" in doc.page_content
+    assert "2025.04~" in doc.page_content
 
 
-@pytest.mark.skipif(not HWPX_PATH.exists(), reason="실물 HWPX 없음")
-def test_load_hwpx_extracts_real_government_notice():
-    doc = load_hwpx(HWPX_PATH)
-    assert doc.metadata["source"] == "moltm-railway-day-notice.hwpx"
-    assert len(doc.page_content) > 500
-    # 국토교통부 실제 보도자료(2026 철도의 날) 핵심 내용이 뽑혔는지 확인
+def test_load_hwpx_reads_real_zip_based_package(hwpx_path):
+    # 이 프로젝트는 "HWPX인 줄 알았는데 OLE 구형 .hwp"인 파일을 두 번 만났다.
+    # 생성물이 ZIP 기반 HWPX가 맞는지부터 고정한다.
+    assert hwpx_path.read_bytes()[:4] == b"PK\x03\x04"
+
+    doc = load_hwpx(hwpx_path)
+    assert doc.metadata["source"] == "sample-notice.hwpx"
     assert "국토교통부" in doc.page_content
     assert "철도의 날" in doc.page_content
 

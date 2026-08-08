@@ -15,8 +15,11 @@ jobs:
       - run: pip install -r requirements.txt pytest
       # 임포트가 깨진 조합(예: mcp 2.0 + langchain-mcp-adapters 0.3)이 잡히면
       # 단위 테스트는 통과하는데 실행만 죽는다. 진입점 임포트를 먼저 확인한다.
+      # route는 graph.py가 질의마다 **지연 임포트**한다(_type_routing).
+      # TYPE_ROUTING이 기본 켜진 뒤로는 모든 질의가 이 경로를 타므로,
+      # route.py가 깨지면 단위 테스트는 통과해도 서빙이 죽는다 — 목록에 넣는다.
       - name: 진입점 임포트 확인
-        run: python -c "import sys; sys.path.insert(0,'src'); import graph, agent, team, api, mcp_agent, kg, ingest_kg, klue_re, ingest_klue, loaders"
+        run: python -c "import sys; sys.path.insert(0,'src'); import graph, agent, team, api, mcp_agent, kg, ingest_kg, klue_re, ingest_klue, loaders, route"
         env:
           PYTHONUTF8: "1"
       - run: pytest -q tests
@@ -36,5 +39,12 @@ jobs:
       # 51문항, 트리에 빠진 스크립트). 눈으로 잡히는 종류가 아니라 기계로 건다.
       - name: 문서-코드 일치 확인
         run: python eval/audit_docs.py
+        env:
+          PYTHONUTF8: "1"
+      # gold_anchor_sets(대안 근거 경로) 라벨이 코퍼스와 어긋나면 그 문항은
+      # 영원히 실패하거나 반대로 과대평가된다. audit_patterns와 같은 이유로
+      # 빌드에서 건다 (LLM 불필요).
+      - name: 근거 경로 라벨 감사
+        run: python eval/audit_coverage.py
         env:
           PYTHONUTF8: "1"
