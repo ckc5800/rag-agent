@@ -1,33 +1,53 @@
 {
-  "repeat": 2,
-  "judgements": 20,
+  "env": {
+    "llm_model": "qwen2.5:3b",
+    "embed_model": "bge-m3",
+    "ollama_version": "0.32.6",
+    "vector_store": "faiss",
+    "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
+    "n_chunks": 58,
+    "params": {
+      "TOP_K": 6,
+      "GENERATE_TOP_N": 5,
+      "MAX_REWRITES": 1,
+      "CHUNK_SIZE": 800,
+      "CHUNK_OVERLAP": 100
+    },
+    "host": {
+      "os": "Windows-10-10.0.19045-SP0",
+      "python": "3.14.4",
+      "gpu": "NVIDIA GeForce RTX 2070"
+    }
+  },
+  "repeat": 5,
+  "judgements": 50,
   "totals": {
-    "single": 9,
-    "routed": 16,
-    "all_team": 16
+    "single": 20,
+    "routed": 22,
+    "all_team": 20
   },
   "avg_sec": {
-    "single": 2.7,
-    "routed": 4.9,
-    "all_team": 4.3
+    "single": 2.9,
+    "routed": 3.9,
+    "all_team": 3.8
   },
   "by_type": {
     "single": {
       "comparison": [
-        9,
-        20
+        20,
+        50
       ]
     },
     "routed": {
       "comparison": [
-        16,
-        20
+        22,
+        50
       ]
     },
     "all_team": {
       "comparison": [
-        16,
-        20
+        20,
+        50
       ]
     }
   },
