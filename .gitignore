@@ -12,3 +12,8 @@ eval/results.json
 data/index_manifest.json
 data/answer_cache.json
 data/query_trace.jsonl
+
+# 실수로 커밋됐던 시스템 캐시/개인정보 재발 방지 (2026-08-08 히스토리 정리)
+%SystemDrive%/
+tests/fixtures/resume-original.docx
+tests/fixtures/moltm-railway-day-notice.hwpx
