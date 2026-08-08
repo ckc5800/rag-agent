@@ -75,7 +75,24 @@ def main() -> int:
     off_rate = sum(r["passed"] for r in off) / max(sum(r["of"] for r in off), 1)
     on_rate = sum(r["passed"] for r in on) / max(sum(r["of"] for r in on), 1)
 
-    print(f"\n정답률(층화표본)   OFF {off_rate * 100:.0f}%  ->  ON {on_rate * 100:.0f}%")
+    # ab_rewrite.py와 같은 분리 — ON에서 재작성이 안 일어난 문항은 generate가
+    # 받는 문서가 OFF와 같아 사실상 같은 경로다. 그 열의 흔들림이 노이즈다.
+    var_idx = [i for i, b in enumerate(on) if b["rewrote"] > 0]
+    ctl_idx = [i for i, b in enumerate(on) if b["rewrote"] == 0]
+
+    def tally(idx, rows):
+        return sum(rows[i]["passed"] for i in idx), sum(rows[i]["of"] for i in idx)
+
+    v_off, v_tot = tally(var_idx, off)
+    v_on, _ = tally(var_idx, on)
+    c_off, c_tot = tally(ctl_idx, off)
+    c_on, _ = tally(ctl_idx, on)
+
+    print(f"\n정답률(층화표본, 섞은 값)   OFF {off_rate * 100:.0f}%  ->  ON {on_rate * 100:.0f}%")
+    print(f"변수(실제 재작성 {len(var_idx)}문항)   : {v_off}/{v_tot} -> {v_on}/{v_tot}"
+          f"  ({v_on - v_off:+d}판정)")
+    print(f"대조군(재작성 0회 {len(ctl_idx)}문항): {c_off}/{c_tot} -> {c_on}/{c_tot}"
+          f"  ({c_on - c_off:+d}판정)  <- 노이즈")
     print(f"구제 {len(rescued)}개 / 악화 {len(broken)}개 / 변화없음 {unchanged}개")
     print("유형별 구제/악화:")
     for t in sorted(by_type_delta):
@@ -93,8 +110,14 @@ def main() -> int:
         "sample_size": len(sample), "per_type": PER_TYPE, "repeat": repeat,
         "model": config.LLM_MODEL,
         "env": run_metadata(),
+        # 합계는 참고용 — 변수와 대조군이 섞여 있다.
         "off_accuracy": round(off_rate * 100, 1),
         "on_accuracy": round(on_rate * 100, 1),
+        # 판단은 이 둘로 한다.
+        "rewritten": {"off": v_off, "on": v_on, "judgements": v_tot,
+                      "questions": len(var_idx)},
+        "control_no_rewrite": {"off": c_off, "on": c_on, "judgements": c_tot,
+                               "questions": len(ctl_idx)},
         "rescued": rescued, "broken": broken,
         "by_type_delta": dict(by_type_delta),
         "off": off, "on": on,
