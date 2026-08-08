@@ -40,8 +40,13 @@ RESULTS = Path(__file__).parent / "results_ab_rewrite.json"
 
 
 def run_condition(cases: list[dict], max_rewrites: int, repeat: int) -> list[dict]:
-    """MAX_REWRITES를 바꿔 평가셋을 repeat회 돌린다."""
-    from graph import build_graph
+    """MAX_REWRITES를 바꿔 평가셋을 repeat회 돌린다.
+
+    run()을 쓰는 이유 — graph.invoke를 직접 부르면 유형별 라우팅을 건너뛴다.
+    TYPE_ROUTING이 기본 켜진 지금은 그게 **프로덕션과 다른 조건**을 재는
+    것이라, corrective 루프의 값을 실사용 기준으로 판단할 수 없다.
+    """
+    from graph import build_graph, run
 
     config.MAX_REWRITES = max_rewrites   # needs_grading/decide_next가 호출 시점에 읽는다
     graph = build_graph()
@@ -52,7 +57,7 @@ def run_condition(cases: list[dict], max_rewrites: int, repeat: int) -> list[dic
         passes, rewrites, secs, answers = 0, 0, [], []
         for r in range(repeat):
             t0 = time.time()
-            out = graph.invoke({"question": q, "query": q, "rewrites": 0})
+            out = run(q, graph=graph)
             secs.append(time.time() - t0)
             hit = is_pass(out["answer"], case)
             passes += hit
@@ -112,25 +117,48 @@ def main() -> int:
     off_med = sorted(r["median_sec"] for r in off)[len(off) // 2]
     on_med = sorted(r["median_sec"] for r in on)[len(on) // 2]
 
-    print(f"\n정답률   OFF {off_rate * 100:.0f}%  →  ON {on_rate * 100:.0f}%")
-    print(f"지연(중앙값) OFF {off_med}s  →  ON {on_med}s")
-    print(f"루프가 구제한 질문 {len(rescued)}개 / 악화시킨 질문 {len(broken)}개 "
-          f"/ 변화 없음 {unchanged}개")
+    # **재작성이 실제로 일어난 문항만이 변수다.** ON에서 한 번도 재작성되지
+    # 않은 문항(rewrote == 0)은 grade가 "충분하다"고 통과시킨 것이라 generate가
+    # 받는 문서가 OFF와 같다 — 즉 사실상 같은 경로다. 그 열의 흔들림이 이
+    # 실행의 노이즈 크기이고, 섞어서 합계를 내면 그게 효과를 덮는다.
+    var_idx = [i for i, b in enumerate(on) if b["rewrote"] > 0]
+    ctl_idx = [i for i, b in enumerate(on) if b["rewrote"] == 0]
+
+    def tally(idx, rows):
+        return sum(rows[i]["passed"] for i in idx), sum(rows[i]["of"] for i in idx)
+
+    v_off, v_tot = tally(var_idx, off)
+    v_on, _ = tally(var_idx, on)
+    c_off, c_tot = tally(ctl_idx, off)
+    c_on, _ = tally(ctl_idx, on)
+
+    print(f"\n정답률(전체)  OFF {off_rate * 100:.0f}%  →  ON {on_rate * 100:.0f}%")
+    print(f"지연(중앙값)  OFF {off_med}s  →  ON {on_med}s")
+    print(f"\n변수(ON에서 실제 재작성됨 {len(var_idx)}문항) : "
+          f"{v_off}/{v_tot} → {v_on}/{v_tot}  ({v_on - v_off:+d}판정)")
+    print(f"대조군(재작성 0회 {len(ctl_idx)}문항, 경로 동일): "
+          f"{c_off}/{c_tot} → {c_on}/{c_tot}  ({c_on - c_off:+d}판정)  ← 노이즈")
+    print(f"\n구제 {len(rescued)}개 / 악화 {len(broken)}개 / 변화 없음 {unchanged}개 (전체 기준)")
     if rescued:
         print("  구제: " + ", ".join(q[:30] for q in rescued))
     if broken:
         print("  악화: " + ", ".join(q[:30] for q in broken))
-    print("\n해석: 구제 0건이고 지연만 늘었다면, 이 코퍼스에서 corrective 루프는"
-          "\n      비용만 쓰는 장치다. 그걸 아는 것이 루프를 방어하는 것보다 낫다."
-          f"\n      (문항 {len(cases)}개 × {args.repeat}회이므로 1~2건 차이는"
-          " 편차일 수 있다)")
+    print("\n해석: **변수의 변화가 대조군의 흔들림보다 큰가**로 판단한다."
+          "\n      전체 합계만 보면 재작성이 안 일어난 문항의 노이즈가 섞여"
+          "\n      결론이 뒤집힐 수 있다(이 저장소에서 세 번 겪었다).")
 
     RESULTS.write_text(json.dumps({
         "repeat": args.repeat, "model": config.LLM_MODEL,
         "env": run_metadata(),
+        # 합계는 참고용 — 변수와 대조군이 섞여 있다.
         "off_accuracy": round(off_rate * 100, 1),
         "on_accuracy": round(on_rate * 100, 1),
         "off_median_sec": off_med, "on_median_sec": on_med,
+        # 판단은 이 둘로 한다.
+        "rewritten": {"off": v_off, "on": v_on, "judgements": v_tot,
+                      "questions": len(var_idx)},
+        "control_no_rewrite": {"off": c_off, "on": c_on, "judgements": c_tot,
+                               "questions": len(ctl_idx)},
         "rescued": rescued, "broken": broken,
         "off": off, "on": on,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
