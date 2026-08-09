@@ -1369,3 +1369,72 @@ def test_classifier_keeps_precision_on_lookalike_fact_questions():
               "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
               "이윤선의 혈액형은 무엇인가요?"]:
         assert classify_question_type(q) == "fact", q
+
+
+# ── HyDE (가상 답변 단락 검색) ──
+
+def test_clean_hypothetical_strips_preamble_and_joins_lines():
+    from graph import clean_hypothetical
+    raw = ("재작성된 질문은 다음과 같습니다:\n"
+           "딥러닝 프레임워크로는 TensorFlow를 사용했습니다.\n"
+           "버전은 2.8.0입니다.")
+    # 안내문 줄은 버리고, 남은 줄은 첫 줄만이 아니라 전부 합친다 —
+    # 단락 전체가 검색 신호라 clean_rewrite와 달리 정보를 버리면 손해다.
+    assert clean_hypothetical(raw) == (
+        "딥러닝 프레임워크로는 TensorFlow를 사용했습니다. 버전은 2.8.0입니다.")
+
+
+def test_clean_hypothetical_returns_none_when_unusable():
+    from graph import clean_hypothetical
+    assert clean_hypothetical("") is None
+    assert clean_hypothetical("다음과 같습니다:") is None   # 안내문뿐
+
+
+def test_clean_hypothetical_caps_length():
+    from graph import _MAX_HYDE_CHARS, clean_hypothetical
+    out = clean_hypothetical("가" * 2000)
+    assert out is not None and len(out) == _MAX_HYDE_CHARS
+
+
+def _doc(text: str, source: str = "a.md"):
+    from langchain_core.documents import Document
+    return Document(page_content=text, metadata={"source": source})
+
+
+def test_rrf_fuse_dedups_by_content_and_keeps_first_seen():
+    from graph import rrf_fuse
+    # 내용이 같으면 하나로 합쳐지고, 먼저 본 것(앞 목록 상위 랭크)의
+    # 메타데이터가 유지된다 — 출처가 검색 순서에 따라 바뀌면 안 된다.
+    fused = rrf_fuse([[_doc("같은 내용", "resume.md")],
+                      [_doc("같은 내용", "portfolio.md")]])
+    assert len(fused) == 1
+    assert fused[0].metadata["source"] == "resume.md"
+
+
+def test_rrf_fuse_doc_in_more_lists_ranks_higher():
+    from graph import rrf_fuse
+    # 같은 랭크라면 더 많은 목록에 등장한 문서가 위로 온다 — HyDE 목록을
+    # "추가"하는 설계의 근거: 질의·가상 단락 양쪽에서 잡히면 표가 겹친다.
+    both = _doc("질의와 가상 단락 양쪽에서 잡힌 청크")
+    only = _doc("한쪽에서만 잡힌 청크")
+    fused = rrf_fuse([[only, both], [both], [both]])
+    assert fused[0].page_content == both.page_content
+
+
+def test_hyde_term_query_keeps_only_novel_ascii_terms():
+    from graph import hyde_term_query
+    q = "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?"
+    hypo = ("딥러닝 프레임워크 중 하나로 사용된 것은 TensorFlow입니다. "
+            "이 프레임워크는 세그멘테이션 모델 구현에 유용하게 활용되었습니다.")
+    out = hyde_term_query(q, hypo)
+    # 다리가 되는 영숫자 용어만 남는다 — 질의 중복(세그멘테이션·모델)과
+    # 한국어 일반 어휘(유용·활용)는 1차 실측에서 확인된 희석 요인이라 버린다.
+    assert out == "tensorflow"
+
+
+def test_hyde_term_query_none_when_no_novel_terms():
+    from graph import hyde_term_query
+    # 가상 단락이 질의를 되풀이하기만 하면(회사 목록 문항의 실측 사례)
+    # 추가할 신호가 없다 — 빈 질의로 BM25를 부르지 않도록 None.
+    assert hyde_term_query("근무한 회사들을 알려주세요",
+                           "근무한 회사들을 알려주세요.") is None

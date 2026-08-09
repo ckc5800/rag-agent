@@ -1,0 +1,4447 @@
+{
+  "run_metadata": {
+    "llm_model": "qwen2.5:3b",
+    "embed_model": "bge-m3",
+    "ollama_version": "0.32.6",
+    "vector_store": "faiss",
+    "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
+    "n_chunks": 58,
+    "params": {
+      "TOP_K": 6,
+      "GENERATE_TOP_N": 5,
+      "MAX_REWRITES": 1,
+      "CHUNK_SIZE": 800,
+      "CHUNK_OVERLAP": 100
+    },
+    "host": {
+      "os": "Windows-10-10.0.19045-SP0",
+      "python": "3.14.4",
+      "gpu": "NVIDIA GeForce RTX 2070"
+    }
+  },
+  "conditions": {
+    "off": {
+      "ranks": {
+        "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": 1,
+        "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": 1,
+        "이윤선의 제1저자 논문은 몇 편인가요?": 1,
+        "등록된 특허 번호를 알려주세요.": 2,
+        "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": 1,
+        "우수 논문상을 받은 논문 제목은?": 2,
+        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 1,
+        "화자 분할에는 어떤 모델을 사용했나요?": 1,
+        "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
+        "이윤선이 근무한 회사들을 알려주세요.": 2,
+        "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
+        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": 5,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
+        "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": null
+      },
+      "coverage": {
+        "@1": {
+          "satisfied": 46,
+          "best_cov": 51
+        },
+        "@3": {
+          "satisfied": 78,
+          "best_cov": 81
+        },
+        "@5": {
+          "satisfied": 88,
+          "best_cov": 90
+        },
+        "@6": {
+          "satisfied": 94,
+          "best_cov": 94
+        }
+      },
+      "coverage_rows": [
+        {
+          "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 번호를 알려주세요.",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 받은 논문 제목은?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "화자 분할에는 어떤 모델을 사용했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 근무한 회사들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 추론 엔진은 어떤 모델을 사용하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "팝 노이즈를 막는 Micro-fade는 몇 ms 구간에 적용되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사 학위는 어느 대학교에서 받았나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "영어 OPIc 등급은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "설정 변경을 워커들에게 알리는 Redis Pub/Sub 토픽 이름은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "보유한 자격증을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허는 총 몇 건인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2023년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.3333333333333333
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTFB는 몇 배 빨라졌나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "AICESS에 입사한 날짜는 언제인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상은 언제 수상했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "특허 두 건은 언제 등록됐나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문은 몇 편인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ReDoS 방어용 ThreadPoolExecutor에 걸었던 타임아웃은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 수상한 학회는 어디인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서 수행한 업무는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.75
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.75
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        }
+      ],
+      "search_median_sec": 0.33
+    },
+    "full": {
+      "ranks": {
+        "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": 1,
+        "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": 1,
+        "이윤선의 제1저자 논문은 몇 편인가요?": 1,
+        "등록된 특허 번호를 알려주세요.": 2,
+        "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": 1,
+        "우수 논문상을 받은 논문 제목은?": 2,
+        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 1,
+        "화자 분할에는 어떤 모델을 사용했나요?": 1,
+        "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
+        "이윤선이 근무한 회사들을 알려주세요.": 1,
+        "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
+        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": null,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
+        "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": null
+      },
+      "coverage": {
+        "@1": {
+          "satisfied": 49,
+          "best_cov": 53
+        },
+        "@3": {
+          "satisfied": 75,
+          "best_cov": 78
+        },
+        "@5": {
+          "satisfied": 89,
+          "best_cov": 91
+        },
+        "@6": {
+          "satisfied": 92,
+          "best_cov": 93
+        }
+      },
+      "coverage_rows": [
+        {
+          "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 번호를 알려주세요.",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 받은 논문 제목은?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "화자 분할에는 어떤 모델을 사용했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 근무한 회사들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 추론 엔진은 어떤 모델을 사용하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "팝 노이즈를 막는 Micro-fade는 몇 ms 구간에 적용되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사 학위는 어느 대학교에서 받았나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "영어 OPIc 등급은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "설정 변경을 워커들에게 알리는 Redis Pub/Sub 토픽 이름은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "보유한 자격증을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허는 총 몇 건인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2023년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.3333333333333333
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTFB는 몇 배 빨라졌나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "AICESS에 입사한 날짜는 언제인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상은 언제 수상했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "특허 두 건은 언제 등록됐나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문은 몇 편인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ReDoS 방어용 ThreadPoolExecutor에 걸었던 타임아웃은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 수상한 학회는 어디인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서 수행한 업무는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.5
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.75
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        }
+      ],
+      "search_median_sec": 1.28
+    },
+    "terms": {
+      "ranks": {
+        "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": 1,
+        "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": 1,
+        "이윤선의 제1저자 논문은 몇 편인가요?": 1,
+        "등록된 특허 번호를 알려주세요.": 2,
+        "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": 1,
+        "우수 논문상을 받은 논문 제목은?": 2,
+        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 2,
+        "화자 분할에는 어떤 모델을 사용했나요?": 2,
+        "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
+        "이윤선이 근무한 회사들을 알려주세요.": 2,
+        "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
+        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": 5,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
+        "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": 3
+      },
+      "coverage": {
+        "@1": {
+          "satisfied": 43,
+          "best_cov": 47
+        },
+        "@3": {
+          "satisfied": 77,
+          "best_cov": 80
+        },
+        "@5": {
+          "satisfied": 91,
+          "best_cov": 93
+        },
+        "@6": {
+          "satisfied": 92,
+          "best_cov": 94
+        }
+      },
+      "coverage_rows": [
+        {
+          "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 번호를 알려주세요.",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 받은 논문 제목은?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "화자 분할에는 어떤 모델을 사용했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 근무한 회사들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 추론 엔진은 어떤 모델을 사용하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "팝 노이즈를 막는 Micro-fade는 몇 ms 구간에 적용되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사 학위는 어느 대학교에서 받았나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "영어 OPIc 등급은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "설정 변경을 워커들에게 알리는 Redis Pub/Sub 토픽 이름은 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "보유한 자격증을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허는 총 몇 건인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2023년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.3333333333333333
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTFB는 몇 배 빨라졌나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "AICESS에 입사한 날짜는 언제인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상은 언제 수상했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "특허 두 건은 언제 등록됐나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문은 몇 편인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ReDoS 방어용 ThreadPoolExecutor에 걸었던 타임아웃은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.5
+            }
+          }
+        },
+        {
+          "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수 논문상을 수상한 학회는 어디인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서 수행한 업무는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.75
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.75
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.75
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        }
+      ],
+      "search_median_sec": 0.27
+    }
+  },
+  "hypothetical_docs": {
+    "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": "TTFB(Turn-Turn-Time-First-Bit)는 웹 페이지가 시작되는 시간을 나타내며, 이를 줄이는 것이 목표입니다. 이에 대한 구체적인 개선 사항은 제공된 정보로는 확인할 수 없습니다.",
+    "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": "스트리밍 오디오에서 발생하는 팝 노이즈 문제를 해결하기 위해선, 먼저 오디오 파일을 불러올 때 사용하는 앱이나 플레이어의 설정을 확인하고 최적화를 수행합니다. 또한, 오디오 파일 자체가 생성된 초기 단계에서 팝 노이즈를 줄이는 기법들을 활용할 수 있습니다. 예를 들어, 레코딩 시에 소스와 환경 조건을 최적화하거나, 복잡한 팝 노이즈를 제거하는 효과적인 필터링 기술 등을 적용하면 좋습니다.",
+    "이윤선의 제1저자 논문은 몇 편인가요?": "이 문제에 대한 정확한 정보를 찾을 수 없습니다. 이윤선 교수님의 저서 수는 다양한 출처에서 다를 수 있으며, 최신 데이터로만 확인할 수 있습니다.",
+    "등록된 특허 번호를 알려주세요.": "등록된 특허 번호는 공개되지 않았습니다. 검색을 원하시는 주제나 분야가 있으시다면 알려주시면 도와드리겠습니다.",
+    "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": "Kubernetes 인프라 구축을 위한 CI/CD 도구로 Jenkins, GitLab CI, Argo CD 등이 많이 사용됩니다. 이러한 도구들은 테스트, 배포 및 유지보수 과정에서 Kubernetes 리소스의 효율적인 관리를 지원합니다.",
+    "우수 논문상을 받은 논문 제목은?": "이 단락은 특정 논문의 제목을 포함하고 있지만, 그 논문이 우수 논문상을 받았는지에 대한 정보가 제공되지 않았습니다.",
+    "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": "TTS 시스템의 동시 처리 채널은 10개 이상으로 확장되었습니다.",
+    "화자 분할에는 어떤 모델을 사용했나요?": "화자 분할에 대한 모델은 다양한 기술과 알고리즘을 활용하여 개발되었습니다. 주로 전이학습, 딥러닝, 그리고 자연어 처리(NLP) 기법들이 사용되며, 특히 Transformer 구조를 기반으로 한 모델들이 대표적입니다.",
+    "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": "웹소켓 세션 탈취 문제를 방어하기 위한 몇 가지 방법으로는, 서버 측에서 사용자 인증 정보와 웹소켓 연결을 일치시켜 확인하는 것이 있습니다. 또한, 웹소켓의 토큰이나 암호화된 데이터를 이용해 세션을 확인하고, 불일치 시에는 새로운 세션 생성 또는 로그인 절차를 요구하는 방식도 있습니다. 마지막으로, 사용자 인증 정보와 웹소켓 연결이 일관되게 유지되는지 검사하여 이상한 활동에 대한 경보를 보내는 것도 중요합니다.",
+    "이윤선이 근무한 회사들을 알려주세요.": "이윤선이 근무한 회사들은 현재 구체적인 정보가 제공되지 않았습니다. 실제 이력 정보를 찾으시려면 더 구체적인 검색을 진행해보세요.",
+    "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": "세그멘테이션 연구를 지원한 정부 과제 번호에 대한 정보는 제공되지 않았습니다. 검색을 계속 진행해보세요.",
+    "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": "3D 시맨틱 세그멘테이션 연구에서 사용하는 주로 인기 있는 GPU는 NVIDIA의 Tesla V100, RTX系列 등의 그래픽 처리 장치입니다. 이러한 GPU들은 복잡한 3차원 데이터를 효과적으로 처리하고, 고정밀 이미지 및 영상 분석을 지원합니다.",
+    "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": "센서 퓨전 모델 학습에서 사용된 손실 함수는 다양한 요소를 고려하여 최적화하는 데 사용됩니다. 일반적으로 이는 제어 손실, 위치 손실, 방향 손실 등이 포함될 수 있습니다.",
+    "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": "딥러닝 프레임워크 중 하나로 사용된 것은 TensorFlow입니다. 이 프레임워크는 다양한 작업을 수행할 수 있으며, 특히 세그멘테이션 모델 구현에서 유용하게 활용되었습니다."
+  }
+}

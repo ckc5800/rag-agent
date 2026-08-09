@@ -205,20 +205,18 @@ def warmup() -> None:
     _load_indexes()
 
 
-def hybrid_search(query: str) -> list[Document]:
-    """FAISS(의미) + BM25(키워드) 결과를 RRF(Reciprocal Rank Fusion)로 융합.
+def rrf_fuse(doc_lists: list[list[Document]]) -> list[Document]:
+    """순위 목록 여러 개를 RRF(Reciprocal Rank Fusion)로 융합.
 
-    'Jenkins', 'Pyannote' 같은 고유명사/키워드 질문은 벡터 검색이 놓치기 쉬워
-    BM25를 결합해 검색 재현율을 보완한다. RRF score = Σ 1 / (k + rank).
+    RRF score = Σ 1 / (K + rank). hybrid_search에서 분리한 이유는
+    HyDE가 목록을 2개 더 얹으면서 융합 자체를 단위 테스트할 수 있어야
+    했기 때문이다(kg.fused_search와 같은 계산이지만 그쪽은 코퍼스 조회표
+    주입이 얽혀 있어 재사용하지 않았다).
     """
-    vectorstore, bm25 = _load_indexes()
-    vec_docs = vectorstore.similarity_search(query, k=config.TOP_K)
-    kw_docs = bm25.invoke(query)
-
     K = config.RRF_K
     scores: dict[str, float] = {}
     by_key: dict[str, Document] = {}
-    for docs in (vec_docs, kw_docs):
+    for docs in doc_lists:
         for rank, doc in enumerate(docs):
             # 전체 내용 해시로 중복 판별 (접두어가 같은 서로 다른 청크의 충돌 방지)
             key = hashlib.md5(doc.page_content.encode("utf-8")).hexdigest()
@@ -230,6 +228,37 @@ def hybrid_search(query: str) -> list[Document]:
 
     ranked = sorted(scores, key=scores.get, reverse=True)
     return [by_key[k] for k in ranked[: config.TOP_K]]
+
+
+def hybrid_search(query: str) -> list[Document]:
+    """FAISS(의미) + BM25(키워드) 결과를 RRF로 융합.
+
+    'Jenkins', 'Pyannote' 같은 고유명사/키워드 질문은 벡터 검색이 놓치기 쉬워
+    BM25를 결합해 검색 재현율을 보완한다.
+
+    HYDE가 켜져 있으면 가상 답변 단락(hypothetical_doc)으로 검색한 순위
+    목록 2개(벡터·BM25)를 **추가**해 4개를 융합한다. 질의 목록을 대체하지
+    않는 게 요점이다 — 질의·가상 단락 양쪽에서 잡히는 청크는 표가 겹쳐
+    올라가고, 이미 질의만으로 잘 찾던 문항의 신호는 그대로 남는다.
+    """
+    vectorstore, bm25 = _load_indexes()
+    lists = [vectorstore.similarity_search(query, k=config.TOP_K),
+             bm25.invoke(query)]
+    if config.HYDE:
+        hypo = hypothetical_doc(query)
+        if hypo is not None:
+            if config.HYDE_MODE == "terms":
+                # BM25만 쓴다 — 틀린 추측(코퍼스에 없는 명칭)은 BM25에서
+                # 아무것도 매치하지 않아 무해하지만, 임베딩은 그 추측을
+                # 실제 신호로 받아 순위를 오염시킨다(1차 실측: GPU 문항
+                # 5위 → MISS). config.HYDE_MODE 주석 참고.
+                tq = hyde_term_query(query, hypo)
+                if tq:
+                    lists.append(bm25.invoke(tq))
+            else:
+                lists.append(vectorstore.similarity_search(hypo, k=config.TOP_K))
+                lists.append(bm25.invoke(hypo))
+    return rrf_fuse(lists)
 
 
 _llm_cache: dict[tuple[str, float], ChatOllama] = {}
@@ -533,6 +562,67 @@ def rewrite(state: AgentState) -> dict:
         return {"rewrites": state["rewrites"] + 1, "rewrite_failed": True}
     return {"query": new_query, "rewrites": state["rewrites"] + 1,
             "rewrite_failed": False}
+
+
+HYDE_PROMPT = ChatPromptTemplate.from_template(
+    "다음 질문에 대한 답변이 실릴 법한 문서 단락을 한국어 2~3문장으로 "
+    "작성하세요. 사실 여부는 중요하지 않습니다 — 검색용 가상 단락입니다. "
+    "단락만 출력하세요.\n\n질문: {question}"
+)
+
+# 가상 단락이 이보다 길면 자른다 — BM25 질의가 길어질수록 노이즈 토큰이
+# 늘고, 임베딩도 앞부분이 지배적이다. 3B가 지시(2~3문장)를 넘겨 장황하게
+# 쓰는 경우의 안전판.
+_MAX_HYDE_CHARS = 500
+
+_hyde_cache: dict[tuple[str, str], str | None] = {}
+
+
+def clean_hypothetical(raw: str) -> str | None:
+    """HyDE 가상 단락 출력 정리. 쓸 수 없으면 None(질의만으로 검색).
+
+    clean_rewrite와 같은 이유로 존재한다 — 3B는 "다음과 같습니다:" 류
+    안내문과 접두어를 붙인다. 다른 점 둘: (1) 단락이 목적이라 첫 줄만
+    취하지 않고 남은 줄을 전부 합친다, (2) 원 질의와 같아도 실패가
+    아니다 — 질의를 대체하는 게 아니라 순위 목록을 추가할 뿐이라
+    같은 텍스트면 결과도 같은 순위일 뿐 해가 없다.
+    """
+    lines = [ln.strip() for ln in raw.strip().splitlines() if ln.strip()]
+    lines = [ln for ln in lines if not _PREAMBLE_LINE.search(ln)]
+    text = " ".join(_REWRITE_PREFIX.sub("", ln) for ln in lines)
+    text = text.strip().strip("\"'`“”‘’")
+    if len(text) < 2:
+        return None
+    return text[:_MAX_HYDE_CHARS]
+
+
+def hyde_term_query(query: str, hypo: str) -> str | None:
+    """가상 단락에서 **질의에 없는 영숫자 토큰**만 추린 BM25 확장 질의.
+
+    어휘 격차의 실체는 "프레임워크"(질의)와 "Tensorflow"(문서)처럼
+    한국어 일반명사와 영문 기술 명칭 사이의 골이다 — 다리가 되는 토큰은
+    가상 단락 속 영숫자 용어이고, 나머지(세그멘테이션·모델·구현 같은
+    질의 중복·일반 어휘)는 1차 실측에서 그 다리를 희석시킨 주범이었다.
+    질의에 이미 있는 토큰은 원래 목록 2개가 처리하므로 중복시키지 않는다.
+
+    한국어 동의어 격차("회사"↔"기업")는 이 필터가 못 다룬다 — 영숫자만
+    남기는 대신 틀린 추측의 폭발 반경을 좁힌 트레이드오프다.
+    """
+    q_tokens = set(bm25_tokenize(query))
+    novel = [t for t in dict.fromkeys(bm25_tokenize(hypo))    # 순서 보존 중복 제거
+             if t not in q_tokens and t.isascii() and t.isalnum()]
+    return " ".join(novel) if novel else None
+
+
+def hypothetical_doc(query: str) -> str | None:
+    """질의에 대한 가상 답변 단락. 같은 (모델, 질의)는 재사용한다 —
+    temperature 0이라 같은 출력이 나올 자리에 LLM을 다시 부를 이유가
+    없고, corrective 루프의 재검색이나 평가 반복에서 호출이 겹친다."""
+    key = (config.LLM_MODEL, query)
+    if key not in _hyde_cache:
+        raw = (HYDE_PROMPT | get_llm()).invoke({"question": query}).content
+        _hyde_cache[key] = clean_hypothetical(raw)
+    return _hyde_cache[key]
 
 
 _BASE_RULES = (
