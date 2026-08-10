@@ -26,12 +26,10 @@ _cache: dict[str, dict] | None = None
 
 
 def _config_fingerprint() -> str:
-    # 답에 영향을 줄 수 있는 런타임 설정 전부. 하나라도 바뀌면 다른 캐시
-    # 항목이 되어야 한다 — 새 손잡이를 추가하면 여기도 같이 추가할 것.
-    keys = ("LLM_MODEL", "GENERATE_TOP_N", "MAX_REWRITES", "TYPE_ROUTING",
-            "RERANK", "CONTEXT_ORDER", "NEIGHBOR_WINDOW",
-            "GENERATE_PROMPT_VARIANT", "EXCLUDE_DIAGRAMS", "TOP_K")
-    return "|".join(f"{k}={getattr(config, k)}" for k in keys)
+    # config.knobs()가 환경변수 손잡이 전부를 돌려준다. 예전엔 여기에 손으로
+    # 적은 목록이 있었고 17개 중 10개만 들어 있어, HYDE·VERIFY_GROUNDING·
+    # TEAM_ROUTING 등을 바꿔도 캐시 키가 그대로였다.
+    return "|".join(f"{k}={v}" for k, v in sorted(config.knobs().items()))
 
 
 def _cache_key(question: str) -> str:

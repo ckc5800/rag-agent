@@ -56,13 +56,12 @@ def run_metadata() -> dict:
         "vector_store": config.VECTOR_STORE,
         "index_chunks_md5": manifest.get("chunks_md5"),
         "n_chunks": manifest.get("n_chunks"),
-        "params": {
-            "TOP_K": config.TOP_K,
-            "GENERATE_TOP_N": config.GENERATE_TOP_N,
-            "MAX_REWRITES": config.MAX_REWRITES,
-            "CHUNK_SIZE": config.CHUNK_SIZE,
-            "CHUNK_OVERLAP": config.CHUNK_OVERLAP,
-        },
+        # 손잡이 전부. 예전엔 5개만 적어 둬서 결과 파일만 보고는
+        # HyDE 실행인지 아닌지 구분할 수 없었다 — 지문의 존재 이유가
+        # 비교 가능성인데 그게 반만 됐다.
+        "params": {**config.knobs(),
+                   "CHUNK_SIZE": config.CHUNK_SIZE,
+                   "CHUNK_OVERLAP": config.CHUNK_OVERLAP},
         "host": {"os": platform.platform(), "python": platform.python_version(),
                  "gpu": _gpu()},
     }

@@ -1,5 +1,27 @@
 """프로젝트 전역 설정."""
 import os
+
+
+# 환경변수 손잡이는 전부 이 통로로 읽는다. 읽는 순간 _KNOBS에 등록되므로
+# knobs()는 항상 완전하다 — 손으로 유지하는 목록이 없다.
+#
+# 왜 이렇게까지 하냐면, 예전엔 cache.py와 runmeta.py가 각자 손으로 적은
+# 목록을 들고 있었고 **둘 다 드리프트했다**. 17개 중 캐시 키는 10개만,
+# 실행 지문은 5개만 반영하고 있었다. 그래서 HYDE=1로 띄우면 HYDE=0 시절
+# 캐시 답이 그대로 나왔다 — 캐시 모듈이 막겠다고 선언한 바로 그 사고다.
+# 목록을 지키는 규칙(주석) 대신 목록이 없는 구조로 바꾼다.
+_KNOBS: dict[str, object] = {}
+
+
+def _env(name: str, default: str, cast=str):
+    value = cast(os.environ.get(name, default))
+    _KNOBS[name] = value
+    return value
+
+
+def knobs() -> dict:
+    """환경변수로 노출된 설정 전부 (캐시 키·실행 지문용)."""
+    return dict(_KNOBS)
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,15 +37,15 @@ INDEX_MANIFEST = BASE_DIR / "data" / "index_manifest.json"
 # 필터가 없다. Qdrant는 payload 필터를 지원해 "resume.md 안에서만 검색"
 # 같은 질의가 되고, 서버 없이 로컬 경로로도 돈다(임베디드 모드).
 # 같은 임베딩·같은 exact 검색이라 recall은 동일해야 한다 — 차이는 기능이다.
-VECTOR_STORE = os.environ.get("VECTOR_STORE", "faiss")
+VECTOR_STORE = _env("VECTOR_STORE", "faiss")
 
 DB_DIR = str(BASE_DIR / "data" / "faiss_index")
 QDRANT_PATH = str(BASE_DIR / "data" / "qdrant_index")
 QDRANT_COLLECTION = "portfolio"
 
 # Ollama 모델 (GPU 환경이면 qwen2.5:7b 권장, CPU 환경은 3b)
-LLM_MODEL = os.environ.get("LLM_MODEL", "qwen2.5:3b")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-m3")
+LLM_MODEL = _env("LLM_MODEL", "qwen2.5:3b")
+EMBED_MODEL = _env("EMBED_MODEL", "bge-m3")
 
 # 청킹 / 검색 파라미터
 CHUNK_SIZE = 800
@@ -47,7 +69,7 @@ CHUNK_OVERLAP = 100
 # 재보면 이 코퍼스는 satisfied@6 이 97~100% 라 후보를 15개로 넓혀도 추가로
 # 건질 근거가 존재하지 않는다(eval/eval_coverage.py). 즉 TOP_K 는 이 코퍼스
 # 에서 **돌릴 대상이 없는 손잡이**다. 코퍼스가 커지면 다시 재야 한다.
-TOP_K = int(os.environ.get("TOP_K", "6"))
+TOP_K = _env("TOP_K", "6", int)
 
 # RRF(Reciprocal Rank Fusion) 완충 상수 — score = Σ 1/(K+rank). graph.py의
 # hybrid_search와 kg.py의 fused_search가 공유한다. 도입 당시 "표준값"으로
@@ -59,7 +81,7 @@ TOP_K = int(os.environ.get("TOP_K", "6"))
 # recall@1 73%·MRR 0.812로 완전히 동일하고, K=1만 오히려 더 낮다(70%,
 # MRR 0.792) — 작은 표본의 신호와 방향이 반대였다. 60은 "실측 없이 표준값
 # 이라 썼다"가 아니라 실측으로도 평평한 최적 구간 안에 있는 값으로 확인됨.
-RRF_K = int(os.environ.get("RRF_K", "60"))
+RRF_K = _env("RRF_K", "60", int)
 
 # generate·grade가 실제로 보는 상위 N개.
 #
@@ -79,7 +101,7 @@ RRF_K = int(os.environ.get("RRF_K", "60"))
 # 프로젝트에서 가장 큰 레버였다(코드 변경 없이 환경변수 하나). "긴 컨텍스트를
 # 소형 모델이 못 본다"를 근거로 정한 값이므로 14B 를 기본으로 쓸 거라면
 # 3/4/5/6 을 다시 스윕해야 한다. 값은 재측정 전까지 5로 둔다.
-GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '5'))
+GENERATE_TOP_N = _env("GENERATE_TOP_N", "5", int)
 
 # 이웃 확장: 검색된 청크의 앞뒤 N개를 함께 프롬프트에 넣는다 (0이면 끔).
 #
@@ -111,7 +133,7 @@ GENERATE_TOP_N = int(os.environ.get('GENERATE_TOP_N', '5'))
 # 지연도 2.9s → 4.6s(1.6배)로 는다. **전역 기본값은 계속 0이 맞다** —
 # fact가 전체 문항의 40%라 전역으로 켜면 손해가 이득을 덮는다. 대신 이
 # 측정이 route.py의 유형별 오버라이드를 정당화한다(TYPE_ROUTING 참고).
-NEIGHBOR_WINDOW = int(os.environ.get("NEIGHBOR_WINDOW", "0"))
+NEIGHBOR_WINDOW = _env("NEIGHBOR_WINDOW", "0", int)
 
 # generate 프롬프트에 청크를 배치하는 순서.
 #   reversed  1위가 질문 바로 앞 (기존 — 소형 모델의 끝부분 주의가 강하다는 직관)
@@ -129,7 +151,7 @@ NEIGHBOR_WINDOW = int(os.environ.get("NEIGHBOR_WINDOW", "0"))
 #     refusal      20/20 → 19/20            (환각 1건)
 # 단일 실행이고 비교 유형이 반토막 나므로 기본값은 바꾸지 않는다.
 # 반복을 늘려 다시 재는 것이 다음 순서.
-CONTEXT_ORDER = os.environ.get("CONTEXT_ORDER", "reversed")
+CONTEXT_ORDER = _env("CONTEXT_ORDER", "reversed")
 
 # generate 프롬프트 변형: base | targeted
 # targeted는 실측된 두 실패(열거 목록의 첫 항목만 답함, 같은 대상의
@@ -158,7 +180,7 @@ CONTEXT_ORDER = os.environ.get("CONTEXT_ORDER", "reversed")
 # 삼았던 바로 그 문항이 여기서는 0/5 대 0/5**라는 점이다 — 거의 같은
 # 조건에서 0/4→4/4와 0/5→0/5가 갈리므로 그 "구제"는 재현되지 않는
 # 노이즈였다. 근거가 무너졌으므로 라우팅에 넣지 않는다. 전역 기본도 base 유지.
-GENERATE_PROMPT_VARIANT = os.environ.get("GENERATE_PROMPT_VARIANT", "base")
+GENERATE_PROMPT_VARIANT = _env("GENERATE_PROMPT_VARIANT", "base")
 
 # 다이어그램 청크를 generate 컨텍스트에서 제외할지.
 # 산문의 6.4배(4,395~5,079자)라 41문항 중 13문항에서 컨텍스트의 63~94%를
@@ -168,7 +190,7 @@ GENERATE_PROMPT_VARIANT = os.environ.get("GENERATE_PROMPT_VARIANT", "base")
 # 즉 다이어그램은 정확도에 해도 득도 없이 컨텍스트만 먹고 있다. 지연·비용을
 # 줄이려면 켤 만하지만, 정확도를 근거로 켤 이유는 없다. 다만 fact 유형이
 # 28/38 → 24/38로 떨어져(단일 실행) 무해하다고 단정하기도 이르다.
-EXCLUDE_DIAGRAMS = os.environ.get("EXCLUDE_DIAGRAMS", "0") == "1"
+EXCLUDE_DIAGRAMS = _env("EXCLUDE_DIAGRAMS", "0", lambda v: v == "1")
 
 # 이보다 짧은 청크는 인덱싱하지 않는다. 마크다운 구분선('---')이나 제목 줄만
 # 남은 조각이 인덱스 자리를 차지하는 것을 막는다 (검수로 발견 — inspect_data.py).
@@ -199,7 +221,7 @@ MIN_CHUNK_CHARS = 30
 # 저장소의 주제가 Corrective-RAG이고 루프를 끄면 시연 대상 자체가 사라진다.
 # 대신 "이 코퍼스에서는 비용만 쓴다"를 숨기지 않고 적어 둔다. 검색이 실제로
 # 실패하는 코퍼스에서 다시 재는 것이 이 손잡이의 다음 순서다.
-MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))
+MAX_REWRITES = _env("MAX_REWRITES", "1", int)
 
 # 질문 유형별로 NEIGHBOR_WINDOW·CONTEXT_ORDER를 다르게 적용할지(src/route.py).
 # NEIGHBOR_WINDOW·CONTEXT_ORDER 실험 둘 다 "어떤 유형엔 좋고 어떤 유형엔
@@ -220,7 +242,7 @@ MAX_REWRITES = int(os.environ.get("MAX_REWRITES", "1"))
 # 폴백 문항**이었고, 실제 라우팅된 문항에서는 두 번의 측정 모두 악화가
 # 0이다. 대조군 노이즈가 작지 않으므로(-4/12) +4를 확정적 개선이라 하긴
 # 어렵지만, **손해 근거는 두 번 다 없었다**. 기본 켠 상태 유지.
-TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "1") == "1"
+TYPE_ROUTING = _env("TYPE_ROUTING", "1", lambda v: v == "1")
 
 # 멀티홉 질문만 team.py(Planner→Workers→Synthesizer)로 보낼지(route.should_use_team).
 #
@@ -250,7 +272,7 @@ TYPE_ROUTING = os.environ.get("TYPE_ROUTING", "1") == "1"
 # 만드는 오류가 분해로 얻는 이득을 상쇄한다. **멀티에이전트의 값어치는
 # 모델 크기에 의존한다**는 게 이 실험의 결론이다 — 14b를 기본으로 쓸 거면
 # 다시 켜고 재측정할 것.
-TEAM_ROUTING = os.environ.get("TEAM_ROUTING", "0") == "1"
+TEAM_ROUTING = _env("TEAM_ROUTING", "0", lambda v: v == "1")
 
 # 질의를 그대로 검색하는 것에 더해, LLM이 쓴 "가상 답변 단락"(HyDE)을 검색
 # 신호로 추가할지(graph.hybrid_search). README 한계에 적어 둔 어휘 격차
@@ -271,7 +293,7 @@ TEAM_ROUTING = os.environ.get("TEAM_ROUTING", "0") == "1"
 # gold 는 안 잃었는데도 컨텍스트 구성·배치가 바뀌어 생성이 흔들린 것.
 # 지연도 +1.4~1.7s(+37%, 질의당 LLM 1회). 어휘 격차 1문항 구제보다
 # 잃는 것이 많다. 어휘 격차 문항이 많은 코퍼스에서 재측정이 다음 순서.
-HYDE = os.environ.get("HYDE", "0") == "1"
+HYDE = _env("HYDE", "0", lambda v: v == "1")
 
 # HYDE 신호를 어떻게 넣을지.
 #   full   가상 단락 전체로 벡터+BM25 목록 2개 추가 (교과서 HyDE에 가까움)
@@ -285,7 +307,7 @@ HYDE = os.environ.get("HYDE", "0") == "1"
 # 틀린 추측은 임베딩에는 독이지만 BM25에서는 무해하다(코퍼스에 없는 토큰은
 # 아무 문서와도 매치되지 않는다) — 그래서 벡터 쪽을 버리고, 다리가 되는
 # 희귀 토큰만 남겨 희석을 없앤 변형이 terms다.
-HYDE_MODE = os.environ.get("HYDE_MODE", "full")
+HYDE_MODE = _env("HYDE_MODE", "full")
 
 # RRF 순위를 LLM으로 재정렬할지(graph.rerank). diagnose.py가 지목한 병목
 # (검색은 top-3에 근거를 올렸는데 생성이 놓치는 10건)을 겨냥한 시도다.
@@ -304,14 +326,14 @@ HYDE_MODE = os.environ.get("HYDE_MODE", "full")
 # 이 코퍼스는 satisfied@6 이 97~100%라 상위 6개 안에 답이 이미 다 들어와
 # 있다(eval/eval_coverage.py). 후보가 수백 개가 되는 규모에서는 결론이
 # 달라질 수 있다.
-RERANK = os.environ.get("RERANK", "0") == "1"
+RERANK = _env("RERANK", "0", lambda v: v == "1")
 
 # generate 직후 답변이 근거 문서에 실제로 기반하는지 사후 확인할지
 # (graph.verify). GENERATE_PROMPT가 "지어내지 마세요"라고 지시하지만 그
 # 지시를 따랐는지 확인하는 단계가 없었다. 지금은 State에 기록만 하고
 # 라우팅은 안 바꾼다(fail-open) — LLM 호출이 하나 더 늘어 지연이 커지고,
 # 아직 A/B 전이라 기본은 꺼둔다.
-VERIFY_GROUNDING = os.environ.get("VERIFY_GROUNDING", "0") == "1"
+VERIFY_GROUNDING = _env("VERIFY_GROUNDING", "0", lambda v: v == "1")
 
 # ── Parent-Child 청킹 (실험) ──────────────────────────────
 #
