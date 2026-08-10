@@ -1,24 +1,24 @@
 {
   "overall": {
     "@1": {
-      "satisfied": 56,
-      "best_cov": 60,
-      "any_anchor": 64
+      "satisfied": 46,
+      "best_cov": 51,
+      "any_anchor": 55
     },
     "@3": {
-      "satisfied": 84,
-      "best_cov": 87,
-      "any_anchor": 90
+      "satisfied": 78,
+      "best_cov": 81,
+      "any_anchor": 83
     },
     "@5": {
-      "satisfied": 92,
-      "best_cov": 95,
-      "any_anchor": 97
+      "satisfied": 88,
+      "best_cov": 90,
+      "any_anchor": 91
     },
     "@6": {
-      "satisfied": 97,
-      "best_cov": 99,
-      "any_anchor": 100
+      "satisfied": 94,
+      "best_cov": 94,
+      "any_anchor": 94
     }
   },
   "baseline": {
@@ -28,49 +28,49 @@
       "any_anchor": 4
     },
     "@3": {
-      "satisfied": 7,
-      "best_cov": 9,
-      "any_anchor": 12
+      "satisfied": 6,
+      "best_cov": 8,
+      "any_anchor": 10
     },
     "@5": {
-      "satisfied": 12,
-      "best_cov": 15,
-      "any_anchor": 19
+      "satisfied": 10,
+      "best_cov": 13,
+      "any_anchor": 17
     },
     "@6": {
-      "satisfied": 14,
-      "best_cov": 18,
-      "any_anchor": 22
+      "satisfied": 12,
+      "best_cov": 15,
+      "any_anchor": 20
     }
   },
   "by_type": {
     "fact": {
       "@1": {
-        "satisfied": 78,
-        "best_cov": 78,
-        "any_anchor": 78
+        "satisfied": 65,
+        "best_cov": 65,
+        "any_anchor": 65
       },
       "@3": {
+        "satisfied": 92,
+        "best_cov": 92,
+        "any_anchor": 92
+      },
+      "@5": {
         "satisfied": 96,
         "best_cov": 96,
         "any_anchor": 96
       },
-      "@5": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
-      },
       "@6": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 96,
+        "best_cov": 96,
+        "any_anchor": 96
       }
     },
     "aggregation": {
       "@1": {
-        "satisfied": 71,
-        "best_cov": 76,
-        "any_anchor": 86
+        "satisfied": 43,
+        "best_cov": 48,
+        "any_anchor": 57
       },
       "@3": {
         "satisfied": 86,
@@ -78,9 +78,9 @@
         "any_anchor": 86
       },
       "@5": {
-        "satisfied": 86,
-        "best_cov": 86,
-        "any_anchor": 86
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
       },
       "@6": {
         "satisfied": 100,
@@ -90,53 +90,53 @@
     },
     "enumeration": {
       "@1": {
-        "satisfied": 38,
-        "best_cov": 38,
-        "any_anchor": 38
+        "satisfied": 33,
+        "best_cov": 33,
+        "any_anchor": 33
       },
       "@3": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 67,
+        "best_cov": 67,
+        "any_anchor": 67
       },
       "@5": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 67,
+        "best_cov": 67,
+        "any_anchor": 67
       },
       "@6": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 78,
+        "best_cov": 78,
+        "any_anchor": 78
       }
     },
     "comparison": {
       "@1": {
         "satisfied": 10,
-        "best_cov": 25,
-        "any_anchor": 40
+        "best_cov": 30,
+        "any_anchor": 50
       },
       "@3": {
         "satisfied": 30,
-        "best_cov": 50,
-        "any_anchor": 70
+        "best_cov": 48,
+        "any_anchor": 60
       },
       "@5": {
         "satisfied": 60,
-        "best_cov": 78,
-        "any_anchor": 90
+        "best_cov": 72,
+        "any_anchor": 80
       },
       "@6": {
-        "satisfied": 80,
-        "best_cov": 92,
-        "any_anchor": 100
+        "satisfied": 90,
+        "best_cov": 90,
+        "any_anchor": 90
       }
     },
     "temporal": {
       "@1": {
-        "satisfied": 40,
-        "best_cov": 40,
-        "any_anchor": 40
+        "satisfied": 0,
+        "best_cov": 0,
+        "any_anchor": 0
       },
       "@3": {
         "satisfied": 100,
@@ -156,9 +156,9 @@
     },
     "trap": {
       "@1": {
-        "satisfied": 62,
-        "best_cov": 69,
-        "any_anchor": 75
+        "satisfied": 75,
+        "best_cov": 81,
+        "any_anchor": 88
       },
       "@3": {
         "satisfied": 88,
@@ -183,12 +183,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
+        6,
         7,
         20,
-        6,
-        24,
-        44,
-        21
+        21,
+        51,
+        35
       ],
       "per_k": {
         "@1": {
@@ -218,12 +218,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        39,
-        33,
-        34,
+        46,
         40,
+        41,
+        47,
         21,
-        46
+        53
       ],
       "per_k": {
         "@1": {
@@ -254,11 +254,11 @@
       "n_paths": 1,
       "retrieved": [
         20,
-        1,
         24,
+        1,
         19,
         26,
-        17
+        18
       ],
       "per_k": {
         "@1": {
@@ -288,18 +288,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        0,
         14,
         13,
+        0,
         24,
         27,
-        26
+        33
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -324,11 +324,11 @@
       "n_paths": 2,
       "retrieved": [
         23,
-        47,
-        22,
-        38,
+        54,
+        25,
         11,
-        20
+        20,
+        56
       ],
       "per_k": {
         "@1": {
@@ -361,9 +361,9 @@
         12,
         26,
         24,
-        11,
+        16,
         27,
-        20
+        18
       ],
       "per_k": {
         "@1": {
@@ -394,11 +394,11 @@
       "n_paths": 1,
       "retrieved": [
         21,
-        50,
         20,
-        22,
+        57,
+        6,
         3,
-        6
+        22
       ],
       "per_k": {
         "@1": {
@@ -429,11 +429,11 @@
       "n_paths": 1,
       "retrieved": [
         8,
-        38,
-        0,
+        32,
+        29,
         22,
-        12,
-        13
+        30,
+        56
       ],
       "per_k": {
         "@1": {
@@ -463,12 +463,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        41,
-        47,
-        43,
-        45,
+        48,
+        50,
+        54,
+        52,
         21,
-        40
+        47
       ],
       "per_k": {
         "@1": {
@@ -498,18 +498,18 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        1,
         20,
+        1,
+        33,
         2,
-        49,
         15,
-        43
+        54
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -536,8 +536,8 @@
         21,
         20,
         6,
-        29,
         3,
+        22,
         7
       ],
       "per_k": {
@@ -570,10 +570,10 @@
       "retrieved": [
         21,
         20,
+        6,
         3,
-        14,
-        37,
-        23
+        35,
+        44
       ],
       "per_k": {
         "@1": {
@@ -604,11 +604,11 @@
       "n_paths": 1,
       "retrieved": [
         21,
-        37,
-        46,
-        47,
-        42,
-        48
+        44,
+        49,
+        55,
+        6,
+        40
       ],
       "per_k": {
         "@1": {
@@ -638,18 +638,18 @@
       "type": "fact",
       "n_paths": 2,
       "retrieved": [
-        44,
-        28,
+        35,
+        51,
         20,
-        38,
-        22,
-        49
+        56,
+        8,
+        3
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -673,12 +673,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        39,
+        46,
         7,
         21,
-        50,
-        30,
-        46
+        57,
+        37,
+        53
       ],
       "per_k": {
         "@1": {
@@ -711,9 +711,9 @@
         1,
         16,
         26,
-        44,
+        46,
         25,
-        47
+        28
       ],
       "per_k": {
         "@1": {
@@ -743,12 +743,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        50,
+        57,
         26,
-        48,
         21,
         2,
-        42
+        49,
+        16
       ],
       "per_k": {
         "@1": {
@@ -778,18 +778,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        22,
         9,
-        28,
+        22,
         8,
-        38,
-        47
+        35,
+        51,
+        54
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -813,12 +813,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        36,
-        49,
+        43,
+        56,
         4,
-        50,
-        48,
-        8
+        39,
+        55,
+        37
       ],
       "per_k": {
         "@1": {
@@ -849,10 +849,10 @@
       "n_paths": 1,
       "retrieved": [
         21,
-        48,
-        42,
+        55,
         49,
-        50,
+        57,
+        56,
         26
       ],
       "per_k": {
@@ -883,12 +883,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        46,
-        45,
-        50,
-        48,
-        38,
-        33
+        53,
+        21,
+        57,
+        55,
+        47,
+        40
       ],
       "per_k": {
         "@1": {
@@ -918,11 +918,11 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        28,
-        32,
-        50,
+        35,
+        39,
         3,
-        47,
+        57,
+        54,
         20
       ],
       "per_k": {
@@ -932,9 +932,9 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
           "satisfied": true,
@@ -954,11 +954,11 @@
       "n_paths": 1,
       "retrieved": [
         20,
-        1,
         2,
-        43,
+        1,
         15,
-        23
+        50,
+        33
       ],
       "per_k": {
         "@1": {
@@ -990,10 +990,10 @@
       "retrieved": [
         23,
         22,
-        49,
-        38,
         11,
-        47
+        54,
+        25,
+        35
       ],
       "per_k": {
         "@1": {
@@ -1023,12 +1023,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        49,
-        23,
-        32,
+        39,
         8,
-        47,
-        37
+        56,
+        54,
+        44,
+        33
       ],
       "per_k": {
         "@1": {
@@ -1037,19 +1037,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1058,12 +1058,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
+        28,
         13,
         0,
-        24,
-        26,
-        19,
-        27
+        34,
+        32,
+        18
       ],
       "per_k": {
         "@1": {
@@ -1072,19 +1072,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1095,9 +1095,9 @@
       "retrieved": [
         1,
         26,
-        49,
+        33,
         16,
-        50,
+        54,
         14
       ],
       "per_k": {
@@ -1128,18 +1128,18 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
+        39,
         20,
-        32,
-        28,
-        49,
-        29,
-        3
+        56,
+        36,
+        3,
+        46
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -1163,18 +1163,18 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
-        0,
         13,
+        0,
+        20,
         26,
         27,
-        24,
-        16
+        24
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1200,10 +1200,10 @@
       "retrieved": [
         24,
         16,
-        0,
         26,
+        20,
         27,
-        20
+        13
       ],
       "per_k": {
         "@1": {
@@ -1217,9 +1217,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
           "satisfied": true,
@@ -1238,7 +1238,7 @@
         24,
         18,
         19,
-        0
+        20
       ],
       "per_k": {
         "@1": {
@@ -1268,12 +1268,12 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
+        24,
         26,
         19,
-        24,
-        27,
         18,
-        13
+        17,
+        27
       ],
       "per_k": {
         "@1": {
@@ -1304,11 +1304,11 @@
       "n_paths": 1,
       "retrieved": [
         6,
-        44,
         21,
         7,
+        51,
         20,
-        3
+        47
       ],
       "per_k": {
         "@1": {
@@ -1342,8 +1342,8 @@
         8,
         3,
         6,
-        28,
-        48
+        35,
+        51
       ],
       "per_k": {
         "@1": {
@@ -1374,11 +1374,11 @@
       "n_paths": 1,
       "retrieved": [
         1,
-        15,
         10,
+        15,
         24,
-        20,
-        2
+        2,
+        20
       ],
       "per_k": {
         "@1": {
@@ -1411,9 +1411,9 @@
         2,
         1,
         20,
-        50,
         23,
-        44
+        57,
+        15
       ],
       "per_k": {
         "@1": {
@@ -1448,7 +1448,7 @@
         2,
         16,
         11,
-        41
+        22
       ],
       "per_k": {
         "@1": {
@@ -1478,18 +1478,18 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        24,
         12,
         26,
+        24,
         11,
         27,
         20
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1513,18 +1513,18 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        0,
         13,
+        0,
         24,
         26,
-        27,
-        16
+        20,
+        27
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1550,7 +1550,7 @@
       "retrieved": [
         19,
         24,
-        11,
+        13,
         26,
         20,
         27
@@ -1583,12 +1583,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        43,
-        49,
+        50,
         22,
+        51,
+        56,
         21,
-        7,
-        50
+        7
       ],
       "per_k": {
         "@1": {
@@ -1619,11 +1619,11 @@
       "n_paths": 1,
       "retrieved": [
         10,
-        1,
-        22,
-        20,
         2,
-        44
+        1,
+        20,
+        23,
+        51
       ],
       "per_k": {
         "@1": {
@@ -1633,8 +1633,8 @@
         },
         "@3": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
           "satisfied": true,
@@ -1656,9 +1656,9 @@
         23,
         22,
         8,
-        47,
         11,
-        20
+        20,
+        54
       ],
       "per_k": {
         "@1": {
@@ -1692,7 +1692,7 @@
         16,
         24,
         26,
-        50,
+        2,
         25
       ],
       "per_k": {
@@ -1724,10 +1724,10 @@
       "n_paths": 1,
       "retrieved": [
         7,
-        28,
+        54,
+        35,
         3,
-        44,
-        22,
+        51,
         6
       ],
       "per_k": {
@@ -1743,13 +1743,13 @@
         },
         "@5": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1758,8 +1758,8 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        0,
         13,
+        19,
         26,
         24,
         27,
@@ -1795,8 +1795,8 @@
       "retrieved": [
         24,
         27,
-        12,
         13,
+        28,
         0,
         23
       ],
@@ -1828,18 +1828,18 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        26,
         17,
-        19,
-        27,
+        26,
         24,
-        18
+        19,
+        18,
+        27
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1867,7 +1867,7 @@
         1,
         24,
         20,
-        41,
+        45,
         2
       ],
       "per_k": {
@@ -1899,11 +1899,11 @@
       "n_paths": 1,
       "retrieved": [
         22,
-        49,
-        28,
-        36,
+        8,
         9,
-        23
+        35,
+        23,
+        56
       ],
       "per_k": {
         "@1": {
@@ -1934,11 +1934,11 @@
       "n_paths": 1,
       "retrieved": [
         26,
-        24,
         12,
+        24,
         27,
-        11,
-        19
+        19,
+        11
       ],
       "per_k": {
         "@1": {
@@ -1969,11 +1969,11 @@
       "n_paths": 1,
       "retrieved": [
         21,
-        43,
         50,
+        57,
         6,
-        45,
-        46
+        46,
+        53
       ],
       "per_k": {
         "@1": {
@@ -2006,9 +2006,9 @@
         25,
         16,
         22,
-        47,
-        23,
-        1
+        54,
+        1,
+        23
       ],
       "per_k": {
         "@1": {
@@ -2039,10 +2039,10 @@
       "n_paths": 1,
       "retrieved": [
         20,
-        7,
         6,
-        28,
-        50,
+        7,
+        35,
+        57,
         21
       ],
       "per_k": {
@@ -2073,12 +2073,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        22,
         21,
-        50,
-        49,
+        22,
+        57,
+        56,
         20,
-        4
+        32
       ],
       "per_k": {
         "@1": {
@@ -2109,11 +2109,11 @@
       "n_paths": 1,
       "retrieved": [
         21,
-        37,
-        42,
-        48,
-        46,
-        41
+        44,
+        49,
+        8,
+        53,
+        40
       ],
       "per_k": {
         "@1": {
@@ -2144,10 +2144,10 @@
       "n_paths": 1,
       "retrieved": [
         23,
-        38,
         11,
-        29,
-        40,
+        22,
+        36,
+        1,
         17
       ],
       "per_k": {
@@ -2178,18 +2178,18 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        47,
         22,
+        54,
         16,
-        24,
-        28,
-        23
+        45,
+        35,
+        10
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -2216,9 +2216,9 @@
         10,
         1,
         16,
-        41,
+        23,
         25,
-        23
+        48
       ],
       "per_k": {
         "@1": {
@@ -2253,7 +2253,7 @@
         24,
         27,
         20,
-        17
+        18
       ],
       "per_k": {
         "@1": {
@@ -2283,11 +2283,81 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        0,
+        26,
         13,
         17,
-        26,
         24,
+        0,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.75,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.75,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        13,
+        28,
+        0,
+        34,
+        19,
+        18
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        28,
+        13,
+        0,
+        34,
+        32,
         18
       ],
       "per_k": {
@@ -2298,18 +2368,88 @@
         },
         "@3": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.75,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.75,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 2,
+      "retrieved": [
+        34,
+        13,
+        28,
+        19,
+        0,
+        33
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+      "type": "fact",
+      "n_paths": 1,
+      "retrieved": [
+        13,
+        0,
+        19,
+        34,
+        47,
+        28
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@6": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     }

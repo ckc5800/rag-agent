@@ -8,16 +8,31 @@
       잘라도 "그 문자열을 담은 청크"가 정답이므로 라벨링이 필요 없다.
       앵커는 각각 현재 인덱스에서 1~4청크에만 등장하도록 좁게 골랐다.
 
+원래는 아래 ANCHORS 10문항("하나라도 포함하면 gold")만 쟀다. 그런데
+(1) 10문항은 이미 두 번 잘못된 결론을 만들었고, (2) "하나라도 회수"
+정의는 집계·열거처럼 근거 전수가 필요한 질문의 실패를 숨긴다 —
+eval_coverage.py가 그 이유로 존재한다. 그래서 같은 스윕에서
+**eval_set의 gold_anchor_sets(정본 의미론 — 경로별 전수 충족, 65문항)**
+도 함께 잰다. 10문항 표는 예전 결과와의 연속성을 위해 유지한다.
+
+청킹이 앵커 문자열 자체를 반토막 내면 그 앵커는 어떤 검색으로도 충족
+불가능해진다 — 이건 검색 실패가 아니라 **청킹의 근거 손실**이므로
+따로 센다(evidence_loss). 이 구분이 없으면 작은 청크의 하락을 검색
+탓으로 오독한다.
+
     python eval/sweep_chunk_size.py                    # 기본 스윕
     python eval/sweep_chunk_size.py --sizes 400 800    # 일부만
 """
 import argparse
+import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import config  # noqa: E402
+from eval_coverage import anchor_chunks, score  # noqa: E402
 from runmeta import run_metadata  # noqa: E402
 
 # 질문 → 정답이 반드시 담겨 있어야 하는 문자열(하나라도 포함하면 gold)
@@ -34,9 +49,57 @@ ANCHORS = {
     "이윤선이 근무한 회사들을 알려주세요.": ["Experience Overview"],
 }
 KS = [1, 3, 6]
+KS_COV = [1, 3, 5, 6]     # 5 = GENERATE_TOP_N (생성이 실제로 받는 범위)
+
+EVAL_SET = Path(__file__).parent / "eval_set.json"
 
 
-def build_and_eval(size: int, overlap: int) -> dict:
+def load_coverage_cases() -> list[dict]:
+    """eval_set에서 gold가 정의된 문항(거부 제외)과 앵커 경로를 뽑는다."""
+    cases = []
+    for c in json.loads(EVAL_SET.read_text(encoding="utf-8")):
+        sets = c.get("gold_anchor_sets") or (
+            [[a] for a in c["gold_anchors"]] if c.get("gold_anchors") else None)
+        if sets:
+            cases.append({"question": c["question"],
+                          "type": c.get("type", "fact"), "sets": sets})
+    return cases
+
+
+def coverage_eval(cov_cases: list[dict], chunk_texts: list[str],
+                  graph_mod) -> dict:
+    """이 청킹에서의 경로 기반 커버리지 (eval_coverage와 같은 판정).
+
+    앵커→청크 매핑은 크기마다 다시 계산한다(앵커는 크기 무관, 매핑은
+    크기 종속). 어떤 앵커가 0청크에 매핑되면 그 앵커를 요구하는 경로는
+    충족 불가 — 그 문항을 evidence_loss로 센다(경로가 하나라도 살아
+    있으면 손실이 아니다).
+    """
+    idx_of = {t: i for i, t in enumerate(chunk_texts)}
+    sat = {k: 0 for k in KS_COV}
+    cov = {k: 0.0 for k in KS_COV}
+    evidence_loss = []
+    for c in cov_cases:
+        paths = [[anchor_chunks(a, chunk_texts) for a in path]
+                 for path in c["sets"]]
+        if not any(all(cand for cand in path) for path in paths):
+            evidence_loss.append(c["question"])
+        docs = graph_mod.hybrid_search(c["question"])
+        got_all = [idx_of.get(d.page_content) for d in docs]
+        for k in KS_COV:
+            got = {i for i in got_all[:k] if i is not None}
+            s, b = score(paths, got)
+            sat[k] += s
+            cov[k] += b
+    n = len(cov_cases)
+    return {
+        **{f"satisfied@{k}": round(sat[k] / n * 100) for k in KS_COV},
+        **{f"best_cov@{k}": round(cov[k] / n * 100) for k in KS_COV},
+        "evidence_loss": evidence_loss,
+    }
+
+
+def build_and_eval(size: int, overlap: int, cov_cases: list[dict]) -> dict:
     """청크 크기를 바꿔 재인제스트하고 검색만 평가한다."""
     config.CHUNK_SIZE = size
     config.CHUNK_OVERLAP = overlap
@@ -64,11 +127,24 @@ def build_and_eval(size: int, overlap: int) -> dict:
     vs.build(chunks)
 
     # BM25도 같은 청크로 다시 만들어야 하므로 chunks.jsonl 갱신
-    import json
     with open(config.CHUNKS_PATH, "w", encoding="utf-8") as f:
         for c in chunks:
             f.write(json.dumps({"page_content": c.page_content,
                                 "metadata": c.metadata}, ensure_ascii=False) + "\n")
+
+    # 매니페스트도 같이 갱신 — check_index_consistency 가드 도입 이후 이
+    # 스크립트는 첫 스텝의 hybrid_search에서 "인덱스와 chunks.jsonl이
+    # 어긋났다"로 죽는 상태였다(가드가 지키려던 바로 그 스크립트가 가드에
+    # 막힘). 스윕 산출물도 인덱스와 한 쌍이므로 지문을 남기는 게 맞다.
+    Path(config.INDEX_MANIFEST).write_text(json.dumps({
+        "chunks_md5": ingest.chunk_fingerprint(config.CHUNKS_PATH),
+        "n_chunks": len(chunks),
+        "vector_store": config.VECTOR_STORE,
+        "embed_model": config.EMBED_MODEL,
+        "chunk_size": size,
+        "chunk_overlap": overlap,
+        "min_chunk_chars": config.MIN_CHUNK_CHARS,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     graph._vectorstore = None      # 캐시 무효화
     graph._bm25 = None
@@ -108,6 +184,8 @@ def build_and_eval(size: int, overlap: int) -> dict:
         "baseline": base,
         "mrr": round(sum(1 / r for r in ranks if r) / n, 3),
         "misses": [q[:22] for q, r in zip(ANCHORS, ranks) if r is None or r > 3],
+        "coverage": coverage_eval(
+            cov_cases, [c.page_content for c in chunks], graph),
     }
 
 
@@ -123,11 +201,12 @@ def main():
     print(f"주의: data/chunks.jsonl과 {config.VECTOR_STORE} 인덱스를 덮어쓴다. "
           "중간에 멈추면 `python src/ingest.py`로 복구할 것.\n")
 
+    cov_cases = load_coverage_cases()
     rows = []
     for size in args.sizes:
         overlap = max(20, size // 8)          # 원래 비율(800:100)을 유지
-        print(f"청크 {size}자(overlap {overlap}) 구축·평가 중...")
-        rows.append(build_and_eval(size, overlap))
+        print(f"청크 {size}자(overlap {overlap}) 구축·평가 중...", flush=True)
+        rows.append(build_and_eval(size, overlap, cov_cases))
 
     print("\n===== 청크 크기 스윕 (검색 단독, 앵커 기반 gold) =====")
     print("  괄호 안은 무작위 기준선 — 청크가 커지면 개수가 줄어 기준선이 올라간다.")
@@ -143,7 +222,21 @@ def main():
     for r in rows:
         print("   {:>4}자: {}".format(r["size"], ", ".join(r["misses"]) or "없음"))
 
-    import json
+    print(f"\n===== 경로 기반 커버리지 (정본 의미론, {len(cov_cases)}문항) =====")
+    print("  '하나라도 회수'가 아니라 어느 한 근거 경로의 **전수** 충족 여부.")
+    print("  크기 | sat@1  sat@3  sat@5  sat@6 | cov@5 | 근거손실")
+    for r in rows:
+        c = r["coverage"]
+        print("  {:>4} | {:>4}%  {:>4}%  {:>4}%  {:>4}% | {:>4}% | {}건".format(
+            r["size"], c["satisfied@1"], c["satisfied@3"], c["satisfied@5"],
+            c["satisfied@6"], c["best_cov@5"], len(c["evidence_loss"])))
+
+    for r in rows:
+        if r["coverage"]["evidence_loss"]:
+            print(f"\n  {r['size']}자에서 근거 손실(모든 경로에 충족 불가 앵커):")
+            for q in r["coverage"]["evidence_loss"]:
+                print(f"    - {q[:56]}")
+
     out = Path(__file__).parent / "results_chunk_sweep.json"
     # 이 스크립트는 인덱스를 매 스텝 덮어쓰므로 지문의 n_chunks·md5는
     # **마지막 스텝** 값이다. 비교에 쓸 건 embed_model·host 쪽이다.
