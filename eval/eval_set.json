@@ -1139,5 +1139,409 @@
         "Tensorflow 2.8.0"
       ]
     ]
+  },
+  {
+    "question": "석사 학위는 언제 취득했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2021[.\\s]*0?8|2021년\\s*8월"
+    ],
+    "gold_anchors": [
+      "2021.08"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2021.08"
+      ]
+    ]
+  },
+  {
+    "question": "학사 학위는 언제 취득했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2018[.\\s]*0?2|2018년\\s*2월"
+    ],
+    "gold_anchors": [
+      "2018.02"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2018.02"
+      ]
+    ]
+  },
+  {
+    "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2016"
+    ],
+    "gold_anchors": [
+      "Linux Master (2016)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Linux Master (2016)"
+      ]
+    ]
+  },
+  {
+    "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2024[.\\s]*0?1|2024년\\s*1월|24년\\s*1월"
+    ],
+    "gold_anchors": [
+      "2024.01",
+      "24년 1월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2024.01"
+      ],
+      [
+        "24년 1월"
+      ]
+    ]
+  },
+  {
+    "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2017",
+      "2018"
+    ],
+    "gold_anchors": [
+      "Oct 2017"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Oct 2017"
+      ]
+    ]
+  },
+  {
+    "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2021"
+    ],
+    "gold_anchors": [
+      "Data Analytics Semi-Professional (2021)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Data Analytics Semi-Professional (2021)"
+      ]
+    ]
+  },
+  {
+    "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "2\\s*편|두\\s*편"
+    ],
+    "gold_anchors": [
+      "악성코드 탐지 방법 동향 분석",
+      "사이니지"
+    ],
+    "gold_anchor_sets": [
+      [
+        "악성코드 탐지 방법 동향 분석",
+        "사이니지"
+      ]
+    ]
+  },
+  {
+    "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "5\\s*가지|5\\s*개|다섯|5\\s*[종种]"
+    ],
+    "gold_anchors": [
+      "Focal regularized Dice loss"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Focal regularized Dice loss"
+      ]
+    ]
+  },
+  {
+    "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "1\\s*편|한\\s*편"
+    ],
+    "gold_anchors": [
+      "스마트미디어학회"
+    ],
+    "gold_anchor_sets": [
+      [
+        "스마트미디어학회"
+      ]
+    ]
+  },
+  {
+    "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "1\\s*편|한\\s*편"
+    ],
+    "gold_anchors": [
+      "국제 학술대회",
+      "ACM International Conference"
+    ],
+    "gold_anchor_sets": [
+      [
+        "국제 학술대회"
+      ],
+      [
+        "ACM International Conference"
+      ]
+    ]
+  },
+  {
+    "question": "우수논문상은 몇 회 수상했나요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "1\\s*회|한\\s*번|1\\s*번|한\\s*차례"
+    ],
+    "gold_anchors": [
+      "우수논문상",
+      "우수 논문 수상"
+    ],
+    "gold_anchor_sets": [
+      [
+        "우수논문상"
+      ],
+      [
+        "우수 논문 수상"
+      ],
+      [
+        "우수 논문상 수상"
+      ]
+    ]
+  },
+  {
+    "question": "2022년에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "1\\s*편|한\\s*편"
+    ],
+    "gold_anchors": [
+      "2022.11"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2022.11"
+      ]
+    ]
+  },
+  {
+    "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "1년\\s*1\\s*개월|13\\s*개월"
+    ],
+    "gold_anchors": [
+      "1년 1개월",
+      "5개월"
+    ],
+    "gold_anchor_sets": [
+      [
+        "1년 1개월",
+        "5개월"
+      ]
+    ]
+  },
+  {
+    "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "2018[.\\s]*0?2|2018년\\s*2월|2018년"
+    ],
+    "gold_anchors": [
+      "2021.08",
+      "2018.02"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2021.08",
+        "2018.02"
+      ]
+    ]
+  },
+  {
+    "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "2018[.\\s]*0?4|2018년\\s*4월|2018년"
+    ],
+    "gold_anchors": [
+      "2020.09",
+      "2018.04"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2020.09",
+        "2018.04"
+      ],
+      [
+        "Sep 2020",
+        "2018.04"
+      ]
+    ]
+  },
+  {
+    "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "2023[.\\s]*0?5|2023년\\s*5월"
+    ],
+    "gold_anchors": [
+      "2023.05.25",
+      "2023.11"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2023.05.25",
+        "2023.11"
+      ],
+      [
+        "2023.05.25",
+        "Nov 2023"
+      ]
+    ]
+  },
+  {
+    "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "0[.]27"
+    ],
+    "gold_anchors": [
+      "0.2739",
+      "0.2240"
+    ],
+    "gold_anchor_sets": [
+      [
+        "0.2739",
+        "0.2240"
+      ]
+    ]
+  },
+  {
+    "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+    "type": "enumeration",
+    "answer_patterns": [
+      "BART",
+      "T5"
+    ],
+    "gold_anchors": [
+      "BART",
+      "T5"
+    ],
+    "gold_anchor_sets": [
+      [
+        "BART",
+        "T5"
+      ]
+    ]
+  },
+  {
+    "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+    "type": "enumeration",
+    "answer_patterns": [
+      "[Ee]arly",
+      "[Mm]id",
+      "[Ll]ate"
+    ],
+    "gold_anchors": [
+      "early fusion",
+      "late fusion"
+    ],
+    "gold_anchor_sets": [
+      [
+        "early fusion",
+        "late fusion"
+      ]
+    ]
+  },
+  {
+    "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+    "type": "enumeration",
+    "answer_patterns": [
+      "파일",
+      "스트리밍"
+    ],
+    "gold_anchors": [
+      "파일 기반 STT 처리",
+      "스트리밍 기반 STT 처리"
+    ],
+    "gold_anchor_sets": [
+      [
+        "파일 기반 STT 처리",
+        "스트리밍 기반 STT 처리"
+      ]
+    ]
+  },
+  {
+    "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+    "type": "enumeration",
+    "answer_patterns": [
+      "음성\\s*복제|ICL",
+      "OpenAI"
+    ],
+    "gold_anchors": [
+      "음성복제",
+      "OpenAI TTS API 호환"
+    ],
+    "gold_anchor_sets": [
+      [
+        "음성복제",
+        "OpenAI TTS API 호환"
+      ]
+    ]
+  },
+  {
+    "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+    "type": "trap",
+    "answer_patterns": [
+      "사이니지"
+    ],
+    "gold_anchors": [
+      "사이니지"
+    ],
+    "gold_anchor_sets": [
+      [
+        "사이니지"
+      ]
+    ]
+  },
+  {
+    "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "2292"
+    ],
+    "gold_anchors": [
+      "2292"
+    ],
+    "gold_anchor_sets": [
+      [
+        "2292"
+      ]
+    ]
+  },
+  {
+    "question": "이윤선의 TOEIC 점수는 몇 점인가요?",
+    "type": "refusal",
+    "expect_refusal": true
+  },
+  {
+    "question": "이윤선이 박사 학위를 받은 대학은 어디인가요?",
+    "type": "refusal",
+    "expect_refusal": true
   }
 ]
