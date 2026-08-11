@@ -48,21 +48,14 @@ for m in re.finditer(r"python (src|eval)/(\w+\.py)", readme):
 sys.path.insert(0, str((REPO / "src").resolve()))
 import config  # noqa: E402
 
-claims = {
-    "GENERATE_TOP_N": 5,     # §5 "기본값을 top-5로 변경했다"
-    "TOP_K": 6,              # §9 "TOP_K 6 → 15 미채택"
-    "NEIGHBOR_WINDOW": 0,    # §9 "기본 꺼둠"
-    "MAX_REWRITES": 1,
-}
-for k, v in claims.items():
-    if getattr(config, k) != v:
+# config.knobs()가 손잡이 전부를 돌려주므로 손으로 고른 몇 개가 아니라
+# 전수로 확인한다. 예전엔 4개만 적어 뒀고, 그 목록 자체가 드리프트했다
+# (cache.py·runmeta.py가 같은 병으로 실제 버그를 냈다).
+for name, value in sorted(config.knobs().items()):
+    if name not in readme:
         problems.append(
-            f"[값 불일치] README는 {k}={v} 전제인데 config는 "
-            f"{getattr(config, k)}")
-if config.CONTEXT_ORDER != "reversed":
-    problems.append("[값 불일치] README는 배치 순서 기본값을 역순으로 적었다")
-if config.EXCLUDE_DIAGRAMS:
-    problems.append("[값 불일치] README는 다이어그램 제외 기본 꺼짐으로 적었다")
+            f"[손잡이 미문서화] {name}(기본 {value}) 가 README에 없음 — "
+            "손잡이를 노출했으면 무엇인지·왜 그 기본값인지 적어야 한다")
 
 # 4. 평가셋 문항 수 주장
 import json  # noqa: E402
@@ -97,4 +90,4 @@ if problems:
         print("  " + p)
     raise SystemExit(1)
 print(f"문서-코드 일치 확인 — src {len(actual_src)}개 / eval {len(actual_eval)}개, "
-      f"평가셋 {n}문항, 기본값 {len(claims) + 2}개 대조 통과")
+      f"평가셋 {n}문항, 손잡이 {len(config.knobs())}개 문서화 확인")

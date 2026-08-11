@@ -950,11 +950,18 @@ gold 라벨 무효화는 0건이다.
 개수가 필요하다(샌드위치 7/16 → 12/16). **하나의 설정으로 둘을 동시에
 만족시키지 못한다** — 질문 유형별 라우팅이 다음 후보다.
 
-실험용 손잡이는 전부 환경변수로 남겨 뒀다(`TOP_K`, `GENERATE_TOP_N`,
-`NEIGHBOR_WINDOW`, `CONTEXT_ORDER`, `EXCLUDE_DIAGRAMS`,
-`GENERATE_PROMPT_VARIANT`, `MAX_REWRITES`, `LLM_MODEL`, `HYDE`,
-`HYDE_MODE`). 기본값의 근거는
-`config.py` 주석에 측정치와 함께 적어 두었다.
+실험용 손잡이는 전부 환경변수로 남겨 뒀다. 모델·인덱스 쪽이 `LLM_MODEL`,
+`EMBED_MODEL`(임베딩, 기본 `bge-m3` — `compare_embeddings.py`로 대안과
+비교), `VECTOR_STORE`. 검색 쪽이 `TOP_K`, `RRF_K`, `RERANK`, `HYDE`,
+`HYDE_MODE`. 컨텍스트 쪽이 `GENERATE_TOP_N`, `NEIGHBOR_WINDOW`,
+`CONTEXT_ORDER`, `EXCLUDE_DIAGRAMS`, `GENERATE_PROMPT_VARIANT`. 흐름 쪽이
+`MAX_REWRITES`, `TYPE_ROUTING`, `TEAM_ROUTING`, `VERIFY_GROUNDING`.
+기본값의 근거는 `config.py` 주석에 측정치와 함께 적어 두었다.
+
+손잡이는 전부 `config._env()` 한 통로로만 읽는다. `config.knobs()`가 항상
+완전하므로 캐시 키(`cache.py`)·실행 지문(`runmeta.py`)·문서화 검사
+(`audit_docs.py`)가 손으로 유지하는 목록 없이 자동으로 따라온다 — 예전엔
+셋 다 각자 목록을 들고 있다가 드리프트했다(§12).
 
 ### 10. 채점 기준 변경 이력
 
@@ -1076,6 +1083,47 @@ comparison만 돌리면 routed와 all_team은 같은 설정인데 22 vs 20으로
 진짜였지만 3b에서는 0이다. "멀티에이전트를 붙였다"가 아니라 "언제 값을
 하는지 안다"가 이 실험의 산출물이고, 그래서 기본은 꺼 둔 채 손잡이만
 남긴다(`TEAM_ROUTING=1`).
+
+### 12. 손으로 유지하던 목록 셋이 전부 드리프트했다 (캐시 키 버그)
+
+`cache.py`는 독스트링에서 이렇게 선언한다 — "캐시 키에 답에 영향을 주는
+설정 전부의 지문을 넣어, 설정이 바뀌면 자동으로 다른 키가 되게 한다
+(수동 무효화 불필요)". 그런데 구현은 손으로 적은 목록이었고, 환경변수
+손잡이 17개 중 **10개만** 들어 있었다.
+
+    빠진 것: HYDE  HYDE_MODE  VERIFY_GROUNDING  TEAM_ROUTING
+             EMBED_MODEL  RRF_K  VECTOR_STORE
+
+즉 `HYDE=1`로 API를 띄우면 `HYDE=0` 시절 캐시 답이 그대로 나온다.
+캐시 모듈이 막겠다고 선언한 바로 그 사고이고, 이 프로젝트가 가장 경계해온
+"지표가 조용히 거짓이 되는" 유형이다.
+
+같은 병이 둘 더 있었다. `runmeta.py`는 `params`에 5개만 기록해 결과 파일만
+보고는 HyDE 실행인지 구분할 수 없었고(실행 지문의 존재 이유가 비교
+가능성인데 그게 반만 됐다), `audit_docs.py`는 17개 중 4개만 대조하고 있었다.
+
+**셋 다 원인이 같다 — 목록을 손으로 유지한다는 것.** `cache.py` 주석에는
+"새 손잡이를 추가하면 여기도 같이 추가할 것"이라고 적혀 있었는데, 그 규칙이
+이미 두 번 깨진 뒤였다. 규칙을 더 강조하는 대신 목록이 없는 구조로 바꿨다.
+
+```python
+# config.py — 손잡이를 읽는 통로 하나
+def _env(name, default, cast=str):
+    value = cast(os.environ.get(name, default))
+    _KNOBS[name] = value          # 읽는 순간 등록 → knobs()는 항상 완전
+    return value
+
+TOP_K = _env("TOP_K", "6", int)   # 17개 전부 이 형태
+```
+
+`cache._config_fingerprint()`·`runmeta`의 `params`·`audit_docs`의 대조는
+전부 `config.knobs()` 한 줄이 됐다. 새 손잡이는 자동 반영되므로 드리프트가
+구조적으로 불가능하다.
+
+`tests/test_knobs.py`가 고정한다 — `_env` 우회 금지, 선언과 등록 일치,
+**손잡이를 하나씩 바꿔가며 캐시 키가 전부 달라지는지**(원래 버그의 직접
+재현), 실행 지문 누락 없음. 그리고 `audit_docs`를 전수 검사로 바꾸자마자
+`EMBED_MODEL`이 README에 없다는 것을 잡아냈다.
 
 ## Graph RAG 실험 1 — 원 코퍼스 (미채택, 원인: 코퍼스가 작다)
 
