@@ -1,0 +1,948 @@
+{
+  "run_metadata": {
+    "llm_model": "qwen2.5:7b",
+    "embed_model": "bge-m3",
+    "ollama_version": "0.32.6",
+    "vector_store": "faiss",
+    "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
+    "n_chunks": 58,
+    "params": {
+      "VECTOR_STORE": "faiss",
+      "LLM_MODEL": "qwen2.5:7b",
+      "EMBED_MODEL": "bge-m3",
+      "TOP_K": 6,
+      "RRF_K": 60,
+      "GENERATE_TOP_N": 5,
+      "NEIGHBOR_WINDOW": 0,
+      "CONTEXT_ORDER": "reversed",
+      "GENERATE_PROMPT_VARIANT": "base",
+      "EXCLUDE_DIAGRAMS": false,
+      "MAX_REWRITES": 1,
+      "TYPE_ROUTING": true,
+      "TEAM_ROUTING": false,
+      "HYDE": false,
+      "HYDE_MODE": "full",
+      "RERANK": false,
+      "VERIFY_GROUNDING": false,
+      "CHUNK_SIZE": 800,
+      "CHUNK_OVERLAP": 100
+    },
+    "host": {
+      "os": "Windows-10-10.0.19045-SP0",
+      "python": "3.14.4",
+      "gpu": "NVIDIA GeForce RTX 2070"
+    }
+  },
+  "source_file": "results_100q_7b_run1.json",
+  "source_model": "qwen2.5:7b",
+  "summary": {
+    "false_alarm": "3/73",
+    "detection": "3/9",
+    "correct_refusal_bucket": "8/12",
+    "wrong_refusal_bucket": "4/6",
+    "unparsed": 0,
+    "median_sec": 2.51
+  },
+  "cases": [
+    {
+      "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "TTS 프로젝트에서는 기존의 평균 지연 시간인 5~10초를极大简化一下这段中文回答：\n\n在TTS项目中，通过新的架构设计将TTFB（从用户点击按钮到听到第一个声音的时间）缩短到了334毫秒，相比之前的2292毫秒，减少了85%，速度提高了6.85倍。"
+    },
+    {
+      "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "스트리밍 오디오의 팝 노이즈 문제는 두 가지 방법으로 해결되었습니다:\n\n1. **Frontend 잔여 버퍼(Residual Buffer) 설계**: 백엔드에서 도달한 바이너리 청크와 기존에 남겨둔 홀수 바이트를 합쳐, 전체 길이를 짝수로 강제 정렬했습니다. 이렇게 하면 16-bit PCM(WAV) 오디오 청크가 2바이트(16-bit) 단위로 조합되어 팝 노이즈(Pop-noise)를 발생시키지 않게 되었습니다.\n\n2. **Micro-fade (Anti-pop) 적용**: Web Audio의 `GainNode`를 활용하여, 오디오 청크가 재생될 때마다 초반 10ms 구간에 볼륨 곡선(Linear Ramp)을 주어 전기적인 끊김 현상을 물리적으로 블러링(Blurring)했습니다. 이를 통해 팝 노이즈를 완벽하게 근절할 수 있었습니다."
+    },
+    {
+      "question": "이윤선의 제1저자 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims were found in the provided text.",
+      "answer": "이윤선의 제1저자 논문은 총 7편입니다. 문서에서 \"전체 경력 논문 7편 중 일부\"라는 표현과 \"이 프로젝트에서 논문 2편 게재(제1저자)\" 등의 내용을 통해 확인할 수 있습니다."
+    },
+    {
+      "question": "등록된 특허 번호를 알려주세요.",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}",
+      "answer": "등록된 특허 번호는 다음과 같습니다:\n1. 1025382250000\n2. 1025382310000\n\n이 두 특허의 등록번호를 확인할 수 있습니다."
+    },
+    {
+      "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}",
+      "answer": "Qwen3-TTS 프로젝트에서 Kubernetes 인프라 구축에는 GitLab CI/CD, Jenkins, ArgoCD 등이 사용되었습니다. 특히, GitLab → Jenkins → ArgoCD의 배포 자동화 과정을 통해 20개 이상의 ML 모델 운영 환경을 구축하는 성과를 이뤄냈습니다."
+    },
+    {
+      "question": "우수 논문상을 받은 논문 제목은?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "우수 녺문상을 받은 논문 제목은 \"국방 데이터 확보를 위한 생성모델 Latent Diffusion 실험\"입니다. 이 논문은 2023년 국방기술학회에서 발표되었으며, 우수논문상으로 선정되었습니다."
+    },
+    {
+      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No additional unsupported claims were found.",
+      "answer": "TTS 시스템의 동시 처리 채널은 12개에서 24개로 확장되었습니다."
+    },
+    {
+      "question": "화자 분할에는 어떤 모델을 사용했나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_formula_in_evaluation_methodology_and_experiment_results",
+      "answer": "화자 분할에 사용된 모델은 Pyannote 사전 학습 모델이며, 이 모델은 한국어 상담 데이터로 파인튜닝되었습니다."
+    },
+    {
+      "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "웹소켓 세션 탈취 문제를 방어하기 위해, `routers/ws_synthesize.py` 파일의 소켓 핸드셰이크 단계에 강력한 DB 세션 싱크를 구축했습니다. 특히, `pwd_changed_at > payload.get(\"iat\", 0)` 조건문을 소켓 개방 직전에 검사하여, 실시간 통신망에서의 세션 무효화 우회 공격을 완벽히 차단할 수 있도록 엔터프라이즈급 제로-트러스트 모델을 구현했습니다."
+    },
+    {
+      "question": "이윤선이 근무한 회사들을 알려주세요.",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "이윤선은 다음과 같은 회사에서 근무했습니다:\n\n1. 큐헷지 (2020.09 - 2021.09)\n2. 이든티앤에스 (2022.04.04 - 2022.08.05)\n3. 인피닉 (2022.08.08 - 2025.04.22, 현재 재직 중)\n4. 미코그룹 AICESS 인공지능 연구소 (2025.04.23 ~ 현재)"
+    },
+    {
+      "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically impossible",
+      "answer": "TTS 시스템의 Throughput은 0.68 rps에서 1.41 rps로 개선되었습니다. 최적화 후에는 약 ~1.7 rps까지 향상되었다고 기록되어 있습니다."
+    },
+    {
+      "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "TTS 서비스는 32개 언어를 지원합니다."
+    },
+    {
+      "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_impossible_increase",
+      "answer": "ITN 정규화 정확도는 50.1%에서 70.9%로 올랐습니다."
+    },
+    {
+      "question": "TTS 추론 엔진은 어떤 모델을 사용하나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically impossible",
+      "answer": "TTS 추론 엔진은 Qwen3-TTS-1.7B 모델을 사용합니다."
+    },
+    {
+      "question": "팝 노이즈를 막는 Micro-fade는 몇 ms 구간에 적용되나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No",
+      "answer": "Micro-fade은 오디오 청크가 재생될 때 초반 10ms 구간에 볼륨 곡선(Linear Ramp)을 적용하여 전기적인 끊김 현상을 물리적으로 블러링합니다. 따라서 Micro-fade는 약 10ms 구간에 적용됩니다."
+    },
+    {
+      "question": "석사 학위는 어느 대학교에서 받았나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}Skills",
+      "answer": "이윤선님의 석사 학위는 인하대학교(Inha University)에서 받았습니다. 문서에 따르면, 그의 교육 배경 항목에는 \"M.S. Computer Science | Inha University (2021.08)\"가 기재되어 있습니다."
+    },
+    {
+      "question": "영어 OPIc 등급은 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "falsified_facts",
+      "answer": "영어 OPIc IM1 등급은 \"Intermediate Mid\"를 의미합니다. 이는 미국国务院的语言院等级标准中的一级, 表示 Intermediate（中级）水平的中间阶段。"
+    },
+    {
+      "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}WhisperX 기반 STT 엔진 성능 개改善，以下是翻译内容：文档中确实提到了STT引擎是基于WhisperX构建的。具体来说，在文档中的以下部分提到了这一点：“• WhisperX 基础 STT 引擎性能改进及运营优化（部署/服务负责，团队协作）”。因此，您提供的回答与文档内容是一致的，并且没有包含任何不在原文档中的信息或事实。所以，您的结论是正确的。",
+      "answer": "STT 엔진은 WhisperX 기반으로 만들어졌습니다. 문서에서 다음과 같은 내용이 언급되어 있습니다:\n\n\"• WhisperX 기반 STT 엔진 성능 개선 및 운영 고도화 (배포/서빙 담당, 팀 협업)\""
+    },
+    {
+      "question": "설정 변경을 워커들에게 알리는 Redis Pub/Sub 토픽 이름은 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_statements",
+      "answer": "설정 변경을 워ker들에게 알리는 Redis Pub/Sub 토픽 이름은 `config_update`입니다."
+    },
+    {
+      "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims found in the provided information.",
+      "answer": "CER(문자 오류율)는 3~5%입니다."
+    },
+    {
+      "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "ioleak_solution: 추가된 Deep GC 추적기는 MD5 해시 경로를 역산하여 캐시 파일까지 삭제하는 기능을 포함하고 있으며, 이는 보이스 프로필의 교체/삭제 시 발생하는 하드디스크 스토리지 누수 문제를 해결합니다. 그러나 원래 설명에서 제시된 구현 방법은 명확하지 않으며, 실제 코드 구현에 필요한 추가 정보가 필요합니다.",
+      "answer": "레퍼런스 음성은 24kHz 샘플레이트와Mono (monoaural) 채널로 정규화됩니다. 이 설정은 Qwen3-TTS와 같은 ICL(In-Context Learning) 모델이 프롬프트 음성의 음향 특징량을 추출하기 위해 사용되며, 이를 통해 오디오 파일의 디코딩 및 정규화 지연 시간을 줄일 수 있습니다."
+    },
+    {
+      "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unfounded",
+      "answer": "FastAPI 게이트웨이와 Qwen3 엔진은 gRPC 프로토콜을 통해 통신합니다. 구체적으로, FastAPI 서버는 gRPC를 사용하여 Qwen3 엔진의 `StreamingSynthesizeRequest` 메시지를 전송합니다."
+    },
+    {
+      "question": "이윤선이 재직한 회사 네 곳을 모두 알려주세요.",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_calculations",
+      "answer": "이윤선이 재직한 회사는 다음과 같습니다:\n\n1. 미코그룹 AICESS 인공지능 연구소 (2025.04.23 ~ 현재)\n2. 인피닉 (2022.08.08 - 2025.04.22, 2년 9개월)\n3. 이든티앤에스 (2022.04.04 - 2022.08.05, 5개월)\n4. 큐헷지 (2020.09 - 2021.09, 1년 1개월)"
+    },
+    {
+      "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "Kubernetes 배포 자동화를 위해 회사는 다음과 같은 도구들을 연결하여 자동화 체계를 구축했습니다:\n\n1. **GitLab CI/CD**: 코드 변경이 발생할 때 자동으로 빌드, 테스트, 배포 과정을 수행합니다.\n2. **Jenkins**: GitLab에서 생성된 파이프라인 스크립트를 실행하고, 더 복잡한 연산이나 단계가 필요한 경우 Jenkins를 사용하여 처리합니다.\n3. **ArgoCD**: GitOps 방식으로 Kubernetes 클러스터의 상태를 Git 저장소와 동기화합니다.\n\n즉, GitLab CI/CD에서 시작하여 Jenkins로 이어지고, Jenkins에서 ArgoCD를 통해 최종적으로 Kubernetes 클러스터에 배포되는 구조입니다."
+    },
+    {
+      "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "### 1.4 인프라 모니터링 도구\n\n인프라의 성능과 안정성을 모니터링하기 위해 다음과 같은 도구들이 사용되었습니다:\n\n- **Prometheus + Grafana**: \n    - Prometheus는 메트릭스를 수집하고, 저장하며, 경보 시스템을 제공합니다.\n    - Grafana는 Prometheus에서 수집된 메트릭스를 시각화하여 인프라의 상태를 실시간으로 확인할 수 있게 합니다.\n\n- **ELK Stack (Elasticsearch, Logstash, Kibana)**:\n    - Elasticsearch는 로그 데이터를 검색하고 분석하는 데 사용됩니다.\n    - Logstash는 다양한 소스에서 로그를 수집하고 변환합니다.\n    - Kibana는 Elasticsearch의 데이터를 시각화하여 로깅 및 모니터링을 용이하게 합니다.\n\n- **Datadog**:\n    - Datadog는 서버, 네트워크, 클라우드 서비스 등의 실시간 모니터링과 경보 시스템을 제공합니다.\n    - 다양한 인프라와 애플리케이션의 메트릭스를 수집하고 분석하여 문제를 빠르게 식별할 수 있습니다.\n\n- **New Relic**:\n    - New Relic는 애플리케이션 성능 모니터링, 트레이싱, 로깅 등을 제공합니다.\n    - 실시간으로 애플리케이션의 성능을 분석하고 문제를 진단할 수 있습니다.\n\n- **Metrics Server**:\n    - Metrics Server는 Kubernetes 클러스터에서 리소스 사용량과 상태를 모니터링하는 데 사용됩니다. \n    - vLLM 엔진의 GPU 메모리 사용량, CPU 사용량 등을 실시간으로 추적하여 OOM 문제를 방지합니다.\n\n- **Prometheus Node Exporter**:\n    - Prometheus Node Exporter는 노드 수준의 메트릭스를 수집하고 Prometheus에 제공합니다.\n    - 서버의 CPU, 메모리, 디스크 사용량 등의 정보를 모니터링할 수 있습니다.\n\n이러한 도구들은 각각의 역할을 수행하며, 전체 인프라의 성능과 안정성을 종합적으로 모니터링하고 경보 시스템을 통해 문제를 빠르게 해결할 수 있도록 지원합니다."
+    },
+    {
+      "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "3D 시맨틱 세그mensation 연구에서 융합한 센서는 카메라와 라이다(Lidar)입니다. 문서에서는 \"Camera input\"과 \"Lidar input\"이 융합되어 Trans-Unet 모델을 통해 2D 시맨틱 세그mensation 결과를 3D로 변환하는 과정이 설명되어 있습니다."
+    },
+    {
+      "question": "보유한 자격증을 알려주세요.",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_formula",
+      "answer": "이윤선님은 다음과 같은 자격증을 보유하고 있습니다:\n\n- Linux Master (2016)\n- Data Analytics Semi-Professional (2021)"
+    },
+    {
+      "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 React 18, TypeScript, Vite, Web Audio API를 사용하고 있습니다."
+    },
+    {
+      "question": "등록된 특허는 총 몇 건인가요?",
+      "type": "aggregation",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "falsified_claim",
+      "answer": "등록된 특許是文档中提到的专利数量。根据文档中的信息，共有2项专利：\n\n1. 专利号为**1025382250000 (2023.05.25)** 的专利：[传感器融合基础上的语义分割方法及执行该方法的记录介质上的计算机程序](https://doi.org/10.8080/1020230030194)\n2. 专利号为**1025382310000 (2023.05.25)** 的专利：[语义分割的三维解释方法及执行该方法的记录介质上的计算机程序](https://doi.org/10.8080/1020230030193)\n\n因此，注册的专利总数是2项。"
+    },
+    {
+      "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
+      "type": "aggregation",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": false,
+      "unsupported_claim": "제1저자로 게재된 논문은 총 7편이며, 특허는 2건 등록되었습니다. 따라서, 제1저자 논문 수와 특허 건수를 합치면 **9** 개가 됩니다.",
+      "answer": "제1저자로 게재된 논문은 총 7편이며, 특허는 2건 등록되었습니다. 따라서, 제1저자 논문 수와 특허 건수를 합치면 **9** 개가 됩니다."
+    },
+    {
+      "question": "2023년에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unfounded",
+      "answer": "2023년에 게재된 논문은 세 편입니다."
+    },
+    {
+      "question": "한국자동차공학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_statements",
+      "answer": "한국자동차공학회에 게재된 논문은 총 3편입니다. \n\n1. [센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11232100) (2023.04)\n2. [자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11220500) (2022.11)\n\n위 두 논문 외에도, [GAN을 활용한 데이터 생성 연구 동향](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11622970&nodeId=NODE11622970&mobileYN=N&medaTypeCode=185004&isPDFSizeAllowed=true&locale=ko&foreignIpYn=N&articleTitle=GAN%EC%9D%84+%ED%99%9C%EC%9A%A9%ED%95%9C+%EB%8D%B0%EC%9D%B4%ED%84%B0+%EC%83%9D%EC%84%B1+%EC%97%B0%EA%B5%AC+%EB%8F%99%ED%96%A5&articleTitleEn=Data+generation+research+trend+using+GAN&voisId=VOIS00738913&voisName=%ED%95%9C%EA%B5%AD%ED%95%AD%EA%B3%B5%EC%9A%B0%EC%A3%BC%ED%95%99%ED%9A%8C+2023+%EC%A0%9C1%ED%9A%8C+%EC%9A%B0%EC%A3%BC%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C&voisCnt=346&language=ko_KR&hasTopBanner=true) 논문도 한국자동차공학회에 게재되어 있지만, 이는 GAN을 활용한 데이터 생성 연구의 동향 분석이므로, 주로 3D 시맨틱 세그멘테이션과 직접 관련이 없습니다."
+    },
+    {
+      "question": "TTFB는 몇 배 빨라졌나요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims found in the provided text.",
+      "answer": "TTFB가 약 6.85배 빨라졌습니다. 문서에서 다음과 같이 언급되어 있습니다:\n\n- **버전 (deprecated)**\n  - 성과: 응답 시간이 약 **85.4%** 단축 (TTFB 약 6.85배 빨라짐)\n\n따라서 TTFB가 약 6.85배 가속화되었다는 정보를 제공할 수 있습니다."
+    },
+    {
+      "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_computation_not_supported",
+      "answer": "TTS 프로젝트의 시작 시점은 2025년 9월부터이고, 화자 분할 프로젝트는 2025년 4월부터 시작되었습니다. 따라서 먼저 시작한 쪽의 시작 시점은 2025년 4월입니다."
+    },
+    {
+      "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No additional unsupported claims were found.",
+      "answer": "인피닉의 근무 기간은 2022.08.08 - 2025.04.22로, 총 2년 9개월입니다.\n\n이든티앤에스의 근무 기간은 2022.04.04 - 2022.08.05로, 총 5개월입니다.\n\n따라서 더 오래 근무한 회사는 인피닉이며, 그 근무 기간은 2년 9개월입니다."
+    },
+    {
+      "question": "AICESS에 입사한 날짜는 언제인가요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims found.",
+      "answer": "AICESS에 입사한 날짜는 2025년 4월 23일부터 재직 중입니다."
+    },
+    {
+      "question": "인피닉에서 근무한 기간은 얼마인가요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims were found in the provided text.",
+      "answer": "인피닉에서 근무한 기간은 2년 9개월입니다. (2022.08.08 ~ 2025.04.22)"
+    },
+    {
+      "question": "우수 논문상은 언제 수상했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}根据提供的文档内容，您的回答是正确的。您提到的“优 秀论文奖”是在2023年11月获得的，并且获奖论文题目为“国防数据 确保用生成模型Lattent Diffusion实验”。这个信息完全符合文档中的描述。因此，您的回答与文档内容一致，没有包含任何未在文档中提到的新事实或数值。",
+      "answer": "우수 논문상은 2023년 11월에 수상했습니다. 이는 \"국방 데이터 확보를 위한 생성 모델 Lattent Diffusion\"이라는 제목의 논문에서 받은 상입니다."
+    },
+    {
+      "question": "특허 두 건은 언제 등록됐나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}",
+      "answer": "특허 두 건은 2023년 5월 25일에 등록되었습니다."
+    },
+    {
+      "question": "제2저자로 참여한 논문은 몇 편인가요?",
+      "type": "trap",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": false,
+      "unsupported_claim": "mathematically proven or empirically supported by the provided document.",
+      "answer": "문서에서 제2저자로 참여한 녺문이 몇 편인지 명시되어 있지 않습니다. 따라서, 문서에서 찾을 수 없습니다."
+    },
+    {
+      "question": "ReDoS 방어용 ThreadPoolExecutor에 걸었던 타임아웃은 몇 초였나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "ThreadPoolExecutor의 timeout 값은 0.5초였습니다.",
+      "answer": "ThreadPoolExecutor의 timeout 값은 0.5초였습니다. 문서에서 \"단어 하나, 문단 하나를 치환할 때마다 운영체제(OS) 레벨에서 스레드풀 객체를 새로 인스턴스화 하다 보니 성능 오버헤드가 극심해져 다수의 텍스트 합성 시 엄청난 CPU 스파이크와 처리 시간(Latency) 지연이 발생했습니다.\"라고 언급되어 있으며, 이는 timeout=0.5를 설정한 것을 확인할 수 있습니다."
+    },
+    {
+      "question": "이윤선의 혈액형은 무엇인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": true,
+      "unsupported_claim": "}에 대한 논문 내용이 문서에 포함되어 있지 않습니다.",
+      "answer": "문서에서 찾을 수 없습니다."
+    },
+    {
+      "question": "이윤선이 키우는 반려동물의 이름은 무엇인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "문서에는 이윤선 님이 키우는 반려동물이나 그 이름에 대한 정보가 포함되어 있지 않습니다.",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 님이 키우는 반려동물이나 그 이름에 대한 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "이윤선이 좋아하는 음식은 무엇인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims were found in the provided document.",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 씨의 개인적인 취미나 선호 사항에 대한 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "이윤선의 현재 연봉은 얼마인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "이윤선 engineer의 연봉 정보",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 engineer의 연봉 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "이윤선의 MBTI는 무엇인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "The provided document does not contain any information about Lee Yoon Seon's MBTI type. Therefore, it is not possible to determine or state her MBTI type based on the given content.",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선工程师的助手Qwen被要求提供关于李润善（Lee Yoon Seon）的MBTI类型的信息，但遗憾的是，提供的信息中并未包含有关其MBTI类型的内容。因此无法根据现有信息给出答案。"
+    },
+    {
+      "question": "이윤선의 생년월일은 언제인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "文档中没有提到李润善的具体出生日期信息。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선工程师的详细出生日期信息并未提及。"
+    },
+    {
+      "question": "이윤선의 키는 몇 cm인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "문서에 있는 정보를 바탕으로 답변을 생성할 수 없습니다.",
+      "answer": "문서에서 찾을 수 없습니다."
+    },
+    {
+      "question": "이윤선의 형제자매는 몇 명인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "文档中没有提到李云善工程师的家庭成员等相关个人信息。因此，根据提供的信息无法回答这个问题。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 엔지니어의 개인적인 정보such as family members如家庭成员等个人信息并未提及。因此，根据提供的信息无法回答这个问题。"
+    },
+    {
+      "question": "이윤선이 사용하는 노트북 기종은 무엇인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "문서에는 이윤선이 사용하는 노트북 기종에 대한 정보가 포함되어 있지 않습니다.",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선이 사용하는 노트북 기종에 대한 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "이윤선의 결혼 여부를 알려주세요.",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": false,
+      "unsupported_claim": "文档未提及李云善先生的婚姻状况。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 선생님의 개인적인 결혼 상태에 대한 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unfounded_statements",
+      "answer": "인피닉과 에이아이세스 중 먼저 입사한 회사는 인피닉입니다. 인피닉의 입사 기간은 2022.08.08 - 2025.04.22로, 에이아이세스의 입사 기간인 2025.04.23부터는 재직 중인 상태입니다."
+    },
+    {
+      "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "STT 배포는 2025년 7월부터 시작되었습니다.",
+      "answer": "STT 배포는 2025년 7월부터 시작되었고, Kubernetes 기반 AI 인프라는 2024년 3월부터 시작되었습니다. 따라서 STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 2024년 3월입니다."
+    },
+    {
+      "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "maths",
+      "answer": "석사 학위는 인하대학교(Inha University)에서, 학사는"
+    },
+    {
+      "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+      "type": "comparison",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": false,
+      "unsupported_claim": "STT 배포의 순서",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 TTS 프로젝트와 STT 배포의 순서에 대한 정보가 포함되어 있지 않습니다."
+    },
+    {
+      "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "maths_and_facts",
+      "answer": "제1저자 논문 편수는 7편이고, 등록 특허 건수는 2건입니다. 따라서 제1저자 논문 편수가 더 많습니다."
+    },
+    {
+      "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+      "type": "comparison",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "Generative Model Research和3D Semantic Segmentation Research中更晚开始的研究是3D Semantic Segmentation Research，它从2022年8月开始。",
+      "answer": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구는 3D Semantic Segmentation Research로, 이는 2022년 8월부터 시작되었습니다."
+    },
+    {
+      "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "falsified_data_not_included",
+      "answer": "한국항공우주학회에 게재된 논문은 1편입니다. \"GAN을 활용한 데이터 생성 연구 동향\"이라는 제목의 논문이 2023년 6월에 게재되었습니다."
+    },
+    {
+      "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unsupported",
+      "answer": "이든티앤에스 (EDEN T&S)에서 근무한 기간은 2022년 4월 4일부터 2022년 8월 5일까지로, 총 5개월입니다."
+    },
+    {
+      "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "}",
+      "answer": "STT 배포에 사용한 추론 서버는 Triton Inference Server입니다. 이는 WhisperX 기반 STT 엔진 성능 개선 및 운영 고도화를 담당하는 과정에서 사용되었습니다."
+    },
+    {
+      "question": "우수 논문상을 수상한 학회는 어디인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "} 탱크 탐지 모델",
+      "answer": "우수 논문상을 수상한 학회는 국방기술학회입니다. 문서에서 \"Outstanding Paper Award – Korea Defense Technology Society (Nov 2023)\"이라는 문구를 통해 확인할 수 있습니다."
+    },
+    {
+      "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "최적화를 모두 마친 후, 최종적으로 1.7 rps(rapid processing per second)가 되었습니다. 이는 기술 스택과 함께 설명된 성과 항목에서 확인할 수 있습니다."
+    },
+    {
+      "question": "KISTI에서 수행한 업무는 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "KISTI에서 수행한 업무는 한국어 고어 데이터 전처리 작업이었습니다. 이는 한국어 고어 데이터를 정제 및 전처리하는 작업을 담당한 것으로 보입니다."
+    },
+    {
+      "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "} 기존 시스템의 응答时间是2.3秒。",
+      "answer": "기존 시스템의 응답 시간은 2.3초였습니다. 이는 TTS 프로젝트의 배경 설명에서 직접 언급되어 있습니다."
+    },
+    {
+      "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "확장하기 전에 동시 처리 채널은 12개였습니다."
+    },
+    {
+      "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_ratio_in_kpi",
+      "answer": "ITN 정규화 정확도는 개선되기 전에 50.1%였습니다. 문서에서 \"✓ ITN 정규화 정확도 50.1% → 70.9%\"라는 문구를 통해 이전의 정확도와 개선된 결과가 제공되어 있습니다."
+    },
+    {
+      "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "Kubernetes를 도입하기 전에는 20개 이상의 AI 서비스가 VM/수동 배포 방식으로 배포되고 있었다. 이는 배포 시간을 수시간 소요하게 만들었습니다. Kubernetes 도입의 목표는 이러한 수동 배포 방식에서 컨테이너 기반 자동화 배포 체계로 전환하여 배포 시간을 단축하고 확장성을 높이는 것이었습니다."
+    },
+    {
+      "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "否，文档中提到了团队协作的内容。",
+      "answer": "STT 배포 프로젝트에서는 팀 협업이 이루어졌습니다. 이可以从文档中提取的信息得知，STT部署项目涉及团队协作。具体来说，在“STT部署 (2025.07 ~ 2025.09)”部分提到：“• 배경: AIG 상담센터 대량 상담 전화 실시간 처리 필요 — 기존 시스템 병목으로 동시 채널 부족 • WhisperX 기반 STT 엔진 성능 개선 및 운영 고도화 (배포/서빙 담당, 팀 협업)”。这表明该项目不仅由个人负责部署和服务器端服务，还涉及到团队合作。因此，答案是：STT部署项目是团队协作完成的。"
+    },
+    {
+      "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+      "type": "trap",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": false,
+      "unsupported_claim": "큐hound의 근무 기간은 2020.09 – 2021.09로, 인피닉에서의 근무 시작일인 2022.08보다 전에 끝나 있습니다.",
+      "answer": "인피닉에 입사하기 직전에 근무한 회사는 큐헷지 (QUHEDGE)입니다. 큐hound의 근무 기간은 2020.09 – 2021.09로, 인피닉에서의 근무 시작일인 2022.08보다 전에 끝나 있습니다."
+    },
+    {
+      "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "제2저자 논문은 단 한 편만 확인되었습니다.",
+      "answer": "제1저자 논문 편수는 7편입니다. 이는 문서에서 \"Publications (First Author):\" 섹션에 나열된 논문 모두 제1저자로 기재되어 있습니다. 반면, 제2저자 논문은 단 한 편만 확인되었습니다. 따라서, 더 많은 편수는 제1저자 논문 7편입니다."
+    },
+    {
+      "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+      "type": "comparison",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": false,
+      "unsupported_claim": "답변에서는 '두 수치는 같습니다'라고 언급했지만, 문서 내용을 정확히 따르면 두 수치가 동일하다는 것이 맞습니다. 그러나 문맥상 '더 많은 쪽'이라는 표현이 혼동스러운 점은 지적되어야 합니다.",
+      "answer": "등록된 특허 건수는 2건이고, 2023년에 게재한 논문 편수도 2편입니다. 따라서 두 수치는 같습니다. 하지만 문제에서 더 많은 쪽을 묻고 있으므로, 이 경우 문서에서는 같다고 답해야 합니다. 그러나 문맥상 \"더 많은 쪽\"이라는 표현이 혼동스러우므로, 정확한 답변은 두 수치가 동일하다는 것입니다.\n\n문서에서 찾을 수 없습니다: 두 측면 중 어느 쪽이 더 많다는 명확한 정보는 제공하지 않습니다."
+    },
+    {
+      "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "세그멘테이션 연구를 지원한 정부 과제 번호는 No. 1425165319입니다."
+    },
+    {
+      "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+      "type": "fact",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_incorrect",
+      "answer": "3D 시맨틱 세그멘테이션 연구에서 사용된 GPU는 A100 80GB입니다."
+    },
+    {
+      "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+      "type": "enumeration",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": true,
+      "unsupported_claim": "文档中未提供关于所使用的具体损失函数的信息。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 센서 퓨전 모델 학습에 사용된 손失函数的具体信息没有在提供的文档中找到。根据现有信息，文档主要描述了传感器融合模型和相关技术的工作原理、贡献以及实验结果等，但并未提及具体的损失函数。"
+    },
+    {
+      "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+      "type": "fact",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": true,
+      "unsupported_claim": "[14] • CPU : AMD EPYC 7742 64-Core Processor\n[15] - sensor fusion\n• single modal:\n• 카메라만 활용\n• multi-modal:\n• early fusion – 신경망 입력 이전 융합\n• mid fusion – 신경망 내부 융합\n• late fusion – 신경망 추론 결과 융합\nModality for Encoder Fusion method 2D MIOU\nSingle modal(Camera) - 0.1012\nMulti-modal(Camera + Lidar)\nearly fusion 0.2045\nmid fusion After conv 1 block 0.2113\nAfter conv 2 block 0.2152\nAfter conv 3 block 0.2021\nlate fusion 0.1844",
+      "answer": "제안된 방법 설명에서 세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 명시되어 있지 않습니다. 하지만 아키텍처 그림에서 CNN(Convolutional Neural Network)을 포함하고 있으며, 일반적으로 CNN은 PyTorch나 TensorFlow와 같은 딥러닝 프레임워크에서 구현됩니다.\n\n만약 세부적인 정보가 필요하다면, 추가 설명이나 코드 예제를 제공해 주시면 더 정확한 답변을 드릴 수 있습니다."
+    },
+    {
+      "question": "석사 학위는 언제 취득했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": false,
+      "unsupported_claim": " 큐heatmap (QUHEDGE)에서 인턴으로 근무한 기간 동안에 비해, 이윤선 씨의 석사 학위는 2021년 8월에 취득했습니다.",
+      "answer": "큐heatmap (QUHEDGE)에서 인턴으로 근무한 기간 동안에 비해, 이윤선 씨의 석사 학위는 2021년 8월에 취득했습니다. 문서에서 제공된 정보를 바탕으로, Inha University에서 M.S. Computer Science 학위를 받은 시점이 2021년 8월임을 확인할 수 있습니다."
+    },
+    {
+      "question": "학사 학위는 언제 취득했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "math",
+      "answer": "학사 학위는 2018년 2월에 취득했습니다. 문서에서 \"B.S. Computer Science | Hannam University (2018.02)\" 부분을 참조할 수 있습니다."
+    },
+    {
+      "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "2016년에 리눅스 마스터 자격증을 취득했다는 내용은 문서에서 확인할 수 없습니다.",
+      "answer": "리눅스 마스터 자격증은 2016년에 취득했습니다."
+    },
+    {
+      "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "텍스트 요약 프로젝트는 2024년 1월부터 2024년 7월까지 진행되었습니다."
+    },
+    {
+      "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unfounded_statements",
+      "answer": "KISTI에서의 근무 기간은 2017년 10월 ~ 2018년 1월입니다."
+    },
+    {
+      "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+      "type": "temporal",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims were found in the provided text.",
+      "answer": "Data Analytics Semi-Professional 자격증은 2021년에 취득했습니다. 문서에서 \"Certifications: Linux Master (2016), Data Analytics Semi-Professional (2021)\" 부분을 참조할 수 있습니다."
+    },
+    {
+      "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_unsupported_claims=[]",
+      "answer": "한국정보기술학회에 게재된 녠문은 총 2편입니다. \n\n1. \"Deep Learning을 활용한 악성코드 탐지 방법 동향 분석\" - 2018년 6월 발행, 1저자\n2. \"Trend of Malware Detection Using Deep Learning\" - 2018년 4월 발행, 1저자"
+    },
+    {
+      "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "focal loss",
+      "answer": "손실 함수 절제 실험에서 비교한 조합은 다음과 같습니다:\n\n1. Dice loss (0.2739)\n2. Focal loss (0.2240) \n3. Dice regularized Dice loss (0.2749)\n4. Dice regularized Focal loss (0.3194)\n5. Focal regularized Dice loss (0.3075)\n\n总共比较了5种不同的损失函数组合。这些组合尝试通过不同方式调节Dice损失和Focal损失，以找到最佳的模型表现。"
+    },
+    {
+      "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_unsupported_claims=[]",
+      "answer": "스마트미디어학회에 게재된 논문은 1편입니다. \"비정형, 정형 데이터의 이미지 학습을 활용한 시장예측\"이라는 제목의 논문이 2021년 스마트미디어학회에 게재되었습니다."
+    },
+    {
+      "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_inaccurate_or_unfounded",
+      "answer": "국제 학술대회에 게재된 논문은 1편입니다. \"Trend of Malware Detection Using Deep Learning\"이라는 제목의 논문이 2018년 4월에 게재되었습니다."
+    },
+    {
+      "question": "우수논문상은 몇 회 수상했나요?",
+      "type": "aggregation",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "No unsupported claims were found in the provided text.",
+      "answer": "우수 논문상은 두 차례 수상했습니다. 문서에 따르면, 이윤선 씨는 다음과 같은 논문에서 우수 논문상을 받았습니다:\n\n1. \"국방 데이터 확보를 위한 생성모델 Latent Diffusion 실험\" - 국방기술학회 (2023)\n2. \"GAN을 활용한 데이터 생성 연구 동향\" - 한국항공우주학회 (2023)\n\n따라서, 우수 논문상은 두 차례 수상되었습니다."
+    },
+    {
+      "question": "2022년에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically_unsupported",
+      "answer": "2022년에 게재된 논문은 2편입니다. \n\n- \"자율 주행 도메인의 3차원 시맨틱 세그멘테이션을 위한 센서 퓨전 기반의 Trans-Unet\" (한국자동차공학회, 2022.11)\n- \"센서 퓨전 기반의 Trans-Unet을 활용한 2차원 시맨틱 세그멘테이션의 3차원적 해석\" (한국자동차공학회, 2023.04)"
+    },
+    {
+      "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": false,
+      "unsupported_claim": "큐Haunted (큐HEY Hedge)에서의 근무 기간은 2020.09 ~ 2021.09로 1년 1개월입니다.",
+      "answer": "큐Haunted (큐HEY Hedge)에서의 근무 기간은 2020.09 ~ 2021.09로 1년 1개월입니다. 이든티앤에스에서는 2022.04 ~ 2022.08으로 5개월만 근무했습니다. 따라서 큐Haunted에서 더 오래 근무한 회사의 근무 기간은 1년 1개월입니다."
+    },
+    {
+      "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": false,
+      "unsupported_claim": "硕士学位的获得时间在2021年8月，因此学士学位是在先获得的，其获得时间为2018年02月。",
+      "answer": "학사 학위는 2018년 2월에 취득하였고,硕士学位的获得时间在2021年8月，因此学士学位是在先获得的，其获得时间为2018年02月。"
+    },
+    {
+      "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+      "type": "comparison",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": true,
+      "unsupported_claim": "첫 회사 입사일은 2022년 4월이며, 첫 논문 게재는 2023년 8월입니다.",
+      "answer": "첫 회사 입사일은 2022년 4월이며, 첫 논문 게재는 2023년 8월입니다. 따라서, 먼저 있었던 일은 2022년 4월에 입사한 첫 회사 입사일이 앞서 있습니다."
+    },
+    {
+      "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+      "type": "comparison",
+      "pass": false,
+      "bucket": "오답-실질",
+      "grounded": false,
+      "unsupported_claim": "첫 특허 등록은 2018년에 이루어졌습니다.",
+      "answer": "첫 특허 등록은 2018년에 이루어졌습니다. 이는 \"Patents (First Inventor):\" 섹션에서 \"Sensor Fusion-based Semantic Segmentation Method | Reg. No. 1025382250000\"이라는 문구를 통해 확인할 수 있습니다. 또한, 우수 논문상은 2023년에 수상되었습니다. 따라서 먼저 있었던 일의 시점은 2018년입니다."
+    },
+    {
+      "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+      "type": "comparison",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "Dice loss를 단독으로 사용할 때의 2D MIoU는 0.2739입니다.",
+      "answer": "Dice loss를 단독으로 사용할 때의 2D MIoU는 0.2739입니다."
+    },
+    {
+      "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "텍스트 요약 프로젝트에서 사용된 모델은 BART와 T5입니다. BART 기반으로 대화를 요약하고, T5 기반으로 문서를 요약하였습니다."
+    },
+    {
+      "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematical_expression_in_evaluation_methodology",
+      "answer": "센서 퓨전 절제 실험에서 비교한 융합 방식은 다음과 같습니다:\n- 단일 모드: 카메라만 활용\n- 멀티 모드:\n  - 일찍 융합(Early fusion) – 신경망 입력 이전 융합\n  - 중간 융합(Mid fusion) – 신경망 내부 융합\n  - 늦게 융합(Late fusion) – 신경망 추론 결과 융합\n\n이러한 융합 방식들은 Modality for Encoder Fusion method 2D MIOU 항목에서 구체적인 성능 값을 통해 비교되었습니다."
+    },
+    {
+      "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "사내 회의록 STT의 처리 방식은 두 가지로 구분할 수 있습니다:\n\n1. **파일 기반 STT 처리**:\n   - 이 방법에서는 녹음 파일을 먼저 저장한 후, 해당 파일을 Whisper 모델이나 다른 STT 엔진에 전달하여 텍스트로 변환합니다.\n   - 이 방식은 전체 녹음이 완료된 후에 한 번에 처리되므로, 실시간 응답이 아닌 비동기적인 처리가 이루어집니다.\n\n2. **스트리밍 기반 STT 처리**:\n   - 이 방법에서는 녹음 데이터를 실시간으로 스트리밍하여 STT 엔진에 전달합니다.\n   - 첫 번째 문장이 완성되는 즉시 결과를 받을 수 있으며, 이를 통해 사용자는 부분적인 텍스트 결과를 볼 수 있습니다.\n\n두 방식의 주요 차이는 다음과 같습니다:\n- **파일 기반 처리**는 전체 녹음 파일을 먼저 저장한 후에 STT 엔진에 전달하므로, 초기 대기 시간이 필요하지만, 이후에는 높은 성능과 안정성을 제공합니다.\n- **스트리밍 처리**는 실시간으로 데이터를 처리하므로, 사용자는 부분적인 결과를 즉시 확인할 수 있지만, 초기 설정 및 처리 과정에서 더 복잡한 에러 관리가 필요합니다.\n\n이 두 방식은 각각의 장단점을 가지고 있으며, 특정 상황에 따라 적합한 방식을 선택할 수 있습니다."
+    },
+    {
+      "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+      "type": "enumeration",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "",
+      "answer": "TTS 프로젝트의 기능 확장으로 구현된 주요 기능들은 다음과 같습니다:\n\n1. ICL(In-Context Learning) 기반 음성 복제 기능 구현.\n2. OpenAI TTS API 호환 인터페이스 개발.\n3. 기존 WebSocket 프로토콜 호환 레이어 개발 및 서비스 연동 지원.\n\n이러한 기능들은 TTS 서비스의 확장性和流畅性已经得到了充分展示。如果您有更多问题或需要进一步的信息，请随时告诉我！"
+    },
+    {
+      "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+      "type": "trap",
+      "pass": false,
+      "bucket": "오답-거부",
+      "grounded": false,
+      "unsupported_claim": "文档未提及第二作者的论文标题。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에 제2저자의 녺문 제목이 포함되어 있지 않습니다."
+    },
+    {
+      "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+      "type": "trap",
+      "pass": true,
+      "bucket": "정답-실질",
+      "grounded": true,
+      "unsupported_claim": "mathematically impossible claim",
+      "answer": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 2292ms였습니다."
+    },
+    {
+      "question": "이윤선의 TOEIC 점수는 몇 점인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": true,
+      "unsupported_claim": "TOEIC 점수는 문서에 언급되어 있지 않습니다.",
+      "answer": "문서에서 찾을 수 없습니다. 문서에는 이윤선 씨의 TOEIC 점수가 언급되어 있지 않습니다."
+    },
+    {
+      "question": "이윤선이 박사 학위를 받은 대학은 어디인가요?",
+      "type": "refusal",
+      "pass": true,
+      "bucket": "정답-거부",
+      "grounded": true,
+      "unsupported_claim": "文档中未提及博士学位的相关信息。",
+      "answer": "문서에서 찾을 수 없습니다. 문서에 제공된 정보는 인하대학교에서硕士学位（M.S. Computer Science）和汉阳大学本科（B.S. Computer Science），但没有提到博士相关信息。"
+    }
+  ]
+}
