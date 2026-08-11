@@ -84,6 +84,47 @@ def extract_diagrams(text: str) -> tuple[str, list[Document]]:
     return body, docs
 
 
+# 마크다운 표. 다이어그램과 같은 이유로 통째로 둔다 — 행 구조 콘텐츠라
+# 문자 기준 분할이 안 맞고, 잘리면 "몇 편인가" 같은 집계 질문이 **원리적으로
+# 답할 수 없게** 된다(세려면 표 전체가 필요하다).
+#
+# 실측으로 확인한 것: publications.md의 표가 청크 3개(행 2·2·8개)로 쪼개져
+# 있었다. 평가셋 집계 7문항 중 4문항이 그 표를 세야 답이 나온다("제1저자
+# 논문 몇 편", "2023년에 게재한 논문 몇 편", "한국자동차공학회 몇 편",
+# "한국항공우주학회 몇 편"). 표가 온전하면 필터어를 포함한 행을 세는 것만으로
+# 넷 다 정답이 나온다(5/5 확인) — 즉 3B의 산술 문제가 아니라 근거가 애초에
+# 잘려 있던 문제였다.
+#
+# 줄 앞 공백을 허용해야 한다. 셀 안에 줄바꿈이 있으면 이어지는 줄이
+# 들여쓰기된 채 '|'로 시작한다(publications.md의 2021.03·2018.04 행).
+# '^\|'로 잡으면 한 표가 두 조각으로 끊긴다.
+_TABLE = re.compile(r"(?:^[ \t]*\|.*$\n?){3,}", re.M)
+_TABLE_SEPARATOR = re.compile(r"^[ \t]*\|[\s|:-]+$", re.M)
+
+_TABLE_PLACEHOLDER = "\n\n[표: {n}]\n\n"
+
+
+def extract_tables(text: str) -> tuple[str, list[Document]]:
+    """표를 본문에서 떼어내 통짜 청크로 돌려준다 (다이어그램과 같은 방식).
+
+    구분선(| --- |)이 있는 블록만 표로 본다 — 파이프가 우연히 이어지는
+    본문을 표로 오인하지 않기 위해서다.
+    """
+    tables = []
+
+    def _replace(m: re.Match) -> str:
+        blk = m.group(0)
+        if not _TABLE_SEPARATOR.search(blk):
+            return blk            # 구분선 없는 파이프 나열은 표가 아니다
+        tables.append(blk.strip())
+        return _TABLE_PLACEHOLDER.format(n=len(tables))
+
+    body = _EXTRA_BLANK.sub("\n\n", _TABLE.sub(_replace, text))
+    docs = [Document(page_content=t, metadata={"source": "", "kind": "table"})
+            for t in tables]
+    return body, docs
+
+
 def _strip_notion_link(m: re.Match) -> str:
     """노션 내부 링크는 텍스트만 남기고, 외부 URL 링크는 그대로 둔다."""
     full = m.group(0)
@@ -111,7 +152,8 @@ def clean_markdown(text: str) -> str:
 
 
 def load_documents() -> tuple[list[Document], list[Document]]:
-    """(본문 문서, 다이어그램 청크) — 다이어그램은 이미 청크 단위로 완성돼 있다.
+    """(본문 문서, 통짜 청크) — 다이어그램·표는 이미 청크 단위로 완성돼 있다.
+    (반환값 이름이 diagrams인 것은 하위호환 — 표도 같은 목록에 실린다.)
 
     확장자로 포맷을 나눈다: .md는 마크다운 정제+다이어그램 분리를 거치고,
     .pdf/.docx는 loaders.py로 텍스트만 뽑는다(비마크다운이라 노션 노이즈
@@ -128,11 +170,14 @@ def load_documents() -> tuple[list[Document], list[Document]]:
             # 게 없어 이 순서 변경으로 청크 내용은 바뀌지 않는다. 앞으로를
             # 위한 방어다.)
             body, diag_docs = extract_diagrams(path.read_text(encoding="utf-8"))
+            # 표도 같은 이유로 통짜로 뗀다 — 잘리면 집계 질문이 원리적으로
+            # 답할 수 없게 된다(extract_tables 주석 참고).
+            body, table_docs = extract_tables(body)
             body = clean_markdown(body)
             docs.append(Document(page_content=body, metadata={"source": path.name}))
-            for d in diag_docs:
+            for d in diag_docs + table_docs:
                 d.metadata["source"] = path.name
-            diagrams.extend(diag_docs)
+            diagrams.extend(diag_docs + table_docs)
         elif path.suffix in loaders.LOADERS:
             docs.append(loaders.LOADERS[path.suffix](path))
     return docs, diagrams

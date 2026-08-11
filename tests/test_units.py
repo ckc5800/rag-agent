@@ -1456,3 +1456,71 @@ def test_hyde_term_query_none_when_no_novel_terms():
     # 추가할 신호가 없다 — 빈 질의로 BM25를 부르지 않도록 None.
     assert hyde_term_query("근무한 회사들을 알려주세요",
                            "근무한 회사들을 알려주세요.") is None
+
+
+# ── 표를 통짜 청크로 (다이어그램과 같은 처리) ──
+#
+# publications.md의 표가 청크 3개로 쪼개져 있었다. 평가셋 집계 7문항 중
+# 4문항이 그 표를 세야 답이 나오는데, 잘린 표로는 **원리적으로** 셀 수 없다.
+# 3B의 산술 문제로 보이던 것이 실은 근거가 잘린 문제였다.
+
+def test_table_is_extracted_whole():
+    from ingest import extract_tables
+
+    text = ("앞 문단\n\n"
+            "| 게재 일자 | 논문명 | 기타 |\n"
+            "| --- | --- | --- |\n"
+            "| 2023.08 | A | 1저자 |\n"
+            "| 2022.11 | B | 1저자 |\n\n"
+            "뒷 문단")
+    body, tables = extract_tables(text)
+
+    assert len(tables) == 1
+    assert tables[0].metadata["kind"] == "table"
+    assert "2023.08" in tables[0].page_content and "2022.11" in tables[0].page_content
+    assert "|" not in body and "[표: 1]" in body
+
+
+def test_table_row_wrapped_across_lines_stays_in_one_block():
+    """셀 안에 줄바꿈이 있으면 이어지는 줄이 들여쓰기된 채 '|'로 시작한다.
+
+    '^\|'로 잡으면 한 표가 두 조각으로 끊긴다 — publications.md의
+    2021.03·2018.04 행이 실제로 그렇다.
+    """
+    from ingest import extract_tables
+
+    text = ("| 일자 | 제목 | 기타 |\n"
+            "| --- | --- | --- |\n"
+            "| 2021.03 | [아주 긴 제목](http://x)\n"
+            " | 스마트미디어학회 | 1저자 |\n"
+            "| 2018.06 | C | 2저자 |\n")
+    _, tables = extract_tables(text)
+
+    assert len(tables) == 1, "줄바꿈된 행에서 표가 끊겼다"
+    assert "스마트미디어학회" in tables[0].page_content
+    assert "2018.06" in tables[0].page_content
+
+
+def test_pipe_lines_without_separator_are_not_a_table():
+    """구분선 없는 파이프 나열을 표로 오인하지 않는다."""
+    from ingest import extract_tables
+
+    text = "| 이건 표가 아니다\n| 그냥 파이프로 시작하는 줄\n| 세 줄이지만 구분선이 없다\n"
+    body, tables = extract_tables(text)
+    assert tables == [] and body.strip() == text.strip()
+
+
+def test_publications_table_supports_counting():
+    """실제 코퍼스의 표가 온전하면 필터별 행 세기로 집계 정답이 나온다."""
+    import ingest
+
+    _, blocks = ingest.load_documents()
+    pub = [b for b in blocks
+           if b.metadata.get("kind") == "table"
+           and b.metadata["source"] == "publications.md"]
+    assert len(pub) == 1, "publications 표가 통짜가 아니다"
+
+    lines = pub[0].page_content.splitlines()
+    for term, expected in [("1저자", 7), ("2저자", 1),
+                           ("한국자동차공학회", 2), ("한국항공우주학회", 1)]:
+        assert sum(1 for ln in lines if term in ln) == expected, term
