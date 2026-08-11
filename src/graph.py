@@ -7,11 +7,13 @@
 State로 질문/문서/재작성 횟수를 관리하며, 검색 품질이 낮으면
 질문을 재작성해 재검색하는 self-corrective 루프를 구성한다.
 """
+import functools
 import hashlib
 import re
 import threading
+import time
 import unicodedata
-from typing import TypedDict
+from typing import Annotated, TypedDict
 
 from kiwipiepy import Kiwi
 from langchain_core.documents import Document
@@ -21,6 +23,40 @@ from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
 import config
+
+
+def _merge_timings(old: dict | None, new: dict | None) -> dict:
+    """노드별 시간을 합친다.
+
+    LangGraph는 노드가 돌려준 dict를 State에 병합하는데, 리듀서가 없으면
+    같은 키를 **덮어쓴다** — timings를 그냥 dict로 두면 마지막 노드의
+    기록만 남는다. 그리고 retrieve는 재작성 후 다시 도므로 누적해야
+    "재작성이 발동하면 검색에 시간을 두 배 쓴다"가 보인다.
+    """
+    merged = dict(old or {})
+    for node, sec in (new or {}).items():
+        merged[node] = merged.get(node, 0.0) + sec
+    return merged
+
+
+def timed(fn):
+    """노드를 감싸 소요 시간을 State에 남긴다.
+
+    end-to-end 지연은 tracelog가 원래 기록했지만 **배분은 없었다** — 이
+    저장소는 recall·정확도·판정기 정확도까지 다 재면서 정작 자기 파이프라인이
+    시간을 어디에 쓰는지는 안 쟀다. "grade가 87% 정확하다"는 알아도 "grade가
+    전체의 몇 %를 먹는다"는 답할 수 없었다.
+
+    배선에서만 감싼다(build_graph) — 노드 함수 자체는 그대로라 단위 테스트와
+    직접 호출(eval 스크립트)이 영향을 안 받는다.
+    """
+    @functools.wraps(fn)
+    def wrapper(state):
+        t0 = time.perf_counter()
+        out = fn(state)
+        return {**out, "timings": {fn.__name__: time.perf_counter() - t0}}
+
+    return wrapper
 
 
 class AgentState(TypedDict):
@@ -34,6 +70,7 @@ class AgentState(TypedDict):
     sources: list[str]
     contexts: list[str]     # 실제로 프롬프트에 들어간 청크 본문 (평가·심판용)
     strategy: dict         # 유형 라우팅이 정한 컨텍스트 전략 ({}면 전역 기본값)
+    timings: Annotated[dict, _merge_timings]   # 노드별 소요 시간(초), 재방문은 누적
     grounded: bool | None          # verify 노드 결과 (VERIFY_GROUNDING 꺼지면 None)
     unsupported_claim: str | None  # grounded=False일 때 근거 없는 주장 요약
 
@@ -814,12 +851,12 @@ def after_rewrite(state: AgentState) -> str:
 
 def build_graph():
     g = StateGraph(AgentState)
-    g.add_node("route_strategy", route_strategy)
-    g.add_node("retrieve", retrieve)
-    g.add_node("grade", grade)
-    g.add_node("rewrite", rewrite)
-    g.add_node("generate", generate)
-    g.add_node("verify", verify)
+    g.add_node("route_strategy", timed(route_strategy))
+    g.add_node("retrieve", timed(retrieve))
+    g.add_node("grade", timed(grade))
+    g.add_node("rewrite", timed(rewrite))
+    g.add_node("generate", timed(generate))
+    g.add_node("verify", timed(verify))
 
     g.add_edge(START, "route_strategy")
     g.add_edge("route_strategy", "retrieve")

@@ -26,6 +26,10 @@ def log(question: str, result: dict, elapsed_sec: float, **extra) -> None:
         "sources": result.get("sources", []),
         "rewrites": result.get("rewrites"),
         "elapsed_sec": round(elapsed_sec, 1),
+        # 노드별 배분. end-to-end만 있으면 "느리다"까지만 알고
+        # "어디가 느리다"를 모른다.
+        "timings": {k: round(v, 2)
+                    for k, v in (result.get("timings") or {}).items()},
         **extra,
     }
     TRACE_PATH.parent.mkdir(parents=True, exist_ok=True)

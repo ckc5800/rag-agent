@@ -116,3 +116,48 @@ def test_team_workers_run_concurrently_and_keep_order(monkeypatch):
     assert [r["question"] for r in out["sub_answers"]] == subs   # 순서 보존
     assert [r["answer"] for r in out["sub_answers"]] == [f"A:{q}" for q in subs]
     assert elapsed < 0.3, f"순차 실행으로 보인다 ({elapsed:.2f}s, 순차면 0.45s)"
+
+
+def test_node_timings_accumulate_on_revisit():
+    """노드별 시간이 State에 쌓이고, 재방문 노드는 누적되는가.
+
+    리듀서가 없으면 LangGraph가 같은 키를 덮어써서 **마지막 노드 기록만**
+    남는다. 그리고 retrieve는 재작성 후 다시 도므로 누적돼야 "재작성이
+    발동하면 검색에 시간을 두 배 쓴다"가 보인다.
+    """
+    from graph import _merge_timings, timed
+
+    assert _merge_timings({}, {"retrieve": 1.0}) == {"retrieve": 1.0}
+    assert _merge_timings({"retrieve": 1.0}, {"grade": 0.5}) == {
+        "retrieve": 1.0, "grade": 0.5}                     # 덮어쓰지 않는다
+    assert _merge_timings({"retrieve": 1.0}, {"retrieve": 2.0}) == {
+        "retrieve": 3.0}                                   # 재방문은 누적
+    assert _merge_timings(None, None) == {}
+
+
+def test_timed_records_node_name_and_keeps_output():
+    """감싼 노드가 원래 반환값을 그대로 돌려주고 timings만 얹는가."""
+    import time
+
+    from graph import timed
+
+    def slow_node(state):
+        time.sleep(0.05)
+        return {"answer": "A"}
+
+    out = timed(slow_node)({"question": "q"})
+    assert out["answer"] == "A"                            # 원래 출력 보존
+    assert set(out["timings"]) == {"slow_node"}            # 함수 이름으로 기록
+    assert out["timings"]["slow_node"] >= 0.05
+
+
+def test_graph_nodes_are_instrumented():
+    """배선이 실제로 감싸져 있는가 — 노드 함수 자체는 안 건드린다."""
+    import graph
+
+    g = graph.build_graph()
+    assert {"route_strategy", "retrieve", "grade", "rewrite", "generate",
+            "verify"} <= set(g.nodes)
+    # 노드 함수를 직접 부르면 timings가 안 붙는다(eval 스크립트·단위 테스트가
+    # 직접 호출하므로 그래야 한다)
+    assert "timings" not in graph.route_strategy({"question": "q"})

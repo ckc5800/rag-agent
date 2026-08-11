@@ -47,6 +47,9 @@ class AskResponse(BaseModel):
     # 어느 경로로 답했는지 — "single"(단일 RAG) | "team"(멀티에이전트).
     # 서빙 로그에서 구분되지 않으면 라우팅이 실제로 걸렸는지 알 수 없다.
     route: str = "single"
+    # 노드별 소요 시간(초). end-to-end만 보면 "느리다"까지만 알고 "어디가
+    # 느리다"를 모른다 — grade 정확도는 쟀는데 grade 비용은 안 쟀던 자리다.
+    timings: dict = {}
 
 
 @app.post("/ask", response_model=AskResponse)
@@ -84,6 +87,7 @@ def ask(req: AskRequest):
         "grounded": result.get("grounded"),
         "unsupported_claim": result.get("unsupported_claim"),
         "route": result["route"],
+        "timings": {k: round(v, 3) for k, v in (result.get("timings") or {}).items()},
     }
     cache.put(req.question, payload)
     tracelog.log(req.question, payload, time.time() - t0, cached=False)
