@@ -1,15 +1,29 @@
 {
   "env": {
-    "llm_model": "qwen2.5:3b",
+    "llm_model": "qwen2.5:7b",
     "embed_model": "bge-m3",
     "ollama_version": "0.32.6",
     "vector_store": "faiss",
     "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
     "n_chunks": 58,
     "params": {
+      "VECTOR_STORE": "faiss",
+      "LLM_MODEL": "qwen2.5:7b",
+      "EMBED_MODEL": "bge-m3",
       "TOP_K": 6,
+      "RRF_K": 60,
       "GENERATE_TOP_N": 5,
+      "NEIGHBOR_WINDOW": 0,
+      "CONTEXT_ORDER": "reversed",
+      "GENERATE_PROMPT_VARIANT": "base",
+      "EXCLUDE_DIAGRAMS": false,
       "MAX_REWRITES": 1,
+      "TYPE_ROUTING": false,
+      "TEAM_ROUTING": false,
+      "HYDE": false,
+      "HYDE_MODE": "full",
+      "RERANK": false,
+      "VERIFY_GROUNDING": false,
       "CHUNK_SIZE": 800,
       "CHUNK_OVERLAP": 100
     },
@@ -19,35 +33,59 @@
       "gpu": "NVIDIA GeForce RTX 2070"
     }
   },
-  "repeat": 5,
-  "judgements": 50,
+  "repeat": 2,
+  "judgements": 52,
   "totals": {
-    "single": 20,
-    "routed": 22,
-    "all_team": 20
+    "single": 33,
+    "routed": 29,
+    "all_team": 22
   },
   "avg_sec": {
-    "single": 2.9,
-    "routed": 3.9,
-    "all_team": 3.8
+    "single": 4.0,
+    "routed": 3.7,
+    "all_team": 4.5
   },
   "by_type": {
     "single": {
+      "aggregation": [
+        7,
+        14
+      ],
       "comparison": [
-        20,
-        50
+        14,
+        20
+      ],
+      "enumeration": [
+        12,
+        18
       ]
     },
     "routed": {
+      "aggregation": [
+        7,
+        14
+      ],
       "comparison": [
-        22,
-        50
+        10,
+        20
+      ],
+      "enumeration": [
+        12,
+        18
       ]
     },
     "all_team": {
+      "aggregation": [
+        4,
+        14
+      ],
       "comparison": [
-        20,
-        50
+        10,
+        20
+      ],
+      "enumeration": [
+        8,
+        18
       ]
     }
   },
