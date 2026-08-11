@@ -150,6 +150,12 @@ def ask_stream(req: AskRequest):
             # /ask/stream 이 같은 멀티홉 질문에 다른 경로로 답할 수 있다 —
             # 숨기지 말고 응답에 표시한다(알려진 제약).
             "route": "single",
+            # /ask 와 같은 키를 넣는다. 두 엔드포인트가 **같은 캐시**를
+            # 공유하므로 payload 모양이 다르면 어느 쪽이 먼저 채웠느냐에 따라
+            # 응답 필드가 달라진다(pydantic 기본값이 가려줄 뿐 로그·프로파일
+            # 에서는 스트리밍 질의만 배분이 비어 보인다).
+            "timings": {k: round(v, 3)
+                        for k, v in (final_state.get("timings") or {}).items()},
         }
         cache.put(req.question, payload)
         tracelog.log(req.question, payload, time.time() - t0, cached=False,

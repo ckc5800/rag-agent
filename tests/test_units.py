@@ -1620,3 +1620,47 @@ def test_no_warning_when_only_tables_carry_a_file():
                        metadata={"source": "patents.md", "kind": "table"})]
 
     assert warn_empty_sources(docs, chunks) == []
+
+
+def test_both_endpoints_write_the_same_cache_payload_shape():
+    """/ask 와 /ask/stream 은 같은 캐시를 공유한다 — payload 키가 다르면
+    어느 엔드포인트가 먼저 채웠느냐에 따라 응답 필드가 달라진다.
+
+    실제로 timings를 /ask 에만 넣었다가 스트리밍 질의만 배분이 비어
+    보이는 상태가 됐다.
+    """
+    import inspect
+    import re
+
+    import api
+
+    src = inspect.getsource(api)
+    shapes = {}
+    for name in ("ask", "ask_stream"):
+        block = src.split(f"def {name}(")[1].split("cache.put")[0]
+        shapes[name] = set(re.findall(r'^\s+"(\w+)":', block, re.M))
+
+    assert shapes["ask"] == shapes["ask_stream"], (
+        f"불일치: {shapes['ask'] ^ shapes['ask_stream']}")
+
+
+def test_search_tool_sees_whole_chunks(monkeypatch):
+    """도구 레이어가 본 파이프라인과 같은 청크를 본다.
+
+    예전엔 상위 4개를 600자로 잘라 넘겼다 — 800자 산문은 25%가 날아가고,
+    표(1,773자)·다이어그램(5,079자)은 뭉개져 "몇 편인가" 같은 질문이
+    원리적으로 불가능해진다.
+    """
+    import config
+    import graph
+    import tools
+    from langchain_core.documents import Document
+
+    table = Document(page_content="| 1저자 |\n" * 200,   # 1,600자짜리 표
+                     metadata={"source": "publications.md", "kind": "table"})
+    monkeypatch.setattr(graph, "hybrid_search", lambda q: [table])
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 0)
+
+    out = tools.search_portfolio.invoke({"query": "논문 몇 편"})
+    assert out.count("1저자") == 200, "표가 잘렸다"
+    assert "[publications.md]" in out

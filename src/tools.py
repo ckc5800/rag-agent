@@ -43,11 +43,19 @@ def search_portfolio(query: str) -> str:
 
     포트폴리오/경력 관련 질문에는 반드시 이 도구로 근거를 찾은 뒤 답해야 한다.
     """
-    docs = rag.hybrid_search(query)
+    # RAG 경로와 **같은 것을 본다**. 예전엔 상위 4개를 600자로 잘라
+    # 넘겼는데 셋 다 문제였다:
+    #   · 개수 4 — 측정으로 정한 GENERATE_TOP_N(5)과 어긋난다.
+    #   · 600자 — 산문 청크가 800자 상한이라 25%가 잘려 나간다.
+    #   · 통짜 청크 — 표(1,773자)·다이어그램(최대 5,079자)이 뭉개져,
+    #     "논문 몇 편"처럼 표 전체가 있어야 답이 되는 질문이 원리적으로
+    #     불가능해진다. 본 파이프라인에서 표를 통짜로 만든 작업이 이
+    #     레이어에는 닿지 않고 있었다.
+    # context_docs는 라우팅 전략·이웃 확장까지 본 파이프라인과 같은 규칙을
+    # 쓰므로, 재사용하면 두 경로가 갈라지지 않는다.
+    docs = rag.context_docs(rag.hybrid_search(query))
     return "\n---\n".join(
-        f"[{d.metadata.get('source', '?')}] {d.page_content[:600]}"
-        for d in docs[:4]
-    )
+        f"[{d.metadata.get('source', '?')}] {d.page_content}" for d in docs)
 
 
 @tool
