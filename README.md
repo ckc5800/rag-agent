@@ -1190,6 +1190,68 @@ python eval/evaluate.py                               # 유형별 정답률 (집
 안 들어오면 검색 문제이고, 들어오는데도 틀리면 그때야 "3B가 표를 못 센다"가
 근거 있는 결론이 된다. 지금까지는 그 구분을 할 수 없었다.
 
+### 14. 지금 비어 있는 숫자 — 다음에 돌릴 것 (커밋 439caf2 기준)
+
+구현은 끝났는데 측정이 안 된 것이 셋이다. 이 저장소의 원칙상 손잡이를 켜거나
+결론을 쓰기 전에 재야 한다. **순서대로 돌리면 각각이 다음 판단을 푼다.**
+
+#### ① 표 통짜 청킹의 효과 (§13)
+
+```bash
+git show HEAD:data/chunks.jsonl > /tmp/old.jsonl   # 라벨 재부착용 기준
+python src/ingest.py                               # 표 분리 반영 (청크 58 → 54)
+python eval/relabel_retrieval.py --old /tmp/old.jsonl          # 매칭 점수 확인
+python eval/relabel_retrieval.py --old /tmp/old.jsonl --write  # 반영
+python eval/evaluate.py
+```
+
+보는 곳은 **유형별 표의 aggregation 행**이다(현재 3/7). gold_anchors 78개는
+전부 살아남으므로 앵커 기반 평가는 그대로 쓸 수 있고, md5 라벨만 27개 중
+1개가 무효화돼 재부착이 필요하다.
+
+- 오르면: "집계 실패는 3B의 산술 한계가 아니라 잘린 근거 문제였다"가 확정된다.
+- 안 오르면 `python eval/diagnose.py`로 갈린다 — 표 청크가 top-N에 **안 들어오면**
+  검색 문제이고, 들어오는데도 틀리면 그때야 "3B가 표를 못 센다"가 근거 있는
+  결론이 된다. 지금까지는 이 구분 자체가 불가능했다.
+
+#### ② corrective 루프의 비용 (§8 계측)
+
+```bash
+python eval/profile_nodes.py --repeat 3
+```
+
+`grade`의 정확도(87%)와 오탐률(20%), 루프가 구제한 문항 수(10개 중 1개)는
+이미 있는데 **비용만 없다.** 이 숫자가 나오면 "grade를 유지할 값이 있나"를
+처음으로 제대로 따질 수 있다.
+
+- 루프 지분이 작으면(예: 5% 미만) 오탐 20%는 지연만 조금 낭비하는 것이므로 유지.
+- 크면(예: 30% 이상) `MAX_REWRITES=0`이 낫다 — 정답률 차이는 편차 안이었다.
+  `python eval/ab_rewrite.py`와 함께 보면 정확도·지연을 한 번에 비교할 수 있다.
+
+#### ③ 동시 요청에서의 라우팅 (§8 route_strategy)
+
+라우팅을 전역 config 변조에서 그래프 노드로 옮긴 것은 스레드 경합을 없애기
+위해서였는데, 지금 고정된 건 "전역을 안 건드린다"는 **메커니즘**이지 동시성
+자체가 아니다. 서버를 띄우고 유형이 다른 두 질문을 동시에 던져 각각 제
+전략으로 답하는지 확인하면 끝난다.
+
+```bash
+uvicorn api:app --app-dir src &
+curl -s localhost:8000/ask -H 'content-type: application/json' \
+     -d '{"question":"이윤선의 제1저자 논문은 몇 편인가요?"}' &   # aggregation
+curl -s localhost:8000/ask -H 'content-type: application/json' \
+     -d '{"question":"화자 분할에는 어떤 모델을 사용했나요?"}' &   # fact
+```
+
+응답의 `timings`로 노드별 배분도 같이 보인다.
+
+#### 측정 결과를 남길 때
+
+`results*.json`에는 `runmeta`가 모델·Ollama 버전·인덱스 해시·손잡이 17개·
+하드웨어를 함께 적는다. 이 저장소는 예전에 "README 90% vs 재측정 74%"가 비교
+가능한지 판단할 근거가 없었던 적이 있다(§12) — 지금은 파일만 봐도 갈린다.
+**측정 환경이 다르면 지연 수치는 나란히 놓지 말 것.**
+
 ## Graph RAG 실험 1 — 원 코퍼스 (미채택, 원인: 코퍼스가 작다)
 
 채용 공고 조사에서 Graph RAG가 반복적으로 요구 기술로 등장했다. 이 코퍼스는
