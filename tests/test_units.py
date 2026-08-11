@@ -1664,3 +1664,19 @@ def test_search_tool_sees_whole_chunks(monkeypatch):
     out = tools.search_portfolio.invoke({"query": "논문 몇 편"})
     assert out.count("1저자") == 200, "표가 잘렸다"
     assert "[publications.md]" in out
+
+
+def test_planner_prompt_and_parser_share_one_cap(monkeypatch):
+    """프롬프트에 적힌 상한과 파서가 실제로 자르는 개수가 같아야 한다.
+
+    예전엔 "최대 3개"가 프롬프트·파서·독스트링 세 곳에 따로 적혀 있었다.
+    프롬프트만 고치면 파서가 조용히 잘라내는 상태가 된다 — planner가 5개를
+    내도 2개가 소리 없이 버려진다.
+    """
+    import team
+
+    rendered = team.PLANNER_PROMPT.format(question="Q")
+    assert f"최대 {team.MAX_SUB_QUESTIONS}개" in rendered
+
+    many = json.dumps([f"q{i}" for i in range(team.MAX_SUB_QUESTIONS + 3)])
+    assert len(team._parse_sub_questions(many, "원 질문")) == team.MAX_SUB_QUESTIONS

@@ -29,12 +29,17 @@ class TeamState(TypedDict):
     answer: str
 
 
+# planner가 낼 수 있는 sub-질문 상한. 프롬프트 문구·파서 상한·
+# 스레드 수가 모두 이 값을 따른다 — 예전엔 셋에 3이 따로 적혀 있어서,
+# 프롬프트만 고치면 파서가 조용히 잘라내는 상태가 될 수 있었다.
+MAX_SUB_QUESTIONS = 3
+
 PLANNER_PROMPT = ChatPromptTemplate.from_template(
     "질문에 답하는 데 필요한 사실(fact)들을 문서에서 찾기 위한 검색 질문으로 분해하세요.\n"
     "규칙:\n"
     "- 각 검색 질문은 문서에서 찾을 수 있는 사실 하나를 겨냥할 것\n"
     "- 원 질문을 변형하거나 의견을 묻는 질문을 만들지 말 것\n"
-    "- 하나의 사실로 답할 수 있으면 질문 1개만, 최대 3개\n"
+    f"- 하나의 사실로 답할 수 있으면 질문 1개만, 최대 {MAX_SUB_QUESTIONS}개\n"
     "- JSON 배열만 출력\n\n"
     "- 각 검색 질문은 완전한 의문문으로 쓸 것\n"
     "예시 1) 질문: A 프로젝트와 B 프로젝트 중 어느 것을 먼저 시작했어?\n"
@@ -62,7 +67,7 @@ def _parse_sub_questions(text: str, fallback: str) -> list[str]:
             items = json.loads(match.group())
             items = [s.strip() for s in items if isinstance(s, str) and s.strip()]
             if items:
-                return items[:3]
+                return items[:MAX_SUB_QUESTIONS]
         except json.JSONDecodeError:
             pass
     return [fallback]
@@ -96,7 +101,8 @@ def build_team():
         남는 이득은 지연뿐이고, 그건 Ollama의 동시 처리 능력에 달렸으므로
         실제 머신에서 확인할 것(CPU 추론이면 이득이 작을 수 있다).
 
-        planner가 sub-질문을 최대 3개로 제한하므로 스레드도 최대 3개다.
+        planner가 sub-질문을 MAX_SUB_QUESTIONS개로 제한하므로 스레드도
+        그만큼이 상한이다.
         """
         subs = state["sub_questions"]
         if len(subs) == 1:                      # 스레드풀 만들 이유가 없다
