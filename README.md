@@ -50,6 +50,7 @@ eval/
 ├── eval_grade.py      grade 판정기 단독 평가 (gold에서 라벨 유도 + 상수 기준선)
 ├── evaluate_team.py   멀티홉: 단일 RAG vs 팀 비교 (--type 으로 eval_set 유형 사용)
 ├── diagnose.py        실패 원인 분해 — 검색/청킹/생성 층 분리 (LLM 불필요)
+├── profile_nodes.py   노드별 지연 프로파일 — corrective 루프 비용
 ├── sweep_top_k.py     TOP_K 스윕 (검색 후보 수, LLM 불필요)
 ├── ab_rewrite.py      corrective 루프 A/B (MAX_REWRITES 0 vs 1, 재작성 여부로 대조군 분리)
 ├── ab_rewrite_stratified.py  corrective 루프 A/B — 유형별 2문항 층화 표본(51문항 축소판)
@@ -210,6 +211,7 @@ python eval/patch_gold_sets.py  # gold_anchor_sets 라벨 확인 (--write 로 �
 python eval/eval_grade.py       # grade 판정기 단독 평가 (정확도·오탐·파싱실패)
 python src/preflight.py         # 인덱스·Ollama·모델 사전 점검
 python eval/diagnose.py         # 실패 원인 분해: 검색/청킹/생성 (LLM 불필요)
+python eval/profile_nodes.py    # 노드별 지연 배분 (corrective 루프 비용)
 python eval/sweep_top_k.py      # TOP_K 스윕 (LLM 불필요)
 python eval/audit_patterns.py --strict   # 채점 패턴 감사 (CI에서도 실행)
 python eval/audit_coverage.py            # 커버리지 라벨 감사 (LLM 불필요)

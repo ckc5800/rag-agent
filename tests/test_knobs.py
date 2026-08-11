@@ -161,3 +161,39 @@ def test_graph_nodes_are_instrumented():
     # 노드 함수를 직접 부르면 timings가 안 붙는다(eval 스크립트·단위 테스트가
     # 직접 호출하므로 그래야 한다)
     assert "timings" not in graph.route_strategy({"question": "q"})
+
+
+def test_node_profile_summary_math():
+    """프로파일 집계가 지분·루프 비용·재작성 분리를 맞게 계산하는가.
+
+    30분짜리 실행 끝에 집계에서 죽거나 틀린 숫자를 내면 그 시간을 버린다.
+    LLM 없이 고정한다.
+    """
+    sys.path.insert(0, str(ROOT / "eval"))
+    from profile_nodes import summarize
+
+    rows = [
+        {"timings": {"retrieve": 1.0, "generate": 3.0}, "rewrites": 0},
+        {"timings": {"retrieve": 2.0, "grade": 1.0, "rewrite": 1.0,
+                     "generate": 2.0}, "rewrites": 1},
+    ]
+    s = summarize(rows)
+
+    assert s["n_queries"] == 2
+    assert s["nodes"]["retrieve"]["total_sec"] == 3.0
+    assert s["nodes"]["generate"]["share_pct"] == 50.0     # 5/10
+    assert s["loop_share_pct"] == 20.0                     # (1+1)/10
+    assert s["rewrite_rate_pct"] == 50.0
+    # 재작성이 발동한 질의가 더 비싸다는 것이 분리돼 보여야 한다
+    assert s["median_total_when_rewrote"] == 6.0
+    assert s["median_total_when_not"] == 4.0
+
+
+def test_node_profile_handles_no_rewrites():
+    """재작성이 한 번도 안 났을 때 통계가 죽지 않는가."""
+    sys.path.insert(0, str(ROOT / "eval"))
+    from profile_nodes import summarize
+
+    s = summarize([{"timings": {"retrieve": 1.0}, "rewrites": 0}])
+    assert s["median_total_when_rewrote"] is None
+    assert s["rewrite_rate_pct"] == 0.0
