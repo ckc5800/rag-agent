@@ -86,13 +86,22 @@ eval/
 
 ```mermaid
 graph LR
-    Q[질문] --> R[retrieve<br/>FAISS + BM25 RRF]
+    Q[질문] --> RS[route_strategy<br/>유형별 컨텍스트 전략]
+    RS --> R[retrieve<br/>FAISS + BM25 RRF]
     R --> G[grade<br/>검색 품질 평가]
     G -->|충분| GEN[generate<br/>근거 기반 답변 + 출처]
     G -->|부족| RW[rewrite<br/>질문 재작성]
     RW --> R
-    GEN --> A[답변]
+    GEN --> V[verify<br/>근거성 확인]
+    V --> A[답변]
 ```
+
+`route_strategy`는 질문 유형(집계·열거 등)에 맞는 컨텍스트 전략을 State에
+실어 보낸다. 예전엔 이 라우팅이 그래프 **밖**에서 전역 `config`를 잠깐
+바꾸는 방식이었는데, FastAPI가 동기 핸들러를 스레드풀에서 돌리는 탓에 동시
+요청끼리 서로의 설정을 덮어썼다(코드 주석에 "알려진 한계"로 적혀 있었다).
+노드로 옮기면서 그 경합이 사라졌고, 스트리밍 엔드포인트가 따로 감싸던
+특례도 없어졌다.
 
 검색은 FAISS(의미)와 BM25(키워드)를 RRF로 섞는다. 'Jenkins'나 'Pyannote' 같은
 고유명사 질문에서 벡터 검색이 자꾸 엉뚱한 걸 가져와서 넣었는데, 효과가 컸다.

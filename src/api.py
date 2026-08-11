@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 import cache
 import tracelog
-from graph import _type_routing, build_graph, run, uses_team, warmup
+from graph import build_graph, run, uses_team, warmup
 from preflight import check_all
 
 graph = None
@@ -60,7 +60,7 @@ def ask(req: AskRequest):
         return AskResponse(**hit, cached=True)
 
     try:
-        # graph.invoke를 직접 부르면 유형별 라우팅(_type_routing)을 건너뛴다 —
+        # graph.invoke를 직접 부르면 안 된다 — 라우팅은 그래프 안의
         # 실제로 그 상태였고 TYPE_ROUTING=1이 서빙에 반영되지 않고 있었다.
         # 라우팅이 붙는 자리는 graph.run()/uses_team() 하나로 모았다.
         if uses_team(req.question):
@@ -115,21 +115,21 @@ def ask_stream(req: AskRequest):
 
         final_state = {}
         try:
-            # /ask 와 같은 이유로 라우팅을 걸어야 한다. 여기는 스트리밍이라
-            # run()을 못 쓰고(제너레이터를 돌려야 한다) 컨텍스트 매니저를
-            # 직접 감싼다 — 두 엔드포인트가 다른 설정으로 답하면 안 된다.
-            with _type_routing(req.question):
-                for mode, chunk in graph.stream(
+            # 라우팅은 그래프 안의 route_strategy 노드가 한다 — 스트리밍도
+            # 그냥 그래프를 돌리면 된다. 예전엔 여기서 컨텍스트 매니저로
+            # 전역 config를 갈아끼웠고, 그래서 라우팅이 붙는 자리가 /ask와
+            # 여기 둘로 갈려 있었다.
+            for mode, chunk in graph.stream(
                     {"question": req.question, "query": req.question, "rewrites": 0},
                     stream_mode=["messages", "values"],
-                ):
-                    if mode == "messages":
-                        msg_chunk, metadata = chunk
-                        if (metadata.get("langgraph_node") == "generate"
-                                and msg_chunk.content):
-                            yield (f"data: {json.dumps({'token': msg_chunk.content}, ensure_ascii=False)}\n\n")
-                    elif mode == "values":
-                        final_state = chunk
+            ):
+                if mode == "messages":
+                    msg_chunk, metadata = chunk
+                    if (metadata.get("langgraph_node") == "generate"
+                            and msg_chunk.content):
+                        yield (f"data: {json.dumps({'token': msg_chunk.content}, ensure_ascii=False)}\n\n")
+                elif mode == "values":
+                    final_state = chunk
         except Exception as e:                               # noqa: BLE001
             yield f"data: {json.dumps({'error': f'{type(e).__name__}: {e}'}, ensure_ascii=False)}\n\n"
             return

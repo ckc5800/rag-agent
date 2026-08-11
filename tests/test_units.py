@@ -971,30 +971,56 @@ def test_classify_type_catches_some_enumeration_safely():
     assert classify_question_type("TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?") == "fact"
 
 
-def test_type_routing_applies_and_restores_config(monkeypatch):
-    """_type_routing이 켜져 있을 때만 오버라이드하고, 끝나면 원복해야 한다."""
+def test_route_strategy_node_returns_overrides(monkeypatch):
+    """route_strategy 노드가 유형에 맞는 전략을 State로 돌려주는가."""
     import config
-    from graph import _type_routing
+    from graph import route_strategy
 
-    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 0)
-    monkeypatch.setattr(config, "GENERATE_TOP_N", 5)
     monkeypatch.setattr(config, "TYPE_ROUTING", False)
-    with _type_routing("이윤선의 제1저자 논문은 몇 편인가요?"):
-        assert config.NEIGHBOR_WINDOW == 0   # 꺼져 있으면 오버라이드 없음
+    assert route_strategy({"question": "이윤선의 제1저자 논문은 몇 편인가요?"}) \
+        == {"strategy": {}}                       # 꺼져 있으면 전략 없음
 
     monkeypatch.setattr(config, "TYPE_ROUTING", True)
-    with _type_routing("이윤선의 제1저자 논문은 몇 편인가요?"):
-        # aggregation → 이웃 확장 + 개선이 측정된 top-3로 함께 이동.
-        # W=1을 top-5 위에 얹으면 컨텍스트 7.7k자(미측정 조합)가 되어
-        # base가 맞히던 질문을 깨뜨렸다 — route.py ROUTES 주석 참고.
-        assert config.NEIGHBOR_WINDOW == 1
-        assert config.GENERATE_TOP_N == 3
-    assert config.NEIGHBOR_WINDOW == 0       # 블록을 벗어나면 원복
-    assert config.GENERATE_TOP_N == 5
+    # aggregation → 이웃 확장 + 개선이 측정된 top-3로 함께 이동.
+    # W=1을 top-5 위에 얹으면 컨텍스트 7.7k자(미측정 조합)가 되어 base가
+    # 맞히던 질문을 깨뜨렸다 — route.py ROUTES 주석 참고.
+    out = route_strategy({"question": "이윤선의 제1저자 논문은 몇 편인가요?"})
+    assert out["strategy"] == {"NEIGHBOR_WINDOW": 1, "GENERATE_TOP_N": 3}
 
-    with _type_routing("TTS 프로젝트에서 TTFB를 얼마나 개선했나요?"):
-        assert config.NEIGHBOR_WINDOW == 0   # fact는 오버라이드 없음
-        assert config.GENERATE_TOP_N == 5
+    out = route_strategy({"question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?"})
+    assert out["strategy"] == {}                  # fact는 오버라이드 없음
+
+
+def test_route_strategy_never_mutates_global_config(monkeypatch):
+    """전역을 안 건드리는 것이 이 설계의 요점이다.
+
+    예전엔 run()이 컨텍스트 매니저로 config를 잠깐 바꿨다 되돌렸다. FastAPI가
+    동기 핸들러를 스레드풀에서 돌리므로, 동시 요청 두 건이 서로의 전역을
+    덮어썼다(코드 주석에 "알려진 한계"로 적혀 있던 자리). 전략을 State로
+    나르면 그 경합이 구조적으로 사라진다.
+    """
+    import config
+    from graph import route_strategy
+
+    monkeypatch.setattr(config, "TYPE_ROUTING", True)
+    before = {k: getattr(config, k) for k in ("NEIGHBOR_WINDOW", "GENERATE_TOP_N")}
+    route_strategy({"question": "이윤선의 제1저자 논문은 몇 편인가요?"})
+    after = {k: getattr(config, k) for k in ("NEIGHBOR_WINDOW", "GENERATE_TOP_N")}
+    assert before == after
+
+
+def test_context_docs_uses_strategy_over_global(monkeypatch):
+    """State의 전략이 전역 기본값을 이긴다 (없으면 전역을 쓴다)."""
+    import config
+    from graph import context_docs
+
+    monkeypatch.setattr(config, "GENERATE_TOP_N", 5)
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 0)
+    docs = [f"d{i}" for i in range(6)]
+
+    assert len(context_docs(docs)) == 5                       # 전역
+    assert len(context_docs(docs, {"GENERATE_TOP_N": 3})) == 3  # 전략이 우선
+    assert len(context_docs(docs, {})) == 5                   # 빈 전략이면 전역
 
 
 # ── 리랭커 (graph.rerank) ──
@@ -1292,43 +1318,34 @@ def test_chunk_semantically_uses_injected_embed_fn():
 # evaluate.py로 잰 "켠 전후" 수치는 같은 코드 경로를 두 번 잰 것이었다.
 # 진입점을 graph.run()으로 모아 고쳤으니, 그 계약이 깨지지 않는지 고정한다.
 
-def test_run_applies_type_routing_overrides():
-    """run()이 aggregation 질문에 route.ROUTES 오버라이드를 적용하는가."""
+def test_strategy_flows_from_node_to_context_docs(monkeypatch):
+    """route_strategy가 실은 전략이 grade·generate까지 전달되는가.
+
+    라우팅이 그래프 밖(run의 컨텍스트 매니저)에 있던 시절, 실사용 경로가
+    graph.invoke를 직접 불러 라우팅을 통째로 건너뛴 적이 있다. 이제는
+    노드라서 그래프를 도는 한 반드시 거치지만, 전략이 실제로 context_docs
+    까지 닿는지는 별도로 고정한다.
+    """
     import config
     import graph as g
     import route
 
+    from types import SimpleNamespace
+
+    from langchain_core.runnables import RunnableLambda
+
     seen = []
-    original = g.context_docs
-    g.context_docs = lambda docs: (
-        seen.append((config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N)), original(docs))[1]
-    fake = type("G", (), {"invoke": lambda self, s: (g.context_docs([]), {})[1]})()
-    prev = config.TYPE_ROUTING
-    try:
-        config.TYPE_ROUTING = True
-        g.run("등록된 특허는 총 몇 건인가요?", graph=fake)
-        expected = (route.ROUTES["aggregation"]["NEIGHBOR_WINDOW"],
-                    route.ROUTES["aggregation"]["GENERATE_TOP_N"])
-        assert seen == [expected], f"라우팅 미적용: {seen} != [{expected}]"
-    finally:
-        g.context_docs = original
-        config.TYPE_ROUTING = prev
+    monkeypatch.setattr(g, "context_docs",
+                        lambda docs, strategy=None: seen.append(strategy) or [])
+    monkeypatch.setattr(g, "get_llm", lambda *a, **k: RunnableLambda(
+        lambda _: SimpleNamespace(content="답변")))
+    monkeypatch.setattr(config, "TYPE_ROUTING", True)
 
+    state = g.route_strategy({"question": "등록된 특허는 총 몇 건인가요?"})
+    g.generate({"question": "q", "documents": [], **state})
 
-def test_run_restores_config_after_routing():
-    """오버라이드가 실행 후 원래 값으로 복원되는가 (전역 오염 방지)."""
-    import config
-    import graph as g
+    assert seen == [route.ROUTES["aggregation"]], f"전략 미전달: {seen}"
 
-    before = (config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N)
-    fake = type("G", (), {"invoke": lambda self, s: {}})()
-    prev = config.TYPE_ROUTING
-    try:
-        config.TYPE_ROUTING = True
-        g.run("등록된 특허는 총 몇 건인가요?", graph=fake)
-        assert (config.NEIGHBOR_WINDOW, config.GENERATE_TOP_N) == before
-    finally:
-        config.TYPE_ROUTING = prev
 
 
 def test_uses_team_is_gated_by_config_flag():

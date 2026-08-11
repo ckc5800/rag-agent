@@ -11,7 +11,6 @@ import hashlib
 import re
 import threading
 import unicodedata
-from contextlib import contextmanager
 from typing import TypedDict
 
 from kiwipiepy import Kiwi
@@ -34,6 +33,7 @@ class AgentState(TypedDict):
     answer: str
     sources: list[str]
     contexts: list[str]     # 실제로 프롬프트에 들어간 청크 본문 (평가·심판용)
+    strategy: dict         # 유형 라우팅이 정한 컨텍스트 전략 ({}면 전역 기본값)
     grounded: bool | None          # verify 노드 결과 (VERIFY_GROUNDING 꺼지면 None)
     unsupported_claim: str | None  # grounded=False일 때 근거 없는 주장 요약
 
@@ -345,7 +345,8 @@ def retrieve(state: AgentState) -> dict:
 # generate가 실제로 받는 청크 수. grade와 generate가 이 상수를 공유해야
 # "grade는 통과시켰는데 generate는 그 근거를 못 받는" 불일치가 생기지 않는다
 # ("근무한 회사들" 질문이 실제로 그 상태였다 — README v6 기록).
-def context_docs(documents: list[Document]) -> list[Document]:
+def context_docs(documents: list[Document],
+                 strategy: dict | None = None) -> list[Document]:
     """grade·generate가 공통으로 봐야 할 상위 N개.
 
     호출 시점에 config를 읽는다 — A/B 스크립트가 런타임에 바꿀 수 있어야 한다.
@@ -355,7 +356,9 @@ def context_docs(documents: list[Document]) -> list[Document]:
     docs = documents
     if config.EXCLUDE_DIAGRAMS:
         docs = [d for d in docs if d.metadata.get("kind") != "diagram"]
-    return expand_with_neighbors(docs[:config.GENERATE_TOP_N])
+    st = strategy or {}
+    top_n = st.get("GENERATE_TOP_N", config.GENERATE_TOP_N)
+    return expand_with_neighbors(docs[:top_n], st.get("NEIGHBOR_WINDOW"))
 
 
 def order_for_prompt(docs: list[Document]) -> list[Document]:
@@ -375,7 +378,8 @@ def order_for_prompt(docs: list[Document]) -> list[Document]:
     return list(reversed(docs))
 
 
-def expand_with_neighbors(docs: list[Document]) -> list[Document]:
+def expand_with_neighbors(docs: list[Document],
+                          window: int | None = None) -> list[Document]:
     """각 청크를 인덱스상 이웃과 합쳐 문맥을 넓힌다 (순위·개수는 유지).
 
     `NEIGHBOR_WINDOW=0`이면 아무것도 하지 않는다(기본값).
@@ -388,7 +392,7 @@ def expand_with_neighbors(docs: list[Document]) -> list[Document]:
     청크가 800자 상한에서 잘리며 문장·표가 끊긴 경우를 이어 붙이는 효과도
     있다. 다이어그램 청크는 이미 통짜라 확장하지 않는다.
     """
-    w = config.NEIGHBOR_WINDOW
+    w = config.NEIGHBOR_WINDOW if window is None else window
     if w <= 0 or not docs:
         return docs
 
@@ -508,7 +512,8 @@ def judge_relevance(question: str, docs: list[Document]) -> tuple[str, str]:
 
 def grade(state: AgentState) -> dict:
     verdict, raw = judge_relevance(
-        state["question"], context_docs(state["documents"]))
+        state["question"],
+        context_docs(state["documents"], state.get("strategy")))
     if verdict == GRADE_UNPARSED:
         # 정책은 fail-open 유지(애매하면 통과) — 단 조용히 흡수하지 않는다.
         # 빈도를 모르면 고칠 수 없다. eval/eval_grade.py가 이 비율을 잰다.
@@ -677,7 +682,7 @@ def generate(state: AgentState) -> dict:
     # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 상위 N개만 쓰고
     # (N은 grade와 공유 — context_docs), 끝부분 주의집중이 강한 특성에 맞춰
     # 랭크 역순으로 배치해 최상위 청크가 질문 바로 앞에 오게 한다
-    used = context_docs(state["documents"])
+    used = context_docs(state["documents"], state.get("strategy"))
     context = context_text(order_for_prompt(used))
     chain = generate_prompt() | get_llm()
     answer = chain.invoke(
@@ -739,7 +744,7 @@ def verify(state: AgentState) -> dict:
     if not config.VERIFY_GROUNDING:
         return {"grounded": None, "unsupported_claim": None}
 
-    docs = context_docs(state["documents"])
+    docs = context_docs(state["documents"], state.get("strategy"))
     chain = VERIFY_PROMPT | _structured_verify_llm()
     result = chain.invoke(
         {"context": context_text(docs), "answer": state["answer"]})
@@ -753,6 +758,31 @@ def verify(state: AgentState) -> dict:
 
 
 # ── Graph ──────────────────────────────────────────────
+
+def route_strategy(state: AgentState) -> dict:
+    """질문 유형에 맞는 컨텍스트 전략을 State에 싣는다 (그래프 진입점).
+
+    예전엔 run()이 컨텍스트 매니저로 **전역 config를 잠깐 바꿨다가 되돌리는**
+    방식이었다. 세 가지가 걸렸다:
+
+      · FastAPI는 동기 핸들러를 스레드풀에서 돌린다. 두 요청이 동시에 들어오면
+        전역을 서로 덮어써서, aggregation 질문이 켠 GENERATE_TOP_N=3을 옆
+        스레드의 fact 질문이 읽는다. 코드 주석에 "알려진 한계"로 적혀 있었다.
+      · 스트리밍 경로는 제너레이터라 run()을 못 쓰고 api.py가 컨텍스트 매니저를
+        직접 열어야 했다 — 라우팅이 붙는 자리가 결국 둘로 갈렸다.
+      · 라우팅이 그래프 밖에 있어 LangGraph 추적·스트리밍에 안 보였다.
+
+    전략을 State로 나르면 셋 다 사라진다. 전역을 안 건드리니 스레드 안전하고,
+    스트리밍도 그냥 그래프를 돌리면 되고, 노드라서 추적에 잡힌다.
+    """
+    if not config.TYPE_ROUTING:
+        return {"strategy": {}}
+
+    import route
+
+    return {"strategy": route.ROUTES.get(
+        route.classify_question_type(state["question"]), {})}
+
 
 def needs_grading(state: AgentState) -> str:
     """재작성 여력이 없으면 판정을 아예 묻지 않는다.
@@ -784,13 +814,15 @@ def after_rewrite(state: AgentState) -> str:
 
 def build_graph():
     g = StateGraph(AgentState)
+    g.add_node("route_strategy", route_strategy)
     g.add_node("retrieve", retrieve)
     g.add_node("grade", grade)
     g.add_node("rewrite", rewrite)
     g.add_node("generate", generate)
     g.add_node("verify", verify)
 
-    g.add_edge(START, "retrieve")
+    g.add_edge(START, "route_strategy")
+    g.add_edge("route_strategy", "retrieve")
     g.add_conditional_edges("retrieve", needs_grading, ["grade", "generate"])
     g.add_conditional_edges("grade", decide_next, ["rewrite", "generate"])
     g.add_conditional_edges("rewrite", after_rewrite, ["retrieve", "generate"])
@@ -821,8 +853,7 @@ def run(question: str, graph=None) -> dict:
     graph를 넘기면 그걸 쓴다 — api.py는 기동 시 1회만 컴파일해 두고 재사용한다.
     """
     g = graph if graph is not None else build_graph()
-    with _type_routing(question):
-        return g.invoke({"question": question, "query": question, "rewrites": 0})
+    return g.invoke({"question": question, "query": question, "rewrites": 0})
 
 
 def uses_team(question: str) -> bool:
@@ -861,40 +892,3 @@ def ask(question: str) -> dict:
     }
 
 
-@contextmanager
-def _type_routing(question: str):
-    """config.TYPE_ROUTING이 켜져 있으면 질문 유형에 맞는 오버라이드를
-    그래프 실행 동안만 적용하고 끝나면 원래 값으로 되돌린다.
-
-    context_docs()·order_for_prompt()가 매 호출 config를 다시 읽으므로
-    (호출 시점 바인딩), 이렇게 전역값을 잠깐 바꾸는 것만으로 grade·generate
-    양쪽 모두 같은 오버라이드를 일관되게 본다 — 이미 ab_top_n.py 같은
-    실험 스크립트가 쓰는 패턴과 동일하다. FastAPI가 스레드풀에서 동시
-    요청을 처리하면 이 전역 상태가 스레드 안전하지 않다 — 지금은 이
-    프로젝트의 다른 런타임 config 조작(LLM_MODEL 등)도 같은 한계를 가진
-    기존 패턴이라 그대로 따르되, 알려진 한계로 남겨 둔다.
-    """
-    import route
-
-    if not config.TYPE_ROUTING:
-        yield
-        return
-
-    overrides = route.ROUTES.get(route.classify_question_type(question), {})
-    prev = {k: getattr(config, k) for k in overrides}
-    for k, v in overrides.items():
-        setattr(config, k, v)
-    try:
-        yield
-    finally:
-        for k, v in prev.items():
-            setattr(config, k, v)
-
-
-if __name__ == "__main__":
-    import sys
-
-    q = sys.argv[1] if len(sys.argv) > 1 else "TTS 프로젝트의 TTFB 개선 수치는?"
-    out = ask(q)
-    print("답변:", out["answer"])
-    print("출처:", out["sources"])
