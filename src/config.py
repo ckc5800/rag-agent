@@ -20,8 +20,15 @@ def _env(name: str, default: str, cast=str):
 
 
 def knobs() -> dict:
-    """환경변수로 노출된 설정 전부 (캐시 키·실행 지문용)."""
-    return dict(_KNOBS)
+    """환경변수로 노출된 설정 전부 (캐시 키·실행 지문용).
+
+    _KNOBS는 **이름 목록으로만** 쓰고 값은 매번 모듈 속성에서 다시 읽는다.
+    A/B 스크립트가 `config.MAX_REWRITES = 0`처럼 런타임에 값을 갈아끼우기
+    때문이다(ab_rewrite.py·ab_top_n.py 등). 임포트 시점 스냅샷을 돌려주면
+    캐시 키와 실행 지문이 옛 값을 가리켜, 원래 고치려던 버그가 형태만
+    바뀌어 돌아온다.
+    """
+    return {name: globals()[name] for name in _KNOBS}
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent

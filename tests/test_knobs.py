@@ -40,7 +40,9 @@ def test_cache_key_changes_when_any_knob_changes(monkeypatch):
     for name, value in config.knobs().items():
         flipped = (not value) if isinstance(value, bool) else \
                   (value + 1) if isinstance(value, int) else value + "_x"
-        monkeypatch.setitem(config._KNOBS, name, flipped)
+        # 모듈 속성을 바꾼다 — A/B 스크립트가 실제로 하는 방식이다.
+        # _KNOBS를 직접 건드리면 런타임 반영 여부를 못 잡는다.
+        monkeypatch.setattr(config, name, flipped)
         assert cache._cache_key("질문") != base, f"{name}이 캐시 키에 없다"
         monkeypatch.undo()
 

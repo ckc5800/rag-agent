@@ -389,10 +389,13 @@ def expand_with_neighbors(docs: list[Document]) -> list[Document]:
     있다. 다이어그램 청크는 이미 통짜라 확장하지 않는다.
     """
     w = config.NEIGHBOR_WINDOW
-    if w <= 0:
+    if w <= 0 or not docs:
         return docs
 
-    _, _ = _load_indexes()
+    # _chunks_by_index()는 chunks.jsonl만 읽는다 — 벡터 인덱스가 필요 없다.
+    # 예전엔 여기서 _load_indexes()를 불러 FAISS 적재와 BM25 구축까지 하고
+    # 있었는데 쓰지도 않는 작업이었고, 인덱스 없는 환경(새 클론·CI)에서
+    # 이 경로만으로 RuntimeError가 났다.
     by_index = _chunks_by_index()
     out = []
     for d in docs:
