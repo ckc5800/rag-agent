@@ -84,3 +84,35 @@ def test_bm25_k_follows_runtime_top_k(monkeypatch):
         monkeypatch.setattr(config, "TOP_K", k)
         graph.hybrid_search("질의")
         assert fake.k == k, f"TOP_K={k}인데 bm25.k={fake.k}"
+
+
+def test_team_workers_run_concurrently_and_keep_order(monkeypatch):
+    """멀티에이전트 worker가 동시에 돌고, 순서는 planner 순서를 지키는가.
+
+    순차 실행이면 sub-질문 3개에 지연이 3배다. 답이 바뀌지 않는 변경이라
+    품질 A/B 없이 넣었지만, "정말 동시에 도는가"와 "순서가 섞이지 않는가"는
+    코드로 고정해야 한다 — 둘 중 하나만 깨져도 조용히 손해다.
+    """
+    import time
+
+    import team
+
+    class SlowGraph:
+        def invoke(self, state):
+            time.sleep(0.15)
+            return {"answer": f"A:{state['question']}", "sources": ["s.md"]}
+
+    monkeypatch.setattr(team, "build_graph", lambda: SlowGraph())
+    monkeypatch.setattr(team, "get_llm", lambda *a, **k: None)
+
+    built = team.build_team()
+    node = built.nodes["workers"]
+    subs = ["q1", "q2", "q3"]
+
+    t0 = time.perf_counter()
+    out = node.invoke({"question": "원 질문", "sub_questions": subs})
+    elapsed = time.perf_counter() - t0
+
+    assert [r["question"] for r in out["sub_answers"]] == subs   # 순서 보존
+    assert [r["answer"] for r in out["sub_answers"]] == [f"A:{q}" for q in subs]
+    assert elapsed < 0.3, f"순차 실행으로 보인다 ({elapsed:.2f}s, 순차면 0.45s)"

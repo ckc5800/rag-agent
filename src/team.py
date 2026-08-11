@@ -12,6 +12,7 @@
 """
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor
 from typing import TypedDict
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -75,16 +76,33 @@ def build_team():
             {"question": state["question"]}).content
         return {"sub_questions": _parse_sub_questions(out, state["question"])}
 
+    def _one_worker(sq: str) -> dict:
+        # planner가 이미 검색용으로 정제한 질문이므로 worker의 자체 재작성은
+        # 끈다 (rewrites를 상한으로 시작) — 이중 가공이 검색 믹스를 흐트러뜨림
+        r = rag.invoke({"question": sq, "query": sq,
+                        "rewrites": config.MAX_REWRITES})
+        return {"question": sq, "answer": r["answer"], "sources": r["sources"]}
+
     def workers(state: TeamState) -> dict:
-        results = []
-        for sq in state["sub_questions"]:
-            # planner가 이미 검색용으로 정제한 질문이므로 worker의 자체 재작성은
-            # 끈다 (rewrites를 상한으로 시작) — 이중 가공이 검색 믹스를 흐트러뜨림
-            r = rag.invoke({"question": sq, "query": sq,
-                            "rewrites": config.MAX_REWRITES})
-            results.append({"question": sq, "answer": r["answer"],
-                            "sources": r["sources"]})
-        return {"sub_answers": results}
+        """sub-질문을 동시에 처리한다. 순서는 planner가 낸 순서 그대로.
+
+        멀티에이전트 구조인데 for 루프로 순차 실행하고 있었다 — sub-질문이
+        3개면 지연도 3배다. README의 팀 다이어그램은 worker 2개가 병렬인
+        것처럼 그려져 있어 구현과도 어긋났다.
+
+        **답은 바뀌지 않는다.** worker끼리 독립이고(공유 상태 없음), 자체
+        재작성이 꺼져 있어 temperature 0 경로만 타며, executor.map이 입력
+        순서를 보존한다. 그래서 품질 A/B 없이 넣을 수 있는 변경이다 —
+        남는 이득은 지연뿐이고, 그건 Ollama의 동시 처리 능력에 달렸으므로
+        실제 머신에서 확인할 것(CPU 추론이면 이득이 작을 수 있다).
+
+        planner가 sub-질문을 최대 3개로 제한하므로 스레드도 최대 3개다.
+        """
+        subs = state["sub_questions"]
+        if len(subs) == 1:                      # 스레드풀 만들 이유가 없다
+            return {"sub_answers": [_one_worker(subs[0])]}
+        with ThreadPoolExecutor(max_workers=len(subs)) as pool:
+            return {"sub_answers": list(pool.map(_one_worker, subs))}
 
     def synthesizer(state: TeamState) -> dict:
         subs = state["sub_answers"]
