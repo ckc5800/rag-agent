@@ -50,8 +50,22 @@ DB_DIR = str(BASE_DIR / "data" / "faiss_index")
 QDRANT_PATH = str(BASE_DIR / "data" / "qdrant_index")
 QDRANT_COLLECTION = "portfolio"
 
-# Ollama 모델 (GPU 환경이면 qwen2.5:7b 권장, CPU 환경은 3b)
-LLM_MODEL = _env("LLM_MODEL", "qwen2.5:3b")
+# Ollama 모델. 기본 7b — CPU 환경이면 LLM_MODEL=qwen2.5:3b 로 되돌릴 것.
+#
+# 오래 3b였다. 근거는 "이 개발 PC가 CPU 폴백이라 7b는 느리다"였는데,
+# 2026-08-11 재확인에서 그 전제가 낡은 것으로 판명됐다(Ollama 0.32.6에서
+# GPU 크래시 해소 — 3b·7b·bge-m3 전부 100% GPU, 7b 동시 적재 시 VRAM
+# 5.8/8.2GB). 전제가 사라졌으므로 같은 프로덕션 run() 경로로 재측정:
+#
+#     75문항 × 2회   3b 77%(115·116/150)  →  7b **85%(64/75 두 패스 동일)**
+#     재작성률        67~76%              →  16%  (grade 오탐이 줄어든 것)
+#     지연 중앙값      4.3~4.6s            →  4.7s (동급 — GPU라 크기 비용이 상쇄)
+#
+# 정확도 +8%p를 지연 비용 없이 얻으므로 기본을 7b로 올린다. 두 패스가
+# 64/75로 동일한 것도 3b(±6%p)보다 편차가 작다는 신호다. 주의: 이 저장소의
+# 기존 A/B 수치는 전부 3b 기준이다 — 이후 A/B는 7b 기준선을 새로 잰다.
+# TEAM_ROUTING(+18%p)은 14b에서만 검증됐으므로 7b 재측정 전까지 계속 꺼둠.
+LLM_MODEL = _env("LLM_MODEL", "qwen2.5:7b")
 EMBED_MODEL = _env("EMBED_MODEL", "bge-m3")
 
 # 청킹 / 검색 파라미터
