@@ -190,7 +190,6 @@ def _load_indexes():
                                            metadata=d["metadata"]))
             bm25 = BM25Retriever.from_documents(
                 chunks, preprocess_func=bm25_tokenize)
-            bm25.k = config.TOP_K
 
             # 마지막에 세팅되는 _bm25가 '준비 완료' 신호다 — 순서를 바꾸지 말 것
             _vectorstore = store
@@ -242,6 +241,10 @@ def hybrid_search(query: str) -> list[Document]:
     올라가고, 이미 질의만으로 잘 찾던 문항의 신호는 그대로 남는다.
     """
     vectorstore, bm25 = _load_indexes()
+    # bm25.k를 질의 시점에 맞춘다. 예전엔 인덱스 빌드 때 한 번만 넣어서,
+    # TOP_K를 런타임에 바꾸면(sweep_top_k.py 등) 벡터는 새 k로 BM25는 옛 k로
+    # 뽑아 RRF가 비대칭이 됐다 — 증상 없이 순위만 틀어지는 종류다.
+    bm25.k = config.TOP_K
     lists = [vectorstore.similarity_search(query, k=config.TOP_K),
              bm25.invoke(query)]
     if config.HYDE:
@@ -342,9 +345,6 @@ def retrieve(state: AgentState) -> dict:
 # generate가 실제로 받는 청크 수. grade와 generate가 이 상수를 공유해야
 # "grade는 통과시켰는데 generate는 그 근거를 못 받는" 불일치가 생기지 않는다
 # ("근무한 회사들" 질문이 실제로 그 상태였다 — README v6 기록).
-GENERATE_TOP_N = config.GENERATE_TOP_N        # 하위호환 (테스트가 참조)
-
-
 def context_docs(documents: list[Document]) -> list[Document]:
     """grade·generate가 공통으로 봐야 할 상위 N개.
 

@@ -142,10 +142,11 @@ def test_html_tags_are_stripped():
 # 둘이 같은 개수를 보도록 묶었으니, 그 계약이 깨지지 않는지 고정한다.
 
 def test_context_docs_caps_at_generate_top_n():
-    from graph import GENERATE_TOP_N, context_docs
+    import config
+    from graph import context_docs
 
     docs = [f"doc{i}" for i in range(6)]
-    assert len(context_docs(docs)) == GENERATE_TOP_N
+    assert len(context_docs(docs)) == config.GENERATE_TOP_N
 
 
 def test_context_docs_keeps_top_ranked_first():
@@ -603,7 +604,7 @@ def test_extractive_answer_patterns_match_the_corpus():
     """
     import re
 
-    from graph import GENERATE_TOP_N  # noqa: F401  (src 경로 확인용)
+    import graph  # noqa: F401  (src 경로가 잡혔는지 확인용)
 
     _, corpus, cases = _corpus_and_cases()
     derived = {"aggregation", "comparison"}

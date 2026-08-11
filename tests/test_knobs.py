@@ -53,3 +53,34 @@ def test_runmeta_params_include_every_knob():
     params = runmeta.run_metadata()["params"]
     missing = set(config.knobs()) - set(params)
     assert not missing, f"실행 지문에 빠진 손잡이: {missing}"
+
+
+def test_bm25_k_follows_runtime_top_k(monkeypatch):
+    """TOP_K를 런타임에 바꾸면 BM25도 같은 k로 뽑아야 한다.
+
+    예전엔 인덱스 빌드 시점에 bm25.k를 한 번만 넣어서, TOP_K를 바꾸면
+    벡터는 새 k로 BM25는 옛 k로 뽑아 RRF가 비대칭이 됐다. sweep_top_k.py가
+    직접 bm25.k를 갱신하는 우회 코드를 갖고 있던 이유다 — 증상 없이 순위만
+    틀어지는 종류라 우회를 잊으면 조용히 틀린 수치가 나온다.
+    """
+    import graph
+    from langchain_core.documents import Document
+
+    class FakeStore:
+        def similarity_search(self, q, k):
+            return [Document(page_content=f"v{i}", metadata={}) for i in range(k)]
+
+    class FakeBM25:
+        k = 99
+
+        def invoke(self, q):
+            return [Document(page_content=f"b{i}", metadata={})
+                    for i in range(self.k)]
+
+    fake = FakeBM25()
+    monkeypatch.setattr(graph, "_vectorstore", FakeStore())
+    monkeypatch.setattr(graph, "_bm25", fake)
+    for k in (6, 15):
+        monkeypatch.setattr(config, "TOP_K", k)
+        graph.hybrid_search("질의")
+        assert fake.k == k, f"TOP_K={k}인데 bm25.k={fake.k}"
