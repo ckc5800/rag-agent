@@ -1560,3 +1560,63 @@ def test_inspect_data_excludes_whole_chunks_from_prose_stats():
     assert kinds == {"diagram", "table"}
     # 통짜 청크는 전부 kind가 붙어 있어야 산문 통계에서 걸러진다
     assert all(b.metadata.get("kind") for b in blocks)
+
+
+def test_table_chunk_keeps_its_heading():
+    """표를 떼면 자기 이름을 잃는다 — 직전 헤딩을 붙여야 한다.
+
+    patents.md의 표는 열 이름이 "등록번 | 논문명"이라 '특허'가 없고, 그
+    단어가 있던 본문("# 특허" + 플레이스홀더)은 30자 미만이라 인덱싱에서
+    빠진다. 헤딩을 안 붙이면 **'특허'가 코퍼스에서 사라진다.**
+    """
+    from ingest import extract_tables
+
+    text = ("# 특허\n\n"
+            "| 등록번 | 논문명 |\n"
+            "| --- | --- |\n"
+            "| 1025382250000 | 센서 퓨전 |\n")
+    _, tables = extract_tables(text)
+
+    assert tables[0].page_content.startswith("# 특허")
+    assert "특허" in tables[0].page_content
+
+
+def test_keywords_survive_table_extraction():
+    """실제 코퍼스에서 표를 뗀 뒤에도 문서 제목 키워드가 남아 있는가."""
+    import ingest
+
+    docs, blocks = ingest.load_documents()
+    corpus = "\n".join(d.page_content for d in docs + blocks)
+    for word in ("특허", "연구 수행 실적"):
+        assert word in corpus, f"표 추출로 '{word}'가 코퍼스에서 사라졌다"
+
+
+def test_warns_when_a_file_contributes_no_chunks():
+    """스캔 PDF는 pypdf가 빈 문자열을 돌려주고 조용히 사라진다.
+
+    파일을 넣었는데 검색이 안 될 때 원인을 찾을 단서가 없었다 —
+    inspect_data의 출처별 집계에서 그냥 안 보일 뿐이다.
+    """
+    from langchain_core.documents import Document
+
+    from ingest import warn_empty_sources
+
+    docs = [Document(page_content="본문", metadata={"source": "ok.md"}),
+            Document(page_content="", metadata={"source": "scanned.pdf"})]
+    chunks = [Document(page_content="본문", metadata={"source": "ok.md"})]
+
+    assert warn_empty_sources(docs, chunks) == ["scanned.pdf"]
+
+
+def test_no_warning_when_only_tables_carry_a_file():
+    """본문이 짧아도 표가 청크를 내면 정상이다 (patents.md가 그렇다)."""
+    from langchain_core.documents import Document
+
+    from ingest import warn_empty_sources
+
+    docs = [Document(page_content="# 특허\n\n[표: 1]",
+                     metadata={"source": "patents.md"})]
+    chunks = [Document(page_content="| a |",
+                       metadata={"source": "patents.md", "kind": "table"})]
+
+    assert warn_empty_sources(docs, chunks) == []

@@ -100,6 +100,7 @@ def extract_diagrams(text: str) -> tuple[str, list[Document]]:
 # '^\|'로 잡으면 한 표가 두 조각으로 끊긴다.
 _TABLE = re.compile(r"(?:^[ \t]*\|.*$\n?){3,}", re.M)
 _TABLE_SEPARATOR = re.compile(r"^[ \t]*\|[\s|:-]+$", re.M)
+_LAST_HEADING = re.compile(r"^#{1,6} .+$", re.M)
 
 _TABLE_PLACEHOLDER = "\n\n[표: {n}]\n\n"
 
@@ -109,6 +110,11 @@ def extract_tables(text: str) -> tuple[str, list[Document]]:
 
     구분선(| --- |)이 있는 블록만 표로 본다 — 파이프가 우연히 이어지는
     본문을 표로 오인하지 않기 위해서다.
+
+    표 앞에는 직전 헤딩을 붙인다. 표만 떼면 자기 이름을 잃기 때문이다 —
+    patents.md의 표는 열 이름이 "등록번 | 논문명"이라 '특허'라는 단어가
+    없고, 그 단어가 있던 본문("# 특허" + 플레이스홀더)은 30자 미만이라
+    인덱싱에서 빠진다. 헤딩을 안 붙이면 "특허"로는 이 표를 못 찾는다.
     """
     tables = []
 
@@ -116,7 +122,13 @@ def extract_tables(text: str) -> tuple[str, list[Document]]:
         blk = m.group(0)
         if not _TABLE_SEPARATOR.search(blk):
             return blk            # 구분선 없는 파이프 나열은 표가 아니다
-        tables.append(blk.strip())
+        # 직전 헤딩을 표 앞에 붙인다. 안 붙이면 표가 자기 이름을 잃는다 —
+        # patents.md는 본문이 "# 특허 + 플레이스홀더"뿐이라 MIN_CHUNK_CHARS에
+        # 걸려 통째로 버려지는데, 표 안에는 '특허'라는 단어가 없다(열 이름이
+        # 등록번·논문명이다). 그대로 두면 **'특허'가 인덱스에서 사라진다.**
+        heading = _LAST_HEADING.findall(text[:m.start()])
+        prefix = f"{heading[-1].strip()}\n\n" if heading else ""
+        tables.append(prefix + blk.strip())
         return _TABLE_PLACEHOLDER.format(n=len(tables))
 
     body = _EXTRA_BLANK.sub("\n\n", _TABLE.sub(_replace, text))
@@ -211,6 +223,26 @@ def annotate_positions(chunks: list[Document]) -> None:
         c.metadata["doc_total"] = per_source[c.metadata.get("source", "?")]
 
 
+def warn_empty_sources(docs, chunks) -> list[str]:
+    """인덱싱에 한 청크도 못 넣은 파일을 알린다.
+
+    조용히 사라지는 경로가 실제로 있다 — 스캔 PDF(이미지만)는 pypdf가 빈
+    문자열을 돌려주고, 그 문서는 MIN_CHUNK_CHARS에 걸려 통째로 빠진다.
+    지금까지 이걸 알려주는 곳이 없어서, 파일을 넣었는데 검색이 안 되면
+    원인을 찾을 단서가 없었다(inspect_data의 출처별 청크 수에서 그 파일이
+    그냥 안 보일 뿐이다).
+
+    본문은 짧아도 표·다이어그램이 청크를 내면 정상이므로, 파일 단위로
+    최종 청크 기여도를 본다.
+    """
+    indexed = {c.metadata.get("source") for c in chunks}
+    empty = sorted({d.metadata.get("source") for d in docs} - indexed)
+    for name in empty:
+        print(f"[warn] {name}: 인덱싱된 청크가 0개다. 텍스트 추출이 비었을 수 "
+              f"있다(스캔 PDF는 OCR이 필요하다) — inspect_data.py로 확인할 것.")
+    return empty
+
+
 def main():
     docs, diagrams = load_documents()
     if not docs:
@@ -258,6 +290,7 @@ def main():
               f"길이 {dlen[0]}~{dlen[-1]}자")
     chunks += diagrams
     annotate_positions(chunks)
+    warn_empty_sources(docs, chunks)
     print(f"총 {len(chunks)}개 청크")
 
     path = vectorstore.build(chunks)
