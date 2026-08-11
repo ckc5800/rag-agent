@@ -57,6 +57,22 @@ for name, value in sorted(config.knobs().items()):
             f"[손잡이 미문서화] {name}(기본 {value}) 가 README에 없음 — "
             "손잡이를 노출했으면 무엇인지·왜 그 기본값인지 적어야 한다")
 
+# 3b. A/B 스크립트의 실행 경로가 명시돼 있는가
+#
+# 프로덕션(api/cli)은 graph.run/ask로 TYPE_ROUTING 오버라이드를 거친다.
+# A/B가 graph.invoke를 직접 부르면 그 경로를 우회하는데, 우회가 암묵적이면
+# 나중에 run()으로 바꾸는 순간 조용히 다른 것을 재게 된다 — ab_rewrite는
+# 실제로 경로를 바꾸자 결론의 부호가 뒤집혔다. invoke를 쓰는 스크립트는
+# 격리를 코드로 선언하게 강제한다.
+for script in sorted((REPO / "eval").glob("ab_*.py")):
+    body = script.read_text(encoding="utf-8")
+    if '.invoke({"question"' not in body:
+        continue                      # ask/run 사용 또는 질의를 안 돌리는 스크립트
+    if "TYPE_ROUTING = False" not in body:
+        problems.append(
+            f"[격리 미선언] {script.name} 이 graph.invoke로 프로덕션 경로를 "
+            "우회하는데 config.TYPE_ROUTING = False 선언이 없다")
+
 # 4. 평가셋 문항 수 주장
 import json  # noqa: E402
 n = len(json.loads((REPO / "eval/eval_set.json").read_text(encoding="utf-8")))

@@ -41,6 +41,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import config  # noqa: E402
 from evaluate import EVAL_SET, is_pass  # noqa: E402
 from runmeta import run_metadata  # noqa: E402
 from graph import build_graph  # noqa: E402
@@ -64,6 +65,12 @@ def main() -> int:
         cases = [c for c in cases if c.get("type", "fact") in args.types]
     if not cases:
         raise SystemExit("해당 유형 문항이 없다")
+
+    # 양팔 모두 graph.invoke를 직접 부른다 — 프로덕션 경로(graph.run)의
+    # TYPE_ROUTING 오버라이드를 우회한다는 뜻이다. 여기서 재는 건 "멀티에이전트
+    # 팀으로 보낼 것인가"이지 유형별 컨텍스트 전략이 아니므로 격리가 맞지만,
+    # 우회가 암묵적이면 나중에 run()으로 바꿀 때 조용히 다른 것을 재게 된다.
+    config.TYPE_ROUTING = False
 
     single, team = build_graph(), build_team()
 

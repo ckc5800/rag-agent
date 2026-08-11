@@ -28,6 +28,12 @@ RESULTS = Path(__file__).parent / "results_ab_prompt_variant.json"
 def run_condition(cases: list[dict], variant: str, repeat: int) -> dict:
     from graph import build_graph
 
+    # 프로덕션 경로(graph.run)는 TYPE_ROUTING으로 질문 유형별 오버라이드를
+    # 건다. 여기서는 graph.invoke를 직접 불러 그 경로를 우회하는데, 그게
+    # **암묵적이면 위험하다** — 나중에 run()으로 바꾸는 순간 조용히 다른 것을
+    # 재게 된다(ab_rewrite는 실제로 경로를 바꾸자 결론의 부호가 뒤집혔다).
+    # 우회를 코드로 명시해 둔다.
+    config.TYPE_ROUTING = False
     config.GENERATE_PROMPT_VARIANT = variant
     graph = build_graph()
 

@@ -32,6 +32,12 @@ RESULTS = Path(__file__).parent / "results_ab_top_n.json"
 def run_condition(cases: list[dict], top_n: int, repeat: int) -> dict:
     from graph import build_graph
 
+    # 프로덕션 경로(graph.run)는 TYPE_ROUTING으로 질문 유형별 오버라이드를
+    # 건다. 여기서는 graph.invoke를 직접 불러 그 경로를 우회하는데, 그게
+    # **암묵적이면 위험하다** — 나중에 run()으로 바꾸는 순간 조용히 다른 것을
+    # 재게 된다(ab_rewrite는 실제로 경로를 바꾸자 결론의 부호가 뒤집혔다).
+    # 우회를 코드로 명시해 둔다.
+    config.TYPE_ROUTING = False
     config.GENERATE_TOP_N = top_n     # context_docs가 호출 시점에 읽는다
     graph = build_graph()
 
