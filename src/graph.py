@@ -426,8 +426,8 @@ def expand_with_neighbors(docs: list[Document],
     맨 앞에 놓여 모델이 못 본다. 여기서는 1위는 계속 1위 자리(질문 바로 앞)에
     있고, 그 청크가 담는 내용만 앞뒤로 넓어진다.
 
-    청크가 800자 상한에서 잘리며 문장·표가 끊긴 경우를 이어 붙이는 효과도
-    있다. 다이어그램 청크는 이미 통짜라 확장하지 않는다.
+    청크가 800자 상한에서 잘리며 문장이 끊긴 경우를 이어 붙이는 효과도
+    있다. 통짜 청크(다이어그램·표)는 이미 완결돼 있어 확장하지 않는다.
     """
     w = config.NEIGHBOR_WINDOW if window is None else window
     if w <= 0 or not docs:
@@ -441,7 +441,9 @@ def expand_with_neighbors(docs: list[Document],
     out = []
     for d in docs:
         i = d.metadata.get("chunk_index")
-        if i is None or d.metadata.get("kind") == "diagram":
+        # kind가 있으면 통짜 청크다(다이어그램·표). 이미 완결된 블록이라
+        # 앞뒤를 붙이면 문서의 다른 부분이 딸려 들어가 오히려 오염된다.
+        if i is None or d.metadata.get("kind"):
             out.append(d)
             continue
         src = d.metadata.get("source")

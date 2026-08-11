@@ -1524,3 +1524,39 @@ def test_publications_table_supports_counting():
     for term, expected in [("1저자", 7), ("2저자", 1),
                            ("한국자동차공학회", 2), ("한국항공우주학회", 1)]:
         assert sum(1 for ln in lines if term in ln) == expected, term
+
+
+def test_whole_chunks_are_never_neighbor_expanded(monkeypatch):
+    """통짜 청크(다이어그램·표)에는 이웃을 붙이지 않는다.
+
+    표를 추가하기 전엔 `kind == "diagram"`만 걸렀다. 표도 이미 완결된
+    블록이라, 앞뒤를 붙이면 문서의 다른 부분이 딸려 들어가 오염된다.
+    """
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    table = Document(page_content="| a | b |",
+                     metadata={"chunk_index": 1, "source": "x.md", "kind": "table"})
+    prose = Document(page_content="p1",
+                     metadata={"chunk_index": 1, "source": "x.md"})
+    lookup = {0: Document(page_content="p0", metadata={"chunk_index": 0, "source": "x.md"}),
+              1: prose,
+              2: Document(page_content="p2", metadata={"chunk_index": 2, "source": "x.md"})}
+
+    monkeypatch.setattr(config, "NEIGHBOR_WINDOW", 1)
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: lookup)
+
+    assert graph.expand_with_neighbors([table])[0].page_content == "| a | b |"
+    assert graph.expand_with_neighbors([prose])[0].page_content == "p0\np1\np2"
+
+
+def test_inspect_data_excludes_whole_chunks_from_prose_stats():
+    """1,773자 표가 산문 길이 분포에 섞이면 '상한 초과'가 결함처럼 보고된다."""
+    import ingest
+
+    _, blocks = ingest.load_documents()
+    kinds = {b.metadata.get("kind") for b in blocks}
+    assert kinds == {"diagram", "table"}
+    # 통짜 청크는 전부 kind가 붙어 있어야 산문 통계에서 걸러진다
+    assert all(b.metadata.get("kind") for b in blocks)

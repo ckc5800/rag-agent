@@ -215,7 +215,8 @@ def main():
     docs, diagrams = load_documents()
     if not docs:
         raise SystemExit(f"문서가 없습니다: {config.DOCS_DIR}")
-    print(f"{len(docs)}개 문서 로드 (다이어그램 {len(diagrams)}개 분리)")
+    print(f"{len(docs)}개 문서 로드 "
+          f"(통짜 청크 {len(diagrams)}개 분리 — 다이어그램·표)")
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=config.CHUNK_SIZE,
@@ -246,14 +247,14 @@ def main():
               f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
     else:
         print(f"산문 청크 0개 (전부 {config.MIN_CHUNK_CHARS}자 미만으로 제외) "
-              "— 다이어그램만 인덱싱한다")
+              "— 통짜 청크만 인덱싱한다")
 
     # 다이어그램은 스플리터가 안 건드린 통짜 청크로 그대로 합류시킨다.
     # 800자 상한에 걸려 도중에 잘리던 것(예: 파이프라인이 중간 줄에서 끊김)을
     # 여기서 막는다 — 문장 단위가 없는 콘텐츠라 문자 기준 분할이 안 맞는다.
     if diagrams:
         dlen = sorted(len(d.page_content) for d in diagrams)
-        print(f"+ 다이어그램 {len(diagrams)}개 (상한 미적용, 통짜 보존) — "
+        print(f"+ 통짜 청크 {len(diagrams)}개 (다이어그램·표, 상한 미적용) — "
               f"길이 {dlen[0]}~{dlen[-1]}자")
     chunks += diagrams
     annotate_positions(chunks)

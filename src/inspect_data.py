@@ -77,15 +77,17 @@ def main() -> int:
 
     print(f"문서 {len(docs)}개 → 청크 {len(chunks)}개 "
           f"(상한 {config.CHUNK_SIZE}자 / overlap {config.CHUNK_OVERLAP}자, "
-          f"다이어그램 {len(diagrams)}개는 상한 미적용 통짜 청크)\n")
+          f"통짜 청크(다이어그램·표) {len(diagrams)}개는 상한 미적용)\n")
 
-    # ── 1. 길이 분포 ── 다이어그램은 상한 미적용 통짜라 별도 콘텐츠 종류로
-    # 취급한다. 같이 섞으면 "상한 초과"가 결함처럼 보고돼 오해를 산다.
-    prose = [c for c in chunks if c.metadata.get("kind") != "diagram"]
+    # ── 1. 길이 분포 ── 통짜 청크(다이어그램·표)는 800자 상한이 적용되지
+    # 않으므로 별도 콘텐츠 종류로 취급한다. 같이 섞으면 "상한 초과"가 결함처럼
+    # 보고돼 오해를 산다 — 표를 통짜로 빼면서 1,773자짜리가 산문 통계에
+    # 들어오던 것을 여기서 막는다. kind가 붙어 있으면 통짜다.
+    prose = [c for c in chunks if not c.metadata.get("kind")]
     lengths = sorted(len(c.page_content) for c in prose)
     total = sum(lengths)
     n = len(lengths)
-    print("── 길이 분포 (산문 청크만; 다이어그램 {}개는 제외) ──".format(len(diagrams)))
+    print("── 길이 분포 (산문 청크만; 통짜 청크 {}개는 제외) ──".format(len(diagrams)))
     if n:
         edges = [0, 100, 200, 300, 400, 500, 600, 700, config.CHUNK_SIZE + 1]
         for lo, hi in zip(edges, edges[1:]):
