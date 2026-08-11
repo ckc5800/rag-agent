@@ -155,6 +155,13 @@ def rewrite(state: ParentChildState) -> dict:
 # parent를 몇 개까지 생성에 넘길지 — base의 GENERATE_TOP_N과 맞춰서
 # child·parent 두 파이프라인이 같은 "몇 번의 기회"를 받게 한다.
 #
+# 지금은 별도 상수를 두지 않는다. context_docs()가 이미 config.GENERATE_TOP_N
+# 으로 자르므로 그 결과를 그대로 쓰면 예산이 자동으로 같아진다. 예전엔
+# PARENT_TOP_N = config.GENERATE_TOP_N 이라는 **모듈 로드 시점 복사본**을 두고
+# 한 번 더 슬라이스했는데, route.py가 질문 유형별로 GENERATE_TOP_N을 런타임에
+# 갈아끼우므로 그 복사본이 옛 값을 가리킬 수 있었다(중복 슬라이스라 지금까지
+# 손해는 한쪽 방향뿐이었지만, 맞춰야 할 값을 두 군데 두는 것 자체가 원인이다).
+#
 # 예전엔 3으로 고정해 뒀었다(당시 base의 GENERATE_TOP_N도 3). 그 사이 base가
 # 51문항 스윕으로 top-N을 5로 올렸으므로(config.py 주석 참고) 여기도 같이
 # 올린다 — 그러지 않으면 "child recall은 낮은데 정답률은 base와 동률"이라는
@@ -179,15 +186,13 @@ def rewrite(state: ParentChildState) -> dict:
 # 희석·recall-정답률 괴리 등 배운 것은 남는다), base를 여전히 기본
 # 파이프라인으로 둔다. child 인덱스 recall이 base를 넘어서거나, base의
 # top-5로도 못 푸는 새로운 실패 사례가 나오면 다시 볼 만하다.
-PARENT_TOP_N = config.GENERATE_TOP_N
-
 
 def generate(state: ParentChildState) -> dict:
     # 여기가 기본 graph.py와의 유일한 실질적 차이다: context_docs로 뽑은
     # 상위 child들을 parent로 확장해서 생성 프롬프트에 넣는다. parent가
-    # child보다 훨씬 크므로(800자 vs 300자) 개수는 PARENT_TOP_N으로 별도 관리.
+    # child보다 훨씬 크므로(800자 vs 300자) 개수는 context_docs가 정한다.
     # 배치 순서·프롬프트 변형은 base와 동일하게 config를 그대로 따른다.
-    top_children = context_docs(state["documents"])[:PARENT_TOP_N]
+    top_children = context_docs(state["documents"])
     parents = expand_to_parents(top_children)
     context = context_text(order_for_prompt(parents))
     chain = generate_prompt() | get_llm()
