@@ -784,10 +784,20 @@ def _drop_hanja(answer: str) -> str:
     """
     if not _HANJA.search(answer):
         return answer
+    # 결정적이고 무손실인 겹이 먼저다. 교정 호출을 먼저 태웠더니 답을 요약하며
+    # 숫자를 흘렸다 — TTFB 문항이 "2292ms → 334ms"를 잃고 "대략 85% 단축"만
+    # 남았다. 같은 답변을 문장 필터에 넣으면 이탈 문장만 빠지고 숫자가 그대로
+    # 남는다. LLM 호출도 대부분의 경우 아예 없어진다.
+    kept = _korean_sentences_only(answer)
+    if kept:
+        return kept
+    # 첫 문장 중간에서 샌 경우만 — 건질 한국어 문장이 없으니 다시 쓰게 한다
     repaired = (_REPAIR_PROMPT | get_llm()).invoke(
         {"answer": answer}).content.strip()
     if not _HANJA.search(repaired):
         return repaired
+    # 교정도 이탈했다면 그 출력에 다시 필터를 건다 — 교정본은 원본과 이탈
+    # 지점이 달라서 한국어 문장이 남아 있을 때가 있다. 그것도 없으면 원본.
     return _korean_sentences_only(repaired) or answer
 
 

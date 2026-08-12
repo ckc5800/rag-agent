@@ -216,7 +216,7 @@
     "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
     "type": "fact",
     "answer_patterns": [
-      "32\\s*(개|개국|[Ll]anguages)"
+      "32\\s*(개|개국|가지|종류|[Ll]anguages)"
     ],
     "gold_anchors": [
       "32개 언어"
