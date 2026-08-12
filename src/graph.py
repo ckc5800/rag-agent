@@ -679,6 +679,14 @@ _BASE_RULES = (
     "수행 기간이며 왼쪽 날짜가 시작 시점입니다.\n"
     "관련 정보가 정말로 전혀 없을 때만 '문서에서 찾을 수 없습니다'라고 답하고, "
     "문서에 없는 내용을 지어내지 마세요.\n"
+    # 위 줄의 "한국어로 답하세요"만으로는 안 잡힌다. 100문항 실측에서 답변
+    # 10개에 한자가 섞였고 그중 3개는 내용이 맞는데 숫자를 중국어로 써서
+    # 틀렸다(共有2项 / 论文有1篇 / 共计1年1个月). 이탈 방식이 일정하다 —
+    # 한글 단어 중간에 한자 한 글자가 나오고(특許·언语) 거기서부터 문장
+    # 전체가 중국어로 넘어간다. temperature 0.0이라 재생성해도 같은 자리에서
+    # 똑같이 이탈하고, 온도를 0.5·0.8로 올려도 5문항 중 4개가 재발했다.
+    # 글자 단위를 직접 금지하는 이 한 줄만 다섯 문항 전부를 되돌렸다.
+    "답변은 한자를 쓰지 말고 한글과 숫자로만 작성하세요.\n"
 )
 
 # 실측된 두 실패 유형을 겨냥한 추가 지시.
@@ -717,6 +725,33 @@ def generate_prompt() -> ChatPromptTemplate:
 GENERATE_PROMPT = _PROMPTS["base"]        # 하위호환 (기존 참조)
 
 
+_HANJA = re.compile(r"[一-鿿]")
+
+# 재시도 온도. 0.0이면 같은 자리에서 똑같이 이탈하므로(실측) 재생성 자체가
+# 무의미하다 — 이탈을 깨려면 샘플링이 필요하다. 다만 온도만 올리는 것도
+# 안 통해서(t0.5·t0.8에서 5문항 중 4개 재발) 프롬프트의 한자 금지 줄과
+# **함께**여야 한다. 둘을 같이 준 조건이 실측에서 5/5 깨끗했다.
+_RETRY_TEMPERATURE = 0.5
+
+
+def _drop_hanja(answer: str, question: str, context: str) -> str:
+    """답변에 한자가 섞이면 1회만 다시 생성한다.
+
+    프롬프트 지시로 100문항 중 한자 답변이 10 → 6으로 줄었지만 남은 6건은
+    지시를 무시한다. 전부 채점은 통과하므로 **정답률로는 안 보이는 결함**이다
+    — 한국어 포트폴리오 안내가 "특許是文档中没..."라고 답하는 것이라 사용자
+    눈에는 먼저 띈다.
+
+    재시도도 한자면 원본을 쓴다. 코퍼스에 한자가 있는 청크가 하나 있어
+    (resume.md의 古語) 정당한 인용까지 지우지 않기 위해서다.
+    """
+    if not _HANJA.search(answer):
+        return answer
+    retry = (generate_prompt() | get_llm(_RETRY_TEMPERATURE)).invoke(
+        {"question": question, "context": context}).content.strip()
+    return retry if not _HANJA.search(retry) else answer
+
+
 def generate(state: AgentState) -> dict:
     # 소형 모델은 긴 컨텍스트에서 근거를 놓치기 쉬우므로 상위 N개만 쓰고
     # (N은 grade와 공유 — context_docs), 끝부분 주의집중이 강한 특성에 맞춰
@@ -727,6 +762,7 @@ def generate(state: AgentState) -> dict:
     answer = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip()
+    answer = _drop_hanja(answer, state["question"], context)
     # 출처는 **실제로 프롬프트에 들어간 청크**에서만 뽑는다. 예전에는 검색된
     # TOP_K(6개) 전부에서 뽑아, 답변 생성에 쓰이지도 않은 문서가 근거로
     # 표시됐다 — 개수는 context_docs로 맞춰 놓고 인용은 안 맞춘 상태였다.

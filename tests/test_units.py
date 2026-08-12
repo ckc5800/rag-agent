@@ -1680,3 +1680,41 @@ def test_planner_prompt_and_parser_share_one_cap(monkeypatch):
 
     many = json.dumps([f"q{i}" for i in range(team.MAX_SUB_QUESTIONS + 3)])
     assert len(team._parse_sub_questions(many, "원 질문")) == team.MAX_SUB_QUESTIONS
+
+
+def test_hanja_answer_is_regenerated_once(monkeypatch):
+    """한자가 섞이면 1회 재생성하고, 재시도도 한자면 원본을 유지한다.
+
+    실측 근거: 프롬프트 지시만으로는 100문항 중 6건이 여전히 중국어로
+    이탈한다. 온도 0.0 재생성은 같은 답을 그대로 내므로 재시도는 반드시
+    다른 온도여야 한다 — 그 계약까지 여기서 잠근다.
+    """
+    from types import SimpleNamespace
+
+    from langchain_core.documents import Document
+    from langchain_core.runnables import RunnableLambda
+
+    import graph
+
+    temps = []
+
+    def llm_for(temperature=0.0):
+        temps.append(temperature)
+        # 첫 호출(온도 0)은 한자 이탈, 재시도는 깨끗한 한국어
+        text = "특許是文档中" if temperature == 0.0 else "특허는 2건입니다"
+        return RunnableLambda(lambda _p: SimpleNamespace(content=text))
+
+    monkeypatch.setattr(graph, "get_llm", llm_for)
+    docs = [Document(page_content="본문", metadata={"source": "a.md"})]
+
+    out = graph.generate({"question": "질문", "documents": docs})
+    assert out["answer"] == "특허는 2건입니다"
+    assert temps == [0.0, graph._RETRY_TEMPERATURE] and temps[1] != 0.0
+
+    # 재시도도 한자면 원본 유지 (코퍼스의 정당한 한자 인용을 지우지 않는다)
+    monkeypatch.setattr(
+        graph, "get_llm",
+        lambda temperature=0.0: RunnableLambda(
+            lambda _p: SimpleNamespace(content="古語 인용")))
+    out = graph.generate({"question": "질문", "documents": docs})
+    assert out["answer"] == "古語 인용"
