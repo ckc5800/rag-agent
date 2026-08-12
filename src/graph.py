@@ -727,29 +727,68 @@ GENERATE_PROMPT = _PROMPTS["base"]        # 하위호환 (기존 참조)
 
 _HANJA = re.compile(r"[一-鿿]")
 
-# 재시도 온도. 0.0이면 같은 자리에서 똑같이 이탈하므로(실측) 재생성 자체가
-# 무의미하다 — 이탈을 깨려면 샘플링이 필요하다. 다만 온도만 올리는 것도
-# 안 통해서(t0.5·t0.8에서 5문항 중 4개 재발) 프롬프트의 한자 금지 줄과
-# **함께**여야 한다. 둘을 같이 준 조건이 실측에서 5/5 깨끗했다.
-_RETRY_TEMPERATURE = 0.5
+# 이탈한 답변을 **입력으로** 주고 고쳐 쓰게 한다. 다시 생성하지 않는다.
+#
+# 재생성은 온도를 어떻게 줘도 안 된다 — 같은 문맥·같은 질문이면 매번 같은
+# 자리로 되돌아온다. 가장 질긴 문항("32개 언" 다음이 语로 새는 경우)은
+# t0.5에서 0/5, t1.0에서도 0/5였다. 반면 망가진 답변을 넣고 고쳐 쓰게 하면
+# t0.0에서 3/3 깨끗했다. 이탈을 만드는 것은 샘플링 운이 아니라 그 문맥에서
+# 그 토큰으로 가는 경로이고, 입력을 바꾸면 그 경로 자체가 사라진다.
+#
+# 온도 0이라 부수효과도 없다 — 재생성 가드는 답을 새로 뽑느라 평가가
+# 실행마다 흔들렸는데(한자 0~3건), 고쳐쓰기는 결정론이다.
+_REPAIR_PROMPT = ChatPromptTemplate.from_template(
+    "아래 답변에 중국어가 섞여 있습니다. 같은 내용을 한국어로만 다시 쓰세요.\n"
+    "새로운 내용을 추가하지 말고, 숫자와 고유명사는 그대로 두세요.\n\n"
+    "답변:\n{answer}\n\n한국어로 고쳐 쓴 답변:")
 
 
-def _drop_hanja(answer: str, question: str, context: str) -> str:
-    """답변에 한자가 섞이면 1회만 다시 생성한다.
+_SENTENCE = re.compile(r"(?<=[.!?。])\s+|\n+")
+
+# 문장 하나에 한자가 이만큼 이상이면 이탈로 본다. 이탈은 문장을 통째로
+# 중국어로 쓰므로 수십 자가 나오고, 정당한 인용(코퍼스의 古語)은 한두 자다.
+# ponytail: 임계값 휴리스틱. 세 자 이상짜리 한자 인용이 코퍼스에 들어오면
+# 그때 문장별 한글 비율로 바꾼다.
+_HANJA_RUN = 3
+
+
+def _korean_sentences_only(text: str) -> str:
+    """중국어로 넘어간 문장만 버리고 한국어 문장을 남긴다.
+
+    LLM을 한 번 더 부르지 않는 마지막 겹이다. 교정 호출조차 다시 이탈하는
+    답변이 있어서(실측: '데이터를清理和预处理…'처럼 교정 출력이 같은 자리에서
+    또 넘어간다) 결정적인 수단이 하나 필요하다.
+
+    남은 게 너무 짧으면 빈 문자열을 돌려준다 — 이탈이 첫 문장 중간에서
+    일어난 경우라 건질 한국어 문장이 없다는 뜻이고, 그때는 원본이 낫다.
+    """
+    kept = [s for s in _SENTENCE.split(text)
+            if s.strip() and len(_HANJA.findall(s)) < _HANJA_RUN]
+    # 남은 문장에 한자가 없을 것까지 요구하면 안 된다 — 그러면 위 임계값이
+    # 살려 둔 짧은 인용(古語)을 여기서 다시 버려, 두 규칙이 서로 어긋난다.
+    # 판정은 문장별 임계 하나로 끝내고 여기서는 길이만 본다.
+    out = " ".join(kept).strip()
+    return out if len(out) >= 20 else ""
+
+
+def _drop_hanja(answer: str) -> str:
+    """답변에 한자가 섞이면 한국어로 고쳐 쓴다.
 
     프롬프트 지시로 100문항 중 한자 답변이 10 → 6으로 줄었지만 남은 6건은
     지시를 무시한다. 전부 채점은 통과하므로 **정답률로는 안 보이는 결함**이다
     — 한국어 포트폴리오 안내가 "특許是文档中没..."라고 답하는 것이라 사용자
     눈에는 먼저 띈다.
 
-    재시도도 한자면 원본을 쓴다. 코퍼스에 한자가 있는 청크가 하나 있어
+    고친 것도 한자면 원본을 쓴다. 코퍼스에 한자가 있는 청크가 하나 있어
     (resume.md의 古語) 정당한 인용까지 지우지 않기 위해서다.
     """
     if not _HANJA.search(answer):
         return answer
-    retry = (generate_prompt() | get_llm(_RETRY_TEMPERATURE)).invoke(
-        {"question": question, "context": context}).content.strip()
-    return retry if not _HANJA.search(retry) else answer
+    repaired = (_REPAIR_PROMPT | get_llm()).invoke(
+        {"answer": answer}).content.strip()
+    if not _HANJA.search(repaired):
+        return repaired
+    return _korean_sentences_only(repaired) or answer
 
 
 def generate(state: AgentState) -> dict:
@@ -762,7 +801,7 @@ def generate(state: AgentState) -> dict:
     answer = chain.invoke(
         {"question": state["question"], "context": context}
     ).content.strip()
-    answer = _drop_hanja(answer, state["question"], context)
+    answer = _drop_hanja(answer)
     # 출처는 **실제로 프롬프트에 들어간 청크**에서만 뽑는다. 예전에는 검색된
     # TOP_K(6개) 전부에서 뽑아, 답변 생성에 쓰이지도 않은 문서가 근거로
     # 표시됐다 — 개수는 context_docs로 맞춰 놓고 인용은 안 맞춘 상태였다.

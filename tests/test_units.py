@@ -1682,12 +1682,12 @@ def test_planner_prompt_and_parser_share_one_cap(monkeypatch):
     assert len(team._parse_sub_questions(many, "원 질문")) == team.MAX_SUB_QUESTIONS
 
 
-def test_hanja_answer_is_regenerated_once(monkeypatch):
-    """한자가 섞이면 1회 재생성하고, 재시도도 한자면 원본을 유지한다.
+def test_hanja_answer_is_repaired_from_the_answer_itself(monkeypatch):
+    """한자가 섞이면 **망가진 답변을 입력으로** 고쳐 쓴다.
 
-    실측 근거: 프롬프트 지시만으로는 100문항 중 6건이 여전히 중국어로
-    이탈한다. 온도 0.0 재생성은 같은 답을 그대로 내므로 재시도는 반드시
-    다른 온도여야 한다 — 그 계약까지 여기서 잠근다.
+    실측 근거: 같은 문맥으로 다시 생성하면 온도를 1.0까지 올려도 매번 같은
+    자리로 이탈한다(0/5). 고쳐쓰기는 t0.0에서 3/3 깨끗했다. 그래서 교정
+    호출에는 문맥이 아니라 답변이 들어가야 한다 — 그 계약을 잠근다.
     """
     from types import SimpleNamespace
 
@@ -1696,25 +1696,49 @@ def test_hanja_answer_is_regenerated_once(monkeypatch):
 
     import graph
 
-    temps = []
+    seen = []
 
-    def llm_for(temperature=0.0):
-        temps.append(temperature)
-        # 첫 호출(온도 0)은 한자 이탈, 재시도는 깨끗한 한국어
-        text = "특許是文档中" if temperature == 0.0 else "특허는 2건입니다"
-        return RunnableLambda(lambda _p: SimpleNamespace(content=text))
+    def fake_llm(prompt_value):
+        text = prompt_value.to_string()
+        seen.append(text)
+        # 첫 호출은 생성(이탈), 두 번째는 교정 호출
+        return SimpleNamespace(
+            content="특허는 2건입니다" if "고쳐 쓴" in text else "특許是文档中")
 
-    monkeypatch.setattr(graph, "get_llm", llm_for)
+    monkeypatch.setattr(graph, "get_llm",
+                        lambda *a, **k: RunnableLambda(fake_llm))
     docs = [Document(page_content="본문", metadata={"source": "a.md"})]
 
     out = graph.generate({"question": "질문", "documents": docs})
     assert out["answer"] == "특허는 2건입니다"
-    assert temps == [0.0, graph._RETRY_TEMPERATURE] and temps[1] != 0.0
+    # 교정 호출은 이탈한 답변을 담고, 문맥을 다시 넣지 않는다
+    assert "특許是文档中" in seen[1] and "본문" not in seen[1]
 
-    # 재시도도 한자면 원본 유지 (코퍼스의 정당한 한자 인용을 지우지 않는다)
+    # 고친 것도 한자면 원본 유지 (코퍼스의 정당한 한자 인용을 지우지 않는다)
     monkeypatch.setattr(
         graph, "get_llm",
-        lambda temperature=0.0: RunnableLambda(
+        lambda *a, **k: RunnableLambda(
             lambda _p: SimpleNamespace(content="古語 인용")))
     out = graph.generate({"question": "질문", "documents": docs})
     assert out["answer"] == "古語 인용"
+
+
+def test_korean_sentences_only_drops_the_derailed_sentence():
+    """교정까지 이탈한 답변에서 중국어 문장만 버린다 (LLM 호출 없는 마지막 겹).
+
+    실측 근거: '데이터를清理和预处理…'처럼 교정 출력이 같은 자리에서 또
+    넘어가는 답변이 있다. 세 겹 중 이 겹만 결정적이다.
+    """
+    import graph
+
+    derailed = ("KISTI에서 수행한 업무는 한국어 고어 데이터 전처리였습니다. "
+                "工作内容是处理韩语古语数据的预处理，时间是2017年10月부터입니다.")
+    kept = graph._korean_sentences_only(derailed)
+    assert kept == "KISTI에서 수행한 업무는 한국어 고어 데이터 전처리였습니다."
+
+    # 첫 문장 중간에서 새면 건질 한국어 문장이 없다 → 빈 문자열(원본 유지)
+    assert graph._korean_sentences_only("TTS는 32개 언语不在文档中提及的具体数字") == ""
+
+    # 코퍼스의 정당한 한자 인용(古語)은 한두 자라 살아남는다
+    quote = "이윤선은 KISTI에서 한국어 古語 데이터를 정제하는 업무를 맡았습니다."
+    assert graph._korean_sentences_only(quote + " 中文句子在这里出现了很多汉字。") == quote
