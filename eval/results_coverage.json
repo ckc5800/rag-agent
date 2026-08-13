@@ -1,24 +1,24 @@
 {
   "overall": {
     "@1": {
-      "satisfied": 46,
-      "best_cov": 51,
-      "any_anchor": 55
+      "satisfied": 48,
+      "best_cov": 52,
+      "any_anchor": 56
     },
     "@3": {
-      "satisfied": 78,
-      "best_cov": 81,
-      "any_anchor": 83
+      "satisfied": 80,
+      "best_cov": 82,
+      "any_anchor": 84
     },
     "@5": {
-      "satisfied": 88,
-      "best_cov": 90,
-      "any_anchor": 91
+      "satisfied": 92,
+      "best_cov": 93,
+      "any_anchor": 94
     },
     "@6": {
-      "satisfied": 94,
-      "best_cov": 94,
-      "any_anchor": 94
+      "satisfied": 95,
+      "best_cov": 97,
+      "any_anchor": 98
     }
   },
   "baseline": {
@@ -30,17 +30,17 @@
     "@3": {
       "satisfied": 6,
       "best_cov": 8,
-      "any_anchor": 10
+      "any_anchor": 12
     },
     "@5": {
       "satisfied": 10,
       "best_cov": 13,
-      "any_anchor": 17
+      "any_anchor": 18
     },
     "@6": {
       "satisfied": 12,
-      "best_cov": 15,
-      "any_anchor": 20
+      "best_cov": 16,
+      "any_anchor": 22
     }
   },
   "by_type": {
@@ -51,9 +51,9 @@
         "any_anchor": 65
       },
       "@3": {
-        "satisfied": 92,
-        "best_cov": 92,
-        "any_anchor": 92
+        "satisfied": 88,
+        "best_cov": 88,
+        "any_anchor": 88
       },
       "@5": {
         "satisfied": 96,
@@ -68,14 +68,14 @@
     },
     "aggregation": {
       "@1": {
-        "satisfied": 43,
-        "best_cov": 48,
-        "any_anchor": 57
+        "satisfied": 62,
+        "best_cov": 62,
+        "any_anchor": 62
       },
       "@3": {
-        "satisfied": 86,
-        "best_cov": 86,
-        "any_anchor": 86
+        "satisfied": 92,
+        "best_cov": 92,
+        "any_anchor": 92
       },
       "@5": {
         "satisfied": 100,
@@ -90,58 +90,58 @@
     },
     "enumeration": {
       "@1": {
-        "satisfied": 33,
-        "best_cov": 33,
-        "any_anchor": 33
+        "satisfied": 38,
+        "best_cov": 42,
+        "any_anchor": 46
       },
       "@3": {
-        "satisfied": 67,
-        "best_cov": 67,
-        "any_anchor": 67
+        "satisfied": 77,
+        "best_cov": 77,
+        "any_anchor": 77
       },
       "@5": {
-        "satisfied": 67,
-        "best_cov": 67,
-        "any_anchor": 67
+        "satisfied": 92,
+        "best_cov": 92,
+        "any_anchor": 92
       },
       "@6": {
-        "satisfied": 78,
-        "best_cov": 78,
-        "any_anchor": 78
+        "satisfied": 92,
+        "best_cov": 92,
+        "any_anchor": 92
       }
     },
     "comparison": {
       "@1": {
-        "satisfied": 10,
-        "best_cov": 30,
-        "any_anchor": 50
+        "satisfied": 7,
+        "best_cov": 25,
+        "any_anchor": 40
       },
       "@3": {
-        "satisfied": 30,
-        "best_cov": 48,
-        "any_anchor": 60
+        "satisfied": 40,
+        "best_cov": 55,
+        "any_anchor": 67
       },
       "@5": {
-        "satisfied": 60,
-        "best_cov": 72,
-        "any_anchor": 80
+        "satisfied": 73,
+        "best_cov": 80,
+        "any_anchor": 87
       },
       "@6": {
-        "satisfied": 90,
-        "best_cov": 90,
-        "any_anchor": 90
+        "satisfied": 87,
+        "best_cov": 93,
+        "any_anchor": 100
       }
     },
     "temporal": {
       "@1": {
-        "satisfied": 0,
-        "best_cov": 0,
-        "any_anchor": 0
+        "satisfied": 36,
+        "best_cov": 36,
+        "any_anchor": 36
       },
       "@3": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 91,
+        "best_cov": 91,
+        "any_anchor": 91
       },
       "@5": {
         "satisfied": 100,
@@ -156,19 +156,19 @@
     },
     "trap": {
       "@1": {
-        "satisfied": 75,
-        "best_cov": 81,
-        "any_anchor": 88
+        "satisfied": 70,
+        "best_cov": 75,
+        "any_anchor": 80
       },
       "@3": {
-        "satisfied": 88,
-        "best_cov": 88,
-        "any_anchor": 88
+        "satisfied": 90,
+        "best_cov": 90,
+        "any_anchor": 90
       },
       "@5": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 90,
+        "best_cov": 90,
+        "any_anchor": 90
       },
       "@6": {
         "satisfied": 100,
@@ -183,12 +183,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        6,
-        7,
-        20,
-        21,
-        51,
-        35
+        2,
+        3,
+        13,
+        14,
+        44,
+        28
       ],
       "per_k": {
         "@1": {
@@ -218,12 +218,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        46,
+        39,
+        33,
+        34,
         40,
-        41,
-        47,
-        21,
-        53
+        14,
+        46
       ],
       "per_k": {
         "@1": {
@@ -253,12 +253,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        20,
-        24,
-        1,
+        13,
+        17,
+        0,
+        53,
         19,
-        26,
-        18
+        20
       ],
       "per_k": {
         "@1": {
@@ -288,12 +288,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        14,
-        13,
-        0,
-        24,
-        27,
-        33
+        10,
+        9,
+        48,
+        17,
+        20,
+        26
       ],
       "per_k": {
         "@1": {
@@ -323,12 +323,12 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        23,
-        54,
-        25,
-        11,
-        20,
-        56
+        16,
+        47,
+        18,
+        7,
+        13,
+        52
       ],
       "per_k": {
         "@1": {
@@ -358,18 +358,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
+        17,
+        19,
+        8,
+        53,
         12,
-        26,
-        24,
-        16,
-        27,
-        18
+        13
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -393,12 +393,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        20,
-        57,
-        6,
-        3,
-        22
+        14,
+        13,
+        51,
+        2,
+        50,
+        15
       ],
       "per_k": {
         "@1": {
@@ -428,12 +428,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        8,
-        32,
-        29,
+        4,
+        25,
         22,
-        30,
-        56
+        15,
+        23,
+        50
       ],
       "per_k": {
         "@1": {
@@ -463,12 +463,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        48,
-        50,
-        54,
-        52,
-        21,
-        47
+        41,
+        43,
+        47,
+        45,
+        14,
+        40
       ],
       "per_k": {
         "@1": {
@@ -498,12 +498,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        20,
-        1,
-        33,
-        2,
-        15,
-        54
+        13,
+        0,
+        26,
+        11,
+        18,
+        47
       ],
       "per_k": {
         "@1": {
@@ -533,12 +533,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        20,
-        6,
+        14,
+        13,
+        2,
         3,
-        22,
-        7
+        15,
+        28
       ],
       "per_k": {
         "@1": {
@@ -568,12 +568,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        20,
-        6,
-        3,
-        35,
-        44
+        14,
+        1,
+        13,
+        2,
+        37,
+        28
       ],
       "per_k": {
         "@1": {
@@ -603,12 +603,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        44,
+        14,
+        37,
+        42,
         49,
-        55,
-        6,
-        40
+        2,
+        33
       ],
       "per_k": {
         "@1": {
@@ -638,12 +638,12 @@
       "type": "fact",
       "n_paths": 2,
       "retrieved": [
-        35,
-        51,
-        20,
-        56,
-        8,
-        3
+        28,
+        44,
+        13,
+        50,
+        4,
+        1
       ],
       "per_k": {
         "@1": {
@@ -673,12 +673,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        46,
-        7,
-        21,
-        57,
-        37,
-        53
+        39,
+        3,
+        14,
+        51,
+        30,
+        46
       ],
       "per_k": {
         "@1": {
@@ -708,12 +708,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        1,
-        16,
-        26,
-        46,
-        25,
-        28
+        0,
+        12,
+        53,
+        19,
+        39,
+        18
       ],
       "per_k": {
         "@1": {
@@ -722,9 +722,9 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
           "satisfied": true,
@@ -743,12 +743,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        57,
-        26,
-        21,
-        2,
-        49,
-        16
+        51,
+        1,
+        19,
+        14,
+        42,
+        12
       ],
       "per_k": {
         "@1": {
@@ -778,12 +778,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        9,
-        22,
-        8,
-        35,
-        51,
-        54
+        5,
+        15,
+        4,
+        28,
+        44,
+        47
       ],
       "per_k": {
         "@1": {
@@ -813,12 +813,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
+        36,
+        50,
+        49,
+        32,
         43,
-        56,
-        4,
-        39,
-        55,
-        37
+        30
       ],
       "per_k": {
         "@1": {
@@ -848,12 +848,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        55,
+        14,
         49,
-        57,
-        56,
-        26
+        42,
+        51,
+        50,
+        19
       ],
       "per_k": {
         "@1": {
@@ -883,12 +883,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        53,
-        21,
-        57,
-        55,
-        47,
-        40
+        46,
+        14,
+        51,
+        49,
+        40,
+        33
       ],
       "per_k": {
         "@1": {
@@ -918,18 +918,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        35,
-        39,
-        3,
-        57,
-        54,
-        20
+        52,
+        28,
+        32,
+        51,
+        47,
+        13
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -953,12 +953,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        20,
-        2,
+        13,
+        0,
+        52,
+        11,
         1,
-        15,
-        50,
-        33
+        18
       ],
       "per_k": {
         "@1": {
@@ -988,12 +988,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        23,
-        22,
-        11,
-        54,
-        25,
-        35
+        16,
+        15,
+        7,
+        47,
+        18,
+        28
       ],
       "per_k": {
         "@1": {
@@ -1023,12 +1023,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        39,
-        8,
-        56,
-        54,
-        44,
-        33
+        32,
+        4,
+        50,
+        47,
+        37,
+        26
       ],
       "per_k": {
         "@1": {
@@ -1056,14 +1056,14 @@
     {
       "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
       "type": "enumeration",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
-        28,
-        13,
-        0,
-        34,
-        32,
-        18
+        21,
+        9,
+        48,
+        27,
+        25,
+        53
       ],
       "per_k": {
         "@1": {
@@ -1077,14 +1077,14 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -1093,12 +1093,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        1,
+        0,
+        19,
         26,
-        33,
-        16,
-        54,
-        14
+        12,
+        47,
+        10
       ],
       "per_k": {
         "@1": {
@@ -1128,12 +1128,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        39,
-        20,
-        56,
-        36,
-        3,
-        46
+        32,
+        13,
+        50,
+        29,
+        1,
+        39
       ],
       "per_k": {
         "@1": {
@@ -1163,12 +1163,12 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
+        9,
+        48,
         13,
-        0,
+        19,
         20,
-        26,
-        27,
-        24
+        17
       ],
       "per_k": {
         "@1": {
@@ -1198,12 +1198,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        24,
-        16,
-        26,
-        20,
-        27,
-        13
+        53,
+        17,
+        12,
+        19,
+        13,
+        20
       ],
       "per_k": {
         "@1": {
@@ -1234,17 +1234,17 @@
       "n_paths": 1,
       "retrieved": [
         17,
-        26,
-        24,
-        18,
         19,
-        20
+        53,
+        7,
+        9,
+        13
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.3333333333333333,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1268,12 +1268,12 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
-        24,
-        26,
+        53,
         19,
-        18,
         17,
-        27
+        20,
+        13,
+        9
       ],
       "per_k": {
         "@1": {
@@ -1303,12 +1303,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        6,
-        21,
-        7,
-        51,
-        20,
-        47
+        2,
+        14,
+        44,
+        3,
+        13,
+        40
       ],
       "per_k": {
         "@1": {
@@ -1338,12 +1338,12 @@
       "type": "comparison",
       "n_paths": 2,
       "retrieved": [
-        7,
-        8,
         3,
-        6,
-        35,
-        51
+        4,
+        1,
+        2,
+        28,
+        44
       ],
       "per_k": {
         "@1": {
@@ -1373,47 +1373,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        1,
-        10,
-        15,
-        24,
-        2,
-        20
-      ],
-      "per_k": {
-        "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        }
-      }
-    },
-    {
-      "question": "AICESS에 입사한 날짜는 언제인가요?",
-      "type": "temporal",
-      "n_paths": 1,
-      "retrieved": [
-        2,
-        1,
-        20,
-        23,
-        57,
-        15
+        6,
+        0,
+        11,
+        17,
+        13,
+        1
       ],
       "per_k": {
         "@1": {
@@ -1439,16 +1404,51 @@
       }
     },
     {
+      "question": "AICESS에 입사한 날짜는 언제인가요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        1,
+        52,
+        13,
+        16,
+        51
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
       "question": "인피닉에서 근무한 기간은 얼마인가요?",
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        10,
-        1,
-        2,
+        6,
+        0,
+        7,
+        12,
         16,
-        11,
-        22
+        15
       ],
       "per_k": {
         "@1": {
@@ -1478,12 +1478,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        12,
-        26,
-        24,
-        11,
-        27,
-        20
+        8,
+        19,
+        17,
+        20,
+        7,
+        53
       ],
       "per_k": {
         "@1": {
@@ -1513,12 +1513,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
+        9,
+        48,
+        17,
+        19,
         13,
-        0,
-        24,
-        26,
-        20,
-        27
+        20
       ],
       "per_k": {
         "@1": {
@@ -1548,18 +1548,18 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
+        17,
+        53,
+        9,
+        7,
         19,
-        24,
-        13,
-        26,
-        20,
-        27
+        20
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -1583,12 +1583,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
+        43,
+        15,
+        44,
         50,
-        22,
-        51,
-        56,
-        21,
-        7
+        14,
+        3
       ],
       "per_k": {
         "@1": {
@@ -1618,12 +1618,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        10,
-        2,
+        6,
+        0,
         1,
-        20,
-        23,
-        51
+        13,
+        44,
+        16
       ],
       "per_k": {
         "@1": {
@@ -1637,8 +1637,8 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@6": {
@@ -1653,12 +1653,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        23,
-        22,
-        8,
-        11,
-        20,
-        54
+        16,
+        15,
+        4,
+        7,
+        13,
+        47
       ],
       "per_k": {
         "@1": {
@@ -1688,12 +1688,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        1,
-        16,
-        24,
-        26,
-        2,
-        25
+        0,
+        12,
+        17,
+        19,
+        52,
+        53
       ],
       "per_k": {
         "@1": {
@@ -1723,12 +1723,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        7,
-        54,
-        35,
         3,
-        51,
-        6
+        47,
+        44,
+        2,
+        5,
+        15
       ],
       "per_k": {
         "@1": {
@@ -1748,8 +1748,8 @@
         },
         "@6": {
           "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "best_cov": 0.5,
+          "any_anchor": true
         }
       }
     },
@@ -1758,12 +1758,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        13,
+        53,
+        9,
         19,
-        26,
-        24,
-        27,
-        20
+        17,
+        20,
+        13
       ],
       "per_k": {
         "@1": {
@@ -1793,12 +1793,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        24,
-        27,
-        13,
-        28,
-        0,
-        23
+        17,
+        21,
+        20,
+        9,
+        16,
+        48
       ],
       "per_k": {
         "@1": {
@@ -1812,8 +1812,8 @@
           "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
@@ -1828,18 +1828,18 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        17,
-        26,
-        24,
+        53,
         19,
-        18,
-        27
+        17,
+        20,
+        13,
+        7
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -1863,12 +1863,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        15,
+        11,
+        0,
+        17,
+        13,
         1,
-        24,
-        20,
-        45,
-        2
+        43
       ],
       "per_k": {
         "@1": {
@@ -1898,12 +1898,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        22,
-        8,
-        9,
-        35,
-        23,
-        56
+        15,
+        4,
+        5,
+        28,
+        16,
+        50
       ],
       "per_k": {
         "@1": {
@@ -1933,12 +1933,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        26,
-        12,
-        24,
-        27,
         19,
-        11
+        17,
+        8,
+        53,
+        20,
+        7
       ],
       "per_k": {
         "@1": {
@@ -1968,12 +1968,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        21,
-        50,
-        57,
-        6,
-        46,
-        53
+        14,
+        43,
+        51,
+        2,
+        39,
+        46
       ],
       "per_k": {
         "@1": {
@@ -2003,12 +2003,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        25,
-        16,
-        22,
-        54,
-        1,
-        23
+        18,
+        12,
+        4,
+        15,
+        47,
+        0
       ],
       "per_k": {
         "@1": {
@@ -2038,12 +2038,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        20,
-        6,
-        7,
-        35,
-        57,
-        21
+        13,
+        2,
+        44,
+        3,
+        51,
+        28
       ],
       "per_k": {
         "@1": {
@@ -2073,12 +2073,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        21,
-        22,
-        57,
-        56,
-        20,
-        32
+        14,
+        51,
+        15,
+        50,
+        52,
+        13
       ],
       "per_k": {
         "@1": {
@@ -2092,9 +2092,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
           "satisfied": true,
@@ -2108,12 +2108,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        21,
-        44,
-        49,
-        8,
-        53,
-        40
+        14,
+        37,
+        42,
+        4,
+        46,
+        49
       ],
       "per_k": {
         "@1": {
@@ -2143,12 +2143,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        23,
-        11,
-        22,
-        36,
-        1,
-        17
+        16,
+        7,
+        15,
+        29,
+        0,
+        52
       ],
       "per_k": {
         "@1": {
@@ -2178,12 +2178,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        22,
-        54,
-        16,
-        45,
-        35,
-        10
+        15,
+        47,
+        12,
+        38,
+        28,
+        6
       ],
       "per_k": {
         "@1": {
@@ -2213,12 +2213,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        10,
-        1,
+        6,
+        0,
         16,
-        23,
-        25,
-        48
+        12,
+        18,
+        41
       ],
       "per_k": {
         "@1": {
@@ -2248,12 +2248,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
+        53,
         19,
-        26,
-        24,
-        27,
+        17,
         20,
-        18
+        13,
+        2
       ],
       "per_k": {
         "@1": {
@@ -2283,17 +2283,17 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        26,
-        13,
+        53,
         17,
-        24,
-        0,
-        20
+        19,
+        9,
+        13,
+        48
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.5,
+          "best_cov": 0.75,
           "any_anchor": true
         },
         "@3": {
@@ -2302,8 +2302,8 @@
           "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.75,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
@@ -2318,12 +2318,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        13,
-        28,
-        0,
-        34,
+        9,
+        21,
+        48,
+        27,
         19,
-        18
+        10
       ],
       "per_k": {
         "@1": {
@@ -2353,12 +2353,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        28,
-        13,
-        0,
-        34,
-        32,
-        18
+        21,
+        9,
+        48,
+        27,
+        25,
+        53
       ],
       "per_k": {
         "@1": {
@@ -2388,12 +2388,12 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        34,
-        13,
-        28,
-        19,
-        0,
-        33
+        27,
+        9,
+        21,
+        48,
+        26,
+        19
       ],
       "per_k": {
         "@1": {
@@ -2407,9 +2407,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
           "satisfied": true,
@@ -2423,12 +2423,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        13,
-        0,
-        19,
-        34,
-        47,
-        28
+        9,
+        48,
+        21,
+        40,
+        27,
+        53
       ],
       "per_k": {
         "@1": {
@@ -2450,6 +2450,811 @@
           "satisfied": false,
           "best_cov": 0.0,
           "any_anchor": false
+        }
+      }
+    },
+    {
+      "question": "석사 학위는 언제 취득했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        12,
+        19,
+        53,
+        18,
+        50
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "학사 학위는 언제 취득했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        0,
+        12,
+        53,
+        19,
+        18,
+        50
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        52,
+        19,
+        53,
+        0,
+        21,
+        16
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+      "type": "temporal",
+      "n_paths": 2,
+      "retrieved": [
+        7,
+        16,
+        3,
+        47,
+        33,
+        11
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        18,
+        12,
+        0,
+        42,
+        15,
+        16
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+      "type": "temporal",
+      "n_paths": 1,
+      "retrieved": [
+        19,
+        18,
+        21,
+        17,
+        13,
+        53
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        53,
+        19,
+        20,
+        9,
+        17,
+        7
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        27,
+        26,
+        25,
+        43,
+        39,
+        24
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        19,
+        53,
+        17,
+        20,
+        9,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 2,
+      "retrieved": [
+        53,
+        17,
+        7,
+        19,
+        20,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "우수논문상은 몇 회 수상했나요?",
+      "type": "aggregation",
+      "n_paths": 3,
+      "retrieved": [
+        19,
+        17,
+        8,
+        7,
+        53,
+        20
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "2022년에 게재한 논문은 몇 편인가요?",
+      "type": "aggregation",
+      "n_paths": 1,
+      "retrieved": [
+        17,
+        53,
+        19,
+        13,
+        7,
+        11
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        11,
+        0,
+        1,
+        18,
+        17,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        12,
+        0,
+        17,
+        19,
+        44,
+        53
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+      "type": "comparison",
+      "n_paths": 2,
+      "retrieved": [
+        53,
+        19,
+        17,
+        12,
+        7,
+        13
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+      "type": "comparison",
+      "n_paths": 2,
+      "retrieved": [
+        8,
+        9,
+        20,
+        17,
+        19,
+        42
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+      "type": "comparison",
+      "n_paths": 1,
+      "retrieved": [
+        26,
+        25,
+        17,
+        40,
+        51,
+        46
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        7,
+        16,
+        50,
+        28,
+        47,
+        32
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        27,
+        21,
+        25,
+        9,
+        48,
+        19
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        4,
+        5,
+        50,
+        15,
+        51,
+        16
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": false,
+          "best_cov": 0.5,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+      "type": "enumeration",
+      "n_paths": 1,
+      "retrieved": [
+        14,
+        47,
+        13,
+        1,
+        5,
+        2
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        53,
+        12,
+        9,
+        7,
+        19,
+        17
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        }
+      }
+    },
+    {
+      "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+      "type": "trap",
+      "n_paths": 1,
+      "retrieved": [
+        2,
+        3,
+        45,
+        44,
+        14,
+        46
+      ],
+      "per_k": {
+        "@1": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
+        "@6": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     }

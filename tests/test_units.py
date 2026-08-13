@@ -723,6 +723,17 @@ def test_diagram_chunks_are_not_expanded(monkeypatch):
 # 서로 다른 청킹을 RRF로 섞게 되는데 **증상이 없다**. 매니페스트로 대조한다.
 
 def test_index_manifest_matches_chunks():
+    """로컬에 매니페스트가 있으면 chunks.jsonl과 맞는지 본다.
+
+    **이 테스트는 CI에서 돈 적이 없다** — `data/index_manifest.json`은
+    gitignore인데 `data/chunks.jsonl`은 커밋돼 있어서, 신선한 클론에는
+    매니페스트가 아예 없고 skip으로 조용히 넘어갔다(로더 픽스처가 사라졌을
+    때와 같은 구조의 구멍). 그래서 **로직 검증은 아래
+    test_chunk_fingerprint_detects_drift 가 맡고**, 이 테스트는 "지금 이
+    개발 머신의 인덱스가 최신인가"라는 환경 점검으로 역할을 좁힌다.
+    실제로 이 점검이 값을 했다 — 표 청킹이 들어온 뒤 로컬 인덱스가
+    낡은 채로 남아 검색이 통째로 막힌 것을 이걸로 잡았다(2026-08).
+    """
     import json
 
     import config
@@ -730,9 +741,30 @@ def test_index_manifest_matches_chunks():
 
     manifest_path = ROOT / "data" / "index_manifest.json"
     if not manifest_path.exists():
-        pytest.skip("인덱스 매니페스트 없음 (ingest 미실행 환경)")
+        pytest.skip("인덱스 매니페스트 없음 — 환경 점검이라 CI(신선한 클론)에선 정상 skip")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    assert manifest["chunks_md5"] == ingest.chunk_fingerprint(config.CHUNKS_PATH)
+    assert manifest["chunks_md5"] == ingest.chunk_fingerprint(config.CHUNKS_PATH), (
+        "로컬 인덱스가 chunks.jsonl과 어긋났다 — `python src/ingest.py`로 재구축할 것")
+
+
+def test_chunk_fingerprint_detects_drift(tmp_path):
+    """지문 로직 자체를 CI에서 검증한다 — 위 테스트가 CI에서 skip되므로
+    여기가 실제로 도는 유일한 검증이다.
+
+    커밋된 chunks.jsonl을 그대로 쓰되 한 글자만 바꿔, 지문이 (1) 같은
+    내용에 안정적이고 (2) 내용이 바뀌면 반드시 달라지는지 고정한다.
+    """
+    import config
+    import ingest
+
+    src = Path(config.CHUNKS_PATH).read_text(encoding="utf-8")
+    same = tmp_path / "same.jsonl"
+    same.write_text(src, encoding="utf-8")
+    assert ingest.chunk_fingerprint(same) == ingest.chunk_fingerprint(config.CHUNKS_PATH)
+
+    drifted = tmp_path / "drifted.jsonl"
+    drifted.write_text(src.replace("page_content", "page_content ", 1), encoding="utf-8")
+    assert ingest.chunk_fingerprint(drifted) != ingest.chunk_fingerprint(config.CHUNKS_PATH)
 
 
 def test_consistency_check_raises_on_mismatch(tmp_path, monkeypatch):
@@ -1482,7 +1514,7 @@ def test_table_is_extracted_whole():
 
 
 def test_table_row_wrapped_across_lines_stays_in_one_block():
-    """셀 안에 줄바꿈이 있으면 이어지는 줄이 들여쓰기된 채 '|'로 시작한다.
+    r"""셀 안에 줄바꿈이 있으면 이어지는 줄이 들여쓰기된 채 '|'로 시작한다.
 
     '^\|'로 잡으면 한 표가 두 조각으로 끊긴다 — publications.md의
     2021.03·2018.04 행이 실제로 그렇다.

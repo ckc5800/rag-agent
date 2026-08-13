@@ -19,8 +19,14 @@ eval_coverage.py 의 첫 구현은 gold 를 "앵커가 걸린 청크 **전부**"
   [WARN] 과잉 앵커     — 한 앵커가 너무 많은 청크에 걸린다. 지금 의미론에서는
                          벌점이 아니지만(하나만 맞으면 충족), 앵커가 질문을
                          변별하지 못한다는 신호다
-  [WARN] 라벨 누락 의심 — 정답률 평가는 PASS 인데 커버리지는 MISS.
-                         모델이 라벨 밖 청크로 답했다는 뜻이다
+  [WARN] 라벨 누락     — PASS 인데 커버리지 MISS 이고, **컨텍스트에는 정답
+                         패턴을 만족하는 청크가 있다**. 근거는 회수됐는데
+                         라벨이 그 경로를 안 적어 둔 것 → 라벨을 고친다
+  [WARN] 근거 없이 맞음 — PASS 인데 커버리지 MISS 이고, **컨텍스트 어디에도
+                         정답 패턴이 없다**. 모델이 파라미터 지식으로 답한
+                         것이다 → 라벨이 아니라 검색 문제이고, 그 PASS 는
+                         지표를 부풀린다 (둘을 한 메시지로 묶으면 고칠 곳을
+                         못 찾는다 — 실제로 둘 다 있었다)
                          (results.json 이 있을 때만 검사)
 
     python eval/audit_coverage.py            # 경고까지 출력, FAIL 있으면 exit 1
@@ -28,6 +34,7 @@ eval_coverage.py 의 첫 구현은 gold 를 "앵커가 걸린 청크 **전부**"
 """
 import argparse
 import json
+import re
 import sys
 from itertools import combinations
 from pathlib import Path
@@ -65,6 +72,7 @@ def main() -> int:
     args = ap.parse_args()
 
     cases = json.loads(EVAL_SET.read_text(encoding="utf-8"))
+    by_q = {c["question"]: c for c in cases}
     with open(config.CHUNKS_PATH, encoding="utf-8") as f:
         chunks = [json.loads(line)["page_content"] for line in f]
 
@@ -103,11 +111,42 @@ def main() -> int:
         cov = {r["question"]: r for r in
                json.loads(COVERAGE.read_text(encoding="utf-8"))["cases"]}
         res = json.loads(RESULTS.read_text(encoding="utf-8"))
+        # "PASS 인데 커버리지 MISS"는 **정반대인 두 상황**이 같은 모양으로 나온다.
+        # 실제로 둘 다 있었고(2026-08), 하나로 묶으면 고칠 곳을 못 찾는다:
+        #
+        #   (a) 라벨 누락 — 검색된 청크 중에 정답 패턴을 만족하는 게 **있다**.
+        #       근거는 회수됐는데 라벨이 그 경로를 안 적어 둔 것 → 라벨을 고친다.
+        #   (b) 근거 없이 맞음 — 검색된 어느 청크도 정답 패턴을 만족하지 **않는다**.
+        #       모델이 파라미터 지식으로 답한 것이다("Prometheus/Grafana" 같은
+        #       흔한 도구명이 그렇다) → 라벨이 아니라 검색이 문제이고, 그 PASS는
+        #       근거 없는 정답이라 지표를 부풀린다.
+        #
+        # 저장된 결과의 contexts(실제로 프롬프트에 들어간 청크 본문)로 가른다.
         for r in res.get("cases", res if isinstance(res, list) else []):
             q = r.get("question")
-            if q in cov and r.get("pass") and not cov[q]["per_k"]["@6"]["satisfied"]:
-                warns.append(f"[라벨 누락 의심] {q}\n      정답률 PASS 인데 커버리지 "
-                             f"MISS — 라벨 밖 청크로 답했을 수 있다")
+            if not (q in cov and r.get("pass")
+                    and not cov[q]["per_k"]["@6"]["satisfied"]):
+                continue
+            case = by_q.get(q, {})
+            pats = case.get("answer_patterns") or []
+            ctxs = r.get("contexts") or []
+            supported = bool(pats) and any(
+                all(re.search(p, ctx) for p in pats) for ctx in ctxs)
+            if supported:
+                warns.append(
+                    f"[라벨 누락] {q}\n      정답 패턴을 만족하는 청크가 "
+                    f"컨텍스트에 있는데 gold_anchor_sets 에 그 경로가 없다 "
+                    f"→ 라벨에 대안 경로를 추가할 것")
+            elif ctxs:
+                warns.append(
+                    f"[근거 없이 맞음] {q}\n      컨텍스트 어디에도 정답 패턴이 "
+                    f"없는데 PASS 다 — 모델이 파라미터 지식으로 답했을 수 있다. "
+                    f"라벨이 아니라 **검색**을 봐야 하고, 이 PASS 는 지표를 부풀린다")
+            else:
+                warns.append(
+                    f"[라벨 누락 의심] {q}\n      정답률 PASS 인데 커버리지 MISS. "
+                    f"저장된 결과에 contexts 가 없어 원인을 가를 수 없다 "
+                    f"(evaluate.py 를 다시 돌리면 갈린다)")
     else:
         print("(results_coverage.json / results.json 이 없어 교차검증은 건너뛴다)\n")
 

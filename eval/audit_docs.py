@@ -100,6 +100,43 @@ for p in sorted((REPO / "eval").glob("ab_*.py")) + sorted((REPO / "eval").glob("
             f"[지문 누락] {p.name} 이 결과를 저장하는데 runmeta.run_metadata()를 "
             "기록하지 않음 (모델·인덱스를 모르면 나중에 비교 불가)")
 
+# 6-b. **산출물에도 지문이 실제로 들어갔는가.**
+#
+# 위 검사는 스크립트 소스만 본다 — 그래서 "게이트는 통과하는데 결과 파일엔
+# 지문이 없는" 구멍이 남았다(실측: 14개 중 8개). 지문을 넣기 **전에** 돌려
+# 둔 결과가 그대로 남아 3b·7b·14b 결과와 한 폴더에 섞이는데, 정작 파일만
+# 봐서는 구분할 수 없다 — 지문을 도입한 이유가 바로 그거였다.
+#
+# 새로 만드는 결과에는 지문을 강제하되, 지문 도입 이전 산출물은 **명시적으로
+# 열거**해 둔다. 지우거나 되돌려 쓰지 않는 이유는 이 저장소가 측정 기록을
+# 증거로 보존하기 때문이고, 목록에 적어 두면 "빠졌다"가 눈에 보인다.
+# 목록을 늘리려면 그 실험을 다시 돌려 지문과 함께 저장하는 것이 원칙이다.
+LEGACY_NO_FINGERPRINT = {
+    "results_ab_hyde.json", "results_ab_hyde_generate.json",
+    "results_ab_neighbor_window.json", "results_ab_prompt_variant.json",
+    "results_ab_rerank.json", "results_ab_route_variants.json",
+    "results_ab_top_n.json", "results_seed_match_ratio.json",
+    "results_top_k.json",
+}
+for p in sorted((REPO / "eval").glob("ab_*.py")) + sorted((REPO / "eval").glob("sweep_*.py")):
+    src = p.read_text(encoding="utf-8")
+    m = re.search(r"(results_[a-z0-9_]+\.json)", src)
+    if not m:
+        continue
+    out = REPO / "eval" / m.group(1)
+    if not out.exists() or m.group(1) in LEGACY_NO_FINGERPRINT:
+        continue
+    try:
+        data = json.loads(out.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        problems.append(f"[산출물 손상] {m.group(1)} 을 JSON 으로 읽을 수 없음")
+        continue
+    if not (isinstance(data, dict) and data.get("env")):
+        problems.append(
+            f"[산출물 지문 누락] {m.group(1)} 에 env 가 없다 — {p.name} 은 "
+            "run_metadata() 를 부르는데 저장물엔 안 들어갔다. 지문 도입 이전 "
+            "산출물이면 audit_docs.py 의 LEGACY_NO_FINGERPRINT 에 적을 것")
+
 if problems:
     print("문서-코드 불일치:")
     for p in problems:

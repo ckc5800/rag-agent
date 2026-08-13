@@ -447,6 +447,9 @@
     "gold_anchor_sets": [
       [
         "LiDAR + Camera Sensor Fusion"
+      ],
+      [
+        "Semantic KITTI(라이다) + KITTI(카메라)"
       ]
     ]
   },
