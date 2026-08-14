@@ -1,22 +1,37 @@
 {
   "run_metadata": {
-    "llm_model": "qwen2.5:3b",
+    "llm_model": "qwen2.5:7b",
     "embed_model": "bge-m3",
-    "ollama_version": "0.32.6",
+    "ollama_version": "0.32.5",
     "vector_store": "faiss",
-    "index_chunks_md5": "9f76f7a2b241a6e9aaf4befcb580818f",
-    "n_chunks": 58,
+    "index_chunks_md5": "1a866933655ebda05bd8b80d16f2eea3",
+    "n_chunks": 842,
     "params": {
+      "VECTOR_STORE": "faiss",
+      "LLM_MODEL": "qwen2.5:7b",
+      "EMBED_MODEL": "bge-m3",
       "TOP_K": 6,
+      "RRF_K": 60,
       "GENERATE_TOP_N": 5,
+      "NEIGHBOR_WINDOW": 0,
+      "CONTEXT_ORDER": "reversed",
+      "GENERATE_PROMPT_VARIANT": "base",
+      "EXCLUDE_DIAGRAMS": false,
       "MAX_REWRITES": 1,
+      "TYPE_ROUTING": true,
+      "VERSION_FILTER": true,
+      "TEAM_ROUTING": false,
+      "HYDE": false,
+      "HYDE_MODE": "full",
+      "RERANK": false,
+      "VERIFY_GROUNDING": false,
       "CHUNK_SIZE": 800,
       "CHUNK_OVERLAP": 100
     },
     "host": {
-      "os": "Windows-10-10.0.19045-SP0",
-      "python": "3.14.4",
-      "gpu": "NVIDIA GeForce RTX 2070"
+      "os": "Windows-11-10.0.26100-SP0",
+      "python": "3.13.14",
+      "gpu": "NVIDIA GeForce RTX 5080"
     }
   },
   "conditions": {
@@ -28,31 +43,31 @@
         "등록된 특허 번호를 알려주세요.": 2,
         "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": 1,
         "우수 논문상을 받은 논문 제목은?": 2,
-        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 1,
-        "화자 분할에는 어떤 모델을 사용했나요?": 1,
+        "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 2,
+        "화자 분할에는 어떤 모델을 사용했나요?": 2,
         "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
-        "이윤선이 근무한 회사들을 알려주세요.": 2,
+        "이윤선이 근무한 회사들을 알려주세요.": 1,
         "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
         "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": 5,
-        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 4,
         "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": null
       },
       "coverage": {
         "@1": {
-          "satisfied": 46,
-          "best_cov": 51
+          "satisfied": 50,
+          "best_cov": 52
         },
         "@3": {
-          "satisfied": 78,
-          "best_cov": 81
+          "satisfied": 76,
+          "best_cov": 77
         },
         "@5": {
-          "satisfied": 88,
-          "best_cov": 90
+          "satisfied": 86,
+          "best_cov": 88
         },
         "@6": {
-          "satisfied": 94,
-          "best_cov": 94
+          "satisfied": 90,
+          "best_cov": 91
         }
       },
       "coverage_rows": [
@@ -131,12 +146,12 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
               "satisfied": true,
@@ -193,8 +208,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -215,8 +230,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -259,8 +274,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -369,8 +384,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -395,8 +410,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -417,16 +432,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -457,8 +472,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -479,12 +494,12 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -501,12 +516,12 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -523,8 +538,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -619,12 +634,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -655,20 +670,20 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -677,8 +692,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -707,8 +722,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
               "satisfied": true,
@@ -722,7 +737,7 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.3333333333333333
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -791,16 +806,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -809,8 +824,8 @@
           "type": "comparison",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -831,8 +846,8 @@
           "type": "temporal",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -968,11 +983,11 @@
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             },
             "@6": {
               "satisfied": true,
@@ -1011,8 +1026,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -1038,11 +1053,11 @@
             },
             "@5": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@6": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             }
           }
         },
@@ -1059,8 +1074,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -1085,8 +1100,8 @@
               "best_cov": 0.5
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             }
           }
         },
@@ -1095,8 +1110,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -1183,8 +1198,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -1227,8 +1242,8 @@
           "type": "trap",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -1257,12 +1272,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -1360,15 +1375,15 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             },
             "@6": {
               "satisfied": true,
@@ -1382,15 +1397,15 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.75
+              "best_cov": 0.5
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.75
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -1455,8 +1470,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -1485,9 +1500,1329 @@
               "best_cov": 0.0
             }
           }
+        },
+        {
+          "question": "석사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "학사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수논문상은 몇 회 수상했나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2022년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.5
+            }
+          }
+        },
+        {
+          "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 엔진은 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "API 키 확인 결과는 Redis에 몇 초 동안 캐싱되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "WebSocket heartbeat는 몇 초마다 오나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "재생 시작 시 팝음을 막는 앞쪽 무음 패딩은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN은 몇 개 도메인을 지원하나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 케이스인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템이 사용하는 두 합성 엔진은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ICL 음성 복제에는 몇 초 분량의 샘플이 필요한가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "오류 코드의 의미를 바꿀 때 몇 개월 전에 공지하나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "언어 감지에 사용하는 라이브러리는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "자동 언어 감지의 디바운스 시간은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "배치 합성 요청은 어떤 HTTP 엔드포인트로 보내나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "합성 API가 제공하는 세 가지 전송 방식은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "파이썬 SDK는 어느 저장소에 배포하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "SDK의 현재 라이선스 표기는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "배포 전 테스트에서 롱런은 몇 분으로 도나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정을 고친 커밋 해시는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측은 몇 건의 요청이었나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM과 Supertonic 중 더 많은 언어를 지원하는 엔진은 몇 개 언어를 지원하나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "무음 패딩은 앞과 뒤 중 어느 쪽이 더 긴가요? 몇 ms인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM 전용 언어와 Supertonic 전용 언어 중 수가 적은 쪽은 몇 개인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "앞쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "뒤쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "EOS 콜론을 3개 쓰면 어떤 문제가 생기나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 카테고리인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "JWT 토큰의 기본 만료 시간은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 내장 남성 프리셋은 몇 종인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 변환의 최종 단계에서 제거하는 문자는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정 기준은 언제 정리된 문서인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "전술 포메이션 4-4-2는 어떻게 읽나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
         }
       ],
-      "search_median_sec": 0.33
+      "search_median_sec": 0.13
     },
     "full": {
       "ranks": {
@@ -1496,32 +2831,32 @@
         "이윤선의 제1저자 논문은 몇 편인가요?": 1,
         "등록된 특허 번호를 알려주세요.": 2,
         "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": 1,
-        "우수 논문상을 받은 논문 제목은?": 2,
+        "우수 논문상을 받은 논문 제목은?": 1,
         "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 1,
-        "화자 분할에는 어떤 모델을 사용했나요?": 1,
+        "화자 분할에는 어떤 모델을 사용했나요?": 5,
         "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
-        "이윤선이 근무한 회사들을 알려주세요.": 1,
+        "이윤선이 근무한 회사들을 알려주세요.": 2,
         "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
-        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": null,
-        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
+        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": 5,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 4,
         "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": null
       },
       "coverage": {
         "@1": {
-          "satisfied": 49,
-          "best_cov": 53
+          "satisfied": 51,
+          "best_cov": 54
         },
         "@3": {
           "satisfied": 75,
           "best_cov": 78
         },
         "@5": {
-          "satisfied": 89,
-          "best_cov": 91
+          "satisfied": 86,
+          "best_cov": 88
         },
         "@6": {
-          "satisfied": 92,
-          "best_cov": 93
+          "satisfied": 88,
+          "best_cov": 89
         }
       },
       "coverage_rows": [
@@ -1684,12 +3019,12 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -1728,8 +3063,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -1816,20 +3151,20 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -1838,8 +3173,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -1890,12 +3225,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -1926,8 +3261,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -1948,16 +3283,16 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
               "satisfied": true,
@@ -1970,20 +3305,20 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -2014,8 +3349,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -2058,20 +3393,20 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -2088,8 +3423,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
               "satisfied": true,
@@ -2124,8 +3459,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -2146,8 +3481,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -2176,12 +3511,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -2191,7 +3526,7 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.3333333333333333
+              "best_cov": 0.6666666666666666
             },
             "@3": {
               "satisfied": true,
@@ -2260,16 +3595,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -2322,8 +3657,8 @@
           "type": "temporal",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -2348,8 +3683,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -2388,12 +3723,12 @@
           "type": "trap",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -2437,11 +3772,11 @@
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.5
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -2480,8 +3815,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -2503,15 +3838,15 @@
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@5": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@6": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             }
           }
         },
@@ -2550,12 +3885,12 @@
               "best_cov": 0.5
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             }
           }
         },
@@ -2564,8 +3899,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -2586,8 +3921,8 @@
           "type": "temporal",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -2634,8 +3969,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -2652,12 +3987,12 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -2674,8 +4009,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -2696,8 +4031,8 @@
           "type": "trap",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -2784,8 +4119,8 @@
           "type": "trap",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -2807,7 +4142,7 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@3": {
               "satisfied": true,
@@ -2829,19 +4164,19 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": false,
               "best_cov": 0.5
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.5
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.5
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -2851,11 +4186,11 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.25
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.75
+              "best_cov": 0.5
             },
             "@5": {
               "satisfied": true,
@@ -2902,12 +4237,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -2924,8 +4259,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -2954,9 +4289,1329 @@
               "best_cov": 0.0
             }
           }
+        },
+        {
+          "question": "석사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "학사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수논문상은 몇 회 수상했나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2022년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.5
+            }
+          }
+        },
+        {
+          "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 엔진은 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "API 키 확인 결과는 Redis에 몇 초 동안 캐싱되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "WebSocket heartbeat는 몇 초마다 오나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "재생 시작 시 팝음을 막는 앞쪽 무음 패딩은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN은 몇 개 도메인을 지원하나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 케이스인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템이 사용하는 두 합성 엔진은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ICL 음성 복제에는 몇 초 분량의 샘플이 필요한가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "오류 코드의 의미를 바꿀 때 몇 개월 전에 공지하나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "언어 감지에 사용하는 라이브러리는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "자동 언어 감지의 디바운스 시간은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "배치 합성 요청은 어떤 HTTP 엔드포인트로 보내나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "합성 API가 제공하는 세 가지 전송 방식은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "파이썬 SDK는 어느 저장소에 배포하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "SDK의 현재 라이선스 표기는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "배포 전 테스트에서 롱런은 몇 분으로 도나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정을 고친 커밋 해시는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측은 몇 건의 요청이었나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM과 Supertonic 중 더 많은 언어를 지원하는 엔진은 몇 개 언어를 지원하나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "무음 패딩은 앞과 뒤 중 어느 쪽이 더 긴가요? 몇 ms인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM 전용 언어와 Supertonic 전용 언어 중 수가 적은 쪽은 몇 개인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "앞쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "뒤쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "EOS 콜론을 3개 쓰면 어떤 문제가 생기나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 카테고리인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "JWT 토큰의 기본 만료 시간은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 내장 남성 프리셋은 몇 종인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 변환의 최종 단계에서 제거하는 문자는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정 기준은 언제 정리된 문서인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "전술 포메이션 4-4-2는 어떻게 읽나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
         }
       ],
-      "search_median_sec": 1.28
+      "search_median_sec": 0.86
     },
     "terms": {
       "ranks": {
@@ -2969,28 +5624,28 @@
         "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": 2,
         "화자 분할에는 어떤 모델을 사용했나요?": 2,
         "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": 1,
-        "이윤선이 근무한 회사들을 알려주세요.": 2,
-        "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 2,
-        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": 5,
-        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 6,
-        "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": 3
+        "이윤선이 근무한 회사들을 알려주세요.": 1,
+        "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": 3,
+        "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": null,
+        "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": 5,
+        "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": null
       },
       "coverage": {
         "@1": {
-          "satisfied": 43,
-          "best_cov": 47
+          "satisfied": 51,
+          "best_cov": 53
         },
         "@3": {
-          "satisfied": 77,
-          "best_cov": 80
+          "satisfied": 74,
+          "best_cov": 76
         },
         "@5": {
-          "satisfied": 91,
-          "best_cov": 93
+          "satisfied": 84,
+          "best_cov": 87
         },
         "@6": {
-          "satisfied": 92,
-          "best_cov": 94
+          "satisfied": 86,
+          "best_cov": 88
         }
       },
       "coverage_rows": [
@@ -3069,16 +5724,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3197,8 +5852,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -3307,8 +5962,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -3355,16 +6010,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3395,8 +6050,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -3421,8 +6076,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -3439,20 +6094,20 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3461,12 +6116,12 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -3483,8 +6138,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -3527,20 +6182,20 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3557,12 +6212,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -3593,8 +6248,8 @@
           "type": "enumeration",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -3615,8 +6270,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -3645,12 +6300,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3660,7 +6315,7 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.3333333333333333
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -3729,16 +6384,16 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -3747,8 +6402,8 @@
           "type": "comparison",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -3769,8 +6424,8 @@
           "type": "temporal",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -3817,8 +6472,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -3839,8 +6494,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@5": {
               "satisfied": true,
@@ -3906,15 +6561,15 @@
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             }
           }
         },
@@ -3949,8 +6604,8 @@
               "best_cov": 0.0
             },
             "@3": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@5": {
               "satisfied": true,
@@ -3976,11 +6631,11 @@
             },
             "@5": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             },
             "@6": {
               "satisfied": false,
-              "best_cov": 0.0
+              "best_cov": 0.5
             }
           }
         },
@@ -4001,8 +6656,8 @@
               "best_cov": 0.0
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -4033,8 +6688,8 @@
           "type": "aggregation",
           "per_k": {
             "@1": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@3": {
               "satisfied": true,
@@ -4121,8 +6776,8 @@
           "type": "fact",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -4165,8 +6820,8 @@
           "type": "trap",
           "per_k": {
             "@1": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": true,
@@ -4195,12 +6850,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -4298,19 +6953,19 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.5
             }
           }
         },
@@ -4320,19 +6975,19 @@
           "per_k": {
             "@1": {
               "satisfied": false,
-              "best_cov": 0.5
+              "best_cov": 0.0
             },
             "@3": {
               "satisfied": false,
-              "best_cov": 0.75
+              "best_cov": 0.5
             },
             "@5": {
               "satisfied": false,
               "best_cov": 0.75
             },
             "@6": {
-              "satisfied": false,
-              "best_cov": 0.75
+              "satisfied": true,
+              "best_cov": 1.0
             }
           }
         },
@@ -4371,12 +7026,12 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             },
             "@6": {
-              "satisfied": true,
-              "best_cov": 1.0
+              "satisfied": false,
+              "best_cov": 0.0
             }
           }
         },
@@ -4393,8 +7048,8 @@
               "best_cov": 0.0
             },
             "@5": {
-              "satisfied": false,
-              "best_cov": 0.0
+              "satisfied": true,
+              "best_cov": 1.0
             },
             "@6": {
               "satisfied": true,
@@ -4404,6 +7059,886 @@
         },
         {
           "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "석사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "학사 학위는 언제 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "우수논문상은 몇 회 수상했나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "2022년에 게재한 논문은 몇 편인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.5
+            }
+          }
+        },
+        {
+          "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.5
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 엔진은 몇 개 언어를 지원하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "API 키 확인 결과는 Redis에 몇 초 동안 캐싱되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "WebSocket heartbeat는 몇 초마다 오나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "재생 시작 시 팝음을 막는 앞쪽 무음 패딩은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN은 몇 개 도메인을 지원하나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 케이스인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "TTS 시스템이 사용하는 두 합성 엔진은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ICL 음성 복제에는 몇 초 분량의 샘플이 필요한가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "오류 코드의 의미를 바꿀 때 몇 개월 전에 공지하나요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "언어 감지에 사용하는 라이브러리는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "자동 언어 감지의 디바운스 시간은 몇 ms인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "배치 합성 요청은 어떤 HTTP 엔드포인트로 보내나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "합성 API가 제공하는 세 가지 전송 방식은 무엇인가요?",
+          "type": "enumeration",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "파이썬 SDK는 어느 저장소에 배포하나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "SDK의 현재 라이선스 표기는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "배포 전 테스트에서 롱런은 몇 분으로 도나요?",
           "type": "fact",
           "per_k": {
             "@1": {
@@ -4423,25 +7958,465 @@
               "best_cov": 1.0
             }
           }
+        },
+        {
+          "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정을 고친 커밋 해시는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측은 몇 건의 요청이었나요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM과 Supertonic 중 더 많은 언어를 지원하는 엔진은 몇 개 언어를 지원하나요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "무음 패딩은 앞과 뒤 중 어느 쪽이 더 긴가요? 몇 ms인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "vLLM 전용 언어와 Supertonic 전용 언어 중 수가 적은 쪽은 몇 개인가요?",
+          "type": "comparison",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "앞쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "뒤쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "EOS 콜론을 3개 쓰면 어떤 문제가 생기나요?",
+          "type": "trap",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 골든 회귀 테스트는 몇 개 카테고리인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@6": {
+              "satisfied": false,
+              "best_cov": 0.0
+            }
+          }
+        },
+        {
+          "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "JWT 토큰의 기본 만료 시간은 얼마인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "Supertonic 내장 남성 프리셋은 몇 종인가요?",
+          "type": "aggregation",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "ITN 변환의 최종 단계에서 제거하는 문자는 무엇인가요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "성능 안정성 판정 기준은 언제 정리된 문서인가요?",
+          "type": "temporal",
+          "per_k": {
+            "@1": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@3": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
+        },
+        {
+          "question": "전술 포메이션 4-4-2는 어떻게 읽나요?",
+          "type": "fact",
+          "per_k": {
+            "@1": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@3": {
+              "satisfied": false,
+              "best_cov": 0.0
+            },
+            "@5": {
+              "satisfied": true,
+              "best_cov": 1.0
+            },
+            "@6": {
+              "satisfied": true,
+              "best_cov": 1.0
+            }
+          }
         }
       ],
-      "search_median_sec": 0.27
+      "search_median_sec": 0.15
     }
   },
   "hypothetical_docs": {
-    "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": "TTFB(Turn-Turn-Time-First-Bit)는 웹 페이지가 시작되는 시간을 나타내며, 이를 줄이는 것이 목표입니다. 이에 대한 구체적인 개선 사항은 제공된 정보로는 확인할 수 없습니다.",
-    "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": "스트리밍 오디오에서 발생하는 팝 노이즈 문제를 해결하기 위해선, 먼저 오디오 파일을 불러올 때 사용하는 앱이나 플레이어의 설정을 확인하고 최적화를 수행합니다. 또한, 오디오 파일 자체가 생성된 초기 단계에서 팝 노이즈를 줄이는 기법들을 활용할 수 있습니다. 예를 들어, 레코딩 시에 소스와 환경 조건을 최적화하거나, 복잡한 팝 노이즈를 제거하는 효과적인 필터링 기술 등을 적용하면 좋습니다.",
-    "이윤선의 제1저자 논문은 몇 편인가요?": "이 문제에 대한 정확한 정보를 찾을 수 없습니다. 이윤선 교수님의 저서 수는 다양한 출처에서 다를 수 있으며, 최신 데이터로만 확인할 수 있습니다.",
-    "등록된 특허 번호를 알려주세요.": "등록된 특허 번호는 공개되지 않았습니다. 검색을 원하시는 주제나 분야가 있으시다면 알려주시면 도와드리겠습니다.",
-    "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": "Kubernetes 인프라 구축을 위한 CI/CD 도구로 Jenkins, GitLab CI, Argo CD 등이 많이 사용됩니다. 이러한 도구들은 테스트, 배포 및 유지보수 과정에서 Kubernetes 리소스의 효율적인 관리를 지원합니다.",
-    "우수 논문상을 받은 논문 제목은?": "이 단락은 특정 논문의 제목을 포함하고 있지만, 그 논문이 우수 논문상을 받았는지에 대한 정보가 제공되지 않았습니다.",
-    "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": "TTS 시스템의 동시 처리 채널은 10개 이상으로 확장되었습니다.",
-    "화자 분할에는 어떤 모델을 사용했나요?": "화자 분할에 대한 모델은 다양한 기술과 알고리즘을 활용하여 개발되었습니다. 주로 전이학습, 딥러닝, 그리고 자연어 처리(NLP) 기법들이 사용되며, 특히 Transformer 구조를 기반으로 한 모델들이 대표적입니다.",
-    "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": "웹소켓 세션 탈취 문제를 방어하기 위한 몇 가지 방법으로는, 서버 측에서 사용자 인증 정보와 웹소켓 연결을 일치시켜 확인하는 것이 있습니다. 또한, 웹소켓의 토큰이나 암호화된 데이터를 이용해 세션을 확인하고, 불일치 시에는 새로운 세션 생성 또는 로그인 절차를 요구하는 방식도 있습니다. 마지막으로, 사용자 인증 정보와 웹소켓 연결이 일관되게 유지되는지 검사하여 이상한 활동에 대한 경보를 보내는 것도 중요합니다.",
-    "이윤선이 근무한 회사들을 알려주세요.": "이윤선이 근무한 회사들은 현재 구체적인 정보가 제공되지 않았습니다. 실제 이력 정보를 찾으시려면 더 구체적인 검색을 진행해보세요.",
-    "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": "세그멘테이션 연구를 지원한 정부 과제 번호에 대한 정보는 제공되지 않았습니다. 검색을 계속 진행해보세요.",
-    "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": "3D 시맨틱 세그멘테이션 연구에서 사용하는 주로 인기 있는 GPU는 NVIDIA의 Tesla V100, RTX系列 등의 그래픽 처리 장치입니다. 이러한 GPU들은 복잡한 3차원 데이터를 효과적으로 처리하고, 고정밀 이미지 및 영상 분석을 지원합니다.",
-    "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": "센서 퓨전 모델 학습에서 사용된 손실 함수는 다양한 요소를 고려하여 최적화하는 데 사용됩니다. 일반적으로 이는 제어 손실, 위치 손실, 방향 손실 등이 포함될 수 있습니다.",
-    "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": "딥러닝 프레임워크 중 하나로 사용된 것은 TensorFlow입니다. 이 프레임워크는 다양한 작업을 수행할 수 있으며, 특히 세그멘테이션 모델 구현에서 유용하게 활용되었습니다."
+    "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?": "TTS 프로젝트를 통해 서버 응답 시간이 평균적으로 50ms에서 20ms로 크게 개선되었습니다. 이러한 개선은 사용자 경험을 크게 향상시켰습니다.",
+    "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?": "스트리밍 오디오에서 발생하는 팝 노이즈 문제는 고주파음과 저주파음 처리 기술을 통해 효과적으로 해결할 수 있습니다. 이를 위해 개발된 신호 처리 알고리즘은 음질을 향상시키고 불필요한 소음을 줄이는 데 큰 도움이 되었습니다.",
+    "이윤선의 제1저자 논문은 몇 편인가요?": "이윤선 교수의 연구 성과에 따르면, 그는 총 5편의 논문에서 제1 저자로 참여하였습니다. 이러한 업적은 그의 전문성과 연구 능력을 반영하고 있습니다.",
+    "등록된 특허 번호를 알려주세요.": "등록된 특허 번호는 123456789로, 이 특허는 발명의 이름을 가지고 있습니다.",
+    "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?": "우리 팀은 Jenkins을 주로 사용하여 Kubernetes 인프라의 CI/CD 파이프라인을 구축했습니다. 이를 통해 코드 변경사항이 즉시 테스트되고 배포될 수 있도록 효율적인 개발 프로세스를 유지할 수 있었습니다.",
+    "우수 논문상을 받은 논문 제목은?": "最近举行的学术会议上，最佳论文奖获奖论文的题目是“云计算环境下的数据安全策略研究”。",
+    "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?": "최근 업데이트된 TTS 시스템은 최대 64개의 동시 처리 채널을 지원하여 복잡한 음성 합성 작업을 효율적으로 수행할 수 있습니다. 이는 과거의 몇 개에서 크게 확장되었습니다.",
+    "화자 분할에는 어떤 모델을 사용했나요?": "화자 분할 작업에서는 DeepSpeaker 모델을 활용하여 음성 샘플을 처리했습니다. 이 모델은 대규모 데이터셋에서 학습되어 다양한 화자의 특징을 효과적으로 구분할 수 있습니다.",
+    "웹소켓 세션 탈취 문제는 어떻게 방어했나요?": "웹소켓 세션 탈취를 방지하기 위해 서버측에서 고유한 토큰을 발급하고 이를 클라이언트가 요청할 때마다 검증하는 시스템을 구축했습니다. 또한 HTTPS를 사용하여 데이터의 암호화와 함께 세션 정보의 안전성을 높이는 조치도 취했습니다.",
+    "이윤선이 근무한 회사들을 알려주세요.": "이윤선은ABCDEFG 회사를 거쳐worked in ABC, DEF, GHI这样的公司工作。由于这不是真实内容，因此这些公司名称均为虚构。",
+    "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?": "세그멘테이션 연구를 지원하기 위해 정부에서 수행한 과제로는 2021K1083460이라는 번호의 과제가 있습니다. 이 과제는 산업통상자원부에서 주관하여 진행되었습니다.",
+    "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?": "최근의 연구에서는 NVIDIA의 GeForce RTX 30系列的显卡在3D语义分割研究中被广泛采用，因其强大的计算能力和对CUDA的支持而成为首选。此外，AMD的 Radeon RX 6000系列也在一些研究中得到了应用，提供了良好的性能与成本比。",
+    "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?": "센서 퓨전 모델의 학습을 위한 손실 함수로는 교차 엔트로피 손실 함수와 MSE (평균 제곱 오차) 손실 함수가 주로 사용됩니다. 하지만 구체적인 모델에 따라 다른 종류의 손실 함수도 적용될 수 있습니다.",
+    "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?": "세그멘테이션 모델을 구현하기 위해 U-Net 아키텍처를 사용하였으며, 이는 PyTorch라는 딥러닝 프레임워크에서 구현되었습니다."
   }
 }

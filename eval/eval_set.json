@@ -1872,7 +1872,7 @@
     ]
   },
   {
-    "question": "부하 시뮬레이션의 Poisson 도착 간격은 얼마인가요?",
+    "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
     "type": "fact",
     "answer_patterns": [
       "3\\s*(s|초)"
@@ -1887,7 +1887,7 @@
     ]
   },
   {
-    "question": "실 트래픽 실측의 warmup은 몇 분인가요?",
+    "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
     "type": "temporal",
     "answer_patterns": [
       "5\\s*분"
