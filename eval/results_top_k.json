@@ -1,50 +1,79 @@
-[
-  {
-    "top_k": 6,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 90,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
+{
+  "env": {
+    "llm_model": "qwen2.5:7b",
+    "embed_model": "bge-m3",
+    "ollama_version": "0.32.5",
+    "vector_store": "faiss",
+    "index_chunks_md5": "1a866933655ebda05bd8b80d16f2eea3",
+    "n_chunks": 842,
+    "params": {
+      "VECTOR_STORE": "faiss",
+      "LLM_MODEL": "qwen2.5:7b",
+      "EMBED_MODEL": "bge-m3",
+      "TOP_K": 30,
+      "RRF_K": 60,
+      "GENERATE_TOP_N": 5,
+      "NEIGHBOR_WINDOW": 0,
+      "CONTEXT_ORDER": "reversed",
+      "GENERATE_PROMPT_VARIANT": "base",
+      "EXCLUDE_DIAGRAMS": false,
+      "MAX_REWRITES": 1,
+      "TYPE_ROUTING": true,
+      "VERSION_FILTER": true,
+      "TEAM_ROUTING": false,
+      "HYDE": false,
+      "HYDE_MODE": "full",
+      "RERANK": false,
+      "VERIFY_GROUNDING": false,
+      "CHUNK_SIZE": 800,
+      "CHUNK_OVERLAP": 100
+    },
+    "host": {
+      "os": "Windows-11-10.0.26100-SP0",
+      "python": "3.13.14",
+      "gpu": "NVIDIA GeForce RTX 5080"
+    }
   },
-  {
-    "top_k": 10,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 93,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
-  },
-  {
-    "top_k": 15,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 95,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
-  },
-  {
-    "top_k": 20,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 93,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
-  },
-  {
-    "top_k": 30,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 95,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
-  },
-  {
-    "top_k": 40,
-    "recall@1": 59,
-    "recall@3": 83,
-    "recall@5": 95,
-    "vector_at_gen_n": 93,
-    "bm25_at_gen_n": 85
-  }
-]
+  "rows": [
+    {
+      "top_k": 6,
+      "recall@1": 48,
+      "recall@3": 78,
+      "recall@5": 91,
+      "vector_at_gen_n": 81,
+      "bm25_at_gen_n": 74
+    },
+    {
+      "top_k": 10,
+      "recall@1": 49,
+      "recall@3": 78,
+      "recall@5": 90,
+      "vector_at_gen_n": 81,
+      "bm25_at_gen_n": 74
+    },
+    {
+      "top_k": 15,
+      "recall@1": 50,
+      "recall@3": 77,
+      "recall@5": 88,
+      "vector_at_gen_n": 81,
+      "bm25_at_gen_n": 74
+    },
+    {
+      "top_k": 20,
+      "recall@1": 50,
+      "recall@3": 76,
+      "recall@5": 84,
+      "vector_at_gen_n": 81,
+      "bm25_at_gen_n": 74
+    },
+    {
+      "top_k": 30,
+      "recall@1": 49,
+      "recall@3": 76,
+      "recall@5": 81,
+      "vector_at_gen_n": 81,
+      "bm25_at_gen_n": 74
+    }
+  ]
+}

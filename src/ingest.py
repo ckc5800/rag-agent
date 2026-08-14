@@ -180,8 +180,7 @@ def _source_files() -> list[Path]:
     둘로 나누는 것보다 단순하고, 시점 질문일 때 같은 경로로 열어줄 수 있다.
     """
     root = Path(config.DOCS_DIR)
-    current = [p for p in sorted(root.glob("*")) if p.is_file()]
-    return current + sorted(root.glob("archive/*/*"))
+    return sorted(p for p in root.rglob("*") if p.is_file())
 
 
 def _version_of(path: Path) -> tuple[str, bool]:
@@ -207,7 +206,11 @@ def load_documents() -> tuple[list[Document], list[Document]]:
         # 보관본은 출처 이름부터 다르게 둔다("resume.md@2024-06"). 이름이 같으면
         # 인용이 어느 판인지 못 가리고, 이웃 확장의 "같은 문서 안에서만" 조건이
         # 현행본과 보관본을 한 문서로 착각한다.
-        name = path.name if not superseded else f"{path.name}@{version}"
+        # 현행본은 폴더 구조를 출처에 그대로 쓴다("guide/api/빠른시작.md").
+        # 파일명만 쓰면 다른 폴더의 동명 파일이 한 출처로 합쳐지고, 인용에서
+        # 어느 문서인지도 사라진다.
+        rel = path.relative_to(Path(config.DOCS_DIR)).as_posix()
+        name = f"{path.name}@{version}" if superseded else rel
         stamp = {"source": name, "version": version, "superseded": superseded}
         if path.suffix == ".md":
             # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제

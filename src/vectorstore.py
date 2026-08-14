@@ -24,6 +24,14 @@ def _embeddings() -> OllamaEmbeddings:
 
 # ── 구축 ────────────────────────────────────────────────
 
+# 한 번에 임베딩할 청크 수. FAISS.from_documents는 전체를 **한 요청**으로
+# 보내는데, 코퍼스를 54 → 842청크로 늘리자 Ollama의 임베딩 러너가 그 요청에서
+# 죽었다(`/tokenize: connection refused`, 400). 청크 길이는 최대 5,079자로
+# 예전과 같았으니 길이가 아니라 **한 요청의 개수**가 문제다.
+# 나눠 보내면 실패하지 않는다. 코퍼스가 커질수록 반드시 걸리는 자리다.
+EMBED_BATCH = 64
+
+
 def build(chunks: list[Document], kind: str | None = None) -> str:
     """청크를 임베딩해 저장소에 적재하고, 저장 위치를 반환한다."""
     kind = kind or config.VECTOR_STORE
@@ -35,7 +43,12 @@ def build(chunks: list[Document], kind: str | None = None) -> str:
 
         if Path(config.DB_DIR).exists():
             shutil.rmtree(config.DB_DIR)          # 멱등성
-        FAISS.from_documents(chunks, _embeddings()).save_local(config.DB_DIR)
+        emb = _embeddings()
+        head, rest = chunks[:EMBED_BATCH], chunks[EMBED_BATCH:]
+        store = FAISS.from_documents(head, emb)
+        for i in range(0, len(rest), EMBED_BATCH):
+            store.add_documents(rest[i:i + EMBED_BATCH])
+        store.save_local(config.DB_DIR)
         return config.DB_DIR
 
     if kind == "qdrant":
