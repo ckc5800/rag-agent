@@ -113,15 +113,13 @@ def build_and_eval(size: int, overlap: int, cov_cases: list[dict]) -> dict:
     # 다이어그램은 크기를 바꿔도 항상 같은 통짜 청크라, 넣으면 median/mean이
     # "산문이 이 크기에서 어떤가"가 아니라 다이어그램 유무로 흔들린다.
     # recall 비교에는 넣되(검색 대상이어야 하므로) 길이 통계에서는 뺀다.
+    #
+    # 청킹은 ingest.build_chunks 하나만 쓴다. 예전엔 여기서 스플리터를 직접
+    # 돌려, 통짜 청크 배치와 위치 메타데이터를 빠뜨린 **프로덕션과 다른
+    # 코퍼스**를 재고 있었다.
     docs, diagrams = ingest.load_documents()
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-    prose_chunks = RecursiveCharacterTextSplitter(
-        chunk_size=size, chunk_overlap=overlap,
-        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
-    ).split_documents(docs)
-    prose_chunks = [c for c in prose_chunks
-                    if len(c.page_content) >= config.MIN_CHUNK_CHARS]
-    chunks = prose_chunks + diagrams
+    chunks, _ = ingest.build_chunks(docs, diagrams, size, overlap)
+    prose_chunks = [c for c in chunks if not c.metadata.get("kind")]
 
     import vectorstore as vs  # noqa: PLC0415
     vs.build(chunks)

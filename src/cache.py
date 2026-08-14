@@ -25,11 +25,34 @@ _lock = threading.Lock()
 _cache: dict[str, dict] | None = None
 
 
+def _index_fingerprint() -> str:
+    """지금 검색이 보고 있는 코퍼스의 지문 (인제스트가 남긴 매니페스트).
+
+    knobs()로는 이걸 못 덮는다 — CHUNK_SIZE·CHUNK_OVERLAP·MIN_CHUNK_CHARS는
+    환경변수 손잡이가 아니라 일반 상수라 knobs()에 없고, 표·다이어그램 분리
+    같은 **코드 변경**이나 data/docs 편집은 애초에 손잡이가 아니다. 그래서
+    청킹을 바꿔 재인제스트해도 캐시 키가 그대로였다 — 손으로 적은 목록이
+    드리프트하던 것과 똑같은 사고가, 목록이 아니라 '손잡이'라는 범주 자체의
+    구멍으로 남아 있던 자리다.
+
+    청크 지문 하나가 위 전부를 덮는다(코퍼스가 1바이트라도 다르면 다른 값).
+    매니페스트가 없으면 빈 문자열 — 그 경우는 check_index_consistency가
+    별도로 경고한다.
+    """
+    try:
+        manifest = json.loads(
+            Path(config.INDEX_MANIFEST).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return ""
+    return str(manifest.get("chunks_md5", ""))
+
+
 def _config_fingerprint() -> str:
     # config.knobs()가 환경변수 손잡이 전부를 돌려준다. 예전엔 여기에 손으로
     # 적은 목록이 있었고 17개 중 10개만 들어 있어, HYDE·VERIFY_GROUNDING·
     # TEAM_ROUTING 등을 바꿔도 캐시 키가 그대로였다.
-    return "|".join(f"{k}={v}" for k, v in sorted(config.knobs().items()))
+    knobs = "|".join(f"{k}={v}" for k, v in sorted(config.knobs().items()))
+    return f"{knobs}|index={_index_fingerprint()}"
 
 
 def _cache_key(question: str) -> str:

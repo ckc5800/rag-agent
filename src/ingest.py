@@ -255,6 +255,33 @@ def annotate_positions(chunks: list[Document]) -> None:
         c.metadata["doc_total"] = per_source[c.metadata.get("source", "?")]
 
 
+def build_chunks(docs: list[Document], whole: list[Document],
+                 size: int | None = None,
+                 overlap: int | None = None) -> tuple[list[Document], int]:
+    """문서 → 최종 청크 목록. (청크, 버려진 조각 수)
+
+    **청킹 순서를 정의하는 단 하나의 자리다.** 예전엔 이 파이프라인이 세 군데
+    있었고(ingest.main·sweep_chunk_size·테스트) 스윕 쪽만 통짜 청크 배치와
+    위치 메타데이터를 빠뜨려, 스윕이 프로덕션과 다른 코퍼스를 재고 있었다.
+    이 저장소가 캐시 키·실행 지문에서 이미 두 번 당한 병이라 자리를 합친다.
+
+    size·overlap을 주면 그 값으로 자른다(스윕 전용). 안 주면 config를 쓴다.
+    """
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=config.CHUNK_SIZE if size is None else size,
+        chunk_overlap=config.CHUNK_OVERLAP if overlap is None else overlap,
+        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
+    )
+    split = splitter.split_documents(docs)
+    # 구분선('---')이나 제목 줄만 남은 조각은 검색에 걸릴 일이 없으면서
+    # 인덱스 자리만 차지한다. 검수(inspect_data.py)로 발견해 걸러낸다.
+    chunks = [c for c in split if len(c.page_content) >= config.MIN_CHUNK_CHARS]
+    dropped = len(split) - len(chunks)
+    chunks = place_whole_chunks(chunks, whole)
+    annotate_positions(chunks)
+    return chunks, dropped
+
+
 def warn_empty_sources(docs, chunks) -> list[str]:
     """인덱싱에 한 청크도 못 넣은 파일을 알린다.
 
@@ -282,30 +309,18 @@ def main():
     print(f"{len(docs)}개 문서 로드 "
           f"(통짜 청크 {len(diagrams)}개 분리 — 다이어그램·표)")
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=config.CHUNK_SIZE,
-        chunk_overlap=config.CHUNK_OVERLAP,
-        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
-    )
-    chunks = splitter.split_documents(docs)
-
-    # 구분선('---')이나 제목 줄만 남은 조각은 검색에 걸릴 일이 없으면서
-    # 인덱스 자리만 차지한다. 검수(inspect_data.py)로 발견해 걸러낸다.
-    kept = [c for c in chunks
-            if len(c.page_content) >= config.MIN_CHUNK_CHARS]
-    dropped = len(chunks) - len(kept)
-    chunks = kept
-
-    if not chunks and not diagrams:
+    chunks, dropped = build_chunks(docs, diagrams)
+    if not chunks:
         raise SystemExit(
             f"인덱싱할 청크가 없습니다 — {dropped}개가 전부 "
             f"MIN_CHUNK_CHARS({config.MIN_CHUNK_CHARS}자) 미만입니다.")
 
-    # 산문 통계를 다이어그램과 분리해서 찍는다 — 다이어그램은 800자 상한이
+    # 산문 통계를 통짜 청크와 분리해서 찍는다 — 다이어그램·표는 800자 상한이
     # 적용 안 된 통짜(수 KB)라 섞으면 "평균/최대"가 산문 실태를 안 보여준다.
-    if chunks:
-        lengths = sorted(len(c.page_content) for c in chunks)
-        print(f"{len(chunks)}개 산문 청크 "
+    prose = [c for c in chunks if not c.metadata.get("kind")]
+    if prose:
+        lengths = sorted(len(c.page_content) for c in prose)
+        print(f"{len(prose)}개 산문 청크 "
               f"(최소 길이 {config.MIN_CHUNK_CHARS}자 미만 {dropped}개 제외) — "
               f"길이 최소 {lengths[0]} / 중앙값 {lengths[len(lengths) // 2]} / "
               f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
@@ -313,15 +328,10 @@ def main():
         print(f"산문 청크 0개 (전부 {config.MIN_CHUNK_CHARS}자 미만으로 제외) "
               "— 통짜 청크만 인덱싱한다")
 
-    # 다이어그램은 스플리터가 안 건드린 통짜 청크로 그대로 합류시킨다.
-    # 800자 상한에 걸려 도중에 잘리던 것(예: 파이프라인이 중간 줄에서 끊김)을
-    # 여기서 막는다 — 문장 단위가 없는 콘텐츠라 문자 기준 분할이 안 맞는다.
     if diagrams:
         dlen = sorted(len(d.page_content) for d in diagrams)
         print(f"+ 통짜 청크 {len(diagrams)}개 (다이어그램·표, 상한 미적용) — "
               f"길이 {dlen[0]}~{dlen[-1]}자")
-    chunks = place_whole_chunks(chunks, diagrams)
-    annotate_positions(chunks)
     warn_empty_sources(docs, chunks)
     print(f"총 {len(chunks)}개 청크")
 

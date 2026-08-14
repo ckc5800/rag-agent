@@ -1,107 +1,121 @@
 {
   "env": {
-    "llm_model": "qwen2.5:3b",
+    "llm_model": "qwen2.5:7b",
     "embed_model": "bge-m3",
-    "ollama_version": "0.32.6",
+    "ollama_version": "0.32.5",
     "vector_store": "faiss",
-    "index_chunks_md5": "50c4d54c12d98355f71d1b1bfec0a892",
+    "index_chunks_md5": "48d1eae7c25d5c1b951e19dce037a32b",
     "n_chunks": 32,
     "params": {
+      "VECTOR_STORE": "faiss",
+      "LLM_MODEL": "qwen2.5:7b",
+      "EMBED_MODEL": "bge-m3",
       "TOP_K": 6,
+      "RRF_K": 60,
       "GENERATE_TOP_N": 5,
+      "NEIGHBOR_WINDOW": 0,
+      "CONTEXT_ORDER": "reversed",
+      "GENERATE_PROMPT_VARIANT": "base",
+      "EXCLUDE_DIAGRAMS": false,
       "MAX_REWRITES": 1,
+      "TYPE_ROUTING": true,
+      "TEAM_ROUTING": false,
+      "HYDE": false,
+      "HYDE_MODE": "full",
+      "RERANK": false,
+      "VERIFY_GROUNDING": false,
       "CHUNK_SIZE": 1600,
       "CHUNK_OVERLAP": 200
     },
     "host": {
-      "os": "Windows-10-10.0.19045-SP0",
-      "python": "3.14.4",
-      "gpu": "NVIDIA GeForce RTX 2070"
+      "os": "Windows-11-10.0.26100-SP0",
+      "python": "3.13.14",
+      "gpu": "NVIDIA GeForce RTX 5080"
     }
   },
   "rows": [
     {
       "size": 300,
-      "chunks": 136,
-      "median": 241,
-      "mean": 214,
-      "recall@1": 70,
+      "chunks": 128,
+      "median": 243,
+      "mean": 213,
+      "recall@1": 80,
       "recall@3": 90,
       "recall@6": 100,
       "baseline": {
         "recall@1": 2,
-        "recall@3": 6,
-        "recall@6": 12
+        "recall@3": 7,
+        "recall@6": 13
       },
-      "mrr": 0.82,
+      "mrr": 0.875,
       "misses": [
         "이윤선이 근무한 회사들을 알려주세요."
       ],
       "coverage": {
-        "satisfied@1": 49,
-        "satisfied@3": 69,
-        "satisfied@5": 77,
-        "satisfied@6": 78,
-        "best_cov@1": 52,
-        "best_cov@3": 72,
-        "best_cov@5": 81,
-        "best_cov@6": 82,
+        "satisfied@1": 52,
+        "satisfied@3": 70,
+        "satisfied@5": 83,
+        "satisfied@6": 86,
+        "best_cov@1": 55,
+        "best_cov@3": 73,
+        "best_cov@5": 86,
+        "best_cov@6": 88,
         "evidence_loss": []
       }
     },
     {
       "size": 500,
-      "chunks": 86,
-      "median": 374,
-      "mean": 351,
+      "chunks": 81,
+      "median": 385,
+      "mean": 355,
       "recall@1": 70,
       "recall@3": 90,
       "recall@6": 100,
       "baseline": {
         "recall@1": 3,
         "recall@3": 9,
-        "recall@6": 17
+        "recall@6": 18
       },
       "mrr": 0.825,
       "misses": [
         "이윤선이 근무한 회사들을 알려주세요."
       ],
       "coverage": {
-        "satisfied@1": 54,
-        "satisfied@3": 74,
-        "satisfied@5": 89,
-        "satisfied@6": 91,
+        "satisfied@1": 53,
+        "satisfied@3": 73,
+        "satisfied@5": 86,
+        "satisfied@6": 92,
         "best_cov@1": 57,
-        "best_cov@3": 77,
-        "best_cov@5": 90,
-        "best_cov@6": 92,
+        "best_cov@3": 76,
+        "best_cov@5": 88,
+        "best_cov@6": 93,
         "evidence_loss": []
       }
     },
     {
       "size": 800,
-      "chunks": 58,
-      "median": 645,
-      "mean": 529,
-      "recall@1": 70,
+      "chunks": 54,
+      "median": 666,
+      "mean": 554,
+      "recall@1": 80,
       "recall@3": 100,
       "recall@6": 100,
       "baseline": {
         "recall@1": 4,
-        "recall@3": 12,
-        "recall@6": 23
+        "recall@3": 13,
+        "recall@6": 25
       },
-      "mrr": 0.85,
+      "mrr": 0.9,
       "misses": [],
       "coverage": {
-        "satisfied@1": 46,
-        "satisfied@3": 78,
-        "satisfied@5": 88,
-        "satisfied@6": 94,
-        "best_cov@1": 51,
-        "best_cov@3": 81,
-        "best_cov@5": 90,
-        "best_cov@6": 94,
+        "satisfied@1": 50,
+        "satisfied@3": 80,
+        "satisfied@5": 92,
+        "satisfied@6": 95,
+        "best_cov@1": 54,
+        "best_cov@3": 82,
+        "best_cov@5": 93,
+        "best_cov@6": 97,
         "evidence_loss": []
       }
     },
@@ -109,7 +123,7 @@
       "size": 1200,
       "chunks": 40,
       "median": 790,
-      "mean": 788,
+      "mean": 784,
       "recall@1": 100,
       "recall@3": 100,
       "recall@6": 100,
@@ -121,14 +135,14 @@
       "mrr": 1.0,
       "misses": [],
       "coverage": {
-        "satisfied@1": 52,
-        "satisfied@3": 71,
-        "satisfied@5": 88,
+        "satisfied@1": 53,
+        "satisfied@3": 73,
+        "satisfied@5": 85,
         "satisfied@6": 91,
         "best_cov@1": 54,
-        "best_cov@3": 74,
-        "best_cov@5": 90,
-        "best_cov@6": 92,
+        "best_cov@3": 76,
+        "best_cov@5": 88,
+        "best_cov@6": 94,
         "evidence_loss": []
       }
     },
@@ -136,7 +150,7 @@
       "size": 1600,
       "chunks": 32,
       "median": 1017,
-      "mean": 1011,
+      "mean": 1029,
       "recall@1": 100,
       "recall@3": 100,
       "recall@6": 100,
@@ -148,13 +162,13 @@
       "mrr": 1.0,
       "misses": [],
       "coverage": {
-        "satisfied@1": 58,
-        "satisfied@3": 78,
-        "satisfied@5": 85,
-        "satisfied@6": 91,
-        "best_cov@1": 61,
-        "best_cov@3": 80,
-        "best_cov@5": 87,
+        "satisfied@1": 56,
+        "satisfied@3": 74,
+        "satisfied@5": 86,
+        "satisfied@6": 92,
+        "best_cov@1": 59,
+        "best_cov@3": 76,
+        "best_cov@5": 88,
         "best_cov@6": 93,
         "evidence_loss": []
       }

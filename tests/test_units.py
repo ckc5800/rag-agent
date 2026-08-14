@@ -1788,20 +1788,11 @@ def test_committed_chunks_match_current_ingest_code():
     """
     import json
 
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-
     import config
     import ingest
 
     docs, whole = ingest.load_documents()
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=config.CHUNK_SIZE,
-        chunk_overlap=config.CHUNK_OVERLAP,
-        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
-    )
-    chunks = [c for c in splitter.split_documents(docs)
-              if len(c.page_content) >= config.MIN_CHUNK_CHARS]
-    chunks = ingest.place_whole_chunks(chunks, whole)
+    chunks, _ = ingest.build_chunks(docs, whole)
 
     on_disk = [json.loads(line)["page_content"]
                for line in Path(config.CHUNKS_PATH).read_text(
@@ -1862,3 +1853,28 @@ def test_neighbor_expansion_does_not_pull_whole_chunks(monkeypatch):
     monkeypatch.setattr(graph, "_chunks_by_index", lambda: table)
     out = graph.expand_with_neighbors([table[1]], window=1)
     assert out[0].page_content == "앞 문단\n가운데"
+
+
+def test_cache_key_changes_with_the_corpus(tmp_path, monkeypatch):
+    """청킹을 바꿔 재인제스트하면 캐시 키도 달라진다.
+
+    CHUNK_SIZE·MIN_CHUNK_CHARS는 환경변수 손잡이가 아니라 일반 상수라
+    knobs()에 없고, 표 분리 같은 코드 변경이나 data/docs 편집은 애초에
+    손잡이가 아니다. 인덱스 지문을 키에 넣어 그 범주 구멍을 막는다.
+    """
+    import json
+
+    import cache
+    import config
+
+    manifest = tmp_path / "index_manifest.json"
+    monkeypatch.setattr(config, "INDEX_MANIFEST", manifest)
+
+    manifest.write_text(json.dumps({"chunks_md5": "aaa"}), encoding="utf-8")
+    before = cache._cache_key("질문")
+    manifest.write_text(json.dumps({"chunks_md5": "bbb"}), encoding="utf-8")
+    assert cache._cache_key("질문") != before
+
+    # 매니페스트가 없어도 키 계산 자체는 죽지 않는다(경고는 다른 곳 몫)
+    manifest.unlink()
+    assert cache._cache_key("질문")
