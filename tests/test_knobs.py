@@ -197,3 +197,51 @@ def test_node_profile_handles_no_rewrites():
     s = summarize([{"timings": {"retrieve": 1.0}, "rewrites": 0}])
     assert s["median_total_when_rewrote"] is None
     assert s["rewrite_rate_pct"] == 0.0
+
+
+def test_version_filter_hides_archives_unless_asked(monkeypatch):
+    """기본 검색은 현행본만 본다. 시점 질문일 때만 보관본이 열린다.
+
+    보관본을 그냥 쌓으면 같은 사실의 사본이 RRF에서 top-5를 잡아먹는다 —
+    resume-original.docx로 이미 겪은 근중복 손해다. 그래서 보관은 하되
+    기본은 거른다. 거를 때는 후보를 두 배로 뽑아 TOP_K를 채운다.
+    """
+    import config
+    import graph
+    from langchain_core.documents import Document
+
+    def pair(prefix, k):
+        """현행본·보관본을 번갈아 k개 — 거르지 않으면 절반이 보관본이다."""
+        out = []
+        for i in range(k):
+            old = i % 2 == 1
+            out.append(Document(
+                page_content=f"{prefix}{i}",
+                metadata={"source": "d.md", "superseded": old,
+                          "version": "2024-06" if old else "current"}))
+        return out
+
+    class FakeStore:
+        def similarity_search(self, q, k):
+            return pair("v", k)
+
+    class FakeBM25:
+        k = 99
+
+        def invoke(self, q):
+            return pair("b", self.k)
+
+    monkeypatch.setattr(graph, "_vectorstore", FakeStore())
+    monkeypatch.setattr(graph, "_bm25", FakeBM25())
+    monkeypatch.setattr(graph, "_has_superseded", True)
+    monkeypatch.setattr(config, "TOP_K", 6)
+
+    normal = graph.hybrid_search("논문은 몇 편인가요?")
+    assert normal and not any(d.metadata["superseded"] for d in normal)
+
+    historical = graph.hybrid_search("이전 버전에서는 몇 편이었나요?")
+    assert any(d.metadata["superseded"] for d in historical)
+
+    # 보관본이 없는 코퍼스에서는 필터 경로 자체를 안 탄다 (예전과 동일 동작)
+    monkeypatch.setattr(graph, "_has_superseded", False)
+    assert any(d.metadata["superseded"] for d in graph.hybrid_search("몇 편?"))

@@ -167,6 +167,31 @@ def clean_markdown(text: str) -> str:
     return _EXTRA_BLANK.sub("\n\n", text)
 
 
+def _source_files() -> list[Path]:
+    """인덱싱 대상 파일. 현행본과 보관본(archive/<판>/…)을 함께 돌려준다.
+
+    **보관 위치가 곧 버전 표시다.** 파일명 규칙이나 front-matter 대신 폴더를
+    쓰는 이유는, 규칙은 지켜야 하고 폴더는 지켜진 상태로 보이기 때문이다.
+
+        data/docs/resume.md                  현행본
+        data/docs/archive/2024-06/resume.md  2024-06판 (superseded)
+
+    보관본도 **같은 인덱스**에 들어간다. 검색 시점에 걸러내는 쪽이 인덱스를
+    둘로 나누는 것보다 단순하고, 시점 질문일 때 같은 경로로 열어줄 수 있다.
+    """
+    root = Path(config.DOCS_DIR)
+    current = [p for p in sorted(root.glob("*")) if p.is_file()]
+    return current + sorted(root.glob("archive/*/*"))
+
+
+def _version_of(path: Path) -> tuple[str, bool]:
+    """(판 이름, 보관본인가). archive/<판>/파일 이면 그 <판>을 쓴다."""
+    parts = path.relative_to(Path(config.DOCS_DIR)).parts
+    if len(parts) >= 3 and parts[0] == "archive":
+        return parts[1], True
+    return "current", False
+
+
 def load_documents() -> tuple[list[Document], list[Document]]:
     """(본문 문서, 통짜 청크) — 다이어그램·표는 이미 청크 단위로 완성돼 있다.
     (반환값 이름이 diagrams인 것은 하위호환 — 표도 같은 목록에 실린다.)
@@ -177,7 +202,13 @@ def load_documents() -> tuple[list[Document], list[Document]]:
     공백만 정리한다).
     """
     docs, diagrams = [], []
-    for path in sorted(Path(config.DOCS_DIR).glob("*")):
+    for path in _source_files():
+        version, superseded = _version_of(path)
+        # 보관본은 출처 이름부터 다르게 둔다("resume.md@2024-06"). 이름이 같으면
+        # 인용이 어느 판인지 못 가리고, 이웃 확장의 "같은 문서 안에서만" 조건이
+        # 현행본과 보관본을 한 문서로 착각한다.
+        name = path.name if not superseded else f"{path.name}@{version}"
+        stamp = {"source": name, "version": version, "superseded": superseded}
         if path.suffix == ".md":
             # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제
             # 규칙(이미지·마크다운 링크·HTML 태그)이 펜스 안의 그림까지
@@ -190,12 +221,14 @@ def load_documents() -> tuple[list[Document], list[Document]]:
             # 답할 수 없게 된다(extract_tables 주석 참고).
             body, table_docs = extract_tables(body)
             body = clean_markdown(body)
-            docs.append(Document(page_content=body, metadata={"source": path.name}))
+            docs.append(Document(page_content=body, metadata=dict(stamp)))
             for d in diag_docs + table_docs:
-                d.metadata["source"] = path.name
+                d.metadata.update(stamp)
             diagrams.extend(diag_docs + table_docs)
         elif path.suffix in loaders.LOADERS:
-            docs.append(loaders.LOADERS[path.suffix](path))
+            doc = loaders.LOADERS[path.suffix](path)
+            doc.metadata.update(stamp)
+            docs.append(doc)
         else:
             # 조용히 빠지면 "문서를 넣었는데 검색이 안 된다"의 단서가 없다.
             # warn_empty_sources는 **로드는 된** 문서만 보므로 이건 못 잡는다.

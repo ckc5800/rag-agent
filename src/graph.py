@@ -78,6 +78,24 @@ class AgentState(TypedDict):
 _vectorstore = None
 _bm25 = None
 _index_lock = threading.Lock()
+# 코퍼스에 보관본이 하나라도 있는가. 없으면 필터 경로를 아예 안 탄다 —
+# 후보를 넓혔다 걸러내면 RRF 입력 길이가 달라져 순위가 미묘하게 바뀌므로,
+# 보관본이 없는 코퍼스에서는 예전과 한 글자도 다르지 않게 둔다.
+_has_superseded = False
+
+
+# 시점을 묻는 질문인가. route.py와 같은 원칙 — 탐지는 결정적으로, 정밀도 우선.
+# 오탐(현재 질문을 과거로 봄)은 보관본이 후보에 섞여 답이 흔들리는 손해라
+# 비대칭이 크다. 그래서 "예전·이전 버전·당시" 같은 확실한 신호만 본다.
+_HISTORICAL = re.compile(
+    r"이전\s*(버전|판)|예전|과거|옛\s*(버전|판)|구\s*버전|당시|"
+    r"\bv\d+\s*(에서|에는|의)|(\d{4})\s*년\s*(기준|당시|버전|판)|"
+    r"바뀌기\s*전|수정\s*전|개정\s*전|업데이트\s*전")
+
+
+def wants_history(question: str) -> bool:
+    """보관본까지 열어야 하는 질문인가."""
+    return bool(_HISTORICAL.search(question))
 
 
 # 천단위 콤마 제거. Kiwi는 숫자를 SN 태그로 인식하지만 콤마를 그대로
@@ -228,6 +246,9 @@ def _load_indexes():
             bm25 = BM25Retriever.from_documents(
                 chunks, preprocess_func=bm25_tokenize)
 
+            global _has_superseded
+            _has_superseded = any(c.metadata.get("superseded") for c in chunks)
+
             # 마지막에 세팅되는 _bm25가 '준비 완료' 신호다 — 순서를 바꾸지 말 것
             _vectorstore = store
             _bm25 = bm25
@@ -281,9 +302,18 @@ def hybrid_search(query: str) -> list[Document]:
     # bm25.k를 질의 시점에 맞춘다. 예전엔 인덱스 빌드 때 한 번만 넣어서,
     # TOP_K를 런타임에 바꾸면(sweep_top_k.py 등) 벡터는 새 k로 BM25는 옛 k로
     # 뽑아 RRF가 비대칭이 됐다 — 증상 없이 순위만 틀어지는 종류다.
-    bm25.k = config.TOP_K
-    lists = [vectorstore.similarity_search(query, k=config.TOP_K),
-             bm25.invoke(query)]
+    # 보관본을 걸러야 하면 후보를 두 배로 뽑아 거른 뒤 TOP_K를 채운다. 거르고
+    # 모자라면 모자란 채로 둔다 — FAISS는 메타데이터 필터가 없어 사후 필터링이
+    # 유일한 방법이고, 한계도 vectorstore.search(source=...)와 같다. Qdrant로
+    # 띄우면 필터를 검색에 넣을 수 있으므로 그때 이 자리를 갈아끼운다.
+    hide_old = (_has_superseded and config.VERSION_FILTER
+                and not wants_history(query))
+    k = config.TOP_K * 2 if hide_old else config.TOP_K
+    bm25.k = k
+    lists = [vectorstore.similarity_search(query, k=k), bm25.invoke(query)]
+    if hide_old:
+        lists = [[d for d in lst if not d.metadata.get("superseded")]
+                 [:config.TOP_K] for lst in lists]
     if config.HYDE:
         hypo = hypothetical_doc(query)
         if hypo is not None:
@@ -496,7 +526,12 @@ def context_text(docs: list[Document]) -> str:
     "grade는 통과시켰는데 generate는 근거를 못 받는"(그리고 그 반대인)
     불일치가 그대로 남아 있었다.
     """
-    return "\n---\n".join(d.page_content for d in docs)
+    return "\n---\n".join(
+        # 보관본은 어느 판인지 붙여 준다. 안 붙이면 모델이 현행본과 옛 판의
+        # 사실을 구분 없이 섞고, 답변만 봐서는 어느 시점 기준인지 알 수 없다.
+        f"[{d.metadata.get('version')}판 보관본] {d.page_content}"
+        if d.metadata.get("superseded") else d.page_content
+        for d in docs)
 
 
 GRADE_PROMPT = ChatPromptTemplate.from_template(

@@ -1898,3 +1898,49 @@ def test_unsupported_extension_is_reported(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert [d.metadata["source"] for d in docs] == ["이력.md"]
     assert "메모.txt" in out and ".txt" in out
+
+
+def test_archive_folder_marks_the_version(tmp_path, monkeypatch):
+    """보관 위치가 곧 버전 표시 — archive/<판>/파일 은 superseded 로 실린다."""
+    import config
+    import ingest
+
+    (tmp_path / "resume.md").write_text("현행 이력서 본문이다." * 3, encoding="utf-8")
+    old = tmp_path / "archive" / "2024-06"
+    old.mkdir(parents=True)
+    (old / "resume.md").write_text("옛 이력서 본문이다." * 3, encoding="utf-8")
+    monkeypatch.setattr(config, "DOCS_DIR", tmp_path)
+
+    docs, _ = ingest.load_documents()
+    by_source = {d.metadata["source"]: d.metadata for d in docs}
+    assert by_source["resume.md"]["superseded"] is False
+    # 출처 이름이 달라야 인용이 판을 가리고, 이웃 확장이 둘을 한 문서로 안 본다
+    assert by_source["resume.md@2024-06"]["superseded"] is True
+    assert by_source["resume.md@2024-06"]["version"] == "2024-06"
+
+
+def test_history_intent_is_detected_conservatively():
+    """시점 질문만 보관본을 연다 — 오탐의 대가가 크므로 확실한 신호만."""
+    import graph
+
+    for q in ["이전 버전에서는 몇 편이었나요?", "예전 이력서에는 뭐라고 적혀 있었나요?",
+              "2024년 기준으로는 어땠나요?", "수정 전에는 어떤 값이었나요?"]:
+        assert graph.wants_history(q), q
+    for q in ["이윤선의 제1저자 논문은 몇 편인가요?", "2023년에 게재한 논문은 몇 편인가요?",
+              "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?"]:
+        assert not graph.wants_history(q), q
+
+
+def test_superseded_chunks_are_labelled_in_the_context():
+    """보관본이 컨텍스트에 들어가면 어느 판인지 표시된다 (현행본은 그대로)."""
+    from langchain_core.documents import Document
+
+    import graph
+
+    cur = Document(page_content="현행 내용",
+                   metadata={"source": "resume.md", "superseded": False})
+    old = Document(page_content="옛 내용",
+                   metadata={"source": "resume.md@2024-06",
+                             "version": "2024-06", "superseded": True})
+    text = graph.context_text([cur, old])
+    assert text == "현행 내용\n---\n[2024-06판 보관본] 옛 내용"
