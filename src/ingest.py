@@ -79,8 +79,10 @@ def extract_diagrams(text: str) -> tuple[str, list[Document]]:
     # 플레이스홀더 앞뒤에 원래 있던 빈 줄과 합쳐져 3줄 이상 공백이 재발할 수
     # 있다 — clean_markdown의 공백 정리를 여기서 한 번 더 적용한다.
     body = _EXTRA_BLANK.sub("\n\n", body)
-    docs = [Document(page_content=d, metadata={"source": "", "kind": "diagram"})
-            for d in diagrams]
+    docs = [Document(page_content=d,
+                     metadata={"source": "", "kind": "diagram",
+                               "marker": _DIAGRAM_PLACEHOLDER.format(n=i).strip()})
+            for i, d in enumerate(diagrams, 1)]
     return body, docs
 
 
@@ -132,8 +134,10 @@ def extract_tables(text: str) -> tuple[str, list[Document]]:
         return _TABLE_PLACEHOLDER.format(n=len(tables))
 
     body = _EXTRA_BLANK.sub("\n\n", _TABLE.sub(_replace, text))
-    docs = [Document(page_content=t, metadata={"source": "", "kind": "table"})
-            for t in tables]
+    docs = [Document(page_content=t,
+                     metadata={"source": "", "kind": "table",
+                               "marker": _TABLE_PLACEHOLDER.format(n=i).strip()})
+            for i, t in enumerate(tables, 1)]
     return body, docs
 
 
@@ -193,6 +197,34 @@ def load_documents() -> tuple[list[Document], list[Document]]:
         elif path.suffix in loaders.LOADERS:
             docs.append(loaders.LOADERS[path.suffix](path))
     return docs, diagrams
+
+
+def place_whole_chunks(chunks: list[Document],
+                       whole: list[Document]) -> list[Document]:
+    """통짜 청크를 **자기 플레이스홀더가 있는 청크 바로 뒤**에 끼워 넣는다.
+
+    예전엔 리스트 끝에 이어붙였다. 그러면 chunk_index·doc_index가 문서 내
+    실제 위치와 달라지는데, 이게 조용히 손해를 낸다 — 이웃 확장은
+    `chunk_index ± w`를 같은 source 안에서 찾으므로 표가 맨 끝에 있으면
+    **본문에서 표로 도달할 수 없다.** 하필 TYPE_ROUTING이 이웃 확장을 켜는
+    유형이 aggregation·enumeration이고, 그 표가 정확히 그 질문들의 근거다
+    (publications.md 표는 #53, 그 문서의 본문 청크는 앞쪽에 있었다).
+
+    본문에는 `[표: 1]` 같은 참조만 남으므로, 그 자리에 실물을 붙여 둔다.
+    짝을 못 찾은 통짜 청크는 예전처럼 끝에 붙인다(플레이스홀더가 있는 청크가
+    MIN_CHUNK_CHARS로 잘려 나간 경우 — patents.md가 그렇다).
+    """
+    placed, out = set(), []
+    for c in chunks:
+        out.append(c)
+        for w in whole:
+            if (id(w) not in placed
+                    and w.metadata["source"] == c.metadata.get("source")
+                    and w.metadata["marker"] in c.page_content):
+                out.append(w)
+                placed.add(id(w))
+    out.extend(w for w in whole if id(w) not in placed)
+    return out
 
 
 def annotate_positions(chunks: list[Document]) -> None:
@@ -288,7 +320,7 @@ def main():
         dlen = sorted(len(d.page_content) for d in diagrams)
         print(f"+ 통짜 청크 {len(diagrams)}개 (다이어그램·표, 상한 미적용) — "
               f"길이 {dlen[0]}~{dlen[-1]}자")
-    chunks += diagrams
+    chunks = place_whole_chunks(chunks, diagrams)
     annotate_positions(chunks)
     warn_empty_sources(docs, chunks)
     print(f"총 {len(chunks)}개 청크")

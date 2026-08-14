@@ -1774,3 +1774,91 @@ def test_korean_sentences_only_drops_the_derailed_sentence():
     # 코퍼스의 정당한 한자 인용(古語)은 한두 자라 살아남는다
     quote = "이윤선은 KISTI에서 한국어 古語 데이터를 정제하는 업무를 맡았습니다."
     assert graph._korean_sentences_only(quote + " 中文句子在这里出现了很多汉字。") == quote
+
+
+def test_committed_chunks_match_current_ingest_code():
+    """커밋된 chunks.jsonl이 **지금 코드가 만드는 것**과 같은가 (CI에서 돈다).
+
+    매니페스트는 chunks.jsonl↔지문만 대조한다. 그래서 인제스트 코드를 고치고
+    재인제스트를 안 하면 아무도 모른다 — 실제로 표 통짜 청킹이 들어온 뒤
+    저장소의 chunks.jsonl이 표 분리 이전(58청크)인 채로 남아, 그 사이 낸 7b
+    측정이 전부 옛 청킹 숫자였다(2026-08-12).
+
+    임베딩이 필요 없어 CI에서 돌 수 있다(청킹만, 약 2.6초).
+    """
+    import json
+
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+    import config
+    import ingest
+
+    docs, whole = ingest.load_documents()
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=config.CHUNK_SIZE,
+        chunk_overlap=config.CHUNK_OVERLAP,
+        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
+    )
+    chunks = [c for c in splitter.split_documents(docs)
+              if len(c.page_content) >= config.MIN_CHUNK_CHARS]
+    chunks = ingest.place_whole_chunks(chunks, whole)
+
+    on_disk = [json.loads(line)["page_content"]
+               for line in Path(config.CHUNKS_PATH).read_text(
+                   encoding="utf-8").splitlines() if line.strip()]
+    assert [c.page_content for c in chunks] == on_disk, (
+        "커밋된 chunks.jsonl이 현재 인제스트 코드의 산출물과 다르다 — "
+        "`python src/ingest.py`로 재인제스트하고 gold 라벨을 재부착할 것"
+        "(eval/relabel_retrieval.py)")
+
+
+def test_whole_chunks_sit_next_to_their_placeholder():
+    """통짜 청크는 자기 플레이스홀더 바로 뒤에 온다.
+
+    끝에 몰아 두면 이웃 확장(chunk_index ± w)이 본문에서 표에 도달하지
+    못한다 — aggregation·enumeration은 라우팅으로 이웃 확장이 켜져 있어
+    조용히 손해를 본다.
+    """
+    from langchain_core.documents import Document
+
+    import ingest
+
+    prose = [Document(page_content="앞 문단", metadata={"source": "a.md"}),
+             Document(page_content="표 설명 [표: 1] 끝", metadata={"source": "a.md"}),
+             Document(page_content="뒤 문단", metadata={"source": "a.md"})]
+    table = Document(page_content="| 헤더 |",
+                     metadata={"source": "a.md", "kind": "table",
+                               "marker": "[표: 1]"})
+    out = ingest.place_whole_chunks(prose, [table])
+    assert [c.page_content for c in out][2] == "| 헤더 |"
+
+    # 짝이 없으면(플레이스홀더 청크가 잘려 나간 경우) 끝에 붙인다 — 유실 금지
+    orphan = Document(page_content="| 고아 |",
+                      metadata={"source": "b.md", "kind": "table",
+                                "marker": "[표: 9]"})
+    assert ingest.place_whole_chunks(prose, [orphan])[-1] is orphan
+
+
+def test_neighbor_expansion_does_not_pull_whole_chunks(monkeypatch):
+    """이웃 확장은 통짜 청크(다이어그램·표)를 끌어오지 않는다.
+
+    출발점에서만 빼고 이웃 유입을 안 막으면, 통짜 청크를 문서 위치에 맞게
+    배치한 뒤 5,079자짜리 다이어그램이 옆 청크에 통째로 붙는다(실측: 한
+    문항의 컨텍스트가 5,871 → 10,182자, 두 실행 모두 오답).
+    """
+    from langchain_core.documents import Document
+
+    import graph
+
+    table = {
+        0: Document(page_content="앞 문단",
+                    metadata={"source": "a.md", "chunk_index": 0}),
+        1: Document(page_content="가운데",
+                    metadata={"source": "a.md", "chunk_index": 1}),
+        2: Document(page_content="[다이어그램 본문]",
+                    metadata={"source": "a.md", "chunk_index": 2,
+                              "kind": "diagram"}),
+    }
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: table)
+    out = graph.expand_with_neighbors([table[1]], window=1)
+    assert out[0].page_content == "앞 문단\n가운데"

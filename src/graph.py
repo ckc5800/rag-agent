@@ -450,8 +450,14 @@ def expand_with_neighbors(docs: list[Document],
         parts = []
         for j in range(i - w, i + w + 1):
             n = by_index.get(j)
-            # 문서 경계를 넘지 않는다 — 다른 문서의 텍스트를 붙이면 노이즈다
-            if n is not None and n.metadata.get("source") == src:
+            # 문서 경계를 넘지 않는다 — 다른 문서의 텍스트를 붙이면 노이즈다.
+            # 통짜 청크(다이어그램·표)도 끌어오지 않는다. 확장 **출발점**에서만
+            # 빼고 이웃으로 딸려 오는 건 막지 않았는데, 통짜 청크를 문서 위치에
+            # 맞게 배치하자마자 실제로 물렸다 — "재직한 회사 네 곳" 문항의
+            # 컨텍스트가 5,871 → 10,182자로 불어나며(다이어그램 유입) 두 실행
+            # 모두 오답이 됐다. 최대 5,079자짜리가 옆 청크에 통째로 붙는다.
+            if (n is not None and n.metadata.get("source") == src
+                    and not n.metadata.get("kind")):
                 parts.append(n.page_content)
         out.append(Document(page_content="\n".join(parts), metadata=d.metadata))
     return out
