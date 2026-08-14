@@ -196,6 +196,12 @@ def load_documents() -> tuple[list[Document], list[Document]]:
             diagrams.extend(diag_docs + table_docs)
         elif path.suffix in loaders.LOADERS:
             docs.append(loaders.LOADERS[path.suffix](path))
+        else:
+            # 조용히 빠지면 "문서를 넣었는데 검색이 안 된다"의 단서가 없다.
+            # warn_empty_sources는 **로드는 된** 문서만 보므로 이건 못 잡는다.
+            print(f"[warn] {path.name}: 지원하지 않는 확장자({path.suffix})라 "
+                  f"인덱싱에서 빠진다 — 지원: .md, "
+                  f"{', '.join(sorted(loaders.LOADERS))}")
     return docs, diagrams
 
 

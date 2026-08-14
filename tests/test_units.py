@@ -1878,3 +1878,23 @@ def test_cache_key_changes_with_the_corpus(tmp_path, monkeypatch):
     # 매니페스트가 없어도 키 계산 자체는 죽지 않는다(경고는 다른 곳 몫)
     manifest.unlink()
     assert cache._cache_key("질문")
+
+
+def test_unsupported_extension_is_reported(tmp_path, monkeypatch, capsys):
+    """지원하지 않는 확장자는 조용히 빠지지 않는다.
+
+    warn_empty_sources는 **로드된** 문서만 본다. 확장자가 아예 안 걸리는
+    파일(.txt·.pptx)은 그 그물에 안 잡혀, 넣었는데 검색이 안 될 때 단서가
+    없었다 — 스캔 PDF 때 만든 경고와 같은 상황이다.
+    """
+    import config
+    import ingest
+
+    (tmp_path / "메모.txt").write_text("무시될 내용", encoding="utf-8")
+    (tmp_path / "이력.md").write_text("# 제목\n\n본문이다." * 5, encoding="utf-8")
+    monkeypatch.setattr(config, "DOCS_DIR", tmp_path)
+
+    docs, _ = ingest.load_documents()
+    out = capsys.readouterr().out
+    assert [d.metadata["source"] for d in docs] == ["이력.md"]
+    assert "메모.txt" in out and ".txt" in out
