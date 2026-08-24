@@ -79,8 +79,10 @@ def extract_diagrams(text: str) -> tuple[str, list[Document]]:
     # 플레이스홀더 앞뒤에 원래 있던 빈 줄과 합쳐져 3줄 이상 공백이 재발할 수
     # 있다 — clean_markdown의 공백 정리를 여기서 한 번 더 적용한다.
     body = _EXTRA_BLANK.sub("\n\n", body)
-    docs = [Document(page_content=d, metadata={"source": "", "kind": "diagram"})
-            for d in diagrams]
+    docs = [Document(page_content=d,
+                     metadata={"source": "", "kind": "diagram",
+                               "marker": _DIAGRAM_PLACEHOLDER.format(n=i).strip()})
+            for i, d in enumerate(diagrams, 1)]
     return body, docs
 
 
@@ -132,8 +134,10 @@ def extract_tables(text: str) -> tuple[str, list[Document]]:
         return _TABLE_PLACEHOLDER.format(n=len(tables))
 
     body = _EXTRA_BLANK.sub("\n\n", _TABLE.sub(_replace, text))
-    docs = [Document(page_content=t, metadata={"source": "", "kind": "table"})
-            for t in tables]
+    docs = [Document(page_content=t,
+                     metadata={"source": "", "kind": "table",
+                               "marker": _TABLE_PLACEHOLDER.format(n=i).strip()})
+            for i, t in enumerate(tables, 1)]
     return body, docs
 
 
@@ -163,6 +167,30 @@ def clean_markdown(text: str) -> str:
     return _EXTRA_BLANK.sub("\n\n", text)
 
 
+def _source_files() -> list[Path]:
+    """인덱싱 대상 파일. 현행본과 보관본(archive/<판>/…)을 함께 돌려준다.
+
+    **보관 위치가 곧 버전 표시다.** 파일명 규칙이나 front-matter 대신 폴더를
+    쓰는 이유는, 규칙은 지켜야 하고 폴더는 지켜진 상태로 보이기 때문이다.
+
+        data/docs/resume.md                  현행본
+        data/docs/archive/2024-06/resume.md  2024-06판 (superseded)
+
+    보관본도 **같은 인덱스**에 들어간다. 검색 시점에 걸러내는 쪽이 인덱스를
+    둘로 나누는 것보다 단순하고, 시점 질문일 때 같은 경로로 열어줄 수 있다.
+    """
+    root = Path(config.DOCS_DIR)
+    return sorted(p for p in root.rglob("*") if p.is_file())
+
+
+def _version_of(path: Path) -> tuple[str, bool]:
+    """(판 이름, 보관본인가). archive/<판>/파일 이면 그 <판>을 쓴다."""
+    parts = path.relative_to(Path(config.DOCS_DIR)).parts
+    if len(parts) >= 3 and parts[0] == "archive":
+        return parts[1], True
+    return "current", False
+
+
 def load_documents() -> tuple[list[Document], list[Document]]:
     """(본문 문서, 통짜 청크) — 다이어그램·표는 이미 청크 단위로 완성돼 있다.
     (반환값 이름이 diagrams인 것은 하위호환 — 표도 같은 목록에 실린다.)
@@ -173,7 +201,17 @@ def load_documents() -> tuple[list[Document], list[Document]]:
     공백만 정리한다).
     """
     docs, diagrams = [], []
-    for path in sorted(Path(config.DOCS_DIR).glob("*")):
+    for path in _source_files():
+        version, superseded = _version_of(path)
+        # 보관본은 출처 이름부터 다르게 둔다("resume.md@2024-06"). 이름이 같으면
+        # 인용이 어느 판인지 못 가리고, 이웃 확장의 "같은 문서 안에서만" 조건이
+        # 현행본과 보관본을 한 문서로 착각한다.
+        # 현행본은 폴더 구조를 출처에 그대로 쓴다("guide/api/빠른시작.md").
+        # 파일명만 쓰면 다른 폴더의 동명 파일이 한 출처로 합쳐지고, 인용에서
+        # 어느 문서인지도 사라진다.
+        rel = path.relative_to(Path(config.DOCS_DIR)).as_posix()
+        name = f"{path.name}@{version}" if superseded else rel
+        stamp = {"source": name, "version": version, "superseded": superseded}
         if path.suffix == ".md":
             # 다이어그램을 **먼저** 떼어내고 본문만 정제한다. 반대 순서면 정제
             # 규칙(이미지·마크다운 링크·HTML 태그)이 펜스 안의 그림까지
@@ -186,13 +224,49 @@ def load_documents() -> tuple[list[Document], list[Document]]:
             # 답할 수 없게 된다(extract_tables 주석 참고).
             body, table_docs = extract_tables(body)
             body = clean_markdown(body)
-            docs.append(Document(page_content=body, metadata={"source": path.name}))
+            docs.append(Document(page_content=body, metadata=dict(stamp)))
             for d in diag_docs + table_docs:
-                d.metadata["source"] = path.name
+                d.metadata.update(stamp)
             diagrams.extend(diag_docs + table_docs)
         elif path.suffix in loaders.LOADERS:
-            docs.append(loaders.LOADERS[path.suffix](path))
+            doc = loaders.LOADERS[path.suffix](path)
+            doc.metadata.update(stamp)
+            docs.append(doc)
+        else:
+            # 조용히 빠지면 "문서를 넣었는데 검색이 안 된다"의 단서가 없다.
+            # warn_empty_sources는 **로드는 된** 문서만 보므로 이건 못 잡는다.
+            print(f"[warn] {path.name}: 지원하지 않는 확장자({path.suffix})라 "
+                  f"인덱싱에서 빠진다 — 지원: .md, "
+                  f"{', '.join(sorted(loaders.LOADERS))}")
     return docs, diagrams
+
+
+def place_whole_chunks(chunks: list[Document],
+                       whole: list[Document]) -> list[Document]:
+    """통짜 청크를 **자기 플레이스홀더가 있는 청크 바로 뒤**에 끼워 넣는다.
+
+    예전엔 리스트 끝에 이어붙였다. 그러면 chunk_index·doc_index가 문서 내
+    실제 위치와 달라지는데, 이게 조용히 손해를 낸다 — 이웃 확장은
+    `chunk_index ± w`를 같은 source 안에서 찾으므로 표가 맨 끝에 있으면
+    **본문에서 표로 도달할 수 없다.** 하필 TYPE_ROUTING이 이웃 확장을 켜는
+    유형이 aggregation·enumeration이고, 그 표가 정확히 그 질문들의 근거다
+    (publications.md 표는 #53, 그 문서의 본문 청크는 앞쪽에 있었다).
+
+    본문에는 `[표: 1]` 같은 참조만 남으므로, 그 자리에 실물을 붙여 둔다.
+    짝을 못 찾은 통짜 청크는 예전처럼 끝에 붙인다(플레이스홀더가 있는 청크가
+    MIN_CHUNK_CHARS로 잘려 나간 경우 — patents.md가 그렇다).
+    """
+    placed, out = set(), []
+    for c in chunks:
+        out.append(c)
+        for w in whole:
+            if (id(w) not in placed
+                    and w.metadata["source"] == c.metadata.get("source")
+                    and w.metadata["marker"] in c.page_content):
+                out.append(w)
+                placed.add(id(w))
+    out.extend(w for w in whole if id(w) not in placed)
+    return out
 
 
 def annotate_positions(chunks: list[Document]) -> None:
@@ -223,6 +297,33 @@ def annotate_positions(chunks: list[Document]) -> None:
         c.metadata["doc_total"] = per_source[c.metadata.get("source", "?")]
 
 
+def build_chunks(docs: list[Document], whole: list[Document],
+                 size: int | None = None,
+                 overlap: int | None = None) -> tuple[list[Document], int]:
+    """문서 → 최종 청크 목록. (청크, 버려진 조각 수)
+
+    **청킹 순서를 정의하는 단 하나의 자리다.** 예전엔 이 파이프라인이 세 군데
+    있었고(ingest.main·sweep_chunk_size·테스트) 스윕 쪽만 통짜 청크 배치와
+    위치 메타데이터를 빠뜨려, 스윕이 프로덕션과 다른 코퍼스를 재고 있었다.
+    이 저장소가 캐시 키·실행 지문에서 이미 두 번 당한 병이라 자리를 합친다.
+
+    size·overlap을 주면 그 값으로 자른다(스윕 전용). 안 주면 config를 쓴다.
+    """
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=config.CHUNK_SIZE if size is None else size,
+        chunk_overlap=config.CHUNK_OVERLAP if overlap is None else overlap,
+        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
+    )
+    split = splitter.split_documents(docs)
+    # 구분선('---')이나 제목 줄만 남은 조각은 검색에 걸릴 일이 없으면서
+    # 인덱스 자리만 차지한다. 검수(inspect_data.py)로 발견해 걸러낸다.
+    chunks = [c for c in split if len(c.page_content) >= config.MIN_CHUNK_CHARS]
+    dropped = len(split) - len(chunks)
+    chunks = place_whole_chunks(chunks, whole)
+    annotate_positions(chunks)
+    return chunks, dropped
+
+
 def warn_empty_sources(docs, chunks) -> list[str]:
     """인덱싱에 한 청크도 못 넣은 파일을 알린다.
 
@@ -250,30 +351,18 @@ def main():
     print(f"{len(docs)}개 문서 로드 "
           f"(통짜 청크 {len(diagrams)}개 분리 — 다이어그램·표)")
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=config.CHUNK_SIZE,
-        chunk_overlap=config.CHUNK_OVERLAP,
-        separators=["\n## ", "\n### ", "\n\n", "\n", " "],
-    )
-    chunks = splitter.split_documents(docs)
-
-    # 구분선('---')이나 제목 줄만 남은 조각은 검색에 걸릴 일이 없으면서
-    # 인덱스 자리만 차지한다. 검수(inspect_data.py)로 발견해 걸러낸다.
-    kept = [c for c in chunks
-            if len(c.page_content) >= config.MIN_CHUNK_CHARS]
-    dropped = len(chunks) - len(kept)
-    chunks = kept
-
-    if not chunks and not diagrams:
+    chunks, dropped = build_chunks(docs, diagrams)
+    if not chunks:
         raise SystemExit(
             f"인덱싱할 청크가 없습니다 — {dropped}개가 전부 "
             f"MIN_CHUNK_CHARS({config.MIN_CHUNK_CHARS}자) 미만입니다.")
 
-    # 산문 통계를 다이어그램과 분리해서 찍는다 — 다이어그램은 800자 상한이
+    # 산문 통계를 통짜 청크와 분리해서 찍는다 — 다이어그램·표는 800자 상한이
     # 적용 안 된 통짜(수 KB)라 섞으면 "평균/최대"가 산문 실태를 안 보여준다.
-    if chunks:
-        lengths = sorted(len(c.page_content) for c in chunks)
-        print(f"{len(chunks)}개 산문 청크 "
+    prose = [c for c in chunks if not c.metadata.get("kind")]
+    if prose:
+        lengths = sorted(len(c.page_content) for c in prose)
+        print(f"{len(prose)}개 산문 청크 "
               f"(최소 길이 {config.MIN_CHUNK_CHARS}자 미만 {dropped}개 제외) — "
               f"길이 최소 {lengths[0]} / 중앙값 {lengths[len(lengths) // 2]} / "
               f"평균 {sum(lengths) // len(lengths)} / 최대 {lengths[-1]}")
@@ -281,15 +370,10 @@ def main():
         print(f"산문 청크 0개 (전부 {config.MIN_CHUNK_CHARS}자 미만으로 제외) "
               "— 통짜 청크만 인덱싱한다")
 
-    # 다이어그램은 스플리터가 안 건드린 통짜 청크로 그대로 합류시킨다.
-    # 800자 상한에 걸려 도중에 잘리던 것(예: 파이프라인이 중간 줄에서 끊김)을
-    # 여기서 막는다 — 문장 단위가 없는 콘텐츠라 문자 기준 분할이 안 맞는다.
     if diagrams:
         dlen = sorted(len(d.page_content) for d in diagrams)
         print(f"+ 통짜 청크 {len(diagrams)}개 (다이어그램·표, 상한 미적용) — "
               f"길이 {dlen[0]}~{dlen[-1]}자")
-    chunks += diagrams
-    annotate_positions(chunks)
     warn_empty_sources(docs, chunks)
     print(f"총 {len(chunks)}개 청크")
 

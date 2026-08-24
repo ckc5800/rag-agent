@@ -1774,3 +1774,173 @@ def test_korean_sentences_only_drops_the_derailed_sentence():
     # 코퍼스의 정당한 한자 인용(古語)은 한두 자라 살아남는다
     quote = "이윤선은 KISTI에서 한국어 古語 데이터를 정제하는 업무를 맡았습니다."
     assert graph._korean_sentences_only(quote + " 中文句子在这里出现了很多汉字。") == quote
+
+
+def test_committed_chunks_match_current_ingest_code():
+    """커밋된 chunks.jsonl이 **지금 코드가 만드는 것**과 같은가 (CI에서 돈다).
+
+    매니페스트는 chunks.jsonl↔지문만 대조한다. 그래서 인제스트 코드를 고치고
+    재인제스트를 안 하면 아무도 모른다 — 실제로 표 통짜 청킹이 들어온 뒤
+    저장소의 chunks.jsonl이 표 분리 이전(58청크)인 채로 남아, 그 사이 낸 7b
+    측정이 전부 옛 청킹 숫자였다(2026-08-12).
+
+    임베딩이 필요 없어 CI에서 돌 수 있다(청킹만, 약 2.6초).
+    """
+    import json
+
+    import config
+    import ingest
+
+    docs, whole = ingest.load_documents()
+    chunks, _ = ingest.build_chunks(docs, whole)
+
+    on_disk = [json.loads(line)["page_content"]
+               for line in Path(config.CHUNKS_PATH).read_text(
+                   encoding="utf-8").splitlines() if line.strip()]
+    assert [c.page_content for c in chunks] == on_disk, (
+        "커밋된 chunks.jsonl이 현재 인제스트 코드의 산출물과 다르다 — "
+        "`python src/ingest.py`로 재인제스트하고 gold 라벨을 재부착할 것"
+        "(eval/relabel_retrieval.py)")
+
+
+def test_whole_chunks_sit_next_to_their_placeholder():
+    """통짜 청크는 자기 플레이스홀더 바로 뒤에 온다.
+
+    끝에 몰아 두면 이웃 확장(chunk_index ± w)이 본문에서 표에 도달하지
+    못한다 — aggregation·enumeration은 라우팅으로 이웃 확장이 켜져 있어
+    조용히 손해를 본다.
+    """
+    from langchain_core.documents import Document
+
+    import ingest
+
+    prose = [Document(page_content="앞 문단", metadata={"source": "a.md"}),
+             Document(page_content="표 설명 [표: 1] 끝", metadata={"source": "a.md"}),
+             Document(page_content="뒤 문단", metadata={"source": "a.md"})]
+    table = Document(page_content="| 헤더 |",
+                     metadata={"source": "a.md", "kind": "table",
+                               "marker": "[표: 1]"})
+    out = ingest.place_whole_chunks(prose, [table])
+    assert [c.page_content for c in out][2] == "| 헤더 |"
+
+    # 짝이 없으면(플레이스홀더 청크가 잘려 나간 경우) 끝에 붙인다 — 유실 금지
+    orphan = Document(page_content="| 고아 |",
+                      metadata={"source": "b.md", "kind": "table",
+                                "marker": "[표: 9]"})
+    assert ingest.place_whole_chunks(prose, [orphan])[-1] is orphan
+
+
+def test_neighbor_expansion_does_not_pull_whole_chunks(monkeypatch):
+    """이웃 확장은 통짜 청크(다이어그램·표)를 끌어오지 않는다.
+
+    출발점에서만 빼고 이웃 유입을 안 막으면, 통짜 청크를 문서 위치에 맞게
+    배치한 뒤 5,079자짜리 다이어그램이 옆 청크에 통째로 붙는다(실측: 한
+    문항의 컨텍스트가 5,871 → 10,182자, 두 실행 모두 오답).
+    """
+    from langchain_core.documents import Document
+
+    import graph
+
+    table = {
+        0: Document(page_content="앞 문단",
+                    metadata={"source": "a.md", "chunk_index": 0}),
+        1: Document(page_content="가운데",
+                    metadata={"source": "a.md", "chunk_index": 1}),
+        2: Document(page_content="[다이어그램 본문]",
+                    metadata={"source": "a.md", "chunk_index": 2,
+                              "kind": "diagram"}),
+    }
+    monkeypatch.setattr(graph, "_chunks_by_index", lambda: table)
+    out = graph.expand_with_neighbors([table[1]], window=1)
+    assert out[0].page_content == "앞 문단\n가운데"
+
+
+def test_cache_key_changes_with_the_corpus(tmp_path, monkeypatch):
+    """청킹을 바꿔 재인제스트하면 캐시 키도 달라진다.
+
+    CHUNK_SIZE·MIN_CHUNK_CHARS는 환경변수 손잡이가 아니라 일반 상수라
+    knobs()에 없고, 표 분리 같은 코드 변경이나 data/docs 편집은 애초에
+    손잡이가 아니다. 인덱스 지문을 키에 넣어 그 범주 구멍을 막는다.
+    """
+    import json
+
+    import cache
+    import config
+
+    manifest = tmp_path / "index_manifest.json"
+    monkeypatch.setattr(config, "INDEX_MANIFEST", manifest)
+
+    manifest.write_text(json.dumps({"chunks_md5": "aaa"}), encoding="utf-8")
+    before = cache._cache_key("질문")
+    manifest.write_text(json.dumps({"chunks_md5": "bbb"}), encoding="utf-8")
+    assert cache._cache_key("질문") != before
+
+    # 매니페스트가 없어도 키 계산 자체는 죽지 않는다(경고는 다른 곳 몫)
+    manifest.unlink()
+    assert cache._cache_key("질문")
+
+
+def test_unsupported_extension_is_reported(tmp_path, monkeypatch, capsys):
+    """지원하지 않는 확장자는 조용히 빠지지 않는다.
+
+    warn_empty_sources는 **로드된** 문서만 본다. 확장자가 아예 안 걸리는
+    파일(.txt·.pptx)은 그 그물에 안 잡혀, 넣었는데 검색이 안 될 때 단서가
+    없었다 — 스캔 PDF 때 만든 경고와 같은 상황이다.
+    """
+    import config
+    import ingest
+
+    (tmp_path / "메모.txt").write_text("무시될 내용", encoding="utf-8")
+    (tmp_path / "이력.md").write_text("# 제목\n\n본문이다." * 5, encoding="utf-8")
+    monkeypatch.setattr(config, "DOCS_DIR", tmp_path)
+
+    docs, _ = ingest.load_documents()
+    out = capsys.readouterr().out
+    assert [d.metadata["source"] for d in docs] == ["이력.md"]
+    assert "메모.txt" in out and ".txt" in out
+
+
+def test_archive_folder_marks_the_version(tmp_path, monkeypatch):
+    """보관 위치가 곧 버전 표시 — archive/<판>/파일 은 superseded 로 실린다."""
+    import config
+    import ingest
+
+    (tmp_path / "resume.md").write_text("현행 이력서 본문이다." * 3, encoding="utf-8")
+    old = tmp_path / "archive" / "2024-06"
+    old.mkdir(parents=True)
+    (old / "resume.md").write_text("옛 이력서 본문이다." * 3, encoding="utf-8")
+    monkeypatch.setattr(config, "DOCS_DIR", tmp_path)
+
+    docs, _ = ingest.load_documents()
+    by_source = {d.metadata["source"]: d.metadata for d in docs}
+    assert by_source["resume.md"]["superseded"] is False
+    # 출처 이름이 달라야 인용이 판을 가리고, 이웃 확장이 둘을 한 문서로 안 본다
+    assert by_source["resume.md@2024-06"]["superseded"] is True
+    assert by_source["resume.md@2024-06"]["version"] == "2024-06"
+
+
+def test_history_intent_is_detected_conservatively():
+    """시점 질문만 보관본을 연다 — 오탐의 대가가 크므로 확실한 신호만."""
+    import graph
+
+    for q in ["이전 버전에서는 몇 편이었나요?", "예전 이력서에는 뭐라고 적혀 있었나요?",
+              "2024년 기준으로는 어땠나요?", "수정 전에는 어떤 값이었나요?"]:
+        assert graph.wants_history(q), q
+    for q in ["이윤선의 제1저자 논문은 몇 편인가요?", "2023년에 게재한 논문은 몇 편인가요?",
+              "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?"]:
+        assert not graph.wants_history(q), q
+
+
+def test_superseded_chunks_are_labelled_in_the_context():
+    """보관본이 컨텍스트에 들어가면 어느 판인지 표시된다 (현행본은 그대로)."""
+    from langchain_core.documents import Document
+
+    import graph
+
+    cur = Document(page_content="현행 내용",
+                   metadata={"source": "resume.md", "superseded": False})
+    old = Document(page_content="옛 내용",
+                   metadata={"source": "resume.md@2024-06",
+                             "version": "2024-06", "superseded": True})
+    text = graph.context_text([cur, old])
+    assert text == "현행 내용\n---\n[2024-06판 보관본] 옛 내용"

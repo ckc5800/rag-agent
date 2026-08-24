@@ -78,6 +78,24 @@ class AgentState(TypedDict):
 _vectorstore = None
 _bm25 = None
 _index_lock = threading.Lock()
+# 코퍼스에 보관본이 하나라도 있는가. 없으면 필터 경로를 아예 안 탄다 —
+# 후보를 넓혔다 걸러내면 RRF 입력 길이가 달라져 순위가 미묘하게 바뀌므로,
+# 보관본이 없는 코퍼스에서는 예전과 한 글자도 다르지 않게 둔다.
+_has_superseded = False
+
+
+# 시점을 묻는 질문인가. route.py와 같은 원칙 — 탐지는 결정적으로, 정밀도 우선.
+# 오탐(현재 질문을 과거로 봄)은 보관본이 후보에 섞여 답이 흔들리는 손해라
+# 비대칭이 크다. 그래서 "예전·이전 버전·당시" 같은 확실한 신호만 본다.
+_HISTORICAL = re.compile(
+    r"이전\s*(버전|판)|예전|과거|옛\s*(버전|판)|구\s*버전|당시|"
+    r"\bv\d+\s*(에서|에는|의)|(\d{4})\s*년\s*(기준|당시|버전|판)|"
+    r"바뀌기\s*전|수정\s*전|개정\s*전|업데이트\s*전")
+
+
+def wants_history(question: str) -> bool:
+    """보관본까지 열어야 하는 질문인가."""
+    return bool(_HISTORICAL.search(question))
 
 
 # 천단위 콤마 제거. Kiwi는 숫자를 SN 태그로 인식하지만 콤마를 그대로
@@ -228,6 +246,9 @@ def _load_indexes():
             bm25 = BM25Retriever.from_documents(
                 chunks, preprocess_func=bm25_tokenize)
 
+            global _has_superseded
+            _has_superseded = any(c.metadata.get("superseded") for c in chunks)
+
             # 마지막에 세팅되는 _bm25가 '준비 완료' 신호다 — 순서를 바꾸지 말 것
             _vectorstore = store
             _bm25 = bm25
@@ -281,9 +302,18 @@ def hybrid_search(query: str) -> list[Document]:
     # bm25.k를 질의 시점에 맞춘다. 예전엔 인덱스 빌드 때 한 번만 넣어서,
     # TOP_K를 런타임에 바꾸면(sweep_top_k.py 등) 벡터는 새 k로 BM25는 옛 k로
     # 뽑아 RRF가 비대칭이 됐다 — 증상 없이 순위만 틀어지는 종류다.
-    bm25.k = config.TOP_K
-    lists = [vectorstore.similarity_search(query, k=config.TOP_K),
-             bm25.invoke(query)]
+    # 보관본을 걸러야 하면 후보를 두 배로 뽑아 거른 뒤 TOP_K를 채운다. 거르고
+    # 모자라면 모자란 채로 둔다 — FAISS는 메타데이터 필터가 없어 사후 필터링이
+    # 유일한 방법이고, 한계도 vectorstore.search(source=...)와 같다. Qdrant로
+    # 띄우면 필터를 검색에 넣을 수 있으므로 그때 이 자리를 갈아끼운다.
+    hide_old = (_has_superseded and config.VERSION_FILTER
+                and not wants_history(query))
+    k = config.TOP_K * 2 if hide_old else config.TOP_K
+    bm25.k = k
+    lists = [vectorstore.similarity_search(query, k=k), bm25.invoke(query)]
+    if hide_old:
+        lists = [[d for d in lst if not d.metadata.get("superseded")]
+                 [:config.TOP_K] for lst in lists]
     if config.HYDE:
         hypo = hypothetical_doc(query)
         if hypo is not None:
@@ -450,8 +480,14 @@ def expand_with_neighbors(docs: list[Document],
         parts = []
         for j in range(i - w, i + w + 1):
             n = by_index.get(j)
-            # 문서 경계를 넘지 않는다 — 다른 문서의 텍스트를 붙이면 노이즈다
-            if n is not None and n.metadata.get("source") == src:
+            # 문서 경계를 넘지 않는다 — 다른 문서의 텍스트를 붙이면 노이즈다.
+            # 통짜 청크(다이어그램·표)도 끌어오지 않는다. 확장 **출발점**에서만
+            # 빼고 이웃으로 딸려 오는 건 막지 않았는데, 통짜 청크를 문서 위치에
+            # 맞게 배치하자마자 실제로 물렸다 — "재직한 회사 네 곳" 문항의
+            # 컨텍스트가 5,871 → 10,182자로 불어나며(다이어그램 유입) 두 실행
+            # 모두 오답이 됐다. 최대 5,079자짜리가 옆 청크에 통째로 붙는다.
+            if (n is not None and n.metadata.get("source") == src
+                    and not n.metadata.get("kind")):
                 parts.append(n.page_content)
         out.append(Document(page_content="\n".join(parts), metadata=d.metadata))
     return out
@@ -490,7 +526,12 @@ def context_text(docs: list[Document]) -> str:
     "grade는 통과시켰는데 generate는 근거를 못 받는"(그리고 그 반대인)
     불일치가 그대로 남아 있었다.
     """
-    return "\n---\n".join(d.page_content for d in docs)
+    return "\n---\n".join(
+        # 보관본은 어느 판인지 붙여 준다. 안 붙이면 모델이 현행본과 옛 판의
+        # 사실을 구분 없이 섞고, 답변만 봐서는 어느 시점 기준인지 알 수 없다.
+        f"[{d.metadata.get('version')}판 보관본] {d.page_content}"
+        if d.metadata.get("superseded") else d.page_content
+        for d in docs)
 
 
 GRADE_PROMPT = ChatPromptTemplate.from_template(
@@ -679,6 +720,13 @@ _BASE_RULES = (
     "수행 기간이며 왼쪽 날짜가 시작 시점입니다.\n"
     "관련 정보가 정말로 전혀 없을 때만 '문서에서 찾을 수 없습니다'라고 답하고, "
     "문서에 없는 내용을 지어내지 마세요.\n"
+    # 코퍼스를 54 → 842청크로 늘리자 모델이 **근거를 인용하면서 거부**하기
+    # 시작했다("문서에서 찾을 수 없습니다. 하지만 문서에서는 'CER 3~5%'라는
+    # 범위만 언급하고"). CER은 코퍼스에 그 값 하나뿐이라 경쟁 사실이 아니다 —
+    # 무관한 문서가 컨텍스트에 섞이면 거부 규칙을 과잉 적용하는 것이다.
+    # 그 자리를 정확히 겨냥한 한 줄.
+    "문서 일부가 질문과 무관해도, 답이 되는 내용이 하나라도 있으면 "
+    "그것을 근거로 답하세요.\n"
     # 위 줄의 "한국어로 답하세요"만으로는 안 잡힌다. 100문항 실측에서 답변
     # 10개에 한자가 섞였고 그중 3개는 내용이 맞는데 숫자를 중국어로 써서
     # 틀렸다(共有2项 / 论文有1篇 / 共计1年1个月). 이탈 방식이 일정하다 —
@@ -798,6 +846,12 @@ def _drop_hanja(answer: str) -> str:
         return repaired
     # 교정도 이탈했다면 그 출력에 다시 필터를 건다 — 교정본은 원본과 이탈
     # 지점이 달라서 한국어 문장이 남아 있을 때가 있다. 그것도 없으면 원본.
+    #
+    # 알려진 한계: 답변이 한 문장이고 그 안에 중국어 단위 표현만 박힌 경우는
+    # 세 겹 모두 통과한다("Supertonic 내장 남성 프리셋은 M1~M5共计5种"). 교정은
+    # 한국어 부분만 다시 쓰고 `共计5种`을 그대로 둔다(t0.0·0.5·0.8 동일), 필터는
+    # 버릴 문장이 그것뿐이라 빈 문자열이 된다. 온도를 올린 재시도도 실측에서
+    # 무용해 넣지 않았다 — 140문항 중 1건이고, 안 되는 겹을 더 쌓지 않는다.
     return _korean_sentences_only(repaired) or answer
 
 

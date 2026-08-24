@@ -1546,5 +1546,581 @@
     "question": "이윤선이 박사 학위를 받은 대학은 어디인가요?",
     "type": "refusal",
     "expect_refusal": true
+  },
+  {
+    "question": "Supertonic 엔진은 몇 개 언어를 지원하나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "31\\s*개"
+    ],
+    "gold_anchors": [
+      "31개 언어"
+    ],
+    "gold_anchor_sets": [
+      [
+        "31개 언어"
+      ]
+    ]
+  },
+  {
+    "question": "API 키 확인 결과는 Redis에 몇 초 동안 캐싱되나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "60\\s*초"
+    ],
+    "gold_anchors": [
+      "60초 동안 Redis에 캐싱"
+    ],
+    "gold_anchor_sets": [
+      [
+        "60초 동안 Redis에 캐싱"
+      ]
+    ]
+  },
+  {
+    "question": "WebSocket heartbeat는 몇 초마다 오나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "30\\s*초"
+    ],
+    "gold_anchors": [
+      "30초마다 서버가"
+    ],
+    "gold_anchor_sets": [
+      [
+        "30초마다 서버가"
+      ]
+    ]
+  },
+  {
+    "question": "재생 시작 시 팝음을 막는 앞쪽 무음 패딩은 몇 ms인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "200\\s*ms"
+    ],
+    "gold_anchors": [
+      "단축 500→200"
+    ],
+    "gold_anchor_sets": [
+      [
+        "단축 500→200"
+      ]
+    ]
+  },
+  {
+    "question": "ITN은 몇 개 도메인을 지원하나요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "11\\s*개"
+    ],
+    "gold_anchors": [
+      "11개 도메인 ITN"
+    ],
+    "gold_anchor_sets": [
+      [
+        "11개 도메인 ITN"
+      ]
+    ]
+  },
+  {
+    "question": "ITN 골든 회귀 테스트는 몇 개 케이스인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "101\\s*(개|케이스)"
+    ],
+    "gold_anchors": [
+      "101 케이스"
+    ],
+    "gold_anchor_sets": [
+      [
+        "101 케이스"
+      ]
+    ]
+  },
+  {
+    "question": "TTS 시스템이 사용하는 두 합성 엔진은 무엇인가요?",
+    "type": "enumeration",
+    "expected_keywords": [
+      "Qwen3",
+      "Supertonic"
+    ],
+    "gold_anchors": [
+      "고성능 텐서 병렬 처리 기반 초저지연 엔진"
+    ],
+    "gold_anchor_sets": [
+      [
+        "고성능 텐서 병렬 처리 기반 초저지연 엔진"
+      ]
+    ]
+  },
+  {
+    "question": "ICL 음성 복제에는 몇 초 분량의 샘플이 필요한가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "3\\s*~\\s*10\\s*초"
+    ],
+    "gold_anchors": [
+      "3~10초 분량"
+    ],
+    "gold_anchor_sets": [
+      [
+        "3~10초 분량"
+      ]
+    ]
+  },
+  {
+    "question": "오류 코드의 의미를 바꿀 때 몇 개월 전에 공지하나요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "6\\s*개월"
+    ],
+    "gold_anchors": [
+      "6개월 전 deprecation"
+    ],
+    "gold_anchor_sets": [
+      [
+        "6개월 전 deprecation"
+      ]
+    ]
+  },
+  {
+    "question": "언어 감지에 사용하는 라이브러리는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "tinyld"
+    ],
+    "gold_anchors": [
+      "tinyld"
+    ],
+    "gold_anchor_sets": [
+      [
+        "tinyld"
+      ]
+    ]
+  },
+  {
+    "question": "자동 언어 감지의 디바운스 시간은 몇 ms인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "250\\s*ms"
+    ],
+    "gold_anchors": [
+      "250ms 디바운스"
+    ],
+    "gold_anchor_sets": [
+      [
+        "250ms 디바운스"
+      ]
+    ]
+  },
+  {
+    "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "60\\s*분"
+    ],
+    "gold_anchors": [
+      "Redis TTL 60분 자동 삭제"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Redis TTL 60분 자동 삭제"
+      ]
+    ]
+  },
+  {
+    "question": "TTS 서비스의 월 구독 요금은 얼마인가요?",
+    "type": "refusal",
+    "expect_refusal": true,
+    "expected_keywords": []
+  },
+  {
+    "question": "배치 합성 요청은 어떤 HTTP 엔드포인트로 보내나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "/v1/tts/synthesize"
+    ],
+    "gold_anchors": [
+      "POST /v1/tts/synthesize"
+    ],
+    "gold_anchor_sets": [
+      [
+        "POST /v1/tts/synthesize"
+      ]
+    ]
+  },
+  {
+    "question": "합성 API가 제공하는 세 가지 전송 방식은 무엇인가요?",
+    "type": "enumeration",
+    "expected_keywords": [
+      "Batch",
+      "Stream",
+      "WebSocket"
+    ],
+    "gold_anchors": [
+      "WS   /v1/tts/synthesize/ws"
+    ],
+    "gold_anchor_sets": [
+      [
+        "WS   /v1/tts/synthesize/ws"
+      ]
+    ]
+  },
+  {
+    "question": "파이썬 SDK는 어느 저장소에 배포하나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "PyPI"
+    ],
+    "gold_anchors": [
+      "`sdk/python` (PyPI)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "`sdk/python` (PyPI)"
+      ]
+    ]
+  },
+  {
+    "question": "SDK의 현재 라이선스 표기는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "Proprietary|UNLICENSED"
+    ],
+    "gold_anchors": [
+      "Proprietary"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Proprietary"
+      ]
+    ]
+  },
+  {
+    "question": "배포 전 테스트에서 롱런은 몇 분으로 도나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "360\\s*분|6\\s*시간"
+    ],
+    "gold_anchors": [
+      "--long-run-min 360"
+    ],
+    "gold_anchor_sets": [
+      [
+        "--long-run-min 360"
+      ]
+    ]
+  },
+  {
+    "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "30\\s*명"
+    ],
+    "gold_anchors": [
+      "--agents 30"
+    ],
+    "gold_anchor_sets": [
+      [
+        "--agents 30"
+      ]
+    ]
+  },
+  {
+    "question": "성능 안정성 판정을 고친 커밋 해시는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "bcaaad7"
+    ],
+    "gold_anchors": [
+      "bcaaad7"
+    ],
+    "gold_anchor_sets": [
+      [
+        "bcaaad7"
+      ]
+    ]
+  },
+  {
+    "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "2\\s*초"
+    ],
+    "gold_anchors": [
+      "P95 > 2초"
+    ],
+    "gold_anchor_sets": [
+      [
+        "P95 > 2초"
+      ]
+    ]
+  },
+  {
+    "question": "1차 실 트래픽 실측은 몇 건의 요청이었나요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "920"
+    ],
+    "gold_anchors": [
+      "920 요청"
+    ],
+    "gold_anchor_sets": [
+      [
+        "920 요청"
+      ]
+    ]
+  },
+  {
+    "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "3\\s*(s|초)"
+    ],
+    "gold_anchors": [
+      "Poisson 3s"
+    ],
+    "gold_anchor_sets": [
+      [
+        "Poisson 3s"
+      ]
+    ]
+  },
+  {
+    "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "5\\s*분"
+    ],
+    "gold_anchors": [
+      "warmup 5분"
+    ],
+    "gold_anchor_sets": [
+      [
+        "warmup 5분"
+      ]
+    ]
+  },
+  {
+    "question": "vLLM과 Supertonic 중 더 많은 언어를 지원하는 엔진은 몇 개 언어를 지원하나요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "31\\s*개"
+    ],
+    "gold_anchors": [
+      "31개 언어"
+    ],
+    "gold_anchor_sets": [
+      [
+        "31개 언어"
+      ]
+    ]
+  },
+  {
+    "question": "무음 패딩은 앞과 뒤 중 어느 쪽이 더 긴가요? 몇 ms인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "250\\s*ms"
+    ],
+    "gold_anchors": [
+      "**250ms** (단축 1500→250)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "**250ms** (단축 1500→250)"
+      ]
+    ]
+  },
+  {
+    "question": "vLLM 전용 언어와 Supertonic 전용 언어 중 수가 적은 쪽은 몇 개인가요?",
+    "type": "comparison",
+    "answer_patterns": [
+      "10\\s*개"
+    ],
+    "gold_anchors": [
+      "vLLM 10개"
+    ],
+    "gold_anchor_sets": [
+      [
+        "vLLM 10개"
+      ]
+    ]
+  },
+  {
+    "question": "앞쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "500"
+    ],
+    "gold_anchors": [
+      "단축 500→200"
+    ],
+    "gold_anchor_sets": [
+      [
+        "단축 500→200"
+      ]
+    ]
+  },
+  {
+    "question": "뒤쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "1500"
+    ],
+    "gold_anchors": [
+      "단축 1500→250"
+    ],
+    "gold_anchor_sets": [
+      [
+        "단축 1500→250"
+      ]
+    ]
+  },
+  {
+    "question": "EOS 콜론을 3개 쓰면 어떤 문제가 생기나요?",
+    "type": "trap",
+    "answer_patterns": [
+      "hallucination|과잉|guard"
+    ],
+    "gold_anchors": [
+      "hallucination guard"
+    ],
+    "gold_anchor_sets": [
+      [
+        "hallucination guard"
+      ]
+    ]
+  },
+  {
+    "question": "ITN 골든 회귀 테스트는 몇 개 카테고리인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "24\\s*개"
+    ],
+    "gold_anchors": [
+      "24개 카테고리"
+    ],
+    "gold_anchor_sets": [
+      [
+        "24개 카테고리"
+      ]
+    ]
+  },
+  {
+    "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "50\\s*ms"
+    ],
+    "gold_anchors": [
+      "히트 시 TTFB <50ms"
+    ],
+    "gold_anchor_sets": [
+      [
+        "히트 시 TTFB <50ms"
+      ]
+    ]
+  },
+  {
+    "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "5\\s*(초|s)"
+    ],
+    "gold_anchors": [
+      "TTL 기반 폴백도 있음 (5초)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "TTL 기반 폴백도 있음 (5초)"
+      ]
+    ]
+  },
+  {
+    "question": "JWT 토큰의 기본 만료 시간은 얼마인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "24\\s*시간|86400"
+    ],
+    "gold_anchors": [
+      "expires_in=86400"
+    ],
+    "gold_anchor_sets": [
+      [
+        "expires_in=86400"
+      ]
+    ]
+  },
+  {
+    "question": "Supertonic 내장 남성 프리셋은 몇 종인가요?",
+    "type": "aggregation",
+    "answer_patterns": [
+      "5\\s*종"
+    ],
+    "gold_anchors": [
+      "다국어 내장 남성 5종"
+    ],
+    "gold_anchor_sets": [
+      [
+        "다국어 내장 남성 5종"
+      ]
+    ]
+  },
+  {
+    "question": "ITN 변환의 최종 단계에서 제거하는 문자는 무엇인가요?",
+    "type": "fact",
+    "answer_patterns": [
+      "괄호"
+    ],
+    "gold_anchors": [
+      "괄호 제거 ITN"
+    ],
+    "gold_anchor_sets": [
+      [
+        "괄호 제거 ITN"
+      ]
+    ]
+  },
+  {
+    "question": "성능 안정성 판정 기준은 언제 정리된 문서인가요?",
+    "type": "temporal",
+    "answer_patterns": [
+      "2026[-.년\\s]*0?7[-.월\\s]*14"
+    ],
+    "gold_anchors": [
+      "(2026-07-14)"
+    ],
+    "gold_anchor_sets": [
+      [
+        "(2026-07-14)"
+      ]
+    ]
+  },
+  {
+    "question": "전술 포메이션 4-4-2는 어떻게 읽나요?",
+    "type": "fact",
+    "answer_patterns": [
+      "사\\s*사\\s*이"
+    ],
+    "gold_anchors": [
+      "`4-4-2` → \"사 사 이\""
+    ],
+    "gold_anchor_sets": [
+      [
+        "`4-4-2` → \"사 사 이\""
+      ]
+    ]
+  },
+  {
+    "question": "TTS 서비스의 SLA 위반 시 보상 규정은 무엇인가요?",
+    "type": "refusal",
+    "expect_refusal": true,
+    "expected_keywords": []
+  },
+  {
+    "question": "TTS 엔진 라이선스의 연간 갱신 비용은 얼마인가요?",
+    "type": "refusal",
+    "expect_refusal": true,
+    "expected_keywords": []
   }
 ]

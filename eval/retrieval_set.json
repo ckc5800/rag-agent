@@ -3,25 +3,25 @@
     "question": "TTS 프로젝트에서 TTFB를 얼마나 개선했나요?",
     "gold": [
       {
-        "chunk_index": 2,
+        "chunk_index": 6,
         "source": "portfolio.md",
         "md5": "b8b7f985781472aaa0993dd2e09623fd",
         "preview": "- 운영 페이지 제작                                                           "
       },
       {
-        "chunk_index": 3,
+        "chunk_index": 7,
         "source": "portfolio.md",
         "md5": "5ee474d725e2b20b86a4d76fc4750592",
         "preview": "[오후 1:14:26] 첫 청크 수신 → TTFB: 2292ms         [오후 1:14:27] 완료: 총 342개 청크"
       },
       {
-        "chunk_index": 13,
+        "chunk_index": 17,
         "source": "resume.md",
         "md5": "da24dd5663d42753594b6bb00ce1eb16",
         "preview": "이윤선 6년차 AI 엔지니어 yoon7829@gmail.com | ckc5800.github.io | github.com/ck"
       },
       {
-        "chunk_index": 14,
+        "chunk_index": 18,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
@@ -32,19 +32,19 @@
     "question": "스트리밍 오디오의 팝 노이즈 문제를 어떻게 해결했나요?",
     "gold": [
       {
-        "chunk_index": 14,
+        "chunk_index": 18,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
       },
       {
-        "chunk_index": 30,
+        "chunk_index": 817,
         "source": "tts-deepdive.md",
         "md5": "9aff5582ff135ea5551e34661a7ccdcf",
         "preview": "### 1.1 시스템 전체 아키텍처 (Global Architecture)  ```mermaid graph TB     sub"
       },
       {
-        "chunk_index": 39,
+        "chunk_index": 826,
         "source": "tts-deepdive.md",
         "md5": "3d634ec001c06920a8b9cf5dc9ea89f4",
         "preview": "### 🚩 Issue 1: 스트리밍 오디오 파편화에 따른 노이즈 및 왜곡 (Residual Buffer)  **[문제 상황]*"
@@ -55,7 +55,7 @@
     "question": "이윤선의 제1저자 논문은 몇 편인가요?",
     "gold": [
       {
-        "chunk_index": 13,
+        "chunk_index": 17,
         "source": "resume.md",
         "md5": "da24dd5663d42753594b6bb00ce1eb16",
         "preview": "이윤선 6년차 AI 엔지니어 yoon7829@gmail.com | ckc5800.github.io | github.com/ck"
@@ -66,25 +66,25 @@
     "question": "등록된 특허 번호를 알려주세요.",
     "gold": [
       {
-        "chunk_index": 48,
+        "chunk_index": 835,
         "source": "patents.md",
         "md5": "2a611de0c57a48c6112f93d46ac89f7d",
         "preview": "# 특허  | 등록번 | 논문명 | | --- | --- | | **1025382250000 (2023.05.25)** | ["
       },
       {
-        "chunk_index": 9,
+        "chunk_index": 13,
         "source": "portfolio.md",
         "md5": "fbaf4685d1b2c7ba0eae3113fe28027d",
         "preview": "- 탱크 탐지 모델 (23년 1월 ~8월)           - 2D, 3D 센서 퓨전 세그멘테이션 모델(22년 8월 ~ 22"
       },
       {
-        "chunk_index": 19,
+        "chunk_index": 23,
         "source": "resume.md",
         "md5": "f07c15192ae94c05fbaacc4a0d747b27",
         "preview": "EDUCATION & CREDENTIALS M.S. Computer Science  |  Inha University (202"
       },
       {
-        "chunk_index": 20,
+        "chunk_index": 24,
         "source": "resume.md",
         "md5": "3ba6e2527806fe0f175a04fa8f9f37e5",
         "preview": "• Deep Learning을 활용한 악성코드 탐지 방법 동향 분석  |  한국정보기술학회 (2018) Patents (Fir"
@@ -95,13 +95,13 @@
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
     "gold": [
       {
-        "chunk_index": 16,
+        "chunk_index": 20,
         "source": "resume.md",
         "md5": "228e66797b3582bdc11fc1dc7e1832ea",
         "preview": "AI Engineer/MLOps Engineer  Aug 2022 – Apr 2025 Kubernetes 기반 AI 인프라 ("
       },
       {
-        "chunk_index": 18,
+        "chunk_index": 22,
         "source": "resume.md",
         "md5": "d303cc139216cc6a0ace9263a967bb2c",
         "preview": "큐헷지 (QUHEDGE) Intern  |  Sep 2020 – Sep 2021 금융 데이터 수집 및 전처리 파이프라인 • 배"
@@ -112,13 +112,13 @@
     "question": "우수 논문상을 받은 논문 제목은?",
     "gold": [
       {
-        "chunk_index": 17,
+        "chunk_index": 21,
         "source": "resume.md",
         "md5": "e5ffbd658d80ef9d672af356c53e364b",
         "preview": "• Latent Diffusion 기반 합성 데이터 생성 및 실제 모델 학습 적용 검증 • 기술: Latent Diffusio"
       },
       {
-        "chunk_index": 19,
+        "chunk_index": 23,
         "source": "resume.md",
         "md5": "f07c15192ae94c05fbaacc4a0d747b27",
         "preview": "EDUCATION & CREDENTIALS M.S. Computer Science  |  Inha University (202"
@@ -129,7 +129,7 @@
     "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
     "gold": [
       {
-        "chunk_index": 14,
+        "chunk_index": 18,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
@@ -140,13 +140,13 @@
     "question": "화자 분할에는 어떤 모델을 사용했나요?",
     "gold": [
       {
-        "chunk_index": 4,
+        "chunk_index": 8,
         "source": "portfolio.md",
         "md5": "613f674783563be9af9d8389061bbc5c",
         "preview": "- 화자 분할(2025.04~07)     - PPT - [pyannote.pdf](https://app.notion.com/"
       },
       {
-        "chunk_index": 15,
+        "chunk_index": 19,
         "source": "resume.md",
         "md5": "be05eb2845e9b37561d2c56d26d3337b",
         "preview": "⑤ CPU 병목 제거 – ThreadPoolExecutor 오버헤드 제거, O(N²) → O(1) 성능 개선 ▸ 기술 스택 P"
@@ -157,19 +157,19 @@
     "question": "웹소켓 세션 탈취 문제는 어떻게 방어했나요?",
     "gold": [
       {
-        "chunk_index": 14,
+        "chunk_index": 18,
         "source": "resume.md",
         "md5": "47600a9c4dc8cf196e1d3cadf1f5ecfa",
         "preview": "▸ 기능 확장 ICL(In-Context Learning) 기반 음성복제 기능 구현. OpenAI TTS API 호환 인터페이"
       },
       {
-        "chunk_index": 33,
+        "chunk_index": 820,
         "source": "tts-deepdive.md",
         "md5": "f00b26cd55461be3966c3fd92f3e53a0",
         "preview": "### 🔄 로직 흐름도: 초저지연 오디오 합성 파이프라인 (Logic Flow)  거대한 텍스트가 어떻게 500ms(0.5초)"
       },
       {
-        "chunk_index": 41,
+        "chunk_index": 828,
         "source": "tts-deepdive.md",
         "md5": "3b86f6c84ddd118979df1caaf8336135",
         "preview": "### 🚩 Issue 3: WebSocket 연결 시의 무중단 세션 탈취 (Session Invalidation Bypass)"
@@ -191,7 +191,7 @@
     "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
     "gold": [
       {
-        "chunk_index": 21,
+        "chunk_index": 25,
         "source": "segmentation-paper.pdf",
         "md5": "0796112bda6f721ce5c8d76b969ff26e",
         "preview": "자율 주행 도메인의 3D 시맨틱 세그멘테이션 을 위한 센서 퓨전 기반의 Trans-Unet 발표자 : 이윤선 \"\" 이 논문은 "
@@ -202,7 +202,7 @@
     "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
     "gold": [
       {
-        "chunk_index": 25,
+        "chunk_index": 29,
         "source": "segmentation-paper.pdf",
         "md5": "442c651fb5e316e3bd4142ea36391aad",
         "preview": "4. EXPERIMENT RESULT  4. Experiment Result: - implementation details 1"
@@ -213,7 +213,7 @@
     "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
     "gold": [
       {
-        "chunk_index": 26,
+        "chunk_index": 30,
         "source": "segmentation-paper.pdf",
         "md5": "74457892284f56d01331c301da865af3",
         "preview": "4. Experiment Result: ablation test - Loss function 16 • Focal loss • "
@@ -224,7 +224,7 @@
     "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
     "gold": [
       {
-        "chunk_index": 25,
+        "chunk_index": 29,
         "source": "segmentation-paper.pdf",
         "md5": "442c651fb5e316e3bd4142ea36391aad",
         "preview": "4. EXPERIMENT RESULT  4. Experiment Result: - implementation details 1"

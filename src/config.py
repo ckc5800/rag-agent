@@ -274,6 +274,18 @@ MAX_REWRITES = _env("MAX_REWRITES", "1", int)
 # 이 문항에는 좁다). 순개선이 확실하므로 기본 켜짐 유지.
 TYPE_ROUTING = _env("TYPE_ROUTING", "1", lambda v: v == "1")
 
+# 보관본(data/docs/archive/<판>/…)을 기본 검색에서 제외한다.
+#
+# 버전을 코퍼스에 함께 두면 같은 사실의 사본이 여러 개가 되고, RRF는 그것들을
+# 나란히 올려 top-5 슬롯을 잡아먹는다 — 이 저장소는 resume-original.docx 를
+# 넣었다가 기존 질문들이 깨져 코퍼스에서 뺀 적이 있다(근중복 절 참고).
+# 그래서 보관은 하되 **기본은 현행본만** 본다. 시점을 묻는 질문일 때만
+# wants_history()가 보관본을 열어준다.
+#
+# 끄면(0) 현행본·보관본을 구분 없이 검색한다 — 위 근중복 손해를 재보려는
+# A/B 용도다.
+VERSION_FILTER = _env("VERSION_FILTER", "1", lambda v: v == "1")
+
 # 멀티홉 질문만 team.py(Planner→Workers→Synthesizer)로 보낼지(route.should_use_team).
 #
 # 측정은 있었는데 **배선이 없었다** — ab_team_routing.py가 routed 42/44(95%)
