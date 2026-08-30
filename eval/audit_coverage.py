@@ -16,9 +16,20 @@ eval_coverage.py 의 첫 구현은 gold 를 "앵커가 걸린 청크 **전부**"
   [FAIL] 앵커 미해결   — 어느 청크에도 없는 앵커. 라벨이 깨졌다
   [FAIL] 구조적 불가   — 경로를 충족하려면 청크 N개가 필요한데 N > TOP_K.
                          어떤 검색기도 통과할 수 없으니 지표가 아니라 라벨 문제다
-  [WARN] 과잉 앵커     — 한 앵커가 너무 많은 청크에 걸린다. 지금 의미론에서는
-                         벌점이 아니지만(하나만 맞으면 충족), 앵커가 질문을
-                         변별하지 못한다는 신호다
+  [WARN] 겉핥기 앵커   — 앵커가 걸린 청크 중 **정답 패턴이 없는 것**이 있다.
+                         그 청크를 회수하면 커버리지는 충족으로 세는데 정작
+                         답은 못 하므로, 지표가 그만큼 낙관적이 된다.
+                         (예전에는 '앵커가 N개 넘는 청크에 걸림'만 봤는데,
+                          그건 결함이 아니라 코퍼스의 성질이었다 — 문서
+                          코퍼스는 같은 사실을 여러 곳에 적는다. 실측으로
+                          갈라 보니 과잉 6건 중 5건은 걸린 청크 **전부가**
+                          답을 담고 있었고, 진짜 결함은 1건이었다:
+                          "TTS 추론 엔진은 어떤 모델?"의 앵커가 `vLLM-Omni`
+                          였는데, 서빙 스택만 적힌 7청크는 모델명을 안 담아
+                          답이 안 된다. 개수를 세는 규칙은 그 1건을 나머지
+                          5건의 잡음에 묻고 있었다.)
+                         집계·비교처럼 정답이 원문에 없는 유형은 이 검사를
+                         적용할 수 없어 예전처럼 개수만 알린다
   [WARN] 라벨 누락     — PASS 인데 커버리지 MISS 이고, **컨텍스트에는 정답
                          패턴을 만족하는 청크가 있다**. 근거는 회수됐는데
                          라벨이 그 경로를 안 적어 둔 것 → 라벨을 고친다
@@ -48,6 +59,31 @@ COVERAGE = Path(__file__).parent / "results_coverage.json"
 RESULTS = Path(__file__).parent / "results.json"
 
 BROAD = 6          # 앵커 하나가 이보다 많은 청크에 걸리면 경고
+
+
+def shallow_warning(q: str, anchor: str, cand: set[int], chunks: list[str],
+                    pats: list[str] | None) -> str | None:
+    """넓게 걸린 앵커가 실제로 해로운지 가른다. 무해하면 None.
+
+    판정선은 개수가 아니라 **걸린 청크가 답을 담는가**다. 같은 사실이 여러
+    문서에 적힌 것(문서 코퍼스의 정상)과, 답이 없는 청크까지 근거로 세는 것
+    (지표를 부풀리는 결함)은 다르다.
+
+    정답 패턴이 어느 청크에도 없으면 집계·비교처럼 답이 원문에 없는
+    유형이므로 이 검사를 적용할 수 없다 — 그 경우만 예전처럼 개수를 알린다.
+    """
+    pats = pats or []
+    grounded = {i for i in cand
+                if pats and all(re.search(p, chunks[i]) for p in pats)}
+    if not grounded:
+        return (f"[과잉 앵커·검사불가] {q}\n      {anchor!r} → 청크 {len(cand)}개. "
+                f"정답이 원문에 없는 유형이라 겉핥기 판정 불가")
+    shallow = cand - grounded
+    if not shallow:
+        return None              # 전부 답을 담는다 — 코퍼스가 반복할 뿐, 결함 아님
+    return (f"[겉핥기 앵커] {q}\n      {anchor!r} → 청크 {len(cand)}개 중 "
+            f"{len(shallow)}개가 정답 패턴을 안 담는다. 그 청크를 회수해도 "
+            f"답이 안 되는데 커버리지는 충족으로 센다")
 
 
 def min_chunks(path: list[set[int]]) -> int:
@@ -96,8 +132,10 @@ def main() -> int:
                     fails.append(f"[앵커 미해결] {q}\n      경로{n} 앵커 {a!r} 가 "
                                  f"어느 청크에도 없다")
                 if len(cand) > BROAD:
-                    warns.append(f"[과잉 앵커] {q}\n      {a!r} → 청크 {len(cand)}개. "
-                                 f"질문을 변별하지 못한다")
+                    w = shallow_warning(q, a, cand, chunks,
+                                        c.get("answer_patterns"))
+                    if w:
+                        warns.append(w)
             if all(path):
                 need = min_chunks(path)
                 best = need if best is None else min(best, need)
@@ -106,11 +144,31 @@ def main() -> int:
             fails.append(f"[구조적 불가] {q}\n      가장 싼 경로도 청크 {best}개가 "
                          f"필요한데 TOP_K={config.TOP_K} 다. 검색기가 통과할 수 없다")
 
-    # ---- 정답률 평가와 교차검증 (둘 다 있을 때만) ----
+    # ---- 정답률 평가와 교차검증 (둘 다 있고, 같은 인덱스에서 나왔을 때만) ----
+    #
+    # 지문 대조가 없던 시절 이 교차검증이 **58청크 시절 results.json 과 842청크
+    # 커버리지**를 나란히 놓고 "라벨 누락 4건"을 보고하고 있었다. 낡은 답변
+    # 기록에서 나온 경고라 그대로 라벨을 고쳤으면 멀쩡한 라벨을 망칠 뻔했다.
+    # 인덱스↔chunks 결속(check_index_consistency)과 같은 방식으로 막는다.
     if COVERAGE.exists() and RESULTS.exists():
+        res = json.loads(RESULTS.read_text(encoding="utf-8"))
+        stamp = (res.get("env") or {}).get("index_chunks_md5")
+        current = json.loads(
+            Path(config.INDEX_MANIFEST).read_text(encoding="utf-8")
+        ).get("chunks_md5") if Path(config.INDEX_MANIFEST).exists() else None
+        if stamp != current:
+            print(f"[skip] results.json 이 다른 인덱스에서 나왔다 "
+                  f"(기록 {str(stamp)[:8]} vs 현재 {str(current)[:8]}) — "
+                  f"라벨 누락·근거 없이 맞음 교차검증을 건너뛴다.\n"
+                  f"       `python eval/evaluate.py` 로 현재 인덱스에서 다시 잰 뒤 "
+                  f"이 감사를 돌릴 것.\n")
+            res = None
+    else:
+        res = None
+
+    if res is not None:
         cov = {r["question"]: r for r in
                json.loads(COVERAGE.read_text(encoding="utf-8"))["cases"]}
-        res = json.loads(RESULTS.read_text(encoding="utf-8"))
         # "PASS 인데 커버리지 MISS"는 **정반대인 두 상황**이 같은 모양으로 나온다.
         # 실제로 둘 다 있었고(2026-08), 하나로 묶으면 고칠 곳을 못 찾는다:
         #
@@ -147,7 +205,7 @@ def main() -> int:
                     f"[라벨 누락 의심] {q}\n      정답률 PASS 인데 커버리지 MISS. "
                     f"저장된 결과에 contexts 가 없어 원인을 가를 수 없다 "
                     f"(evaluate.py 를 다시 돌리면 갈린다)")
-    else:
+    elif not (COVERAGE.exists() and RESULTS.exists()):
         print("(results_coverage.json / results.json 이 없어 교차검증은 건너뛴다)\n")
 
     for f in fails:

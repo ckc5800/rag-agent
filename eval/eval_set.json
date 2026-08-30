@@ -254,10 +254,7 @@
     ],
     "gold_anchor_sets": [
       [
-        "vLLM-Omni"
-      ],
-      [
-        "Qwen3-TTS-1.7B"
+        "Qwen3-TTS"
       ]
     ]
   },
