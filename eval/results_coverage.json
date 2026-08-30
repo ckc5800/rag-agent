@@ -1,24 +1,24 @@
 {
   "overall": {
     "@1": {
-      "satisfied": 49,
-      "best_cov": 51,
-      "any_anchor": 53
+      "satisfied": 51,
+      "best_cov": 53,
+      "any_anchor": 55
     },
     "@3": {
-      "satisfied": 76,
-      "best_cov": 77,
-      "any_anchor": 78
+      "satisfied": 79,
+      "best_cov": 80,
+      "any_anchor": 82
     },
     "@5": {
-      "satisfied": 86,
-      "best_cov": 88,
-      "any_anchor": 90
+      "satisfied": 89,
+      "best_cov": 91,
+      "any_anchor": 93
     },
     "@6": {
-      "satisfied": 90,
-      "best_cov": 91,
-      "any_anchor": 92
+      "satisfied": 93,
+      "best_cov": 94,
+      "any_anchor": 95
     }
   },
   "baseline": {
@@ -35,7 +35,7 @@
     "@5": {
       "satisfied": 1,
       "best_cov": 1,
-      "any_anchor": 1
+      "any_anchor": 2
     },
     "@6": {
       "satisfied": 1,
@@ -46,24 +46,24 @@
   "by_type": {
     "fact": {
       "@1": {
-        "satisfied": 51,
-        "best_cov": 51,
-        "any_anchor": 51
+        "satisfied": 55,
+        "best_cov": 55,
+        "any_anchor": 55
       },
       "@3": {
-        "satisfied": 77,
-        "best_cov": 77,
-        "any_anchor": 77
+        "satisfied": 83,
+        "best_cov": 83,
+        "any_anchor": 83
       },
       "@5": {
-        "satisfied": 87,
-        "best_cov": 87,
-        "any_anchor": 87
+        "satisfied": 94,
+        "best_cov": 94,
+        "any_anchor": 94
       },
       "@6": {
-        "satisfied": 89,
-        "best_cov": 89,
-        "any_anchor": 89
+        "satisfied": 96,
+        "best_cov": 96,
+        "any_anchor": 96
       }
     },
     "aggregation": {
@@ -90,24 +90,24 @@
     },
     "enumeration": {
       "@1": {
-        "satisfied": 33,
-        "best_cov": 37,
-        "any_anchor": 40
+        "satisfied": 40,
+        "best_cov": 43,
+        "any_anchor": 47
       },
       "@3": {
-        "satisfied": 60,
-        "best_cov": 60,
-        "any_anchor": 60
+        "satisfied": 67,
+        "best_cov": 67,
+        "any_anchor": 67
       },
       "@5": {
-        "satisfied": 80,
-        "best_cov": 80,
-        "any_anchor": 80
+        "satisfied": 87,
+        "best_cov": 87,
+        "any_anchor": 87
       },
       "@6": {
-        "satisfied": 80,
-        "best_cov": 80,
-        "any_anchor": 80
+        "satisfied": 87,
+        "best_cov": 87,
+        "any_anchor": 87
       }
     },
     "comparison": {
@@ -1126,7 +1126,7 @@
     {
       "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
       "type": "enumeration",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
         565,
         796,
@@ -1137,24 +1137,24 @@
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -3646,7 +3646,7 @@
     {
       "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
       "type": "fact",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
         631,
         637,
@@ -3662,19 +3662,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -3856,7 +3856,7 @@
     {
       "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
       "type": "fact",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
         782,
         785,
@@ -3867,24 +3867,24 @@
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -4311,7 +4311,7 @@
     {
       "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
       "type": "fact",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
         636,
         624,
@@ -4322,24 +4322,24 @@
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },

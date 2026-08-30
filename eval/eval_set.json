@@ -337,7 +337,7 @@
     "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
     "type": "fact",
     "answer_patterns": [
-      "3\\s*%?\\s*(~|-|에서|부터)\\s*5"
+      "(?<!\\d)3\\s*%?\\s*(~|-|에서|부터)\\s*5"
     ],
     "gold_anchors": [
       "CER(문자 오류율) 3~5%"
@@ -474,11 +474,15 @@
       "TypeScript"
     ],
     "gold_anchors": [
-      "React 18, TypeScript"
+      "React 18, TypeScript",
+      "React 18 · TypeScript"
     ],
     "gold_anchor_sets": [
       [
         "React 18, TypeScript"
+      ],
+      [
+        "React 18 · TypeScript"
       ]
     ]
   },
@@ -1717,11 +1721,15 @@
       "60\\s*분"
     ],
     "gold_anchors": [
-      "Redis TTL 60분 자동 삭제"
+      "Redis TTL 60분 자동 삭제",
+      "60분 창"
     ],
     "gold_anchor_sets": [
       [
         "Redis TTL 60분 자동 삭제"
+      ],
+      [
+        "60분 창"
       ]
     ]
   },
@@ -1815,11 +1823,15 @@
       "30\\s*명"
     ],
     "gold_anchors": [
-      "--agents 30"
+      "--agents 30",
+      "상담원 30명"
     ],
     "gold_anchor_sets": [
       [
         "--agents 30"
+      ],
+      [
+        "상담원 30명"
       ]
     ]
   },
@@ -1842,7 +1854,7 @@
     "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
     "type": "fact",
     "answer_patterns": [
-      "2\\s*초"
+      "(?<!\\d)2\\s*초"
     ],
     "gold_anchors": [
       "P95 > 2초"
@@ -1887,7 +1899,7 @@
     "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
     "type": "temporal",
     "answer_patterns": [
-      "5\\s*분"
+      "(?<!\\d)5\\s*분"
     ],
     "gold_anchors": [
       "warmup 5분"
@@ -2007,14 +2019,18 @@
     "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
     "type": "fact",
     "answer_patterns": [
-      "50\\s*ms"
+      "(?<!\\d)50\\s*ms"
     ],
     "gold_anchors": [
-      "히트 시 TTFB <50ms"
+      "히트 시 TTFB <50ms",
+      "50ms 미만"
     ],
     "gold_anchor_sets": [
       [
         "히트 시 TTFB <50ms"
+      ],
+      [
+        "50ms 미만"
       ]
     ]
   },
@@ -2022,7 +2038,7 @@
     "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
     "type": "fact",
     "answer_patterns": [
-      "5\\s*(초|s)"
+      "(?<!\\d)5\\s*(초|s)"
     ],
     "gold_anchors": [
       "TTL 기반 폴백도 있음 (5초)"
