@@ -228,8 +228,8 @@
       "id": "처음 문장 완성 시"
     },
     {
-      "label": "POST http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime",
-      "id": "post http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime"
+      "label": "POST http://internal-host:9102/api/v2/tts-engine/synthesize/sse-realtime",
+      "id": "post http://internal-host:9102/api/v2/tts-engine/synthesize/sse-realtime"
     },
     {
       "label": "오후 1:14:34",
@@ -1951,7 +1951,7 @@
       "relation": "수신 시간",
       "chunk_index": 7,
       "source": "오후 1:14:27",
-      "target": "post http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime",
+      "target": "post http://internal-host:9102/api/v2/tts-engine/synthesize/sse-realtime",
       "key": 0
     },
     {

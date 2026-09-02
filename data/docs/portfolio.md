@@ -126,7 +126,7 @@ AI언어개발팀 (2025.09~)
                    ▼                          ▼
         ┌───────────────────────┐   ┌──────────────────────────────┐
         │   vLLM-omni (Docker)  │   │   Metrics API                │
-        │        :8400          │   │   10.50.2.132:8080           │
+        │        :8400          │   │   internal-host:8080           │
         │                       │   │                              │
         │  • Qwen3-TTS-1.7B-Base│   │  • faster-whisper large-v3   │
         │  • Voice Registration │   │  • WAV → STT → hypothesis    │
@@ -362,7 +362,7 @@ AI언어개발팀 (2025.09~)
         - 샘플레이트: **24000 Hz**
         - 길이: **57.86s**
         - 완료 (342개 청크)
-        - [오후 1:14:24] POST http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse
+        - [오후 1:14:24] POST http://internal-host:9102/api/v2/tts-engine/synthesize/sse
         [오후 1:14:26] 첫 청크 수신 → TTFB: 2292ms
         [오후 1:14:27] 완료: 총 342개 청크
         
@@ -378,7 +378,7 @@ AI언어개발팀 (2025.09~)
         - 샘플레이트: **24000 Hz**
         - 길이: **-**
         - 중지됨
-        - [오후 1:14:33] POST http://10.50.1.43:9102/api/v2/tts-engine/synthesize/sse-realtime
+        - [오후 1:14:33] POST http://internal-host:9102/api/v2/tts-engine/synthesize/sse-realtime
         [오후 1:14:34] 첫 청크 수신 → TTFB: 334ms
     
     [Qwen3-TTS Enterprise Gateway: 프로젝트 딥다이브 리포트](Qwen3-TTS%20Enterprise%20Gateway%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EB%94%A5%EB%8B%A4%EC%9D%B4%EB%B8%8C%20%EB%A6%AC%ED%8F%AC%ED%8A%B8%203440330b27418016a3bdebfea63c9d49.md)
