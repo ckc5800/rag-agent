@@ -390,14 +390,13 @@ AI언어개발팀 (2025.09~)
     - PPT - [pyannote.pdf](https://app.notion.com/p/pyannote-pdf-1fb0330b2741802aaa52dfc399ba3cda?pvs=21)
     - Pyannote fine-tuning 진행
 - STT(2025.07~09)
-    - AIG 상담 전화 STT
-        - AIG STT 구조 개선
+    - 대형 보험사 상담센터 전화 STT
+        - 상담센터 STT 구조 개선
             - log 및 docker 구조 개선
             - 재사용성 위한 코드 모듈화 및 구성 리팩토링
             - 성능 및 속도 향상을 위한 전처리/병렬 코드 추가
             - 컨테이너 재시작 모니터링 등 안전성 관련 설정 추가
         - 기존 코드 리팩토링, 엔진 수정 진행
-        - [AIG-STT](https://app.notion.com/p/AIG-STT-2770330b274180bdbe91f6cf8c19d361?pvs=21)
     - 사내 회의록 기능 내  STT 탑재
         - 구조 개선
             - log 및 docker 구조 개선

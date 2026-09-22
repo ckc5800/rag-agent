@@ -91,15 +91,15 @@
     ],
     "type": "enumeration",
     "gold_anchors": [
-      "Jenkins, ArgoCD",
-      "GitLab → Jenkins → ArgoCD"
+      "ArgoCD, Jenkins, Harbor",
+      "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
     ],
     "gold_anchor_sets": [
       [
-        "Jenkins, ArgoCD"
+        "ArgoCD, Jenkins, Harbor"
       ],
       [
-        "GitLab → Jenkins → ArgoCD"
+        "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
       ]
     ]
   },
@@ -307,14 +307,14 @@
     "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
     "type": "fact",
     "answer_patterns": [
-      "[Ww]hisper"
+      "[Ff]aster\\s*[Ww]hisper|[Ww]hisper"
     ],
     "gold_anchors": [
-      "WhisperX"
+      "Faster Whisper 기반 STT 엔진"
     ],
     "gold_anchor_sets": [
       [
-        "WhisperX"
+        "Faster Whisper 기반 STT 엔진"
       ]
     ]
   },
@@ -335,18 +335,12 @@
   },
   {
     "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
-    "type": "fact",
+    "type": "refusal",
     "answer_patterns": [
-      "(?<!\\d)3\\s*%?\\s*(~|-|에서|부터)\\s*5"
+      "찾을 수 없|정보가 없|포함되어 있지 않|확인할 수 없"
     ],
-    "gold_anchors": [
-      "CER(문자 오류율) 3~5%"
-    ],
-    "gold_anchor_sets": [
-      [
-        "CER(문자 오류율) 3~5%"
-      ]
-    ]
+    "expect_refusal": true,
+    "note": "2026-09-22 코퍼스 동기화로 근거 삭제 — 출처 없어 포트폴리오에서 철회된 수치(CER 3~5%·2.3초·동시 채널 12)라 거부가 정답"
   },
   {
     "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
@@ -407,11 +401,11 @@
       "ArgoCD"
     ],
     "gold_anchors": [
-      "GitLab → Jenkins → ArgoCD"
+      "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
     ],
     "gold_anchor_sets": [
       [
-        "GitLab → Jenkins → ArgoCD"
+        "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
       ]
     ]
   },
@@ -423,11 +417,11 @@
       "Grafana"
     ],
     "gold_anchors": [
-      "Prometheus/Grafana/Loki/ELK"
+      "Prometheus, Grafana, AlertManager, Loki, ELK"
     ],
     "gold_anchor_sets": [
       [
-        "Prometheus/Grafana/Loki/ELK"
+        "Prometheus, Grafana, AlertManager, Loki, ELK"
       ]
     ]
   },
@@ -458,11 +452,11 @@
       "Data Analytics|데이터 분석|데이터분석"
     ],
     "gold_anchors": [
-      "Linux Master (2016)"
+      "Linux Master Level 2 (2016.03)"
     ],
     "gold_anchor_sets": [
       [
-        "Linux Master (2016)"
+        "Linux Master Level 2 (2016.03)"
       ]
     ]
   },
@@ -493,11 +487,11 @@
       "2\\s*건|두\\s*건"
     ],
     "gold_anchors": [
-      "특허 2건(제1발명자)"
+      "특허 등록 2건 (제1저자 · 제1발명자)"
     ],
     "gold_anchor_sets": [
       [
-        "특허 2건(제1발명자)"
+        "특허 등록 2건 (제1저자 · 제1발명자)"
       ],
       [
         "1025382250000",
@@ -512,11 +506,11 @@
       "9\\s*개|아홉"
     ],
     "gold_anchors": [
-      "논문 7편(제1저자), 특허 2건"
+      "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
     ],
     "gold_anchor_sets": [
       [
-        "논문 7편(제1저자), 특허 2건"
+        "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
       ]
     ]
   },
@@ -548,7 +542,7 @@
     ],
     "gold_anchor_sets": [
       [
-        "논문 2편 게재(제1저자, 한국자동차공학회"
+        "제1저자 논문 2편(한국자동차공학회)"
       ],
       [
         "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
@@ -578,11 +572,11 @@
       "2025[.\\s]*0?4|2025년\\s*4월"
     ],
     "gold_anchors": [
-      "Speaker Diarization (2025.04"
+      "화자 분리(Speaker Diarization) 검토 (2025.04"
     ],
     "gold_anchor_sets": [
       [
-        "Speaker Diarization (2025.04"
+        "화자 분리(Speaker Diarization) 검토 (2025.04"
       ],
       [
         "화자 분할(2025.04"
@@ -642,11 +636,11 @@
       "2023[.\\s]*11|2023년\\s*11월|Nov\\.?\\s*2023"
     ],
     "gold_anchors": [
-      "국방기술학회 2023.11"
+      "한국국방기술학회 우수논문상 (2023.11)"
     ],
     "gold_anchor_sets": [
       [
-        "국방기술학회 2023.11"
+        "한국국방기술학회 우수논문상 (2023.11)"
       ]
     ]
   },
@@ -766,17 +760,17 @@
     "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
     "type": "comparison",
     "answer_patterns": [
-      "2025[.\\s]*0?7|2025년\\s*0?7월"
+      "2024\\.?\\s*0?8|2024년\\s*8월"
     ],
     "gold_anchor_sets": [
       [
         "STT 배포 (2025.07",
-        "Kubernetes 기반 AI 인프라 (2024.03"
+        "Kubernetes 기반 AI 인프라 (2024.08"
       ]
     ],
     "gold_anchors": [
       "STT 배포 (2025.07",
-      "Kubernetes 기반 AI 인프라 (2024.03"
+      "Kubernetes 기반 AI 인프라 (2024.08"
     ]
   },
   {
@@ -787,13 +781,13 @@
     ],
     "gold_anchor_sets": [
       [
-        "M.S. Computer Science  |  Inha University (2021.08)",
-        "B.S. Computer Science  |  Hannam University (2018.02)"
+        "M.S. Computer Science | Inha University (2021.08)",
+        "B.S. Computer Science | Hannam University (2018.02)"
       ]
     ],
     "gold_anchors": [
-      "M.S. Computer Science  |  Inha University (2021.08)",
-      "B.S. Computer Science  |  Hannam University (2018.02)"
+      "M.S. Computer Science | Inha University (2021.08)",
+      "B.S. Computer Science | Hannam University (2018.02)"
     ]
   },
   {
@@ -804,12 +798,12 @@
     ],
     "gold_anchor_sets": [
       [
-        "TTS 프로젝트 (2025.09",
+        "TTS 스트리밍 API 리팩토링 (2025.09",
         "STT 배포 (2025.07"
       ]
     ],
     "gold_anchors": [
-      "TTS 프로젝트 (2025.09",
+      "TTS 스트리밍 API 리팩토링 (2025.09",
       "STT 배포 (2025.07"
     ]
   },
@@ -821,28 +815,28 @@
     ],
     "gold_anchor_sets": [
       [
-        "논문 7편(제1저자), 특허 2건(제1발명자)"
+        "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
       ]
     ],
     "gold_anchors": [
-      "논문 7편(제1저자), 특허 2건(제1발명자)"
+      "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
     ]
   },
   {
     "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
     "type": "comparison",
     "answer_patterns": [
-      "2023[.\\s]*0?1|2023년\\s*0?1월"
+      "2023\\.?\\s*0?9|2023년\\s*9월"
     ],
     "gold_anchor_sets": [
       [
-        "Generative Model Research (2023.01",
-        "3D Semantic Segmentation Research (2022.08"
+        "Latent Diffusion 합성 데이터 (2023.09",
+        "3D 시맨틱 세그멘테이션 (2022.08"
       ]
     ],
     "gold_anchors": [
-      "Generative Model Research (2023.01",
-      "3D Semantic Segmentation Research (2022.08"
+      "Latent Diffusion 합성 데이터 (2023.09",
+      "3D 시맨틱 세그멘테이션 (2022.08"
     ]
   },
   {
@@ -899,26 +893,26 @@
     ],
     "gold_anchor_sets": [
       [
-        "우수 논문상 수상(국방기술학회 2023.11)"
+        "한국국방기술학회 우수논문상 (2023.11)"
       ]
     ],
     "gold_anchors": [
-      "우수 논문상 수상(국방기술학회 2023.11)"
+      "한국국방기술학회 우수논문상 (2023.11)"
     ]
   },
   {
     "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
     "type": "fact",
     "answer_patterns": [
-      "1\\.7"
+      "3\\.09"
     ],
     "gold_anchor_sets": [
       [
-        "최적화 후 ~1.7 rps"
+        "최대 안정치 0.73 → 3.09 rps"
       ]
     ],
     "gold_anchors": [
-      "최적화 후 ~1.7 rps"
+      "최대 안정치 0.73 → 3.09 rps"
     ]
   },
   {
@@ -938,33 +932,21 @@
   },
   {
     "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
-    "type": "trap",
+    "type": "refusal",
     "answer_patterns": [
-      "2\\.3\\s*초|2\\.3\\s*s"
+      "찾을 수 없|정보가 없|포함되어 있지 않|확인할 수 없"
     ],
-    "gold_anchor_sets": [
-      [
-        "기존 응답 시간(2.3초)"
-      ]
-    ],
-    "gold_anchors": [
-      "기존 응답 시간(2.3초)"
-    ]
+    "expect_refusal": true,
+    "note": "2026-09-22 코퍼스 동기화로 근거 삭제 — 출처 없어 포트폴리오에서 철회된 수치(CER 3~5%·2.3초·동시 채널 12)라 거부가 정답"
   },
   {
     "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
-    "type": "trap",
+    "type": "refusal",
     "answer_patterns": [
-      "12\\s*(개|채널)"
+      "찾을 수 없|정보가 없|포함되어 있지 않|확인할 수 없"
     ],
-    "gold_anchor_sets": [
-      [
-        "동시 채널(12개) 제약"
-      ]
-    ],
-    "gold_anchors": [
-      "동시 채널(12개) 제약"
-    ]
+    "expect_refusal": true,
+    "note": "2026-09-22 코퍼스 동기화로 근거 삭제 — 출처 없어 포트폴리오에서 철회된 수치(CER 3~5%·2.3초·동시 채널 12)라 거부가 정답"
   },
   {
     "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
@@ -989,26 +971,26 @@
     ],
     "gold_anchor_sets": [
       [
-        "VM/수동 배포에서 컨테이너 기반"
+        "수동 배포해 1회에 수 시간이 걸리던 상황"
       ]
     ],
     "gold_anchors": [
-      "VM/수동 배포에서 컨테이너 기반"
+      "수동 배포해 1회에 수 시간이 걸리던 상황"
     ]
   },
   {
     "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
     "type": "trap",
     "answer_patterns": [
-      "협업"
+      "팀\\s*협업|팀 내|팀이 구성|팀\\s*작업"
     ],
     "gold_anchor_sets": [
       [
-        "배포/서빙 담당, 팀 협업"
+        "팀 내 배포·서빙 담당"
       ]
     ],
     "gold_anchors": [
-      "배포/서빙 담당, 팀 협업"
+      "팀 내 배포·서빙 담당"
     ]
   },
   {
@@ -1036,12 +1018,12 @@
     ],
     "gold_anchor_sets": [
       [
-        "논문 7편(제1저자)",
+        "논문 7편 · 특허 등록 2건",
         "2저자"
       ]
     ],
     "gold_anchors": [
-      "논문 7편(제1저자)",
+      "논문 7편 · 특허 등록 2건",
       "2저자"
     ]
   },
@@ -1056,14 +1038,14 @@
         "국방 데이터 확보를 위한 생성 모델",
         "GAN을 활용한 데이터 생성 연구 동향",
         "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
-        "특허 2건(제1발명자)"
+        "특허 등록 2건 (제1저자 · 제1발명자)"
       ]
     ],
     "gold_anchors": [
       "국방 데이터 확보를 위한 생성 모델",
       "GAN을 활용한 데이터 생성 연구 동향",
       "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
-      "특허 2건(제1발명자)"
+      "특허 등록 2건 (제1저자 · 제1발명자)"
     ]
   },
   {
@@ -1181,11 +1163,11 @@
       "2016"
     ],
     "gold_anchors": [
-      "Linux Master (2016)"
+      "Linux Master Level 2 (2016.03)"
     ],
     "gold_anchor_sets": [
       [
-        "Linux Master (2016)"
+        "Linux Master Level 2 (2016.03)"
       ]
     ]
   },
@@ -1231,11 +1213,11 @@
       "2021"
     ],
     "gold_anchors": [
-      "Data Analytics Semi-Professional (2021)"
+      "ADsP 데이터분석 준전문가 (2021.02)"
     ],
     "gold_anchor_sets": [
       [
-        "Data Analytics Semi-Professional (2021)"
+        "ADsP 데이터분석 준전문가 (2021.02)"
       ]
     ]
   },
@@ -1294,14 +1276,14 @@
     ],
     "gold_anchors": [
       "국제 학술대회",
-      "ACM International Conference"
+      "ICEMT 2018 (ACM"
     ],
     "gold_anchor_sets": [
       [
         "국제 학술대회"
       ],
       [
-        "ACM International Conference"
+        "ICEMT 2018 (ACM"
       ]
     ]
   },
@@ -1323,7 +1305,7 @@
         "우수 논문 수상"
       ],
       [
-        "우수 논문상 수상"
+        "우수논문상"
       ]
     ]
   },
@@ -1414,7 +1396,7 @@
       ],
       [
         "2023.05.25",
-        "Nov 2023"
+        "2023.11"
       ]
     ]
   },
