@@ -1,6 +1,5 @@
 # 이윤선 포트폴리오
 
-![KakaoTalk_20240928_081641201.jpg](KakaoTalk_20240928_081641201.jpg)
 
 ### $\color{3399ff}{Lee}$ $\color{3399ff}{Yoon Seon}$
 
@@ -331,13 +330,9 @@ AI언어개발팀 (2025.09~)
     - 운영 페이지 제작
         
         
-        ![image.png](image.png)
         
-        ![image.png](image%201.png)
         
-        ![image.png](image%202.png)
         
-        ![image.png](image%203.png)
         
     - 스트리밍 api 리팩토링
         
