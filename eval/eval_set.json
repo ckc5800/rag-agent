@@ -109,7 +109,7 @@
       "Latent Diffusion"
     ],
     "answer_patterns": [
-      "[Ll]atent\\s*[Dd]iffusion"
+      "[Ll]at+ent\\s*[Dd]iffusion"
     ],
     "type": "fact",
     "gold_anchors": [
@@ -119,7 +119,8 @@
       [
         "국방 데이터 확보를 위한"
       ]
-    ]
+    ],
+    "_note": "코퍼스가 'Lattent Diffusion'(3회, portfolio.md·publications.md)과 'Latent Diffusion'(4회)을 함께 쓴다. 모델이 전자를 그대로 인용한 것을 오답 처리하고 있었다 — 근거에 충실한 답이므로 둘 다 인정한다 (잉여 버퍼·pwd_changed_at와 같은 판정)."
   },
   {
     "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",

@@ -1553,9 +1553,60 @@ def test_publications_table_supports_counting():
     assert len(pub) == 1, "publications 표가 통짜가 아니다"
 
     lines = pub[0].page_content.splitlines()
-    for term, expected in [("1저자", 7), ("2저자", 1),
+    for term, expected in [("1저자", 7), ("3저자", 1),
                            ("한국자동차공학회", 2), ("한국항공우주학회", 1)]:
         assert sum(1 for ln in lines if term in ln) == expected, term
+
+
+def test_retrieval_set_labels_all_resolve():
+    """retrieval_set.json 의 gold md5 가 전부 현재 청크에 존재하는가.
+
+    md5 라벨은 청킹이 바뀌면 무효화된다 — 그게 설계 의도다(옛 라벨로 새 인덱스를
+    채점하는 사고를 막는다). 그런데 **끊긴 라벨은 아무 신호도 내지 않는다**:
+    해당 문항이 그냥 영구 MISS 가 되어 recall 이 조용히 낮아진다.
+
+    실제로 그 일이 일어났다(2026-11-22 발견). 이력서가 10월까지 여러 번 개정되며
+    `resume.md` 에서 뽑은 gold 13개의 근거 문장이 사라졌고, 거부 문항으로 전환된
+    질문 1개가 retrieval_set 에 그대로 남아 있었다. 14문항 중 6문항의 gold 가
+    전멸해 recall@6 가 **92% → 50%** 로 떨어진 것을 "검색이 나빠졌다"로 읽을 수
+    있는 상태였다. 라벨을 고치자 그대로 돌아왔다.
+
+    코퍼스를 갱신하면 이 테스트가 먼저 깨지므로, 다음부터는 재부착을 빠뜨릴 수 없다.
+    """
+    import hashlib
+    import json
+
+    import config
+
+    alive = {
+        hashlib.md5(json.loads(line)["page_content"].encode("utf-8")).hexdigest()
+        for line in Path(config.CHUNKS_PATH).read_text(
+            encoding="utf-8").splitlines() if line.strip()}
+    cases = json.loads((Path(__file__).resolve().parent.parent
+                        / "eval" / "retrieval_set.json").read_text(encoding="utf-8"))
+    dangling = [(c["question"], g["md5"][:8])
+                for c in cases for g in c["gold"] if g["md5"] not in alive]
+    assert not dangling, (
+        f"끊긴 gold 라벨 {len(dangling)}개 — 그 문항은 어떤 검색기도 통과할 수 없고 "
+        f"recall 이 조용히 낮아진다. `eval/relabel_retrieval.py` 로 재부착할 것: "
+        f"{dangling[:4]}")
+
+
+def test_retrieval_set_has_no_refusal_questions():
+    """거부 문항은 gold 가 정의되지 않으므로 retrieval_set 에 있으면 안 된다.
+
+    `동시 처리 채널 12→24` 는 출처가 없어 포트폴리오에서 철회되며 거부 문항으로
+    전환됐는데(2026-09-22), retrieval_set 에는 남아 영구 MISS 로 집계되고 있었다.
+    """
+    import json
+
+    root = Path(__file__).resolve().parent.parent
+    ev = {c["question"]: c for c in json.loads(
+        (root / "eval" / "eval_set.json").read_text(encoding="utf-8"))}
+    rs = json.loads((root / "eval" / "retrieval_set.json").read_text(encoding="utf-8"))
+    bad = [c["question"] for c in rs
+           if ev.get(c["question"], {}).get("expect_refusal")]
+    assert not bad, f"거부 문항이 retrieval_set 에 있다: {bad}"
 
 
 def test_whole_chunks_are_never_neighbor_expanded(monkeypatch):

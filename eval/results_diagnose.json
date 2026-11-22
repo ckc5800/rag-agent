@@ -5,20 +5,17 @@
     "anchors": [
       "2292"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 1,
+    "rank_hybrid": 2,
+    "rank_vector": 5,
     "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 4,
+    "gold_chunks": 2,
     "gold_chunk_lens": [
-      527,
-      674,
-      694,
-      768
+      725,
+      759
     ],
     "gold_sources": [
-      "portfolio.md",
-      "resume.md"
+      "portfolio.md"
     ],
     "answer_pass": true
   },
@@ -32,14 +29,12 @@
     "rank_vector": 1,
     "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 3,
+    "gold_chunks": 2,
     "gold_chunk_lens": [
-      674,
       719,
       773
     ],
     "gold_sources": [
-      "resume.md",
       "tts-deepdive.md"
     ],
     "answer_pass": true
@@ -56,12 +51,12 @@
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      694
+      528
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "등록된 특허 번호를 알려주세요.",
@@ -70,16 +65,15 @@
       "1025382250000",
       "10-2538225-0000"
     ],
-    "rank_hybrid": 1,
+    "rank_hybrid": 2,
     "rank_vector": 2,
-    "rank_bm25": 1,
+    "rank_bm25": 2,
     "in_top3": true,
-    "gold_chunks": 4,
+    "gold_chunks": 3,
     "gold_chunk_lens": [
-      235,
       301,
       751,
-      784
+      764
     ],
     "gold_sources": [
       "patents.md",
@@ -92,22 +86,22 @@
     "question": "Kubernetes 인프라 구축에 어떤 CI/CD 도구를 사용했나요?",
     "type": "enumeration",
     "anchors": [
-      "Jenkins, ArgoCD",
-      "GitLab → Jenkins → ArgoCD"
+      "ArgoCD, Jenkins, Harbor",
+      "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
     ],
-    "rank_hybrid": 1,
+    "rank_hybrid": 3,
     "rank_vector": 1,
-    "rank_bm25": 2,
+    "rank_bm25": 4,
     "in_top3": true,
     "gold_chunks": 2,
     "gold_chunk_lens": [
-      770,
-      794
+      488,
+      648
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "우수 논문상을 받은 논문 제목은?",
@@ -115,42 +109,23 @@
     "anchors": [
       "국방 데이터 확보를 위한"
     ],
-    "rank_hybrid": 2,
+    "rank_hybrid": 1,
     "rank_vector": 1,
-    "rank_bm25": 2,
+    "rank_bm25": 1,
     "in_top3": true,
     "gold_chunks": 4,
     "gold_chunk_lens": [
-      235,
       535,
       735,
-      784
+      764,
+      1868
     ],
     "gold_sources": [
       "portfolio.md",
       "publications.md",
       "resume.md"
     ],
-    "answer_pass": true
-  },
-  {
-    "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
-    "type": "fact",
-    "anchors": [
-      "12 → 24"
-    ],
-    "rank_hybrid": 1,
-    "rank_vector": 1,
-    "rank_bm25": 4,
-    "in_top3": true,
-    "gold_chunks": 1,
-    "gold_chunk_lens": [
-      674
-    ],
-    "gold_sources": [
-      "resume.md"
-    ],
-    "answer_pass": true
+    "answer_pass": false
   },
   {
     "question": "화자 분할에는 어떤 모델을 사용했나요?",
@@ -164,8 +139,8 @@
     "in_top3": true,
     "gold_chunks": 2,
     "gold_chunk_lens": [
-      777,
-      795
+      267,
+      707
     ],
     "gold_sources": [
       "portfolio.md",
@@ -183,15 +158,30 @@
     "rank_vector": 1,
     "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 3,
+    "gold_chunks": 12,
     "gold_chunk_lens": [
+      299,
+      312,
+      379,
+      496,
+      569,
+      600,
+      603,
       631,
+      651,
       672,
-      674
+      899,
+      1417
     ],
     "gold_sources": [
-      "resume.md",
-      "tts-deepdive.md"
+      "tts-deepdive.md",
+      "tts/guide/api/API_Key_관리.md",
+      "tts/guide/architecture/DB_ERD_2026-07-20.md",
+      "tts/guide/architecture/DB_아키텍처.md",
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/데이터_정의서.md",
+      "tts/guide/architecture/로직_레퍼런스_DB.md",
+      "tts/guide/development/QA_학습가이드.md"
     ],
     "answer_pass": true
   },
@@ -203,7 +193,7 @@
     ],
     "rank_hybrid": 1,
     "rank_vector": 1,
-    "rank_bm25": 2,
+    "rank_bm25": 3,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
@@ -220,18 +210,18 @@
     "anchors": [
       "0.68 → 1.41"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 2,
-    "rank_bm25": 3,
-    "in_top3": true,
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": null,
+    "in_top3": false,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      674
+      779
     ],
     "gold_sources": [
-      "resume.md"
+      "tts/guide/architecture/서빙_구조도.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "TTS 서비스는 몇 개 언어를 지원하나요?",
@@ -241,16 +231,20 @@
     ],
     "rank_hybrid": 1,
     "rank_vector": 1,
-    "rank_bm25": 1,
+    "rank_bm25": null,
     "in_top3": true,
-    "gold_chunks": 1,
+    "gold_chunks": 3,
     "gold_chunk_lens": [
-      674
+      246,
+      757,
+      782
     ],
     "gold_sources": [
-      "resume.md"
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/development/QA_학습가이드.md",
+      "tts/guide/engine/엔진_가이드.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "ITN 정규화 정확도는 몇 퍼센트에서 몇 퍼센트로 올랐나요?",
@@ -259,12 +253,12 @@
       "50.1% → 70.9%"
     ],
     "rank_hybrid": 1,
-    "rank_vector": 1,
+    "rank_vector": 3,
     "rank_bm25": 1,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      674
+      446
     ],
     "gold_sources": [
       "resume.md"
@@ -277,27 +271,72 @@
     "anchors": [
       "Qwen3-TTS"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 2,
-    "rank_bm25": 3,
+    "rank_hybrid": 3,
+    "rank_vector": 3,
+    "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 10,
+    "gold_chunks": 39,
     "gold_chunk_lens": [
+      76,
+      152,
+      159,
+      179,
+      244,
+      246,
       250,
+      272,
+      280,
+      285,
+      286,
       337,
       341,
+      396,
       406,
-      527,
-      694,
+      427,
+      462,
+      468,
+      499,
+      540,
+      545,
+      571,
+      597,
+      635,
+      641,
+      651,
+      688,
+      749,
+      753,
+      759,
       768,
+      782,
+      792,
+      1479,
+      1920,
+      3807,
       4395,
       4965,
-      5079
+      5081
     ],
     "gold_sources": [
       "portfolio.md",
       "resume.md",
-      "tts-deepdive.md"
+      "tts-deepdive.md",
+      "tts/guide/api/API_Key_관리.md",
+      "tts/guide/api/빠른시작.md",
+      "tts/guide/architecture/DB_아키텍처.md",
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/로직_레퍼런스_외부호환어댑터.md",
+      "tts/guide/architecture/로직_레퍼런스_합성파이프라인.md",
+      "tts/guide/architecture/서빙_구조도.md",
+      "tts/guide/architecture/프론트엔드_명세.md",
+      "tts/guide/development/QA_학습가이드.md",
+      "tts/guide/development/성능_스윕_가이드.md",
+      "tts/guide/engine/엔진_가이드.md",
+      "tts/guide/engine/하드웨어_프로파일.md",
+      "tts/guide/engine/합성_파라미터.md",
+      "tts/guide/onboarding/AIVOX_마이그레이션.md",
+      "tts/보고서_TTS_솔루션_실측요약_2026-07-21.md",
+      "tts/서비스_설명서.md"
     ],
     "answer_pass": true
   },
@@ -307,8 +346,8 @@
     "anchors": [
       "초반 10ms 구간"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 1,
+    "rank_hybrid": 2,
+    "rank_vector": 5,
     "rank_bm25": 1,
     "in_top3": true,
     "gold_chunks": 1,
@@ -326,18 +365,18 @@
     "anchors": [
       "Inha University"
     ],
-    "rank_hybrid": 5,
-    "rank_vector": 4,
+    "rank_hybrid": 3,
+    "rank_vector": 1,
     "rank_bm25": null,
-    "in_top3": false,
+    "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      794
+      249
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "영어 OPIc 등급은 무엇인가요?",
@@ -345,13 +384,14 @@
     "anchors": [
       "OPIc IM1"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 6,
-    "rank_bm25": 4,
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 1,
+    "gold_chunks": 2,
     "gold_chunk_lens": [
-      784
+      249,
+      488
     ],
     "gold_sources": [
       "resume.md"
@@ -362,15 +402,15 @@
     "question": "STT 엔진은 어떤 모델을 기반으로 만들었나요?",
     "type": "fact",
     "anchors": [
-      "WhisperX"
+      "Faster Whisper 기반 STT 엔진"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 2,
-    "rank_bm25": 2,
+    "rank_hybrid": 2,
+    "rank_vector": 1,
+    "rank_bm25": 3,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      777
+      531
     ],
     "gold_sources": [
       "resume.md"
@@ -383,37 +423,22 @@
     "anchors": [
       "config_update"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 2,
-    "rank_bm25": 1,
+    "rank_hybrid": 2,
+    "rank_vector": 4,
+    "rank_bm25": 2,
     "in_top3": true,
-    "gold_chunks": 1,
+    "gold_chunks": 3,
     "gold_chunk_lens": [
+      163,
+      444,
       778
     ],
     "gold_sources": [
-      "tts-deepdive.md"
+      "tts-deepdive.md",
+      "tts/guide/architecture/DB_ERD_2026-07-20.md",
+      "tts/guide/architecture/데이터_정의서.md"
     ],
     "answer_pass": true
-  },
-  {
-    "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
-    "type": "fact",
-    "anchors": [
-      "CER(문자 오류율) 3~5%"
-    ],
-    "rank_hybrid": 1,
-    "rank_vector": 3,
-    "rank_bm25": 1,
-    "in_top3": true,
-    "gold_chunks": 1,
-    "gold_chunk_lens": [
-      674
-    ],
-    "gold_sources": [
-      "resume.md"
-    ],
-    "answer_pass": false
   },
   {
     "question": "레퍼런스 음성은 어떤 샘플레이트와 채널로 정규화되나요?",
@@ -421,9 +446,9 @@
     "anchors": [
       "24kHz / Mono"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 1,
-    "rank_bm25": 2,
+    "rank_hybrid": 3,
+    "rank_vector": 2,
+    "rank_bm25": null,
     "in_top3": true,
     "gold_chunks": 2,
     "gold_chunk_lens": [
@@ -433,7 +458,7 @@
     "gold_sources": [
       "tts-deepdive.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "FastAPI 게이트웨이와 Qwen3 엔진은 어떤 프로토콜로 통신하나요?",
@@ -441,13 +466,13 @@
     "anchors": [
       "9104"
     ],
-    "rank_hybrid": 4,
+    "rank_hybrid": 1,
     "rank_vector": 1,
-    "rank_bm25": null,
-    "in_top3": false,
+    "rank_bm25": 4,
+    "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      757
+      440
     ],
     "gold_sources": [
       "portfolio.md"
@@ -462,7 +487,7 @@
     ],
     "rank_hybrid": 2,
     "rank_vector": 1,
-    "rank_bm25": 4,
+    "rank_bm25": null,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
@@ -477,7 +502,7 @@
     "question": "Kubernetes 배포 자동화는 어떤 도구들을 어떤 순서로 연결했나요?",
     "type": "enumeration",
     "anchors": [
-      "GitLab → Jenkins → ArgoCD"
+      "GitLab → Jenkins·Argo Workflow → Harbor → ArgoCD"
     ],
     "rank_hybrid": 1,
     "rank_vector": 1,
@@ -485,7 +510,7 @@
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      770
+      648
     ],
     "gold_sources": [
       "resume.md"
@@ -496,20 +521,20 @@
     "question": "인프라 모니터링에 사용한 도구들을 알려주세요.",
     "type": "enumeration",
     "anchors": [
-      "Prometheus/Grafana/Loki/ELK"
+      "Prometheus, Grafana, AlertManager, Loki, ELK"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 5,
-    "rank_bm25": 6,
+    "rank_hybrid": 3,
+    "rank_vector": 2,
+    "rank_bm25": null,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      770
+      488
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "3D 시맨틱 세그멘테이션 연구에서 융합한 센서 두 가지는 무엇인가요?",
@@ -517,56 +542,58 @@
     "anchors": [
       "LiDAR + Camera Sensor Fusion"
     ],
-    "rank_hybrid": 5,
-    "rank_vector": 5,
-    "rank_bm25": 5,
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": null,
     "in_top3": false,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      788
+      794
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "보유한 자격증을 알려주세요.",
     "type": "enumeration",
     "anchors": [
-      "Linux Master (2016)"
+      "Linux Master Level 2 (2016.03)"
     ],
-    "rank_hybrid": 6,
-    "rank_vector": 4,
+    "rank_hybrid": 2,
+    "rank_vector": 1,
     "rank_bm25": null,
-    "in_top3": false,
-    "gold_chunks": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
     "gold_chunk_lens": [
-      784
+      249,
+      488
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "TTS 관리자 대시보드의 프론트엔드 기술 스택은 무엇인가요?",
     "type": "enumeration",
     "anchors": [
-      "React 18, TypeScript"
+      "React 18, TypeScript",
+      "React 18 · TypeScript"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 2,
-    "rank_bm25": 4,
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
     "in_top3": true,
     "gold_chunks": 2,
     "gold_chunk_lens": [
-      341,
-      777
+      179,
+      341
     ],
     "gold_sources": [
-      "resume.md",
-      "tts-deepdive.md"
+      "tts-deepdive.md",
+      "tts/guide/architecture/프론트엔드_명세.md"
     ],
     "answer_pass": true
   },
@@ -574,15 +601,15 @@
     "question": "등록된 특허는 총 몇 건인가요?",
     "type": "aggregation",
     "anchors": [
-      "특허 2건(제1발명자)"
+      "특허 등록 2건 (제1저자 · 제1발명자)"
     ],
-    "rank_hybrid": null,
+    "rank_hybrid": 2,
     "rank_vector": 5,
-    "rank_bm25": null,
-    "in_top3": false,
+    "rank_bm25": 1,
+    "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      694
+      528
     ],
     "gold_sources": [
       "resume.md"
@@ -593,15 +620,15 @@
     "question": "제1저자 논문 수와 특허 건수를 합치면 몇 개인가요?",
     "type": "aggregation",
     "anchors": [
-      "논문 7편(제1저자), 특허 2건"
+      "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
     ],
-    "rank_hybrid": 6,
+    "rank_hybrid": 4,
     "rank_vector": null,
-    "rank_bm25": 2,
+    "rank_bm25": 1,
     "in_top3": false,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      694
+      528
     ],
     "gold_sources": [
       "resume.md"
@@ -615,15 +642,19 @@
       "한국국방기술학회"
     ],
     "rank_hybrid": 1,
-    "rank_vector": 4,
-    "rank_bm25": 1,
+    "rank_vector": 1,
+    "rank_bm25": 5,
     "in_top3": true,
-    "gold_chunks": 1,
+    "gold_chunks": 4,
     "gold_chunk_lens": [
-      235
+      528,
+      764,
+      794,
+      1868
     ],
     "gold_sources": [
-      "publications.md"
+      "publications.md",
+      "resume.md"
     ],
     "answer_pass": false
   },
@@ -637,12 +668,11 @@
     "rank_vector": 1,
     "rank_bm25": 1,
     "in_top3": true,
-    "gold_chunks": 4,
+    "gold_chunks": 3,
     "gold_chunk_lens": [
-      746,
-      784,
-      788,
-      790
+      764,
+      794,
+      1868
     ],
     "gold_sources": [
       "publications.md",
@@ -654,17 +684,17 @@
     "question": "TTFB는 몇 배 빨라졌나요?",
     "type": "aggregation",
     "anchors": [
-      "6.85배"
+      "49% 단축"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 2,
-    "rank_bm25": 1,
-    "in_top3": true,
+    "rank_hybrid": null,
+    "rank_vector": 6,
+    "rank_bm25": null,
+    "in_top3": false,
     "gold_chunks": 3,
     "gold_chunk_lens": [
-      674,
-      694,
-      768
+      528,
+      590,
+      725
     ],
     "gold_sources": [
       "portfolio.md",
@@ -676,20 +706,20 @@
     "question": "TTS 프로젝트와 화자 분할 프로젝트 중 먼저 시작한 쪽의 시작 시점은 언제인가요?",
     "type": "comparison",
     "anchors": [
-      "Speaker Diarization (2025.04"
+      "화자 분리(Speaker Diarization) 검토 (2025.04"
     ],
-    "rank_hybrid": null,
-    "rank_vector": null,
+    "rank_hybrid": 1,
+    "rank_vector": 1,
     "rank_bm25": null,
-    "in_top3": false,
+    "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      777
+      267
     ],
     "gold_sources": [
       "resume.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "인피닉과 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
@@ -697,8 +727,8 @@
     "anchors": [
       "2년 9개월"
     ],
-    "rank_hybrid": 1,
-    "rank_vector": 3,
+    "rank_hybrid": 2,
+    "rank_vector": 5,
     "rank_bm25": 1,
     "in_top3": true,
     "gold_chunks": 1,
@@ -708,7 +738,7 @@
     "gold_sources": [
       "portfolio.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "AICESS에 입사한 날짜는 언제인가요?",
@@ -716,9 +746,9 @@
     "anchors": [
       "2025.04.23"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 2,
-    "rank_bm25": 2,
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 4,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
@@ -727,7 +757,7 @@
     "gold_sources": [
       "portfolio.md"
     ],
-    "answer_pass": false
+    "answer_pass": true
   },
   {
     "question": "인피닉에서 근무한 기간은 얼마인가요?",
@@ -735,9 +765,9 @@
     "anchors": [
       "2년 9개월"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 2,
-    "rank_bm25": 2,
+    "rank_hybrid": 3,
+    "rank_vector": 3,
+    "rank_bm25": 5,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
@@ -752,15 +782,15 @@
     "question": "우수 논문상은 언제 수상했나요?",
     "type": "temporal",
     "anchors": [
-      "국방기술학회 2023.11"
+      "한국국방기술학회 우수논문상 (2023.11)"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 3,
-    "rank_bm25": 2,
-    "in_top3": true,
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": 5,
+    "in_top3": false,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      788
+      794
     ],
     "gold_sources": [
       "resume.md"
@@ -775,7 +805,7 @@
     ],
     "rank_hybrid": 1,
     "rank_vector": 1,
-    "rank_bm25": 1,
+    "rank_bm25": 5,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
@@ -790,15 +820,15 @@
     "question": "제2저자로 참여한 논문은 몇 편인가요?",
     "type": "trap",
     "anchors": [
-      "2저자"
+      "3저자(DBpia 저자 순서 기준)"
     ],
-    "rank_hybrid": 2,
-    "rank_vector": 2,
-    "rank_bm25": 4,
+    "rank_hybrid": 3,
+    "rank_vector": 6,
+    "rank_bm25": 2,
     "in_top3": true,
     "gold_chunks": 1,
     "gold_chunk_lens": [
-      746
+      1868
     ],
     "gold_sources": [
       "publications.md"
@@ -821,6 +851,1701 @@
     ],
     "gold_sources": [
       "tts-deepdive.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "인피닉과 에이아이세스 중 먼저 입사한 회사는 어디인가요?",
+    "type": "comparison",
+    "anchors": [
+      "Aug 2022 – Apr 2025",
+      "Apr 2025 – Present"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      65,
+      68
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "STT 배포와 Kubernetes 기반 AI 인프라 중 나중에 시작한 쪽의 시작 시점은 언제인가요?",
+    "type": "comparison",
+    "anchors": [
+      "STT 배포 (2025.07",
+      "Kubernetes 기반 AI 인프라 (2024.08"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      44,
+      531
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "석사와 학사 중 나중에 취득한 학위는 어느 대학교에서 받았나요?",
+    "type": "comparison",
+    "anchors": [
+      "M.S. Computer Science | Inha University (2021.08)",
+      "B.S. Computer Science | Hannam University (2018.02)"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      249
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "TTS 프로젝트와 STT 배포 중 먼저 시작한 것은 무엇인가요?",
+    "type": "comparison",
+    "anchors": [
+      "TTS 스트리밍 API 리팩토링 (2025.09",
+      "STT 배포 (2025.07"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      531,
+      590
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "제1저자 논문 편수와 등록 특허 건수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "anchors": [
+      "논문 7편 · 특허 등록 2건 (제1저자 · 제1발명자)"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      528
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Generative Model Research와 3D Semantic Segmentation Research 중 더 늦게 시작한 연구의 시작 시점은 언제인가요?",
+    "type": "comparison",
+    "anchors": [
+      "Latent Diffusion 합성 데이터 (2023.09",
+      "3D 시맨틱 세그멘테이션 (2022.08"
+    ],
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      794
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "한국항공우주학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "한국항공우주학회"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "이든티앤에스에서 근무한 기간은 얼마인가요?",
+    "type": "temporal",
+    "anchors": [
+      "2022.04.04 - 2022.08.05(5개월)"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 3,
+    "rank_bm25": 3,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      512
+    ],
+    "gold_sources": [
+      "portfolio.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "STT 배포에 사용한 추론 서버는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "Triton Inference Server"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      488,
+      531
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "우수 논문상을 수상한 학회는 어디인가요?",
+    "type": "fact",
+    "anchors": [
+      "한국국방기술학회 우수논문상 (2023.11)"
+    ],
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": 5,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      794
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Throughput은 최적화를 모두 마친 뒤 최종적으로 몇 rps가 됐나요?",
+    "type": "fact",
+    "anchors": [
+      "최대 안정치 0.73 → 3.09 rps"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      482
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "KISTI에서 수행한 업무는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "한국어 고어"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      404
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ITN 정규화 정확도는 개선되기 전에 몇 퍼센트였나요?",
+    "type": "trap",
+    "anchors": [
+      "ITN 정규화 정확도 50.1%"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      446
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Kubernetes를 도입하기 전에는 어떤 방식으로 배포하고 있었나요?",
+    "type": "trap",
+    "anchors": [
+      "수동 배포해 1회에 수 시간이 걸리던 상황"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      648
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "STT 배포 프로젝트는 단독 개발이었나요, 팀 협업이었나요?",
+    "type": "trap",
+    "anchors": [
+      "팀 내 배포·서빙 담당"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      531
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "인피닉에 입사하기 직전에 근무한 회사는 어디인가요?",
+    "type": "trap",
+    "anchors": [
+      "이든티앤에스",
+      "인피닉"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 6,
+    "gold_chunk_lens": [
+      32,
+      68,
+      203,
+      404,
+      512,
+      726
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "제1저자 논문 편수와 제2저자 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "anchors": [
+      "논문 7편 · 특허 등록 2건"
+    ],
+    "rank_hybrid": 5,
+    "rank_vector": null,
+    "rank_bm25": 2,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      528
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "등록된 특허 건수와 2023년에 게재한 논문 편수 중 더 많은 쪽은 몇 편인가요?",
+    "type": "comparison",
+    "anchors": [
+      "국방 데이터 확보를 위한 생성 모델",
+      "GAN을 활용한 데이터 생성 연구 동향",
+      "센서 퓨전 기반의 Trans-Unet을 활용한 2차원",
+      "특허 등록 2건 (제1저자 · 제1발명자)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 6,
+    "gold_chunk_lens": [
+      528,
+      535,
+      735,
+      751,
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "세그멘테이션 연구를 지원한 정부 과제 번호는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "No. 1425165319"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 4,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      787
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "3D 시맨틱 세그멘테이션 연구에서 사용한 GPU는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "GPU : A100 80GB"
+    ],
+    "rank_hybrid": 6,
+    "rank_vector": 4,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      761
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "센서 퓨전 모델 학습에 사용한 손실 함수는 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "Focal loss",
+      "Dice loss"
+    ],
+    "rank_hybrid": 5,
+    "rank_vector": 2,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      714
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "세그멘테이션 모델 구현에 사용한 딥러닝 프레임워크는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "Tensorflow 2.8.0"
+    ],
+    "rank_hybrid": null,
+    "rank_vector": 6,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      761
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "석사 학위는 언제 취득했나요?",
+    "type": "temporal",
+    "anchors": [
+      "2021.08"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      249
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "학사 학위는 언제 취득했나요?",
+    "type": "temporal",
+    "anchors": [
+      "2018.02"
+    ],
+    "rank_hybrid": 4,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      249
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "리눅스마스터 자격증은 몇 년도에 취득했나요?",
+    "type": "temporal",
+    "anchors": [
+      "Linux Master Level 2 (2016.03)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      249,
+      488
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "텍스트 요약 프로젝트는 언제 시작했나요?",
+    "type": "temporal",
+    "anchors": [
+      "2024.01",
+      "24년 1월"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      535,
+      794
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "KISTI에서는 언제부터 언제까지 일했나요?",
+    "type": "temporal",
+    "anchors": [
+      "Oct 2017"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 3,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      404
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Data Analytics Semi-Professional 자격증은 몇 년도에 취득했나요?",
+    "type": "temporal",
+    "anchors": [
+      "ADsP 데이터분석 준전문가 (2021.02)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      249,
+      488
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "한국정보기술학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "악성코드 탐지 방법 동향 분석",
+      "사이니지"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "손실 함수 절제 실험에서 비교한 조합은 몇 가지인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "Focal regularized Dice loss"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      714
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "스마트미디어학회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "스마트미디어학회"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      1868
+    ],
+    "gold_sources": [
+      "publications.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "국제 학술대회에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "국제 학술대회",
+      "ICEMT 2018 (ACM"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "우수논문상은 몇 회 수상했나요?",
+    "type": "aggregation",
+    "anchors": [
+      "우수논문상",
+      "우수 논문 수상"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 5,
+    "gold_chunk_lens": [
+      528,
+      535,
+      735,
+      764,
+      794
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "2022년에 게재한 논문은 몇 편인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "2022.11"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 5,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "큐헷지와 이든티앤에스 중 더 오래 근무한 회사의 근무 기간은 얼마인가요?",
+    "type": "comparison",
+    "anchors": [
+      "1년 1개월",
+      "5개월"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 3,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      512
+    ],
+    "gold_sources": [
+      "portfolio.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "석사와 학사 중 먼저 취득한 학위의 취득 시기는 언제인가요?",
+    "type": "comparison",
+    "anchors": [
+      "2021.08",
+      "2018.02"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      249
+    ],
+    "gold_sources": [
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "첫 회사 입사와 첫 논문 게재 중 먼저 있었던 일의 시점은 언제인가요?",
+    "type": "comparison",
+    "anchors": [
+      "2020.09",
+      "2018.06"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 3,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 3,
+    "gold_chunk_lens": [
+      512,
+      764,
+      1868
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "publications.md",
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "첫 특허 등록과 우수 논문상 수상 중 먼저 있었던 일의 시점은 언제인가요?",
+    "type": "comparison",
+    "anchors": [
+      "2023.05.25",
+      "2023.11"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 3,
+    "in_top3": true,
+    "gold_chunks": 3,
+    "gold_chunk_lens": [
+      301,
+      764,
+      794
+    ],
+    "gold_sources": [
+      "patents.md",
+      "resume.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "Dice loss와 Focal loss 중 단독 사용 시 2D MIoU가 더 높은 쪽의 수치는 얼마인가요?",
+    "type": "comparison",
+    "anchors": [
+      "0.2739",
+      "0.2240"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      714
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "텍스트 요약에 사용한 모델들은 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "BART",
+      "T5"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      535,
+      794
+    ],
+    "gold_sources": [
+      "portfolio.md",
+      "resume.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "센서 퓨전 절제 실험에서 비교한 융합 방식들은 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "early fusion",
+      "late fusion"
+    ],
+    "rank_hybrid": 5,
+    "rank_vector": 2,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      761
+    ],
+    "gold_sources": [
+      "segmentation-paper.pdf"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "사내 회의록 STT의 처리 방식 두 가지는 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "파일 기반 STT 처리",
+      "스트리밍 기반 STT 처리"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      241,
+      707
+    ],
+    "gold_sources": [
+      "portfolio.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "TTS 프로젝트의 기능 확장으로 구현한 기능들을 알려주세요.",
+    "type": "enumeration",
+    "anchors": [
+      "음성복제",
+      "OpenAI TTS API 호환"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 3,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      670,
+      679
+    ],
+    "gold_sources": [
+      "resume.md",
+      "tts/guide/architecture/로직_레퍼런스_합성파이프라인.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "제2저자로 참여한 논문의 제목은 무엇인가요?",
+    "type": "trap",
+    "anchors": [
+      "사이니지"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      1868
+    ],
+    "gold_sources": [
+      "publications.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "스트리밍 API 구버전(deprecated) 엔드포인트의 TTFB는 몇 ms였나요?",
+    "type": "trap",
+    "anchors": [
+      "2292"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      725,
+      759
+    ],
+    "gold_sources": [
+      "portfolio.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Supertonic 엔진은 몇 개 언어를 지원하나요?",
+    "type": "fact",
+    "anchors": [
+      "31개 언어"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 8,
+    "gold_chunk_lens": [
+      211,
+      407,
+      468,
+      571,
+      599,
+      770,
+      973,
+      1731
+    ],
+    "gold_sources": [
+      "tts/guide/api/빠른시작.md",
+      "tts/guide/architecture/프론트엔드_명세.md",
+      "tts/guide/onboarding/AIVOX_마이그레이션.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "API 키 확인 결과는 Redis에 몇 초 동안 캐싱되나요?",
+    "type": "fact",
+    "anchors": [
+      "60초 동안 Redis에 캐싱"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      609
+    ],
+    "gold_sources": [
+      "tts/guide/api/API_Key_관리.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "WebSocket heartbeat는 몇 초마다 오나요?",
+    "type": "fact",
+    "anchors": [
+      "30초마다 서버가"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      519
+    ],
+    "gold_sources": [
+      "tts/guide/api/WebSocket_예제.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "재생 시작 시 팝음을 막는 앞쪽 무음 패딩은 몇 ms인가요?",
+    "type": "fact",
+    "anchors": [
+      "단축 500→200"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      868
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ITN은 몇 개 도메인을 지원하나요?",
+    "type": "aggregation",
+    "anchors": [
+      "11개 도메인 ITN"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      732
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ITN 골든 회귀 테스트는 몇 개 케이스인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "101 케이스"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      603,
+      922
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/development/QA_학습가이드.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "TTS 시스템이 사용하는 두 합성 엔진은 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "고성능 텐서 병렬 처리 기반 초저지연 엔진"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 1,
+    "rank_bm25": null,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      704
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/DB_아키텍처.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ICL 음성 복제에는 몇 초 분량의 샘플이 필요한가요?",
+    "type": "fact",
+    "anchors": [
+      "3~10초 분량"
+    ],
+    "rank_hybrid": 4,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      704
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/DB_아키텍처.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "오류 코드의 의미를 바꿀 때 몇 개월 전에 공지하나요?",
+    "type": "temporal",
+    "anchors": [
+      "6개월 전 deprecation"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      501
+    ],
+    "gold_sources": [
+      "tts/guide/api/오류_코드.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "언어 감지에 사용하는 라이브러리는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "tinyld"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 8,
+    "gold_chunk_lens": [
+      328,
+      412,
+      647,
+      714,
+      744,
+      753,
+      757,
+      1731
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/프론트엔드_명세.md",
+      "tts/guide/development/QA_학습가이드.md",
+      "tts/guide/engine/엔진_가이드.md",
+      "tts/guide/engine/합성_파라미터.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "자동 언어 감지의 디바운스 시간은 몇 ms인가요?",
+    "type": "fact",
+    "anchors": [
+      "250ms 디바운스"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 3,
+    "gold_chunk_lens": [
+      539,
+      714,
+      753
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/프론트엔드_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "IP별 요청 수 카운터는 Redis에서 얼마 동안 유지되나요?",
+    "type": "fact",
+    "anchors": [
+      "Redis TTL 60분 자동 삭제",
+      "60분 창"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      415,
+      467
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/데이터_정의서.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "배치 합성 요청은 어떤 HTTP 엔드포인트로 보내나요?",
+    "type": "fact",
+    "anchors": [
+      "POST /v1/tts/synthesize"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 7,
+    "gold_chunk_lens": [
+      254,
+      522,
+      569,
+      631,
+      641,
+      2281,
+      2739
+    ],
+    "gold_sources": [
+      "tts/guide/api/빠른시작.md",
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/서빙_구조도.md",
+      "tts/guide/architecture/합성_플로우.md",
+      "tts/guide/development/QA_학습가이드.md",
+      "tts/guide/engine/합성_파라미터.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "합성 API가 제공하는 세 가지 전송 방식은 무엇인가요?",
+    "type": "enumeration",
+    "anchors": [
+      "WS   /v1/tts/synthesize/ws"
+    ],
+    "rank_hybrid": null,
+    "rank_vector": null,
+    "rank_bm25": null,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      2281
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/합성_플로우.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "파이썬 SDK는 어느 저장소에 배포하나요?",
+    "type": "fact",
+    "anchors": [
+      "`sdk/python` (PyPI)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      422
+    ],
+    "gold_sources": [
+      "tts/guide/development/SDK_배포.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "SDK의 현재 라이선스 표기는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "Proprietary"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      422
+    ],
+    "gold_sources": [
+      "tts/guide/development/SDK_배포.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "배포 전 테스트에서 롱런은 몇 분으로 도나요?",
+    "type": "fact",
+    "anchors": [
+      "--long-run-min 360"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 4,
+    "rank_bm25": 2,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      779
+    ],
+    "gold_sources": [
+      "tts/guide/development/배포전_테스트_체크리스트.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "콜센터 부하 테스트는 상담원 몇 명으로 도나요?",
+    "type": "fact",
+    "anchors": [
+      "--agents 30",
+      "상담원 30명"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 4,
+    "gold_chunk_lens": [
+      338,
+      688,
+      708,
+      731
+    ],
+    "gold_sources": [
+      "tts/guide/development/배포전_테스트_체크리스트.md",
+      "tts/보고서_TTS_솔루션_실측요약_2026-07-21.md",
+      "tts/실트래픽_실측_2026-07-21.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "성능 안정성 판정을 고친 커밋 해시는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "bcaaad7"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      650
+    ],
+    "gold_sources": [
+      "tts/guide/development/성능안정성_판정기준_2026-07-14.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "기존 REGRESSION 판정의 P95 임계는 몇 초였나요?",
+    "type": "fact",
+    "anchors": [
+      "P95 > 2초"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 4,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      650
+    ],
+    "gold_sources": [
+      "tts/guide/development/성능안정성_판정기준_2026-07-14.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "1차 실 트래픽 실측은 몇 건의 요청이었나요?",
+    "type": "aggregation",
+    "anchors": [
+      "920 요청"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      731
+    ],
+    "gold_sources": [
+      "tts/실트래픽_실측_2026-07-21.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "1차 실 트래픽 실측의 Poisson 도착 간격은 얼마인가요?",
+    "type": "fact",
+    "anchors": [
+      "Poisson 3s"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      731
+    ],
+    "gold_sources": [
+      "tts/실트래픽_실측_2026-07-21.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "1차 실 트래픽 실측의 warmup은 몇 분인가요?",
+    "type": "temporal",
+    "anchors": [
+      "warmup 5분"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      731
+    ],
+    "gold_sources": [
+      "tts/실트래픽_실측_2026-07-21.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "vLLM과 Supertonic 중 더 많은 언어를 지원하는 엔진은 몇 개 언어를 지원하나요?",
+    "type": "comparison",
+    "anchors": [
+      "31개 언어"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 8,
+    "gold_chunk_lens": [
+      211,
+      407,
+      468,
+      571,
+      599,
+      770,
+      973,
+      1731
+    ],
+    "gold_sources": [
+      "tts/guide/api/빠른시작.md",
+      "tts/guide/architecture/프론트엔드_명세.md",
+      "tts/guide/onboarding/AIVOX_마이그레이션.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "무음 패딩은 앞과 뒤 중 어느 쪽이 더 긴가요? 몇 ms인가요?",
+    "type": "comparison",
+    "anchors": [
+      "**250ms** (단축 1500→250)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      868
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": false
+  },
+  {
+    "question": "vLLM 전용 언어와 Supertonic 전용 언어 중 수가 적은 쪽은 몇 개인가요?",
+    "type": "comparison",
+    "anchors": [
+      "vLLM 10개"
+    ],
+    "rank_hybrid": 4,
+    "rank_vector": null,
+    "rank_bm25": 2,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      286
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "앞쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+    "type": "trap",
+    "anchors": [
+      "단축 500→200"
+    ],
+    "rank_hybrid": 2,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      868
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "뒤쪽 무음 패딩은 단축되기 전에 몇 ms였나요?",
+    "type": "trap",
+    "anchors": [
+      "단축 1500→250"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      868,
+      1738
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/onboarding/AIVOX_마이그레이션.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "EOS 콜론을 3개 쓰면 어떤 문제가 생기나요?",
+    "type": "trap",
+    "anchors": [
+      "hallucination guard"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 5,
+    "gold_chunk_lens": [
+      447,
+      688,
+      712,
+      924,
+      1738
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/architecture/로직_레퍼런스_합성파이프라인.md",
+      "tts/guide/engine/합성_파라미터.md",
+      "tts/guide/onboarding/AIVOX_마이그레이션.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ITN 골든 회귀 테스트는 몇 개 카테고리인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "24개 카테고리"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 2,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      603,
+      922
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/development/QA_학습가이드.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "캐시 히트 시 TTFB는 몇 ms 미만인가요?",
+    "type": "fact",
+    "anchors": [
+      "히트 시 TTFB <50ms",
+      "50ms 미만"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 4,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 2,
+    "gold_chunk_lens": [
+      286,
+      656
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md",
+      "tts/guide/development/QA_학습가이드.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "관리자 UI 편집이 워커에 반영될 때의 폴백 TTL은 얼마인가요?",
+    "type": "fact",
+    "anchors": [
+      "TTL 기반 폴백도 있음 (5초)"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      790
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/DB_ERD_2026-07-20.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "JWT 토큰의 기본 만료 시간은 얼마인가요?",
+    "type": "fact",
+    "anchors": [
+      "expires_in=86400"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      603
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "Supertonic 내장 남성 프리셋은 몇 종인가요?",
+    "type": "aggregation",
+    "anchors": [
+      "다국어 내장 남성 5종"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 4,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      468
+    ],
+    "gold_sources": [
+      "tts/guide/api/빠른시작.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "ITN 변환의 최종 단계에서 제거하는 문자는 무엇인가요?",
+    "type": "fact",
+    "anchors": [
+      "괄호 제거 ITN"
+    ],
+    "rank_hybrid": 3,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      603
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "성능 안정성 판정 기준은 언제 정리된 문서인가요?",
+    "type": "temporal",
+    "anchors": [
+      "(2026-07-14)"
+    ],
+    "rank_hybrid": 1,
+    "rank_vector": 1,
+    "rank_bm25": 1,
+    "in_top3": true,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      650
+    ],
+    "gold_sources": [
+      "tts/guide/development/성능안정성_판정기준_2026-07-14.md"
+    ],
+    "answer_pass": true
+  },
+  {
+    "question": "전술 포메이션 4-4-2는 어떻게 읽나요?",
+    "type": "fact",
+    "anchors": [
+      "`4-4-2` → \"사 사 이\""
+    ],
+    "rank_hybrid": 4,
+    "rank_vector": null,
+    "rank_bm25": 1,
+    "in_top3": false,
+    "gold_chunks": 1,
+    "gold_chunk_lens": [
+      732
+    ],
+    "gold_sources": [
+      "tts/guide/architecture/기능_명세.md"
     ],
     "answer_pass": true
   }
