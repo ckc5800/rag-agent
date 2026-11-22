@@ -1,18 +1,18 @@
 {
   "overall": {
     "@1": {
-      "satisfied": 51,
-      "best_cov": 53,
-      "any_anchor": 55
+      "satisfied": 52,
+      "best_cov": 55,
+      "any_anchor": 59
     },
     "@3": {
-      "satisfied": 79,
-      "best_cov": 80,
-      "any_anchor": 82
+      "satisfied": 82,
+      "best_cov": 83,
+      "any_anchor": 85
     },
     "@5": {
-      "satisfied": 89,
-      "best_cov": 91,
+      "satisfied": 92,
+      "best_cov": 93,
       "any_anchor": 93
     },
     "@6": {
@@ -35,7 +35,7 @@
     "@5": {
       "satisfied": 1,
       "best_cov": 1,
-      "any_anchor": 2
+      "any_anchor": 1
     },
     "@6": {
       "satisfied": 1,
@@ -46,19 +46,19 @@
   "by_type": {
     "fact": {
       "@1": {
-        "satisfied": 55,
-        "best_cov": 55,
-        "any_anchor": 55
+        "satisfied": 58,
+        "best_cov": 58,
+        "any_anchor": 58
       },
       "@3": {
-        "satisfied": 83,
-        "best_cov": 83,
-        "any_anchor": 83
+        "satisfied": 84,
+        "best_cov": 84,
+        "any_anchor": 84
       },
       "@5": {
-        "satisfied": 94,
-        "best_cov": 94,
-        "any_anchor": 94
+        "satisfied": 93,
+        "best_cov": 93,
+        "any_anchor": 93
       },
       "@6": {
         "satisfied": 96,
@@ -68,14 +68,14 @@
     },
     "aggregation": {
       "@1": {
-        "satisfied": 72,
-        "best_cov": 72,
+        "satisfied": 67,
+        "best_cov": 69,
         "any_anchor": 72
       },
       "@3": {
-        "satisfied": 94,
-        "best_cov": 94,
-        "any_anchor": 94
+        "satisfied": 89,
+        "best_cov": 89,
+        "any_anchor": 89
       },
       "@5": {
         "satisfied": 94,
@@ -83,97 +83,97 @@
         "any_anchor": 94
       },
       "@6": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 94,
+        "best_cov": 94,
+        "any_anchor": 94
       }
     },
     "enumeration": {
       "@1": {
-        "satisfied": 40,
-        "best_cov": 43,
-        "any_anchor": 47
+        "satisfied": 27,
+        "best_cov": 33,
+        "any_anchor": 40
       },
       "@3": {
         "satisfied": 67,
-        "best_cov": 67,
-        "any_anchor": 67
+        "best_cov": 70,
+        "any_anchor": 73
       },
       "@5": {
-        "satisfied": 87,
-        "best_cov": 87,
+        "satisfied": 80,
+        "best_cov": 83,
         "any_anchor": 87
       },
       "@6": {
         "satisfied": 87,
-        "best_cov": 87,
-        "any_anchor": 87
+        "best_cov": 90,
+        "any_anchor": 93
       }
     },
     "comparison": {
       "@1": {
-        "satisfied": 17,
-        "best_cov": 25,
-        "any_anchor": 33
+        "satisfied": 28,
+        "best_cov": 38,
+        "any_anchor": 50
       },
       "@3": {
-        "satisfied": 50,
-        "best_cov": 58,
-        "any_anchor": 67
+        "satisfied": 67,
+        "best_cov": 74,
+        "any_anchor": 83
       },
       "@5": {
-        "satisfied": 67,
-        "best_cov": 81,
+        "satisfied": 89,
+        "best_cov": 92,
         "any_anchor": 94
       },
       "@6": {
-        "satisfied": 78,
-        "best_cov": 86,
+        "satisfied": 89,
+        "best_cov": 92,
         "any_anchor": 94
       }
     },
     "temporal": {
       "@1": {
-        "satisfied": 57,
-        "best_cov": 57,
-        "any_anchor": 57
+        "satisfied": 64,
+        "best_cov": 64,
+        "any_anchor": 64
       },
       "@3": {
+        "satisfied": 86,
+        "best_cov": 86,
+        "any_anchor": 86
+      },
+      "@5": {
         "satisfied": 93,
         "best_cov": 93,
         "any_anchor": 93
       },
-      "@5": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
-      },
       "@6": {
-        "satisfied": 100,
-        "best_cov": 100,
-        "any_anchor": 100
+        "satisfied": 93,
+        "best_cov": 93,
+        "any_anchor": 93
       }
     },
     "trap": {
       "@1": {
-        "satisfied": 62,
-        "best_cov": 65,
-        "any_anchor": 69
+        "satisfied": 64,
+        "best_cov": 68,
+        "any_anchor": 73
       },
       "@3": {
-        "satisfied": 85,
-        "best_cov": 85,
-        "any_anchor": 85
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
       },
       "@5": {
-        "satisfied": 85,
-        "best_cov": 85,
-        "any_anchor": 85
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
       },
       "@6": {
-        "satisfied": 92,
-        "best_cov": 92,
-        "any_anchor": 92
+        "satisfied": 100,
+        "best_cov": 100,
+        "any_anchor": 100
       }
     }
   },
@@ -183,18 +183,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
+        42,
         7,
-        18,
-        377,
-        6,
-        17,
-        831
+        408,
+        50,
+        30,
+        846
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -218,12 +218,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        826,
-        228,
-        140,
-        18,
-        827,
-        645
+        857,
+        235,
+        171,
+        676,
+        858,
+        33
       ],
       "per_k": {
         "@1": {
@@ -253,12 +253,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        17,
+        19,
+        18,
         0,
-        21,
-        23,
-        836,
-        626
+        55,
+        49,
+        17
       ],
       "per_k": {
         "@1": {
@@ -290,10 +290,10 @@
       "retrieved": [
         14,
         13,
-        204,
-        136,
-        747,
-        835
+        235,
+        778,
+        866,
+        839
       ],
       "per_k": {
         "@1": {
@@ -307,9 +307,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
           "satisfied": true,
@@ -323,18 +323,18 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        20,
-        834,
-        656,
-        11,
-        17,
-        5
+        48,
+        46,
+        47,
+        687,
+        865,
+        11
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -358,53 +358,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
+        55,
         12,
-        21,
-        23,
-        836,
         11,
-        24
-      ],
-      "per_k": {
-        "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        }
-      }
-    },
-    {
-      "question": "TTS 시스템의 동시 처리 채널은 몇 개로 확장했나요?",
-      "type": "fact",
-      "n_paths": 1,
-      "retrieved": [
-        782,
+        49,
         18,
-        19,
-        627,
-        17,
-        114
+        19
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -428,18 +393,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        122,
+        44,
         8,
-        799,
-        29,
-        798,
-        26
+        153,
+        829,
+        60,
+        57
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -463,12 +428,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        828,
-        515,
-        18,
-        832,
-        834,
-        362
+        859,
+        546,
+        865,
+        863,
+        66,
+        393
       ],
       "per_k": {
         "@1": {
@@ -499,11 +464,11 @@
       "n_paths": 1,
       "retrieved": [
         0,
-        17,
-        747,
-        135,
-        136,
-        693
+        19,
+        778,
+        166,
+        167,
+        724
       ],
       "per_k": {
         "@1": {
@@ -531,25 +496,25 @@
     {
       "question": "TTS 시스템의 Throughput은 얼마에서 얼마로 개선됐나요?",
       "type": "fact",
-      "n_paths": 1,
+      "n_paths": 2,
       "retrieved": [
-        18,
-        6,
-        782,
-        408,
+        42,
+        439,
+        813,
         8,
-        805
+        24,
+        661
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
           "satisfied": true,
@@ -568,12 +533,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        627,
-        746,
-        771,
-        698,
-        114,
-        128
+        658,
+        777,
+        33,
+        729,
+        802,
+        159
       ],
       "per_k": {
         "@1": {
@@ -603,12 +568,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        18,
-        824,
-        135,
-        105,
-        838,
-        532
+        33,
+        855,
+        166,
+        868,
+        136,
+        563
       ],
       "per_k": {
         "@1": {
@@ -638,18 +603,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        815,
-        831,
-        114,
-        797,
-        798,
-        405
+        23,
+        145,
+        846,
+        829,
+        828,
+        3
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -673,12 +638,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        353,
-        826,
-        351,
-        607,
-        140,
-        717
+        384,
+        857,
+        382,
+        638,
+        171,
+        748
       ],
       "per_k": {
         "@1": {
@@ -710,10 +675,10 @@
       "retrieved": [
         0,
         16,
-        836,
-        23,
-        453,
-        22
+        54,
+        17,
+        18,
+        484
       ],
       "per_k": {
         "@1": {
@@ -722,9 +687,9 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
           "satisfied": true,
@@ -743,33 +708,33 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        799,
-        142,
-        751,
-        150,
-        235,
-        147
+        54,
+        20,
+        173,
+        830,
+        782,
+        181
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -779,11 +744,11 @@
       "n_paths": 1,
       "retrieved": [
         9,
-        19,
+        43,
         8,
-        114,
-        797,
-        696
+        145,
+        23,
+        19
       ],
       "per_k": {
         "@1": {
@@ -813,12 +778,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        192,
-        109,
-        191,
-        559,
-        108,
-        823
+        223,
+        140,
+        222,
+        590,
+        139,
+        854
       ],
       "per_k": {
         "@1": {
@@ -830,41 +795,6 @@
           "satisfied": true,
           "best_cov": 1.0,
           "any_anchor": true
-        },
-        "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        }
-      }
-    },
-    {
-      "question": "문자 오류율(CER)은 몇 퍼센트인가요?",
-      "type": "fact",
-      "n_paths": 1,
-      "retrieved": [
-        398,
-        397,
-        325,
-        18,
-        682,
-        593
-      ],
-      "per_k": {
-        "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
         },
         "@5": {
           "satisfied": true,
@@ -883,12 +813,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        425,
-        77,
-        833,
-        631,
-        171,
-        134
+        456,
+        108,
+        864,
+        662,
+        202,
+        165
       ],
       "per_k": {
         "@1": {
@@ -919,11 +849,11 @@
       "n_paths": 1,
       "retrieved": [
         5,
-        815,
-        819,
-        32,
-        628,
-        729
+        846,
+        850,
+        63,
+        659,
+        760
       ],
       "per_k": {
         "@1": {
@@ -953,12 +883,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        17,
+        19,
         0,
-        747,
-        550,
+        778,
         5,
-        135
+        581,
+        567
       ],
       "per_k": {
         "@1": {
@@ -988,12 +918,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        20,
-        668,
-        671,
-        643,
-        108,
-        656
+        47,
+        46,
+        702,
+        48,
+        699,
+        139
       ],
       "per_k": {
         "@1": {
@@ -1023,12 +953,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        46,
-        684,
-        780,
-        573,
-        747,
-        819
+        48,
+        811,
+        20,
+        778,
+        47,
+        108
       ],
       "per_k": {
         "@1": {
@@ -1037,19 +967,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -1058,12 +988,12 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        25,
+        56,
         13,
-        835,
-        31,
-        29,
-        836
+        62,
+        866,
+        55,
+        60
       ],
       "per_k": {
         "@1": {
@@ -1077,9 +1007,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
           "satisfied": true,
@@ -1094,11 +1024,11 @@
       "n_paths": 1,
       "retrieved": [
         0,
-        747,
-        23,
-        16,
-        693,
-        14
+        54,
+        778,
+        20,
+        724,
+        16
       ],
       "per_k": {
         "@1": {
@@ -1128,11 +1058,11 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        565,
-        796,
-        113,
-        627,
-        572,
+        596,
+        827,
+        144,
+        658,
+        603,
         3
       ],
       "per_k": {
@@ -1163,12 +1093,12 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
-        835,
+        866,
+        19,
         13,
-        17,
-        23,
-        148,
-        24
+        55,
+        49,
+        179
       ],
       "per_k": {
         "@1": {
@@ -1198,12 +1128,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
+        18,
         16,
-        836,
-        23,
-        21,
-        24,
-        17
+        39,
+        19,
+        55,
+        49
       ],
       "per_k": {
         "@1": {
@@ -1217,9 +1147,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
           "satisfied": true,
@@ -1233,18 +1163,18 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        21,
-        23,
-        836,
+        18,
         11,
-        20,
-        17
+        13,
+        12,
+        17,
+        55
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -1268,10 +1198,10 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
-        836,
-        23,
-        21,
-        24,
+        55,
+        18,
+        49,
+        19,
         17,
         13
       ],
@@ -1303,33 +1233,33 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        6,
-        636,
-        809,
-        831,
-        687,
-        783
+        667,
+        840,
+        30,
+        718,
+        862,
+        814
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1338,33 +1268,33 @@
       "type": "comparison",
       "n_paths": 2,
       "retrieved": [
-        7,
-        393,
-        1,
-        815,
-        591,
-        530
+        44,
+        846,
+        23,
+        561,
+        424,
+        51
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         }
       }
     },
@@ -1375,10 +1305,10 @@
       "retrieved": [
         10,
         0,
+        45,
         15,
-        809,
-        746,
-        663
+        35,
+        50
       ],
       "per_k": {
         "@1": {
@@ -1409,11 +1339,11 @@
       "n_paths": 1,
       "retrieved": [
         0,
-        5,
-        651,
+        27,
         1,
-        653,
-        17
+        682,
+        21,
+        684
       ],
       "per_k": {
         "@1": {
@@ -1444,11 +1374,11 @@
       "n_paths": 1,
       "retrieved": [
         10,
+        45,
         0,
-        646,
-        16,
-        11,
-        19
+        35,
+        21,
+        16
       ],
       "per_k": {
         "@1": {
@@ -1479,11 +1409,11 @@
       "n_paths": 1,
       "retrieved": [
         12,
-        23,
-        21,
+        55,
         11,
-        24,
-        836
+        18,
+        13,
+        19
       ],
       "per_k": {
         "@1": {
@@ -1492,19 +1422,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1513,18 +1443,18 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        21,
+        866,
         13,
-        835,
-        148,
-        23,
-        787
+        49,
+        19,
+        55,
+        179
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -1548,12 +1478,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        13,
-        11,
-        23,
-        21,
-        629,
-        836
+        19,
+        55,
+        18,
+        39,
+        49,
+        660
       ],
       "per_k": {
         "@1": {
@@ -1562,14 +1492,14 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@6": {
           "satisfied": true,
@@ -1583,12 +1513,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        830,
-        387,
-        448,
-        272,
-        19,
-        281
+        861,
+        418,
+        479,
+        303,
+        493,
+        264
       ],
       "per_k": {
         "@1": {
@@ -1618,27 +1548,27 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
+        45,
         10,
+        21,
         0,
-        17,
-        1,
-        198,
-        20
+        229,
+        50
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@3": {
-          "satisfied": false,
           "best_cov": 0.5,
           "any_anchor": true
         },
+        "@3": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
@@ -1653,12 +1583,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        20,
-        19,
+        46,
+        47,
+        43,
         8,
-        11,
-        17,
-        111
+        19,
+        11
       ],
       "per_k": {
         "@1": {
@@ -1689,11 +1619,11 @@
       "n_paths": 1,
       "retrieved": [
         0,
+        17,
+        54,
         16,
-        23,
-        517,
-        348,
-        836
+        548,
+        18
       ],
       "per_k": {
         "@1": {
@@ -1723,32 +1653,32 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        577,
+        43,
+        23,
         8,
-        7,
-        19,
-        377,
-        9
+        42,
+        9,
+        608
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "best_cov": 0.5,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@5": {
           "satisfied": false,
           "best_cov": 0.5,
           "any_anchor": true
         },
+        "@5": {
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
+        },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         }
       }
@@ -1758,12 +1688,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        836,
-        23,
-        21,
-        24,
-        17,
-        835
+        18,
+        55,
+        19,
+        866,
+        49,
+        17
       ],
       "per_k": {
         "@1": {
@@ -1772,9 +1702,9 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
           "satisfied": true,
@@ -1793,33 +1723,33 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        21,
-        24,
-        25,
+        56,
         13,
-        835,
-        12
+        55,
+        59,
+        866,
+        703
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
           "satisfied": false,
-          "best_cov": 0.5,
-          "any_anchor": true
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1828,12 +1758,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        836,
-        23,
-        21,
+        18,
+        55,
+        19,
         11,
-        12,
-        24
+        49,
+        17
       ],
       "per_k": {
         "@1": {
@@ -1864,11 +1794,11 @@
       "n_paths": 1,
       "retrieved": [
         15,
+        50,
         0,
-        21,
-        17,
+        35,
         1,
-        550
+        19
       ],
       "per_k": {
         "@1": {
@@ -1898,12 +1828,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        19,
+        43,
         8,
         9,
-        815,
-        641,
-        811
+        846,
+        23,
+        847
       ],
       "per_k": {
         "@1": {
@@ -1933,11 +1863,11 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        23,
+        55,
         12,
-        21,
-        836,
-        24,
+        18,
+        19,
+        16,
         11
       ],
       "per_k": {
@@ -1947,19 +1877,19 @@
           "any_anchor": false
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         }
       }
     },
@@ -1968,18 +1898,18 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        400,
-        18,
-        805,
-        789,
-        358,
-        270
+        24,
+        431,
+        301,
+        836,
+        820,
+        6
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -2003,12 +1933,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        22,
+        50,
         16,
-        19,
-        834,
-        20,
-        1
+        47,
+        43,
+        1,
+        39
       ],
       "per_k": {
         "@1": {
@@ -2030,76 +1960,6 @@
           "satisfied": true,
           "best_cov": 1.0,
           "any_anchor": true
-        }
-      }
-    },
-    {
-      "question": "TTS 프로젝트 착수 배경에서 언급된 기존 시스템의 응답 시간은 몇 초였나요?",
-      "type": "trap",
-      "n_paths": 1,
-      "retrieved": [
-        7,
-        17,
-        6,
-        815,
-        782,
-        785
-      ],
-      "per_k": {
-        "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
-        "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        }
-      }
-    },
-    {
-      "question": "동시 처리 채널은 확장하기 전에 몇 개였나요?",
-      "type": "trap",
-      "n_paths": 1,
-      "retrieved": [
-        782,
-        550,
-        561,
-        19,
-        557,
-        18
-      ],
-      "per_k": {
-        "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@5": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
-        },
-        "@6": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
         }
       }
     },
@@ -2108,12 +1968,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        18,
-        135,
-        195,
-        838,
-        108,
-        805
+        33,
+        166,
+        226,
+        868,
+        139,
+        836
       ],
       "per_k": {
         "@1": {
@@ -2143,12 +2003,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        20,
-        11,
-        658,
-        629,
-        108,
-        641
+        47,
+        48,
+        689,
+        43,
+        139,
+        11
       ],
       "per_k": {
         "@1": {
@@ -2178,12 +2038,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
+        43,
+        22,
         19,
-        834,
-        551,
+        865,
         10,
-        16,
-        825
+        582
       ],
       "per_k": {
         "@1": {
@@ -2214,11 +2074,11 @@
       "n_paths": 1,
       "retrieved": [
         10,
+        45,
         0,
-        22,
         16,
-        646,
-        380
+        677,
+        47
       ],
       "per_k": {
         "@1": {
@@ -2248,12 +2108,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        809,
-        21,
-        629,
-        836,
-        626,
-        17
+        17,
+        39,
+        18,
+        840,
+        19,
+        660
       ],
       "per_k": {
         "@1": {
@@ -2267,8 +2127,8 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
@@ -2283,22 +2143,22 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        21,
         13,
-        23,
-        836,
         17,
-        835
+        49,
+        18,
+        19,
+        55
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "best_cov": 0.25,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": false,
-          "best_cov": 0.5,
+          "best_cov": 0.25,
           "any_anchor": true
         },
         "@5": {
@@ -2319,11 +2179,11 @@
       "n_paths": 1,
       "retrieved": [
         13,
-        25,
-        835,
-        23,
-        836,
-        31
+        55,
+        56,
+        866,
+        62,
+        11
       ],
       "per_k": {
         "@1": {
@@ -2353,12 +2213,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        25,
+        56,
         13,
-        835,
-        31,
-        29,
-        836
+        866,
+        62,
+        55,
+        60
       ],
       "per_k": {
         "@1": {
@@ -2372,9 +2232,9 @@
           "any_anchor": false
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@6": {
           "satisfied": true,
@@ -2388,12 +2248,12 @@
       "type": "enumeration",
       "n_paths": 2,
       "retrieved": [
-        31,
+        62,
         13,
-        25,
-        30,
-        23,
-        836
+        56,
+        55,
+        61,
+        18
       ],
       "per_k": {
         "@1": {
@@ -2424,11 +2284,11 @@
       "n_paths": 1,
       "retrieved": [
         13,
-        835,
-        836,
-        31,
-        780,
-        25
+        866,
+        55,
+        811,
+        62,
+        18
       ],
       "per_k": {
         "@1": {
@@ -2460,10 +2320,10 @@
       "retrieved": [
         0,
         16,
-        23,
-        427,
-        22,
-        756
+        54,
+        17,
+        51,
+        458
       ],
       "per_k": {
         "@1": {
@@ -2493,12 +2353,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        0,
         16,
-        836,
-        23,
-        22,
-        427
+        0,
+        17,
+        54,
+        458,
+        18
       ],
       "per_k": {
         "@1": {
@@ -2528,12 +2388,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        23,
-        427,
-        0,
-        836,
+        54,
+        458,
         20,
-        161
+        192,
+        0,
+        133
       ],
       "per_k": {
         "@1": {
@@ -2564,11 +2424,11 @@
       "n_paths": 2,
       "retrieved": [
         11,
-        7,
-        393,
-        591,
-        834,
-        20
+        49,
+        424,
+        865,
+        42,
+        51
       ],
       "per_k": {
         "@1": {
@@ -2598,12 +2458,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        22,
-        756,
-        0,
+        50,
+        787,
+        51,
         16,
-        19,
-        46
+        47,
+        0
       ],
       "per_k": {
         "@1": {
@@ -2633,12 +2493,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        23,
-        22,
-        774,
-        21,
-        541,
-        836
+        54,
+        805,
+        20,
+        572,
+        55,
+        83
       ],
       "per_k": {
         "@1": {
@@ -2668,17 +2528,17 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        836,
-        23,
-        24,
-        21,
+        55,
+        18,
+        19,
         11,
+        49,
         13
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@3": {
@@ -2703,12 +2563,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        522,
-        30,
-        31,
-        29,
-        155,
-        230
+        553,
+        61,
+        62,
+        60,
+        186,
+        53
       ],
       "per_k": {
         "@1": {
@@ -2738,18 +2598,18 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        23,
-        836,
-        21,
-        24,
+        55,
+        18,
+        49,
         13,
-        17
+        17,
+        866
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -2773,12 +2633,12 @@
       "type": "aggregation",
       "n_paths": 2,
       "retrieved": [
-        836,
-        12,
-        23,
-        21,
-        629,
-        17
+        18,
+        55,
+        17,
+        660,
+        871,
+        19
       ],
       "per_k": {
         "@1": {
@@ -2808,12 +2668,12 @@
       "type": "aggregation",
       "n_paths": 3,
       "retrieved": [
+        55,
         12,
-        23,
-        21,
         11,
-        836,
-        24
+        49,
+        18,
+        54
       ],
       "per_k": {
         "@1": {
@@ -2843,18 +2703,18 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        21,
-        836,
-        23,
-        11,
+        18,
+        55,
         17,
-        15
+        11,
+        15,
+        12
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
           "satisfied": true,
@@ -2879,11 +2739,11 @@
       "n_paths": 1,
       "retrieved": [
         15,
+        50,
         0,
-        22,
-        21,
-        17,
-        746
+        7,
+        35,
+        1
       ],
       "per_k": {
         "@1": {
@@ -2913,12 +2773,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
+        17,
         0,
-        16,
-        23,
-        496,
-        836,
-        427
+        54,
+        527,
+        18,
+        458
       ],
       "per_k": {
         "@1": {
@@ -2948,32 +2808,32 @@
       "type": "comparison",
       "n_paths": 2,
       "retrieved": [
-        836,
-        23,
-        21,
+        17,
+        18,
         16,
+        787,
         11,
-        756
+        663
       ],
       "per_k": {
         "@1": {
           "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
+        },
+        "@3": {
+          "satisfied": false,
           "best_cov": 0.5,
           "any_anchor": true
         },
-        "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
-        },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         }
       }
@@ -2983,32 +2843,32 @@
       "type": "comparison",
       "n_paths": 2,
       "retrieved": [
+        55,
         12,
-        23,
+        19,
         13,
-        24,
-        21,
-        11
+        866,
+        18
       ],
       "per_k": {
         "@1": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@3": {
-          "satisfied": false,
-          "best_cov": 0.0,
-          "any_anchor": false
+          "satisfied": true,
+          "best_cov": 1.0,
+          "any_anchor": true
         },
         "@5": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         },
         "@6": {
-          "satisfied": false,
-          "best_cov": 0.5,
+          "satisfied": true,
+          "best_cov": 1.0,
           "any_anchor": true
         }
       }
@@ -3018,12 +2878,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        30,
+        61,
+        60,
         29,
-        21,
-        547,
-        678,
-        749
+        780,
+        578,
+        323
       ],
       "per_k": {
         "@1": {
@@ -3053,12 +2913,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
+        49,
         11,
-        839,
-        797,
-        549,
-        20,
-        716
+        869,
+        828,
+        580,
+        585
       ],
       "per_k": {
         "@1": {
@@ -3088,12 +2948,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        31,
-        25,
+        62,
+        56,
         13,
-        835,
-        29,
-        23
+        866,
+        60,
+        55
       ],
       "per_k": {
         "@1": {
@@ -3124,11 +2984,11 @@
       "n_paths": 1,
       "retrieved": [
         8,
+        44,
         9,
-        537,
-        20,
-        199,
-        627
+        43,
+        19,
+        568
       ],
       "per_k": {
         "@1": {
@@ -3158,32 +3018,32 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        18,
-        114,
-        17,
-        796,
-        704,
-        797
+        23,
+        827,
+        145,
+        735,
+        158,
+        42
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@3": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@5": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         },
         "@6": {
-          "satisfied": true,
-          "best_cov": 1.0,
+          "satisfied": false,
+          "best_cov": 0.5,
           "any_anchor": true
         }
       }
@@ -3193,12 +3053,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        836,
+        18,
         16,
         11,
-        12,
-        23,
-        21
+        17,
+        55,
+        19
       ],
       "per_k": {
         "@1": {
@@ -3228,18 +3088,18 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
+        42,
         6,
-        624,
-        758,
-        7,
-        130,
-        377
+        655,
+        789,
+        408,
+        161
       ],
       "per_k": {
         "@1": {
-          "satisfied": true,
-          "best_cov": 1.0,
-          "any_anchor": true
+          "satisfied": false,
+          "best_cov": 0.0,
+          "any_anchor": false
         },
         "@3": {
           "satisfied": true,
@@ -3263,12 +3123,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        746,
-        131,
-        710,
-        738,
-        698,
-        69
+        777,
+        162,
+        741,
+        33,
+        729,
+        769
       ],
       "per_k": {
         "@1": {
@@ -3298,12 +3158,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        34,
-        35,
-        637,
-        625,
-        33,
-        493
+        65,
+        66,
+        668,
+        656,
+        64,
+        524
       ],
       "per_k": {
         "@1": {
@@ -3333,12 +3193,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        61,
-        601,
-        53,
-        634,
-        136,
-        624
+        92,
+        632,
+        84,
+        665,
+        79,
+        655
       ],
       "per_k": {
         "@1": {
@@ -3368,12 +3228,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        140,
-        689,
-        690,
-        356,
-        715,
-        261
+        171,
+        720,
+        721,
+        387,
+        746,
+        30
       ],
       "per_k": {
         "@1": {
@@ -3403,12 +3263,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        838,
+        868,
+        197,
         166,
-        135,
-        781,
-        148,
-        763
+        812,
+        179,
+        794
       ],
       "per_k": {
         "@1": {
@@ -3438,12 +3298,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        838,
-        136,
-        148,
-        135,
-        782,
-        147
+        868,
+        167,
+        35,
+        166,
+        178,
+        813
       ],
       "per_k": {
         "@1": {
@@ -3473,12 +3333,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        127,
-        797,
-        114,
-        780,
-        796,
-        585
+        828,
+        145,
+        158,
+        811,
+        827,
+        806
       ],
       "per_k": {
         "@1": {
@@ -3508,12 +3368,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        648,
-        547,
-        833,
-        114,
-        18,
-        767
+        679,
+        578,
+        864,
+        145,
+        830,
+        798
       ],
       "per_k": {
         "@1": {
@@ -3543,12 +3403,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        90,
-        78,
-        655,
-        61,
-        44,
-        456
+        121,
+        109,
+        686,
+        92,
+        27,
+        487
       ],
       "per_k": {
         "@1": {
@@ -3578,12 +3438,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        132,
-        644,
-        720,
-        567,
-        719,
-        571
+        163,
+        675,
+        751,
+        750,
+        598,
+        2
       ],
       "per_k": {
         "@1": {
@@ -3613,12 +3473,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        132,
-        644,
-        719,
-        571,
-        720,
-        143
+        163,
+        675,
+        602,
+        751,
+        174,
+        25
       ],
       "per_k": {
         "@1": {
@@ -3648,12 +3508,12 @@
       "type": "fact",
       "n_paths": 2,
       "retrieved": [
-        631,
-        637,
-        175,
-        550,
-        44,
-        411
+        662,
+        668,
+        206,
+        581,
+        75,
+        442
       ],
       "per_k": {
         "@1": {
@@ -3683,12 +3543,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        76,
-        130,
-        587,
-        832,
-        586,
-        84
+        107,
+        161,
+        618,
+        863,
+        617,
+        115
       ],
       "per_k": {
         "@1": {
@@ -3718,12 +3578,12 @@
       "type": "enumeration",
       "n_paths": 1,
       "retrieved": [
-        125,
-        627,
-        48,
-        635,
-        769,
-        330
+        156,
+        658,
+        79,
+        42,
+        800,
+        666
       ],
       "per_k": {
         "@1": {
@@ -3753,12 +3613,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        649,
-        82,
-        652,
-        183,
-        657,
-        629
+        680,
+        113,
+        683,
+        214,
+        688,
+        232
       ],
       "per_k": {
         "@1": {
@@ -3788,12 +3648,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        649,
-        652,
-        565,
-        642,
-        629,
-        82
+        680,
+        683,
+        596,
+        673,
+        660,
+        113
       ],
       "per_k": {
         "@1": {
@@ -3823,12 +3683,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        663,
-        659,
-        814,
-        811,
-        658,
-        491
+        694,
+        690,
+        845,
+        842,
+        689,
+        7
       ],
       "per_k": {
         "@1": {
@@ -3858,12 +3718,12 @@
       "type": "fact",
       "n_paths": 2,
       "retrieved": [
-        782,
-        785,
-        790,
-        804,
-        783,
-        786
+        813,
+        816,
+        821,
+        835,
+        814,
+        817
       ],
       "per_k": {
         "@1": {
@@ -3893,12 +3753,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        681,
-        680,
-        507,
-        729,
-        785,
-        153
+        712,
+        711,
+        24,
+        760,
+        538,
+        816
       ],
       "per_k": {
         "@1": {
@@ -3928,12 +3788,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        681,
-        805,
-        787,
-        683,
-        674,
-        636
+        712,
+        836,
+        37,
+        714,
+        24,
+        818
       ],
       "per_k": {
         "@1": {
@@ -3963,12 +3823,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        804,
-        807,
-        790,
-        782,
-        809,
-        785
+        835,
+        838,
+        821,
+        813,
+        840,
+        816
       ],
       "per_k": {
         "@1": {
@@ -3998,12 +3858,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        804,
-        782,
+        835,
         7,
-        809,
-        790,
-        462
+        813,
+        840,
+        821,
+        493
       ],
       "per_k": {
         "@1": {
@@ -4033,12 +3893,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        804,
-        814,
-        790,
-        462,
-        807,
-        794
+        835,
+        845,
+        821,
+        493,
+        838,
+        825
       ],
       "per_k": {
         "@1": {
@@ -4068,12 +3928,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        746,
-        131,
-        698,
-        710,
-        735,
-        246
+        777,
+        162,
+        741,
+        729,
+        766,
+        33
       ],
       "per_k": {
         "@1": {
@@ -4103,12 +3963,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        140,
-        261,
-        715,
-        754,
-        351,
-        350
+        171,
+        292,
+        746,
+        785,
+        30,
+        381
       ],
       "per_k": {
         "@1": {
@@ -4138,12 +3998,12 @@
       "type": "comparison",
       "n_paths": 1,
       "retrieved": [
-        746,
-        571,
-        580,
-        128,
-        710,
-        708
+        777,
+        602,
+        611,
+        159,
+        741,
+        739
       ],
       "per_k": {
         "@1": {
@@ -4173,12 +4033,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        715,
-        140,
-        261,
-        690,
-        754,
-        350
+        746,
+        171,
+        292,
+        721,
+        30,
+        785
       ],
       "per_k": {
         "@1": {
@@ -4208,12 +4068,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        140,
-        715,
-        261,
-        690,
-        754,
-        350
+        171,
+        746,
+        292,
+        721,
+        785,
+        381
       ],
       "per_k": {
         "@1": {
@@ -4243,12 +4103,12 @@
       "type": "trap",
       "n_paths": 1,
       "retrieved": [
-        138,
-        264,
-        730,
-        731,
-        265,
-        300
+        169,
+        295,
+        761,
+        762,
+        296,
+        331
       ],
       "per_k": {
         "@1": {
@@ -4278,12 +4138,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        838,
-        136,
-        148,
-        147,
-        135,
-        164
+        868,
+        167,
+        179,
+        178,
+        166,
+        195
       ],
       "per_k": {
         "@1": {
@@ -4313,12 +4173,12 @@
       "type": "fact",
       "n_paths": 2,
       "retrieved": [
-        636,
-        624,
-        377,
-        321,
-        723,
-        7
+        667,
+        30,
+        655,
+        352,
+        408,
+        754
       ],
       "per_k": {
         "@1": {
@@ -4348,12 +4208,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        191,
-        275,
-        108,
-        192,
-        185,
-        176
+        222,
+        306,
+        139,
+        223,
+        216,
+        207
       ],
       "per_k": {
         "@1": {
@@ -4383,12 +4243,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        154,
-        837,
-        635,
-        159,
-        65,
-        638
+        185,
+        867,
+        666,
+        190,
+        96,
+        132
       ],
       "per_k": {
         "@1": {
@@ -4418,12 +4278,12 @@
       "type": "aggregation",
       "n_paths": 1,
       "retrieved": [
-        70,
-        478,
-        121,
-        134,
-        697,
-        549
+        101,
+        509,
+        152,
+        165,
+        728,
+        580
       ],
       "per_k": {
         "@1": {
@@ -4453,12 +4313,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        532,
-        591,
-        136,
-        470,
-        263,
-        681
+        563,
+        622,
+        167,
+        501,
+        294,
+        298
       ],
       "per_k": {
         "@1": {
@@ -4488,12 +4348,12 @@
       "type": "temporal",
       "n_paths": 1,
       "retrieved": [
-        681,
-        680,
-        672,
-        789,
-        179,
-        165
+        712,
+        703,
+        210,
+        24,
+        711,
+        820
       ],
       "per_k": {
         "@1": {
@@ -4523,12 +4383,12 @@
       "type": "fact",
       "n_paths": 1,
       "retrieved": [
-        204,
-        181,
-        245,
-        135,
-        741,
-        448
+        235,
+        212,
+        276,
+        166,
+        772,
+        479
       ],
       "per_k": {
         "@1": {

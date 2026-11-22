@@ -47,6 +47,31 @@ def test_normalize_punctuation_maps_common_cjk_fullwidth():
     assert normalize_punctuation("이미 반각.") == "이미 반각."  # 이미 반각이면 그대로
 
 
+def test_normalize_strips_space_between_number_and_unit():
+    """qwen3.5:9b 는 단위 앞을 띄워 쓴다 — 정답을 오답으로 세던 자리.
+
+    같은 조건 비교에서 이 모델의 temporal 이 14/14 → 7/14 로 무너졌는데, 실패를
+    열어 보니 "2023 년 11 월", "2 년 9 개월" 처럼 **정답을 다른 서식으로** 쓴
+    것이었다(2026-11-22). 패턴은 단위 **뒤**의 공백만 허용하고 있었다.
+    정규화 후 그 모델만 112 → 123/140 이 되고 다른 모델 런은 변화 0 이다.
+    """
+    assert normalize_punctuation("2023 년 11 월에 수상") == "2023년 11월에 수상"
+    assert normalize_punctuation("2 년 9 개월입니다") == "2년 9개월입니다"
+    assert normalize_punctuation("5 월 25 일 등록") == "5월 25일 등록"
+    assert normalize_punctuation("TTFB 334 ms") == "TTFB 334ms"
+
+
+def test_normalize_keeps_space_when_unit_char_is_part_of_another_word():
+    """단위 글자가 다른 낱말의 첫 글자면 건드리지 않는다.
+
+    한국어는 단위에 조사가 바로 붙으므로(`11 월에`) `\\b` 로 경계를 요구하면
+    정작 흔한 형태를 놓친다 — 첫 구현이 그래서 9건 중 4건만 잡았다. 조사·어미만
+    허용하도록 좁힌 결과, 아래는 공백이 남아야 한다.
+    """
+    assert normalize_punctuation("5 개별 항목") == "5 개별 항목"
+    assert normalize_punctuation("약 5 분석 결과") == "약 5 분석 결과"
+
+
 def test_all_patterns_required():
     case = {"expected_keywords": ["Jenkins", "ArgoCD"],
             "answer_patterns": ["Jenkins", "ArgoCD"]}

@@ -331,7 +331,7 @@ def hybrid_search(query: str) -> list[Document]:
     return rrf_fuse(lists)
 
 
-_llm_cache: dict[tuple[str, float], ChatOllama] = {}
+_llm_cache: dict[tuple[str, float, bool], ChatOllama] = {}
 
 
 # 판정(grade)·생성(generate)은 재현성이 중요하므로 temperature 0으로 고정.
@@ -340,10 +340,12 @@ def get_llm(temperature: float = 0.0) -> ChatOllama:
     # 캐시 키에 모델명을 포함한다. eval_tool_chain.py처럼 런타임에
     # config.LLM_MODEL을 바꿔 모델 간 비교를 하는 스크립트가 있어서,
     # temperature만 키로 쓰면 3b용 인스턴스가 7b 실행에 재사용된다.
-    key = (config.LLM_MODEL, temperature)
+    # LLM_REASONING도 키에 넣는다 — 같은 모델을 사고 모드만 바꿔 A/B 하므로.
+    key = (config.LLM_MODEL, temperature, config.LLM_REASONING)
     if key not in _llm_cache:
         _llm_cache[key] = ChatOllama(
-            model=config.LLM_MODEL, temperature=temperature
+            model=config.LLM_MODEL, temperature=temperature,
+            reasoning=config.LLM_REASONING,
         )
     return _llm_cache[key]
 
@@ -758,10 +760,31 @@ _TARGETED_RULES = (
 
 _TAIL = "\n문서:\n{context}\n\n질문: {question}\n\n답변:"
 
+# 거부 조항만 약하게 **교체**한 변형 (줄을 늘리지 않는다).
+#
+# qwen3:8b 를 같은 조건으로 재보니 65%(91/140) 로 qwen2.5:7b(80%)보다 15%p
+# 낮았는데, 잃은 29문항 중 25건이 **거부**였고 그중 21건은 정답이 컨텍스트에
+# 그대로 있었다(2026-11-22). 능력이 아니라 거부 지시와의 궁합 문제다 —
+# 3B 시절 "엄격한 거부 지시와 명사형 질문 조합에서 답을 거부한다"와 같은 자리.
+# 반대로 거부가 정답인 유형은 19/19 로 7b(17/19)보다 나았으므로, 고칠 것은
+# 모델이 아니라 문턱이다.
+#
+# 프롬프트를 늘리면 어딘가가 짧아진다는 것을 이 저장소는 세 번 겪었다(§9 targeted ·
+# §15 한자 가드 · §17 집계 주입). 그래서 더하지 않고 같은 길이로 바꾼다.
+_PERMISSIVE_RULES = _BASE_RULES.replace(
+    "관련 정보가 정말로 전혀 없을 때만 '문서에서 찾을 수 없습니다'라고 답하고, "
+    "문서에 없는 내용을 지어내지 마세요.\n",
+    "문서에 단서가 조금이라도 있으면 그것으로 답하세요. "
+    "'문서에서 찾을 수 없습니다'는 어떤 단서도 없을 때만 쓰고, "
+    "문서에 없는 내용을 지어내지 마세요.\n",
+)
+assert _PERMISSIVE_RULES != _BASE_RULES, "거부 조항 치환이 실패했다 — 원문이 바뀌었는지 확인"
+
 _PROMPTS = {
     "base": ChatPromptTemplate.from_template(_BASE_RULES + _TAIL),
     "targeted": ChatPromptTemplate.from_template(
         _BASE_RULES + _TARGETED_RULES + _TAIL),
+    "permissive": ChatPromptTemplate.from_template(_PERMISSIVE_RULES + _TAIL),
 }
 
 
